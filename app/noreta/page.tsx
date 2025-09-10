@@ -1124,13 +1124,13 @@ export default function Page() {
                                         メールでのお問い合わせ
                                     </h3>
                                 </div>
-                                <a
+                                <Link
                                     href="/#contact"
                                     className="inline-block bg-teal-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors shadow-md my-5"
                                     data-oid="0yewdpl"
                                 >
                                     フォームに移動する
-                                </a>
+                                </Link>
                                 <p className="text-sm text-gray-600 text-center" data-oid="o8ffu9e">
                                     24時間受付中。営業時間内に返信致します。
                                 </p>
@@ -1190,31 +1190,31 @@ export default function Page() {
                                 </h4>
                                 <ul className="space-y-2 text-gray-300" data-oid="d5o5yl3">
                                     <li data-oid="3705fgy">
-                                        <a
+                                        <Link
                                             href="/#services"
                                             className="hover:text-teal-300 transition-colors"
                                             data-oid="fu702e5"
                                         >
                                             車検・点検
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li data-oid="b_y1dj.">
-                                        <a
+                                        <Link
                                             href="/"
                                             className="hover:text-teal-300 transition-colors"
                                             data-oid="1ff4fj2"
                                         >
                                             ノレタ
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li data-oid="m65ex74">
-                                        <a
+                                        <Link
                                             href="/#services"
                                             className="hover:text-teal-300 transition-colors"
                                             data-oid="-qi2ptm"
                                         >
                                             新車・中古車販売
-                                        </a>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -1227,22 +1227,22 @@ export default function Page() {
                                 </h4>
                                 <ul className="space-y-2 text-gray-300" data-oid="is75czj">
                                     <li data-oid="kv6o7gi">
-                                        <a
+                                        <Link
                                             href="/#company"
                                             className="hover:text-teal-300 transition-colors"
                                             data-oid=":bj83_r"
                                         >
                                             会社概要
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li data-oid="w4dr:r.">
-                                        <a
+                                        <Link
                                             href="/#contact"
                                             className="hover:text-teal-300 transition-colors"
                                             data-oid="3z.l_jt"
                                         >
                                             お問い合わせ
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li data-oid="ww8v2:3">
                                         <a
@@ -1277,7 +1277,7 @@ export default function Page() {
                         お問い合わせ
                     </p>
                 </div>
-                <a
+                <Link
                     href="/#contact"
                     className="bg-teal-500 hover:bg-teal-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
                     aria-label="お問い合わせセクションへ移動"
@@ -1299,7 +1299,7 @@ export default function Page() {
                             data-oid="u2u..a2"
                         />
                     </svg>
-                </a>
+                </Link>
             </div>
         </div>
     );
