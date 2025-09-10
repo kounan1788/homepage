@@ -96,21 +96,15 @@ export default function Page() {
                     data-oid="ogzl6xz"
                 >
                     <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
-                        <div
-                            className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center mr-3 transition-transform group-hover:scale-105"
-                            data-oid="zhdu7kr"
-                        >
-                            <span className="text-white font-bold" data-oid="c2x4cl6">
-                                港南
-                            </span>
-                        </div>
-                        <div data-oid="ydg9lzq">
-                            <h1 className="text-teal-600 font-bold text-xl" data-oid="ae:3tzw">
-                                港南自動車サービス
-                            </h1>
-                            <p className="text-xs text-gray-500" data-oid="w9xmvoc">
-                                株式会社
-                            </p>
+                        <div className="relative h-12 transition-transform group-hover:scale-105">
+                            <Image
+                                src="/logo.png"
+                                alt="港南自動車サービス株式会社"
+                                width={240}
+                                height={48}
+                                className="h-12 w-auto object-contain"
+                                priority
+                            />
                         </div>
                     </Link>
                     <div className="hidden md:flex items-center space-x-6" data-oid="jdpcl.f">
@@ -283,12 +277,6 @@ export default function Page() {
                     data-oid="l.8_6bb"
                 >
                     <div className="w-full md:w-1/2 text-white" data-oid="b10vkh6">
-                        <span
-                            className="inline-block bg-white bg-opacity-20 backdrop-blur-sm text-white px-4 py-1 rounded-full text-sm font-medium mb-4"
-                            data-oid="q.zois3"
-                        >
-                            創業60年以上の実績
-                        </span>
                         <h2
                             className="text-4xl md:text-6xl font-bold mb-4 leading-tight drop-shadow-md"
                             data-oid="58man--"
@@ -1423,28 +1411,6 @@ export default function Page() {
                                         <h3 className="text-2xl font-bold" data-oid="s4.dwu5">
                                             株式会社港南自動車サービス
                                         </h3>
-                                        <p
-                                            className="text-gray-600 text-sm inline-flex items-center"
-                                            data-oid="awgzj-c"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-4 w-4 mr-1 text-teal-600"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                data-oid="76zml:d"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                    data-oid="pz-a2:k"
-                                                />
-                                            </svg>
-                                            創業60年以上の実績
-                                        </p>
                                     </div>
                                 </div>
 

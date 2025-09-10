@@ -1,0 +1,77 @@
+[11:22:02.413] Running build in Washington, D.C., USA (East) – iad1
+[11:22:02.414] Build machine configuration: 2 cores, 8 GB
+[11:22:02.431] Cloning github.com/kounan1788/homepage (Branch: master, Commit: 1449106)
+[11:22:02.579] Previous build caches not available
+[11:22:02.970] Cloning completed: 539.000ms
+[11:22:03.310] Running "vercel build"
+[11:22:03.716] Vercel CLI 47.0.5
+[11:22:04.048] Installing dependencies...
+[11:22:15.352] 
+[11:22:15.353] added 386 packages in 11s
+[11:22:15.353] 
+[11:22:15.353] 147 packages are looking for funding
+[11:22:15.353]   run `npm fund` for details
+[11:22:15.403] Detected Next.js version: 14.2.23
+[11:22:15.407] Running "npm run build"
+[11:22:15.516] 
+[11:22:15.517] > @onlook/next-template@0.1.0 build
+[11:22:15.517] > next build
+[11:22:15.517] 
+[11:22:16.062] Attention: Next.js now collects completely anonymous telemetry regarding usage.
+[11:22:16.062] This information is used to shape Next.js' roadmap and prioritize features.
+[11:22:16.063] You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+[11:22:16.065] https://nextjs.org/telemetry
+[11:22:16.065] 
+[11:22:16.118]   ▲ Next.js 14.2.23
+[11:22:16.118] 
+[11:22:16.172]    Creating an optimized production build ...
+[11:22:16.691]  ⚠ Found lockfile missing swc dependencies, run next locally to automatically patch
+[11:22:21.533]  ⚠ Found lockfile missing swc dependencies, run next locally to automatically patch
+[11:22:22.468]  ⚠ Found lockfile missing swc dependencies, run next locally to automatically patch
+[11:22:26.660] Browserslist: caniuse-lite is outdated. Please run:
+[11:22:26.661]   npx update-browserslist-db@latest
+[11:22:26.661]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[11:22:28.243]  ✓ Compiled successfully
+[11:22:28.245]    Linting and checking validity of types ...
+[11:22:32.237] 
+[11:22:32.238] Failed to compile.
+[11:22:32.238] 
+[11:22:32.239] ./app/corollacross/page.tsx
+[11:22:32.239] 60:8  Warning: React Hook useMemo has a missing dependency: 'calculateTotalPrice'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.239] 90:8  Warning: React Hook useMemo has a missing dependency: 'options'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.239] 94:8  Warning: React Hook useMemo has a missing dependency: 'colors'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.239] 
+[11:22:32.239] ./app/crown/page.tsx
+[11:22:32.239] 110:8  Warning: React Hook useMemo has a missing dependency: 'options'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.240] 114:8  Warning: React Hook useMemo has a missing dependency: 'colors'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.240] 
+[11:22:32.245] ./app/jimnysierra/page.tsx
+[11:22:32.246] 80:8  Warning: React Hook useMemo has a missing dependency: 'options'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.246] 84:8  Warning: React Hook useMemo has a missing dependency: 'colors'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.246] 
+[11:22:32.246] ./app/landcruiser/page.tsx
+[11:22:32.246] 61:8  Warning: React Hook useMemo has a missing dependency: 'calculateTotalPrice'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.247] 91:8  Warning: React Hook useMemo has a missing dependency: 'options'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.247] 95:8  Warning: React Hook useMemo has a missing dependency: 'colors'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.247] 
+[11:22:32.247] ./app/noreta/page.tsx
+[11:22:32.247] 1127:33  Error: Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+[11:22:32.247] 1193:41  Error: Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+[11:22:32.247] 1202:41  Error: Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+[11:22:32.247] 1211:41  Error: Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+[11:22:32.247] 1230:41  Error: Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+[11:22:32.247] 1239:41  Error: Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+[11:22:32.249] 1280:17  Error: Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+[11:22:32.250] 
+[11:22:32.250] ./app/rav4/page.tsx
+[11:22:32.252] 69:8  Warning: React Hook useMemo has a missing dependency: 'calculateTotalPrice'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.253] 99:8  Warning: React Hook useMemo has a missing dependency: 'options'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.254] 103:8  Warning: React Hook useMemo has a missing dependency: 'colors'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.254] 
+[11:22:32.254] ./app/vezel/page.tsx
+[11:22:32.254] 59:8  Warning: React Hook useMemo has a missing dependency: 'calculateTotalPrice'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.255] 89:8  Warning: React Hook useMemo has a missing dependency: 'options'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.255] 93:8  Warning: React Hook useMemo has a missing dependency: 'colors'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[11:22:32.257] 
+[11:22:32.257] info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+[11:22:32.279] Error: Command "npm run build" exited with 1
