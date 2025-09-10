@@ -96,13 +96,13 @@ export default function Page() {
                     data-oid="ogzl6xz"
                 >
                     <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
-                        <div className="relative h-16 md:h-20 transition-transform group-hover:scale-105">
+                        <div className="relative h-12 md:h-14 transition-transform group-hover:scale-105">
                             <Image
                                 src="/logo.png"
                                 alt="港南自動車サービス株式会社"
-                                width={320}
-                                height={80}
-                                className="h-16 md:h-20 w-auto object-contain"
+                                width={280}
+                                height={70}
+                                className="h-12 md:h-14 w-auto object-contain"
                                 priority
                             />
                         </div>
