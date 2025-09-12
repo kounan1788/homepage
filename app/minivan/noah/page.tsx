@@ -525,6 +525,36 @@ export default function Page() {
                     </div>
                 </div>
             </div>
+
+            {/* Fixed Bottom Price Bar */}
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 p-4">
+                <div className="max-w-4xl mx-auto flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                        <div className="text-sm text-gray-600">
+                            トヨタ ノア
+                        </div>
+                        <div className="text-xs text-gray-500">
+                            S-Z GAS・7人・2,000cc
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <div className="text-right">
+                            <div className="text-sm text-gray-500">お支払い</div>
+                            <div className="text-2xl font-bold text-blue-600">
+                                月々 {calculateTotalPrice().toLocaleString()}円
+                            </div>
+                        </div>
+                        <button
+                            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
+                        >
+                            お問い合わせ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom padding to prevent content from being hidden behind fixed bar */}
+            <div className="h-20"></div>
         </div>
     );
 }
