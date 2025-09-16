@@ -31,7 +31,7 @@ export default function Page() {
             {
                 name: 'ジムニーシエラ',
                 price: '25,000円～',
-                image: '/cars/jimny.jpg',
+                image: '/cars/jimnysierra.jpg',
                 route: '/suv/jimnysierra',
             },
             {

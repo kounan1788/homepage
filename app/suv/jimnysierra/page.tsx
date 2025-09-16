@@ -20,19 +20,19 @@ interface VehicleOption {
 export default function Page() {
     const basePrice = 25000; // 基本月額料金
 
-    const colors: ColorOption[] = [
+    const colors: ColorOption[] = useMemo(() => [
         { name: 'ピュアホワイトパール', price: 750, colorCode: '#F8F8FF' },
         { name: 'ミディアムグレー', price: 0, colorCode: '#808080' },
         { name: 'ジャングルグリーン', price: 0, colorCode: '#2D5016' },
-    ];
+    ], []);
 
-    const options: VehicleOption[] = [
+    const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
         { name: '7インチフルセグナビ', price: 2800, category: 'ナビ・電装' },
         { name: '8インチフルセグナビ', price: 3700, category: 'ナビ・電装' },
         { name: 'スタッドレスタイヤ', price: 4600, category: 'タイヤ・ホイール' },
-    ];
+    ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
     const [selectedOptions, setSelectedOptions] = useState<string[]>(
@@ -65,6 +65,7 @@ export default function Page() {
         }
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const optionsByCategory = useMemo(() => {
         const grouped: { [key: string]: VehicleOption[] } = {};
 
@@ -79,6 +80,7 @@ export default function Page() {
         return grouped;
     }, []);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const selectedColorCode = useMemo(() => {
         return colors.find((c) => c.name === selectedColor)?.colorCode || colors[0].colorCode;
     }, [selectedColor]);
@@ -148,7 +150,7 @@ export default function Page() {
                         data-oid="mim598."
                     >
                         <Image
-                            src="/cars/jimny.jpg"
+                            src="/cars/jimnysierra.jpg"
                             alt="スズキ ジムニーシエラ"
                             fill
                             className="object-contain hover:scale-105 transition-transform duration-200"
