@@ -49,7 +49,7 @@ export default function Page() {
             },
             {
                 name: 'ハリアー',
-                price: '46,500円～',
+                price: '59,000円～',
                 image: '/cars/harrier.jpg',
                 route: '/suv/harrier',
             },
