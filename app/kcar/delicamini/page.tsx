@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
+import { FlagTriangleLeft } from 'lucide-react';
 
 interface ColorOption {
     name: string;
@@ -29,10 +30,10 @@ export default function Page() {
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: '7インチフルセグナビ', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'アダプティブLEDヘッドライト', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: '純正9インチナビ', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 0, isDefault: true, category: 'タイヤ・ホイール' },
+        { name: '7インチフルセグナビ', price: 3900, isDefault: false, category: 'ナビ・電装' },
+        { name: 'アダプティブLEDヘッドライト', price: 2100, isDefault: false, category: 'エクステリア' },
+        { name: '純正9インチナビ', price: 7800, isDefault: false, category: 'ナビ・電装' },
+        { name: 'スタッドレスタイヤ', price: 3000, isDefault: false, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
