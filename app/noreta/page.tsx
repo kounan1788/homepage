@@ -26,7 +26,17 @@ export default function Page() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const carData: Record<CarCategory, Car[]> = {
+    // 価格文字列から数値を抽出する関数
+    const extractPriceNumber = (priceString: string): number => {
+        return parseInt(priceString.replace(/[,円～]/g, ''), 10);
+    };
+
+    // 価格順にソートする関数
+    const sortByPrice = (cars: Car[]): Car[] => {
+        return [...cars].sort((a, b) => extractPriceNumber(a.price) - extractPriceNumber(b.price));
+    };
+
+    const rawCarData: Record<CarCategory, Car[]> = {
         SUV: [
             {
                 name: 'ジムニーシエラ',
@@ -115,6 +125,13 @@ export default function Page() {
             },
             { name: 'ジムニー', price: '22,000円～', image: '/cars/jimny.jpg', route: '/kcar/jimny' },
         ],
+    };
+
+    // 各カテゴリの車種を価格順（安い順）にソート
+    const carData: Record<CarCategory, Car[]> = {
+        SUV: sortByPrice(rawCarData.SUV),
+        MINIVAN: sortByPrice(rawCarData.MINIVAN),
+        KCAR: sortByPrice(rawCarData.KCAR),
     };
 
     return (
