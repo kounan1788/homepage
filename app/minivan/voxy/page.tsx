@@ -18,20 +18,20 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 45000; // 基本月額料金
+    const basePrice = 58000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'アティチュードブラックマイカ', price: 0, colorCode: '#1a1a1a' },
-        { name: 'ホワイトパールクリスタルシャイン', price: 750, colorCode: '#f8f8f8' },
+        { name: 'ホワイトパールクリスタルシャイン', price: 1000, colorCode: '#f8f8f8' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
         { name: '快適便利パッケージ(High)', price: 0, isDefault: true, category: 'セーフティ' },
-        { name: 'BSMセット', price: 0, isDefault: true, category: 'セーフティ' },
+        { name: 'トヨタチームメイトアドバンストパーク＋デジタルインナーミラー', price: 0, isDefault: true, category: 'セーフティ' },
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
-        { name: 'ディスプレイオーディオPlus', price: 2800, category: 'ナビ・電装' },
-        { name: 'ユニバーサルステップ', price: 2400, category: 'エクステリア' },
-        { name: 'トヨタチームメイト', price: 4200, category: 'セーフティ' },
+        { name: 'プロジェクター式LEDヘッドランプ（オートレベリング機能付）＋LEDターンランプ＋LEDクリアランスランプ（デイライト機能付）', price: 0, isDefault: true, category: 'ナビ・電装' },
+        { name: 'ユニバーサルステップ', price: 1000, category: 'エクステリア' },
+        { name: 'トヨタチームメイト アドバンストパーク＋パノラミックビューモニター（床下透過表示機能付）', price: 2500, category: 'エクステリア' },
         { name: 'スタッドレスタイヤ', price: 4600, category: 'タイヤ・ホイール' },
     ], []);
 
