@@ -18,19 +18,19 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 25000; // 基本月額料金
+    const basePrice = 30000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'ピュアホワイトパール', price: 750, colorCode: '#F8F8FF' },
+        { name: 'ピュアホワイトパール', price: 800, colorCode: '#FFFFFF' },
         { name: 'ミディアムグレー', price: 0, colorCode: '#808080' },
-        { name: 'ジャングルグリーン', price: 0, colorCode: '#2D5016' },
+        { name: 'ジャングルグリーン', price: 0, colorCode: '#4a5d23' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: '7インチフルセグナビ', price: 2800, category: 'ナビ・電装' },
-        { name: '8インチフルセグナビ', price: 3700, category: 'ナビ・電装' },
+        { name: '7インチフルセグナビ', price: 2800, isDefault: false, category: 'ナビ・電装' },
+        { name: '8インチナビ', price: 3700, isDefault: false, category: 'ナビ・電装' },
         { name: 'スタッドレスタイヤ', price: 4600, category: 'タイヤ・ホイール' },
     ], []);
 
@@ -65,7 +65,6 @@ export default function Page() {
         }
     };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const optionsByCategory = useMemo(() => {
         const grouped: { [key: string]: VehicleOption[] } = {};
 
@@ -78,12 +77,11 @@ export default function Page() {
         });
 
         return grouped;
-    }, []);
+    }, [options]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const selectedColorCode = useMemo(() => {
         return colors.find((c) => c.name === selectedColor)?.colorCode || colors[0].colorCode;
-    }, [selectedColor]);
+    }, [selectedColor, colors]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-8" data-oid="9s.fqfs">
@@ -126,7 +124,7 @@ export default function Page() {
                                 className="bg-gray-100 px-3 py-1 rounded-full text-gray-700"
                                 data-oid="ar5o_jv"
                             >
-                                グレード: JL
+                                グレード: JC
                             </span>
                             <span
                                 className="bg-gray-100 px-3 py-1 rounded-full text-gray-700"
@@ -526,6 +524,36 @@ export default function Page() {
                     </div>
                 </div>
             </div>
+
+            {/* Fixed Bottom Price Bar */}
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 p-4">
+                <div className="max-w-4xl mx-auto flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                        <div className="text-sm text-gray-600">
+                            スズキ ジムニーシエラ
+                        </div>
+                        <div className="text-xs text-gray-500">
+                            JC・4WD・1,500cc
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <div className="text-right">
+                            <div className="text-sm text-gray-500">お支払い</div>
+                            <div className="text-2xl font-bold text-blue-600">
+                                月々 {calculateTotalPrice().toLocaleString()}円
+                            </div>
+                        </div>
+                        <button
+                            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
+                        >
+                            お問い合わせ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom padding to prevent content from being hidden behind fixed bar */}
+            <div className="h-20"></div>
         </div>
     );
 }
