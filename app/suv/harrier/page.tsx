@@ -18,21 +18,20 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 59000; // 基本月額料金
+    const basePrice = 56000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'ブラック', price: 0, colorCode: '#000000' },
-        { name: 'ホワイトパールクリスタルシャイン', price: 0, colorCode: '#FFFFFF' },
+        { name: 'プラチナホワイトパールマイカ', price: 0, colorCode: '#FFFFFF' },
+        { name: 'プレシャスブラックパール', price: 500, colorCode: '#000000' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
-        { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
-        { name: 'パノラミックビューモニター', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: '調光パノラマルーフ', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: '置くだけ充電', price: 500, isDefault: false, category: 'ナビ・電装' },
-        { name: 'MODELLISTA', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: 'Z Leather Package', price: 4000, isDefault: false, category: 'グレード' },
-        { name: 'スタッドレスタイヤ', price: 6600, isDefault: false, category: 'タイヤ・ホイール' },
+        { name: 'フロアマット（ロイヤルタイプ）', price: 0, isDefault: true, category: 'インテリア' },
+        { name: '調光パノラマルーフ（電動シェード＆挟み込み防止機能付）', price: 0, isDefault: true, category: 'エクステリア' },
+        { name: 'MODELLISTA エアロパーツセット', price: 4000, isDefault: false, category: 'エクステリア' },
+        { name: 'スペアタイヤ（応急用）', price: 400, isDefault: false, category: 'エクステリア' },
+        { name: 'アクセサリーコンセント（ラゲージ右側1個）AC100V・100W', price: 400, isDefault: false, category: 'ナビ・電装' },
+        { name: 'スタッドレスタイヤ', price: 6600, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
