@@ -1746,7 +1746,7 @@ export default function Page() {
                                             LINEでもお問い合わせいただけます。下のボタンから友だち追加してください。
                                         </p>
                                         <a
-                                            href="https://line.me"
+                                            href="https://lin.ee/CKQM0mE"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors font-medium"
