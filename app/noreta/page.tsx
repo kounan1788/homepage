@@ -40,43 +40,43 @@ export default function Page() {
         SUV: [
             {
                 name: 'ジムニーシエラ',
-                price: '25,000円～',
+                price: '30,000円～',
                 image: '/cars/jimnysierra.jpg',
                 route: '/suv/jimnysierra',
             },
             {
                 name: 'ヤリスクロス',
-                price: '39,500円～',
+                price: '42,000円～',
                 image: '/cars/yariscross.jpg',
                 route: '/suv/yariscross',
             },
-            { name: 'VEZEL', price: '45,000円～', image: '/cars/vezel.jpg', route: '/suv/vezel' },
+            { name: 'VEZEL', price: '49,000円～', image: '/cars/vezel.jpg', route: '/suv/vezel' },
             {
                 name: 'カローラクロス',
-                price: '45,000円～',
+                price: '49,000円～',
                 image: '/cars/corollacross.jpg',
                 route: '/suv/corollacross',
             },
             {
                 name: 'ハリアー',
-                price: '59,000円～',
+                price: '56,000円～',
                 image: '/cars/harrier.jpg',
                 route: '/suv/harrier',
             },
-            { name: 'RAV4', price: '58,000円～', image: '/cars/rav4.jpg', route: '/suv/rav4' },
+            { name: 'RAV4', price: '49,000円～', image: '/cars/rav4.jpg', route: '/suv/rav4' },
             {
                 name: 'ランクル 250',
-                price: '62,000円～',
+                price: '55,000円～',
                 image: '/cars/landcruiser.jpg',
                 route: '/suv/landcruiser',
             },
             { name: 'クラウン', price: '80,500円～', image: '/cars/crown.jpg', route: '/suv/crown' },
-            { name: 'NX', price: '86,000円～', image: '/cars/nx.jpg', route: '/suv/nx' },
+            { name: 'NX', price: '80,000円～', image: '/cars/nx.jpg', route: '/suv/nx' },
         ],
 
         MINIVAN: [
-            { name: 'ノア', price: '45,000円～', image: '/cars/noah.jpg', route: '/minivan/noah' },
-            { name: 'ヴォクシー', price: '45,000円～', image: '/cars/voxy.jpg', route: '/minivan/voxy' },
+            { name: 'ノア', price: '58,000円～', image: '/cars/noah.jpg', route: '/minivan/noah' },
+            { name: 'ヴォクシー', price: '58,000円～', image: '/cars/voxy.jpg', route: '/minivan/voxy' },
             {
                 name: 'アルファード',
                 price: '72,800円～',
