@@ -79,6 +79,11 @@ const discountOptions = [
 export default function ShakenPage() {
     const [selectedCarType, setSelectedCarType] = useState<CarType>('light');
     const [selectedDiscounts, setSelectedDiscounts] = useState<number[]>([]);
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
     // 料金計算
     const calculateTotal = () => {
@@ -112,9 +117,15 @@ export default function ShakenPage() {
     return (
         <div className="min-h-screen bg-white text-gray-800 font-sans">
             {/* Header */}
-            <header className="fixed top-0 left-0 right-0 bg-white z-50 shadow-md">
-                <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-                    <Link href="/" className="flex items-center group">
+            <header
+                className="fixed top-0 left-0 right-0 bg-white z-50 shadow-md"
+                data-oid="fqghwyr"
+            >
+                <div
+                    className="container mx-auto px-4 py-3 flex justify-between items-center"
+                    data-oid="ogzl6xz"
+                >
+                    <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
                         <div className="relative h-12 md:h-14 transition-transform group-hover:scale-105">
                             <Image
                                 src="/logo.png"
@@ -126,12 +137,130 @@ export default function ShakenPage() {
                             />
                         </div>
                     </Link>
-                    <Link
-                        href="/"
-                        className="bg-teal-600 text-white font-medium rounded-md px-4 py-2 hover:bg-teal-700 transition-colors shadow-sm"
+                    <div className="hidden md:flex items-center space-x-6" data-oid="jdpcl.f">
+                        <nav className="flex items-center space-x-4" data-oid="_c2.5k6">
+                            <Link
+                                href="/#services"
+                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
+                                data-oid="g3os_w7"
+                            >
+                                サービス内容
+                            </Link>
+                            <Link
+                                href="/#cases"
+                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
+                                data-oid="di-cil9"
+                            >
+                                取扱車種
+                            </Link>
+                            <Link
+                                href="/#company"
+                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
+                                data-oid="pma8w:5"
+                            >
+                                会社情報
+                            </Link>
+                            <Link
+                                href="/#contact"
+                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
+                                data-oid="epeq407"
+                            >
+                                お問い合わせ
+                            </Link>
+                        </nav>
+                        <Link
+                            href="/noreta"
+                            className="bg-teal-600 text-white font-medium rounded-md px-4 py-2 hover:bg-teal-700 transition-colors shadow-sm"
+                            data-oid="r7m-jfd"
+                        >
+                            ノレタ詳細
+                        </Link>
+                    </div>
+                    <button
+                        className="md:hidden px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors text-sm font-medium flex items-center"
+                        onClick={toggleMenu}
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-menu"
+                        data-oid="av_bd._"
                     >
-                        ホームに戻る
-                    </Link>
+                        <span className="mr-2" data-oid="m:bk9_b">
+                            MENU
+                        </span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+                            data-oid="6_ygnjk"
+                        >
+                            {menuOpen ? (
+                                <path d="M18 6L6 18M6 6l12 12" data-oid="a-w9x9r" />
+                            ) : (
+                                <path d="M3 12h18M3 6h18M3 18h18" data-oid="zayhmq9" />
+                            )}
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Mobile menu, show/hide based on menu state */}
+                <div
+                    className={`${
+                        menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                    } md:hidden overflow-hidden transition-all duration-300 ease-in-out`}
+                    id="mobile-menu"
+                    data-oid="zmkdp2r"
+                >
+                    <nav
+                        className="container mx-auto px-4 py-3 bg-white shadow-lg rounded-b-lg space-y-2"
+                        data-oid="72sbz7o"
+                    >
+                        <Link
+                            href="/#services"
+                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
+                            onClick={() => setMenuOpen(false)}
+                            data-oid="ni56eff"
+                        >
+                            サービス内容
+                        </Link>
+                        <Link
+                            href="/#cases"
+                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
+                            onClick={() => setMenuOpen(false)}
+                            data-oid="_mprlbv"
+                        >
+                            取扱車種
+                        </Link>
+                        <Link
+                            href="/#company"
+                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
+                            onClick={() => setMenuOpen(false)}
+                            data-oid="x_63-n0"
+                        >
+                            会社情報
+                        </Link>
+                        <Link
+                            href="/#contact"
+                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
+                            onClick={() => setMenuOpen(false)}
+                            data-oid="-ft-zqw"
+                        >
+                            お問い合わせ
+                        </Link>
+                        <Link
+                            href="/noreta"
+                            className="block px-3 py-2 rounded-md text-base font-medium bg-teal-600 text-white hover:bg-teal-700"
+                            onClick={() => setMenuOpen(false)}
+                            data-oid="5e69:q."
+                        >
+                            ノレタ詳細
+                        </Link>
+                    </nav>
                 </div>
             </header>
 
