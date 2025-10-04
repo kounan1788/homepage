@@ -758,13 +758,13 @@ export default function Page() {
                                                 車検・整備は経験豊富な整備士が丁寧に対応。お客様の大切な愛車を最新の設備と技術でメンテナンス。定期点検から緊急修理まで、迅速かつ確実なサービスを提供します。
                                             </p>
                                             <div className="mt-auto" data-oid="ltpdzhx">
-                                                <a
-                                                    href="#contact"
-                                                    className="inline-block px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium text-center w-full"
+                                                <Link
+                                                    href="/shaken"
+                                                    className="inline-block px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium text-center w-full"
                                                     data-oid="77hqg-d"
                                                 >
-                                                    お問い合わせ
-                                                </a>
+                                                    詳細を見る
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
