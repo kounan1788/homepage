@@ -677,7 +677,7 @@ export default function Page() {
                                             </div>
                                         </div>
                                         <Link
-                                            href="/inspection"
+                                            href="/noreta"
                                             className="inline-block px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium text-center w-full shadow-md hover:shadow-lg mt-4 mb-9"
                                             data-oid="6ybwf61"
                                         >
