@@ -236,7 +236,7 @@ export default function Page() {
 
             {/* Hero Section */}
             <section
-                className="relative h-screen flex items-center pt-20 md:pt-20"
+                className="relative h-screen flex items-center"
                 data-oid="_blp.bc"
             >
                 {/* Hero Background */}
@@ -368,17 +368,6 @@ export default function Page() {
                                     />
                                 </div>
 
-                                <div className="p-4 bg-white" data-oid="ez2_c8h">
-                                    <h3
-                                        className="font-bold text-lg text-teal-700"
-                                        data-oid="brrf1t9"
-                                    >
-                                        プロフェッショナルな技術
-                                    </h3>
-                                    <p className="text-gray-600 text-sm" data-oid="m_brgwt">
-                                        経験豊富なスタッフが丁寧に対応いたします
-                                    </p>
-                                </div>
                             </div>
 
                             {/* Decorative elements */}
@@ -527,14 +516,10 @@ export default function Page() {
                             OUR SERVICES
                         </span>
                         <h2
-                            className="text-4xl font-bold mt-2 mb-4 relative inline-block"
+                            className="text-4xl font-bold mt-2 mb-4"
                             data-oid="54kaojv"
                         >
                             サービス内容
-                            <span
-                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
-                                data-oid="d5oepia"
-                            ></span>
                         </h2>
                         <p className="text-gray-600 text-lg max-w-2xl mx-auto" data-oid="zvjt13e">
                             お客様のカーライフを総合的にサポートいたします
@@ -938,14 +923,10 @@ export default function Page() {
                             VEHICLE LINEUP
                         </span>
                         <h2
-                            className="text-4xl font-bold mt-2 mb-4 relative inline-block"
+                            className="text-4xl font-bold mt-2 mb-4"
                             data-oid="qz69gm:"
                         >
                             取扱車種
-                            <span
-                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
-                                data-oid="cec29nt"
-                            ></span>
                         </h2>
                         <p className="text-gray-600 text-lg max-w-2xl mx-auto" data-oid="5bf8vnu">
                             全国産メーカーと海外メーカーの車両を取り扱っております
@@ -1375,14 +1356,10 @@ export default function Page() {
                             COMPANY INFO
                         </span>
                         <h2
-                            className="text-4xl font-bold mt-2 mb-4 relative inline-block"
+                            className="text-4xl font-bold mt-2 mb-4"
                             data-oid="4xnn605"
                         >
                             会社情報
-                            <span
-                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
-                                data-oid="06wq3-n"
-                            ></span>
                         </h2>
                     </div>
                     <div
@@ -1633,14 +1610,10 @@ export default function Page() {
                             GET IN TOUCH
                         </span>
                         <h2
-                            className="text-4xl font-bold mt-2 mb-4 relative inline-block"
+                            className="text-4xl font-bold mt-2 mb-4"
                             data-oid="uwhd9t3"
                         >
                             お問い合わせ
-                            <span
-                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
-                                data-oid="oqadm2h"
-                            ></span>
                         </h2>
                         <p className="text-gray-600 text-lg max-w-2xl mx-auto" data-oid="-bqi13o">
                             ご質問やご相談など、お気軽にお問い合わせください
