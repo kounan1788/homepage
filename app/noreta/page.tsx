@@ -1162,7 +1162,7 @@ export default function Page() {
                             className="text-lg mb-8 max-w-2xl mx-auto text-gray-700"
                             data-oid="zm9jvpt"
                         >
-                            「ノレタ」がなぜ安く出来ているのかを ご覧頂きありがとうございました。
+                            「ノレタ」をご覧頂きありがとうございました。
                             少しでもご興味を持って頂けましたら、 お問い合わせ頂けると幸いです。
                         </p>
                         <div
