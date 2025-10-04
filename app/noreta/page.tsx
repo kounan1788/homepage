@@ -415,19 +415,7 @@ export default function Page() {
                             </div>
                         </div>
                         <div className="md:w-1/2 hidden md:block" data-oid="mqsv1l-">
-                            <div
-                                className="relative rounded-lg overflow-hidden shadow-2xl"
-                                data-oid="u_e3qrb"
-                            >
-                                <Image
-                                    src="/noreta-hero.jpg"
-                                    alt="ノレタ - 新しい車の乗り方"
-                                    width={600}
-                                    height={400}
-                                    className="w-full h-auto"
-                                    data-oid="6849_:l"
-                                />
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
