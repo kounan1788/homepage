@@ -272,9 +272,8 @@ export default function ShakenPage() {
                         <div className="inline-block bg-yellow-400 text-yellow-900 text-sm font-bold px-4 py-2 rounded-full mb-4">
                             90分立会い車検
                         </div>
-                        <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
+                        <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
                             ドクター車検
-                            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded hidden md:block"></span>
                         </h1>
                         <p className="text-base text-gray-600 max-w-2xl mx-auto">
                             完全予約制・新車ご購入後の初めての車検の方限定・1日限定3台まで
