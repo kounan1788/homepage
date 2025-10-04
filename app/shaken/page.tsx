@@ -23,7 +23,7 @@ const pricingData = {
         image: '/cars/delicamini.jpg'
     },
     small: {
-        name: '小型',
+        name: '小型乗用',
         weight: '車両重量1t以下',
         basePrice: 15900,
         treatment: 3900,
@@ -36,7 +36,7 @@ const pricingData = {
         image: '/cars/xbee.jpg'
     },
     medium: {
-        name: '中型',
+        name: '中型乗用',
         weight: '車両重量1.5t以下',
         basePrice: 16900,
         treatment: 3900,
@@ -49,7 +49,7 @@ const pricingData = {
         image: '/cars/harrier.jpg'
     },
     regular: {
-        name: '普通',
+        name: '普通乗用',
         weight: '車両重量2t以下',
         basePrice: 19900,
         treatment: 3900,
