@@ -420,7 +420,7 @@ export default function Page() {
                                 data-oid="u_e3qrb"
                             >
                                 <Image
-                                    src="/noreta-hero.jpg"
+                                    src="/images/noreta-hero.jpg"
                                     alt="ノレタ - 新しい車の乗り方"
                                     width={600}
                                     height={400}
