@@ -18,7 +18,7 @@ const pricingData = {
         agency: 7800,
         inspection: 7500,
         subtotal: 35500,
-        statutoryFees: 25740,
+        statutoryFees: 26040,
         total: 61240,
         image: '/cars/delicamini.jpg'
     },
@@ -31,7 +31,7 @@ const pricingData = {
         agency: 7800,
         inspection: 8000,
         subtotal: 39400,
-        statutoryFees: 35650,
+        statutoryFees: 35850,
         total: 75050,
         image: '/cars/xbee.jpg'
     },
@@ -44,7 +44,7 @@ const pricingData = {
         agency: 7800,
         inspection: 8000,
         subtotal: 40400,
-        statutoryFees: 43850,
+        statutoryFees: 44050,
         total: 84250,
         image: '/cars/harrier.jpg'
     },
@@ -57,7 +57,7 @@ const pricingData = {
         agency: 7800,
         inspection: 8000,
         subtotal: 43400,
-        statutoryFees: 52050,
+        statutoryFees: 52250,
         total: 95450,
         image: '/cars/alphard.jpg'
     }
@@ -299,12 +299,12 @@ export default function ShakenPage() {
                                             }`}
                                         >
                                             <div className="flex items-center">
-                                                <div className="w-12 h-12 mr-3 bg-gray-100 rounded-lg flex items-center justify-center">
+                                                <div className="w-16 h-16 mr-4 bg-gray-100 rounded-lg flex items-center justify-center">
                                                     <Image
                                                         src={data.image}
                                                         alt={data.name}
-                                                        width={40}
-                                                        height={40}
+                                                        width={56}
+                                                        height={56}
                                                         className="object-cover rounded"
                                                     />
                                                 </div>
@@ -417,12 +417,12 @@ export default function ShakenPage() {
                                         }`}
                                     >
                                         <div className="flex items-center">
-                                            <div className="w-12 h-12 mr-3 bg-gray-100 rounded-lg flex items-center justify-center">
+                                            <div className="w-16 h-16 mr-4 bg-gray-100 rounded-lg flex items-center justify-center">
                                                 <Image
                                                     src={data.image}
                                                     alt={data.name}
-                                                    width={40}
-                                                    height={40}
+                                                    width={56}
+                                                    height={56}
                                                     className="object-cover rounded"
                                                 />
                                             </div>
