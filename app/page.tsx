@@ -236,8 +236,7 @@ export default function Page() {
 
             {/* Hero Section */}
             <section
-                className="relative h-screen flex items-center"
-                style={{ paddingTop: '80px' }}
+                className="relative h-screen flex items-center pt-20 md:pt-20"
                 data-oid="_blp.bc"
             >
                 {/* Hero Background */}
@@ -533,7 +532,7 @@ export default function Page() {
                         >
                             サービス内容
                             <span
-                                className="absolute bottom-0 left-0 w-full h-1 bg-teal-500 rounded"
+                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
                                 data-oid="d5oepia"
                             ></span>
                         </h2>
@@ -944,7 +943,7 @@ export default function Page() {
                         >
                             取扱車種
                             <span
-                                className="absolute bottom-0 left-0 w-full h-1 bg-teal-500 rounded"
+                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
                                 data-oid="cec29nt"
                             ></span>
                         </h2>
@@ -1381,7 +1380,7 @@ export default function Page() {
                         >
                             会社情報
                             <span
-                                className="absolute bottom-0 left-0 w-full h-1 bg-teal-500 rounded"
+                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
                                 data-oid="06wq3-n"
                             ></span>
                         </h2>
@@ -1639,7 +1638,7 @@ export default function Page() {
                         >
                             お問い合わせ
                             <span
-                                className="absolute bottom-0 left-0 w-full h-1 bg-teal-500 rounded"
+                                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-teal-500 rounded"
                                 data-oid="oqadm2h"
                             ></span>
                         </h2>
