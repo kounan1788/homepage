@@ -20,7 +20,7 @@ const pricingData = {
         subtotal: 35500,
         statutoryFees: 25740,
         total: 61240,
-        image: '/cars/nbox.jpg'
+        image: '/cars/delicamini.jpg'
     },
     small: {
         name: '小型',
@@ -33,7 +33,7 @@ const pricingData = {
         subtotal: 39400,
         statutoryFees: 35650,
         total: 75050,
-        image: '/cars/swift.jpg'
+        image: '/cars/xbee.jpg'
     },
     medium: {
         name: '中型',
@@ -46,7 +46,7 @@ const pricingData = {
         subtotal: 40400,
         statutoryFees: 43850,
         total: 84250,
-        image: '/cars/corolla.jpg'
+        image: '/cars/harrier.jpg'
     },
     regular: {
         name: '普通',
@@ -59,7 +59,7 @@ const pricingData = {
         subtotal: 43400,
         statutoryFees: 52050,
         total: 95450,
-        image: '/cars/cx5.jpg'
+        image: '/cars/alphard.jpg'
     }
 };
 
