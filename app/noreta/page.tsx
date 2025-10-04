@@ -555,14 +555,10 @@ export default function Page() {
                             LINEUP
                         </span>
                         <h2
-                            className="text-3xl font-bold mt-2 mb-4 relative inline-block"
+                            className="text-3xl font-bold mt-2 mb-4"
                             data-oid="sy5_s6q"
                         >
                             ラインナップ
-                            <span
-                                className="absolute bottom-0 left-0 w-full h-1 bg-teal-500 rounded"
-                                data-oid=":xjlhuv"
-                            ></span>
                         </h2>
                         <p className="text-gray-600 max-w-2xl mx-auto" data-oid="t9gm.vc">
                             お客様のニーズに合わせた多彩な車種を取り揃えております。月々の定額でお得に新車に乗れます。
@@ -726,14 +722,10 @@ export default function Page() {
                             WHY SO AFFORDABLE?
                         </span>
                         <h2
-                            className="text-4xl font-bold mt-2 mb-4 relative inline-block"
+                            className="text-4xl font-bold mt-2 mb-4"
                             data-oid="dzihdm7"
                         >
                             なんでそんなに安く出来るの？
-                            <span
-                                className="absolute bottom-0 left-0 w-full h-1 bg-teal-500 rounded"
-                                data-oid="fqgm6sd"
-                            ></span>
                         </h2>
                         <h3
                             className="text-2xl font-semibold mt-8 mb-12 text-gray-700"
@@ -1161,14 +1153,10 @@ export default function Page() {
                             GET IN TOUCH
                         </span>
                         <h2
-                            className="text-3xl font-bold mt-2 mb-6 relative inline-block"
+                            className="text-3xl font-bold mt-2 mb-6"
                             data-oid="74paijr"
                         >
                             お問い合わせ
-                            <span
-                                className="absolute bottom-0 left-0 w-full h-1 bg-teal-500 rounded"
-                                data-oid="6n.-opa"
-                            ></span>
                         </h2>
                         <p
                             className="text-lg mb-8 max-w-2xl mx-auto text-gray-700"
