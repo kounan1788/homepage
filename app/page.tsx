@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
+import { sendEmail } from '@/app/actions/sendEmail';
 
 export default function Page() {
     const [visibleSections, setVisibleSections] = useState({
@@ -23,6 +24,7 @@ export default function Page() {
     });
 
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         setVisibleSections({
@@ -66,25 +68,29 @@ export default function Page() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
-        // Here you would typically send the form data to your backend or email service
-        const recipientEmail = 'kounan.lease@gmail.com';
+        try {
+            const result = await sendEmail(formData);
 
-        // For now, we'll just log the data that would be sent
-        console.log('Sending form data to:', recipientEmail);
-        console.log('Form data:', formData);
-
-        // In a real implementation, you would use an API call here
-        alert(`お問い合わせを受け付けました。${recipientEmail}に送信されます。`);
-
-        // Reset the form
-        setFormData({
-            name: '',
-            email: '',
-            message: '',
-        });
+            if (result.success) {
+                alert('お問い合わせありがとうございます。メッセージが正常に送信されました。');
+                setFormData({
+                    name: '',
+                    email: '',
+                    message: '',
+                });
+            } else {
+                alert(`送信に失敗しました: ${result.error}`);
+            }
+        } catch (error) {
+            console.error('Submit error:', error);
+            alert('予期せぬエラーが発生しました。もう一度お試しください。');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const toggleMenu = () => {
@@ -1922,9 +1928,10 @@ export default function Page() {
                                     </div>
                                     <div className="flex flex-col space-y-4" data-oid="_az9lup">
                                         <button
-                                            className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors w-full flex items-center justify-center"
+                                            className={`bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors w-full flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                                             type="submit"
                                             data-oid="wu1cavh"
+                                            disabled={isSubmitting}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -1942,7 +1949,7 @@ export default function Page() {
                                                     data-oid="bozu9kq"
                                                 />
                                             </svg>
-                                            送信する
+                                            {isSubmitting ? '送信中...' : '送信する'}
                                         </button>
                                         <p
                                             className="text-sm text-gray-500 text-center"
