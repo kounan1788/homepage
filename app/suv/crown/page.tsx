@@ -20,14 +20,14 @@ interface VehicleOption {
 export default function Page() {
     const basePrice = 80500;
 
-    const colors: ColorOption[] = [
+    const colors: ColorOption[] = useMemo(() => [
         { name: 'アティチュードブラックマイカ', price: 0, colorCode: '#000000' },
         { name: 'プレシャスホワイトパール', price: 1100, colorCode: '#F5F5F5' },
         { name: 'プレシャスシルバー', price: 0, colorCode: '#C0C0C0' },
         { name: 'エモーショナルレッドⅢ', price: 1100, colorCode: '#8B0000' },
-    ];
+    ], []);
 
-    const options: VehicleOption[] = [
+    const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         {
             name: 'ディスプレイオーディオPlus',
@@ -54,7 +54,7 @@ export default function Page() {
             category: 'タイヤ・ホイール',
             incompatibleWith: ['スタッドレスタイヤ'],
         },
-    ];
+    ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
     const [selectedOptions, setSelectedOptions] = useState<string[]>(
@@ -107,11 +107,11 @@ export default function Page() {
         });
 
         return grouped;
-    }, []);
+    }, [options]);
 
     const selectedColorCode = useMemo(() => {
         return colors.find((c) => c.name === selectedColor)?.colorCode || colors[0].colorCode;
-    }, [selectedColor]);
+    }, [selectedColor, colors]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-8" data-oid="u9b.g5p">
