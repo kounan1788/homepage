@@ -112,7 +112,7 @@ export default function Page() {
                         <div className="relative h-12 md:h-14 transition-transform group-hover:scale-105">
                             <Image
                                 src="/logo.png"
-                                alt="港南自動車サービス株式会社"
+                                alt="港南自動車サービス株式会社｜石川県金沢市の車検・整備・新車販売"
                                 width={280}
                                 height={70}
                                 className="h-12 md:h-14 w-auto object-contain"
@@ -288,18 +288,18 @@ export default function Page() {
                     data-oid="l.8_6bb"
                 >
                     <div className="w-full md:w-1/2 text-white" data-oid="b10vkh6">
-                        <h2
+                        <h1
                             className="text-4xl md:text-6xl font-bold mb-4 leading-tight drop-shadow-md"
                             data-oid="58man--"
                         >
-                            安心・快適な
+                            金沢市で安心・快適な
                             <br data-oid="25r5iw1" />
                             カーライフを
                             <br data-oid="uox7y-c" />
                             <span className="text-yellow-300" data-oid="k7r0.ze">
-                                サポート
+                                サポートします
                             </span>
-                        </h2>
+                        </h1>
                         <p
                             className="text-xl mb-8 max-w-lg text-white drop-shadow-md"
                             data-oid="7kctojp"
@@ -372,7 +372,7 @@ export default function Page() {
                                 >
                                     <Image
                                         src="/images/mechanic.jpg"
-                                        alt="自動車整備"
+                                        alt="金沢市の港南自動車サービスでの自動車点検・整備風景"
                                         fill
                                         sizes="(max-width: 768px) 100vw, 60vw"
                                         className="object-cover"
@@ -958,7 +958,7 @@ export default function Page() {
                                 >
                                     <Image
                                         src="/cars/jimny.jpg"
-                                        alt="スズキ車"
+                                        alt="金沢市で人気のスズキ・ジムニー｜港南自動車サービス取扱車種"
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-cover transform transition-transform duration-700 group-hover:scale-110"
@@ -1078,7 +1078,7 @@ export default function Page() {
                                 >
                                     <Image
                                         src="/cars/delicamini.jpg"
-                                        alt="三菱車"
+                                        alt="三菱・デリカミニ｜港南自動車サービスで新車・中古車販売対応"
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-cover transform transition-transform duration-700 group-hover:scale-110"
@@ -1198,7 +1198,7 @@ export default function Page() {
                                 >
                                     <Image
                                         src="/cars/alphard.jpg"
-                                        alt="トヨタ車"
+                                        alt="トヨタ・アルファード｜金沢市の港南自動車サービスで高級ミニバンの購入・整備も対応"
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-cover transform transition-transform duration-700 group-hover:scale-110"
