@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
 
 export default function Page() {
     const [visibleSections, setVisibleSections] = useState({
@@ -10,6 +11,8 @@ export default function Page() {
         services: false,
         cases: false,
         company: false,
+        instagram: false,
+        reviews: false,
         contact: false,
     });
 
@@ -27,6 +30,8 @@ export default function Page() {
             services: false,
             cases: false,
             company: false,
+            instagram: false,
+            reviews: false,
             contact: false,
         });
 
@@ -39,6 +44,8 @@ export default function Page() {
                 services: scrollPosition > windowHeight * 0.1,
                 cases: scrollPosition > windowHeight * 0.5,
                 company: scrollPosition > windowHeight * 0.7,
+                instagram: scrollPosition > windowHeight * 0.8,
+                reviews: scrollPosition > windowHeight * 0.85,
                 contact: scrollPosition > windowHeight * 0.9,
             });
         };
@@ -1627,6 +1634,32 @@ export default function Page() {
                             クリックしてInstagramで最新の投稿をチェック！
                         </p>
                     </div>
+                </div>
+            </section>
+
+            {/* Google Reviews Section */}
+            <section id="reviews" className={`py-20 bg-white transition-all duration-1000 ${fadeIn('reviews')}`}>
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-12">
+                        <span className="text-teal-600 font-semibold uppercase tracking-wider">Customer Voice</span>
+                        <h2 className="text-4xl font-bold mt-2 mb-4">お客様の声</h2>
+                        <div className="w-20 h-1 bg-teal-500 mx-auto rounded-full mb-6"></div>
+                        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                            Googleマップに寄せられた、お客様からの温かいメッセージをご紹介します。
+                        </p>
+                    </div>
+
+                    {/* Elfsight Google Reviews Widget */}
+                    <div className="max-w-6xl mx-auto">
+                        <div className="elfsight-app-b145ba87-fa56-4270-a4cc-ac300fb7c24a" data-elfsight-app-lazy></div>
+                    </div>
+
+                    {/* Elfsight Platform Script */}
+                    <Script
+                        src="https://static.elfsight.com/platform/platform.js"
+                        strategy="lazyOnload"
+                        data-use-service-core
+                    />
                 </div>
             </section>
 
