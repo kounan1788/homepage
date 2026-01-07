@@ -134,7 +134,7 @@ export default function ShakenPage() {
                             ずっと安心なドライブを。
                         </h1>
                         <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
-                            完全予約制・1日限定3台。国家資格を持つ専門医（整備士）が、あなたの愛車を徹底的にチェック。最短90分で完了する、ハイクオリティな対面車検サービスです。
+                            完全予約制・1日限定3台。国家資格を持つ専門医（整備士）が、あなたの愛車を徹底的にチェック。最短90分で完了する、ハイクオリティな対面車検サービスです。※最短90分で車検を完了させる場合は、追加整備が一切ない場合のみになります。
                         </p>
                     </div>
 
@@ -160,8 +160,8 @@ export default function ShakenPage() {
                                             key={key}
                                             onClick={() => setSelectedCarType(key as CarType)}
                                             className={`relative overflow-hidden group p-4 rounded-2xl border-2 text-left transition-all duration-300 ${selectedCarType === key
-                                                    ? 'border-teal-500 bg-white ring-4 ring-teal-500/10'
-                                                    : 'border-white bg-white hover:border-teal-200'
+                                                ? 'border-teal-500 bg-white ring-4 ring-teal-500/10'
+                                                : 'border-white bg-white hover:border-teal-200'
                                                 }`}
                                         >
                                             <div className="relative z-10">
@@ -198,8 +198,8 @@ export default function ShakenPage() {
                                                 key={opt.id}
                                                 onClick={() => handleDiscountToggle(opt.id)}
                                                 className={`flex items-center p-4 rounded-xl border-2 transition-all duration-200 ${selectedDiscounts.includes(opt.id)
-                                                        ? 'border-green-400 bg-green-50/50'
-                                                        : 'border-white bg-white hover:border-slate-200 shadow-sm'
+                                                    ? 'border-green-400 bg-green-50/50'
+                                                    : 'border-white bg-white hover:border-slate-200 shadow-sm'
                                                     }`}
                                             >
                                                 <div className="text-2xl mr-4">{opt.icon}</div>
@@ -288,7 +288,7 @@ export default function ShakenPage() {
                         <div className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">⚡</div>
                             <h3 className="text-xl font-black mb-4">驚きのスピード (90分)</h3>
-                            <p className="text-slate-500 text-sm leading-relaxed">最新の診断機と効率化されたオペレーションにより、最短90分で完了。店内のカフェスペースでゆっくり寛いでいる間に、すべてが終わります。</p>
+                            <p className="text-slate-500 text-sm leading-relaxed">最新の診断機と効率化されたオペレーションにより、最短90分で完了。店内の待合ペースでゆっくり寛いでいる間に、すべてが終わります。</p>
                         </div>
                         <div className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">💎</div>
