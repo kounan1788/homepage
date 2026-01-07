@@ -54,7 +54,7 @@ export default function Page() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const fadeIn = (section: 'hero' | 'services' | 'cases' | 'company' | 'contact') => {
+    const fadeIn = (section: 'hero' | 'services' | 'cases' | 'company' | 'instagram' | 'reviews' | 'contact') => {
         return visibleSections[section] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10';
     };
 
