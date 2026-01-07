@@ -1,596 +1,364 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 // 車種タイプの定義
 type CarType = 'light' | 'small' | 'medium' | 'regular';
 
-// 料金データの定義（画像のパスを修正）
+// 料金データの定義
 const pricingData = {
     light: {
         name: '軽自動車',
-        weight: '',
+        weight: '全般',
         basePrice: 15290,
         treatment: 3630,
         cleaning: 3300,
         agency: 8580,
         inspection: 8250,
-        subtotal: 39050,
         statutoryFees: 26040,
         total: 65090,
-        image: '/cars/delicamini.jpg'
+        image: '/cars/delicamini.jpg',
+        description: 'ハスラー、タント、N-BOXなど'
     },
     small: {
-        name: '小型乗用',
-        weight: '車両重量1t以下',
+        name: '小型乗用車',
+        weight: '1.0t以下',
         basePrice: 17490,
         treatment: 4290,
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        subtotal: 43340,
         statutoryFees: 35850,
         total: 79190,
-        image: '/cars/xbee.jpg'
+        image: '/cars/xbee.jpg',
+        description: 'ヴィッツ、フィット、パッソなど'
     },
     medium: {
-        name: '中型乗用',
-        weight: '車両重量1.5t以下',
+        name: '中型乗用車',
+        weight: '1.5t以下',
         basePrice: 18590,
         treatment: 4290,
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        subtotal: 44440,
         statutoryFees: 44050,
         total: 88490,
-        image: '/cars/harrier.jpg'
+        image: '/cars/harrier.jpg',
+        description: 'カローラ、プリウス、アクセラなど'
     },
     regular: {
-        name: '普通乗用',
-        weight: '車両重量2t以下',
+        name: '普通乗用車',
+        weight: '2.0t以下',
         basePrice: 21890,
         treatment: 4290,
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        subtotal: 47740,
         statutoryFees: 52250,
         total: 99990,
-        image: '/cars/alphard.jpg'
+        image: '/cars/alphard.jpg',
+        description: 'クラウン、アルファード、エルグランドなど'
     }
 };
 
 // 割引オプションの定義
 const discountOptions = [
-    { id: 1, name: 'お持ち込みお引き取り割引', amount: 2200, description: 'お持ち込みまたはお引き取りのみの場合' },
-    { id: 2, name: '代車不要割引', amount: 1100, description: '代車をご利用いただかない場合' },
-    { id: 3, name: '早期予約割引', amount: 2200, description: '車検期限の2ヶ月前までにご予約' },
-    { id: 4, name: '先取車検割引', amount: 4400, description: '次回車検を今回の車検終了時にご予約' },
-    { id: 5, name: '新車初回車検割引', amount: 3300, description: '当社で新車をご購入された方の初回車検' },
-    { id: 6, name: '12ヶ月点検割引', amount: 2200, description: '当社で12ヶ月点検を受けた方' },
-    { id: 7, name: 'プレミアムパスポート割引', amount: 2200, description: '石川県発行のプレミアムカードをお持ちの方' },
-    { id: 8, name: '初入庫割引', amount: 2200, description: '初回ご利用のお客様' }
+    { id: 1, name: '持込・引取割引', amount: 2200, icon: '🚗', description: 'ご自身でのお持ち込み・お引き取り' },
+    { id: 2, name: '代車不要割引', amount: 1100, icon: '✨', description: '代車を使用されない場合' },
+    { id: 3, name: '早期予約割引', amount: 2200, icon: '📅', description: '2ヶ月前までのご予約' },
+    { id: 4, name: '先取車検割引', amount: 4400, icon: '🎟️', description: '次回車検を今回予約される場合' },
+    { id: 5, name: '新車初回割引', amount: 3300, icon: '🆕', description: '当社ご購入車の初回車検' },
+    { id: 6, name: '点検実施割引', amount: 2200, icon: '🛠️', description: '12ヶ月点検を受けられた方' },
+    { id: 7, name: 'プレミアムパス', amount: 2200, icon: '💳', description: 'プレミアムカードをお持ちの方' },
+    { id: 8, name: '初入庫割引', amount: 2200, icon: '🤝', description: '初めてご利用のお客様' }
 ];
-
 
 export default function ShakenPage() {
     const [selectedCarType, setSelectedCarType] = useState<CarType>('light');
     const [selectedDiscounts, setSelectedDiscounts] = useState<number[]>([]);
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
+    useEffect(() => {
+        setIsLoaded(true);
+    }, []);
 
-    // 料金計算
-    const calculateTotal = () => {
-        const carData = pricingData[selectedCarType];
-        let total = carData.total;
-        
-        // 割引を適用
-        selectedDiscounts.forEach(discountId => {
-            const discount = discountOptions.find(d => d.id === discountId);
-            if (discount) {
-                total -= discount.amount;
-            }
-        });
-        
-        return Math.max(0, total);
-    };
+    const carData = useMemo(() => pricingData[selectedCarType], [selectedCarType]);
 
-    const handleDiscountChange = (discountId: number) => {
-        setSelectedDiscounts(prev => 
-            prev.includes(discountId) 
-                ? prev.filter(id => id !== discountId)
-                : [...prev, discountId]
+    const totalDiscount = useMemo(() => {
+        return selectedDiscounts.reduce((sum, id) => {
+            const discount = discountOptions.find(d => d.id === id);
+            return sum + (discount ? discount.amount : 0);
+        }, 0);
+    }, [selectedDiscounts]);
+
+    const finalTotal = useMemo(() => {
+        return Math.max(0, carData.total - totalDiscount);
+    }, [carData, totalDiscount]);
+
+    const handleDiscountToggle = (id: number) => {
+        setSelectedDiscounts(prev =>
+            prev.includes(id) ? prev.filter(dId => dId !== id) : [...prev, id]
         );
     };
 
-    const totalDiscount = selectedDiscounts.reduce((sum, discountId) => {
-        const discount = discountOptions.find(d => d.id === discountId);
-        return sum + (discount ? discount.amount : 0);
-    }, 0);
-
     return (
-        <div className="min-h-screen bg-white text-gray-800 font-sans">
-            {/* Header */}
-            <header
-                className="fixed top-0 left-0 right-0 bg-white z-50 shadow-md"
-                data-oid="fqghwyr"
-            >
-                <div
-                    className="container mx-auto px-4 py-3 flex justify-between items-center"
-                    data-oid="ogzl6xz"
-                >
-                    <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
-                        <div className="relative h-12 md:h-14 transition-transform group-hover:scale-105">
-                            <Image
-                                src="/logo.png"
-                                alt="港南自動車サービス株式会社"
-                                width={280}
-                                height={70}
-                                className="h-12 md:h-14 w-auto object-contain"
-                                priority
-                            />
-                        </div>
+        <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 pb-20 overflow-x-hidden">
+            {/* Header - Fixed & Glassmorphism */}
+            <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+                <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
+                    <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-[1.02]">
+                        <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
-                    <div className="hidden md:flex items-center space-x-6" data-oid="jdpcl.f">
-                        <nav className="flex items-center space-x-4" data-oid="_c2.5k6">
-                            <Link
-                                href="/#services"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="g3os_w7"
-                            >
-                                サービス内容
-                            </Link>
-                            <Link
-                                href="/#cases"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="di-cil9"
-                            >
-                                取扱車種
-                            </Link>
-                            <Link
-                                href="/#company"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="pma8w:5"
-                            >
-                                会社情報
-                            </Link>
-                            <Link
-                                href="/#contact"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="epeq407"
-                            >
-                                お問い合わせ
-                            </Link>
-                        </nav>
-                        <Link
-                            href="/noreta"
-                            className="bg-teal-600 text-white font-medium rounded-md px-4 py-2 hover:bg-teal-700 transition-colors shadow-sm"
-                            data-oid="r7m-jfd"
-                        >
-                            ノレタ詳細
-                        </Link>
-                    </div>
-                    <button
-                        className="md:hidden px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors text-sm font-medium flex items-center"
-                        onClick={toggleMenu}
-                        aria-expanded={menuOpen}
-                        aria-controls="mobile-menu"
-                        data-oid="av_bd._"
-                    >
-                        <span className="mr-2" data-oid="m:bk9_b">
-                            MENU
-                        </span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
-                            data-oid="6_ygnjk"
-                        >
-                            {menuOpen ? (
-                                <path d="M18 6L6 18M6 6l12 12" data-oid="a-w9x9r" />
-                            ) : (
-                                <path d="M3 12h18M3 6h18M3 18h18" data-oid="zayhmq9" />
-                            )}
-                        </svg>
-                    </button>
-                </div>
-
-                {/* Mobile menu, show/hide based on menu state */}
-                <div
-                    className={`${
-                        menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                    } md:hidden overflow-hidden transition-all duration-300 ease-in-out`}
-                    id="mobile-menu"
-                    data-oid="zmkdp2r"
-                >
-                    <nav
-                        className="container mx-auto px-4 py-3 bg-white shadow-lg rounded-b-lg space-y-2"
-                        data-oid="72sbz7o"
-                    >
-                        <Link
-                            href="/#services"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="ni56eff"
-                        >
-                            サービス内容
-                        </Link>
-                        <Link
-                            href="/#cases"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="_mprlbv"
-                        >
-                            取扱車種
-                        </Link>
-                        <Link
-                            href="/#company"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="x_63-n0"
-                        >
-                            会社情報
-                        </Link>
-                        <Link
-                            href="/#contact"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="-ft-zqw"
-                        >
-                            お問い合わせ
-                        </Link>
-                        <Link
-                            href="/noreta"
-                            className="block px-3 py-2 rounded-md text-base font-medium bg-teal-600 text-white hover:bg-teal-700"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="5e69:q."
-                        >
+                    <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+                        <Link href="/" className="text-slate-600 hover:text-teal-600 transition-colors">ホーム</Link>
+                        <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス</Link>
+                        <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
                             ノレタ詳細
                         </Link>
                     </nav>
                 </div>
             </header>
 
-            {/* Main Content */}
-            <main className="pt-20 md:pt-20">
-                <div className="container mx-auto px-4 py-8">
-                    {/* タイトルセクション */}
-                    <div className="text-center mb-8">
-                        <div className="inline-block bg-yellow-400 text-yellow-900 text-sm font-bold px-4 py-2 rounded-full mb-4">
-                            90分立会い車検
+            <main className="pt-24 md:pt-32">
+                {/* Hero Section */}
+                <section className="container mx-auto px-4 mb-16 relative">
+                    <div className={`transition-all duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-xs md:text-sm font-bold mb-6">
+                            <span className="flex h-2 w-2 rounded-full bg-amber-500 mr-2 animate-pulse"></span>
+                            90分立会い車検：ドクター車検
                         </div>
-                        <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
-                            ドクター車検
+                        <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+                            お車の<span className="text-teal-600">プレミアム健康診断</span>で<br />
+                            ずっと安心なドライブを。
                         </h1>
-                        <p className="text-base text-gray-600 max-w-2xl mx-auto">
-                            完全予約制・新車ご購入後の初めての車検の方限定・1日限定3台まで
+                        <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
+                            完全予約制・1日限定3台。国家資格を持つ専門医（整備士）が、あなたの愛車を徹底的にチェック。最短90分で完了する、ハイクオリティな対面車検サービスです。
                         </p>
                     </div>
 
-                    {/* デスクトップレイアウト */}
-                    <div className="hidden lg:block">
-                        <div className="grid grid-cols-2 gap-6 mb-6">
-                            {/* 車種選択セクション */}
-                            <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-6">
-                                <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">車種を選択</h2>
-                                <div className="space-y-3">
+                    {/* Decorative Background Element */}
+                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-teal-100 rounded-full blur-3xl opacity-40 z-[-1]"></div>
+                </section>
+
+                {/* Main Simulator Section */}
+                <section className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+                        {/* Left: Input Sidebar */}
+                        <div className="lg:col-span-12 space-y-10">
+                            {/* Step 1: Car Selection */}
+                            <div className="space-y-6">
+                                <div className="flex items-center space-x-3">
+                                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-600 text-white text-sm font-bold">1</span>
+                                    <h2 className="text-xl font-bold">車種を選択</h2>
+                                </div>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     {Object.entries(pricingData).map(([key, data]) => (
                                         <button
                                             key={key}
                                             onClick={() => setSelectedCarType(key as CarType)}
-                                            className={`w-full p-4 rounded-xl border-2 transition-all duration-200 ${
-                                                selectedCarType === key
-                                                    ? 'border-teal-500 bg-teal-50 shadow-md'
-                                                    : 'border-gray-300 bg-white hover:border-teal-300 hover:shadow-sm'
-                                            }`}
+                                            className={`relative overflow-hidden group p-4 rounded-2xl border-2 text-left transition-all duration-300 ${selectedCarType === key
+                                                    ? 'border-teal-500 bg-white ring-4 ring-teal-500/10'
+                                                    : 'border-white bg-white hover:border-teal-200'
+                                                }`}
                                         >
-                                            <div className="flex items-center">
-                                                <div className="w-16 h-16 mr-4 bg-gray-100 rounded-lg flex items-center justify-center">
-                                                    <Image
-                                                        src={data.image}
-                                                        alt={data.name}
-                                                        width={56}
-                                                        height={56}
-                                                        className="object-cover rounded"
-                                                    />
-                                                </div>
-                                                <div className="flex-1 text-left">
-                                                    <h3 className="font-semibold text-gray-800">{data.name}</h3>
-                                                    {data.weight && (
-                                                        <p className="text-xs text-gray-600">{data.weight}</p>
-                                                    )}
-                                                </div>
-                                                <div className="text-right">
-                                                    <div className="text-lg font-bold text-teal-600">
-                                                        ¥{data.total.toLocaleString()}
+                                            <div className="relative z-10">
+                                                <h3 className={`font-bold transition-colors ${selectedCarType === key ? 'text-teal-600' : 'text-slate-800'}`}>{data.name}</h3>
+                                                <p className="text-xs text-slate-400 mt-1">{data.weight}</p>
+                                                <div className="mt-4 flex items-end justify-between">
+                                                    <span className="text-sm font-semibold text-slate-600">¥{data.total.toLocaleString()}~</span>
+                                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${selectedCarType === key ? 'bg-teal-500 scale-110' : 'bg-slate-100'}`}>
+                                                        <svg className={`w-3.5 h-3.5 ${selectedCarType === key ? 'text-white' : 'text-slate-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                        </svg>
                                                     </div>
-                                                    <p className="text-xs text-gray-500">税込</p>
                                                 </div>
                                             </div>
+                                            <div className={`absolute bottom-0 right-0 w-12 h-12 bg-teal-50 rounded-tl-full transition-transform duration-500 ${selectedCarType === key ? 'scale-150 opacity-100' : 'scale-0 opacity-0'}`}></div>
                                         </button>
                                     ))}
                                 </div>
                             </div>
+                        </div>
 
-                            {/* 料金詳細セクション */}
-                            <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-6">
-                                <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">料金詳細</h3>
-                                <div className="space-y-3">
-                                    <div className="flex justify-between py-2 border-b border-gray-200">
-                                        <span className="text-gray-600">基本診断費用</span>
-                                        <span className="font-semibold">¥{pricingData[selectedCarType].basePrice.toLocaleString()}</span>
+                        {/* Right: Summary Floating Card */}
+                        <div className="lg:col-span-12 space-y-6 mt-10">
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                                {/* Discount Selector Left */}
+                                <div className="md:col-span-5 space-y-6">
+                                    <div className="flex items-center space-x-3">
+                                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-600 text-white text-sm font-bold">2</span>
+                                        <h2 className="text-xl font-bold">割引を適用</h2>
                                     </div>
-                                    <div className="flex justify-between py-2 border-b border-gray-200">
-                                        <span className="text-gray-600">基本治療費用</span>
-                                        <span className="font-semibold">¥{pricingData[selectedCarType].treatment.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between py-2 border-b border-gray-200">
-                                        <span className="text-gray-600">下廻り洗浄費用</span>
-                                        <span className="font-semibold">¥{pricingData[selectedCarType].cleaning.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between py-2 border-b border-gray-200">
-                                        <span className="text-gray-600">代行業務費用</span>
-                                        <span className="font-semibold">¥{pricingData[selectedCarType].agency.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between py-2 border-b border-gray-200">
-                                        <span className="text-gray-600">総合検査費用</span>
-                                        <span className="font-semibold">¥{pricingData[selectedCarType].inspection.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between py-2 border-b border-gray-200">
-                                        <span className="text-gray-600">法定費用</span>
-                                        <span className="font-semibold">¥{pricingData[selectedCarType].statutoryFees.toLocaleString()}</span>
-                                    </div>
-                                    {totalDiscount > 0 && (
-                                        <div className="flex justify-between py-2 border-b border-gray-200">
-                                            <span className="text-green-600">割引合計</span>
-                                            <span className="font-semibold text-green-600">-¥{totalDiscount.toLocaleString()}</span>
-                                        </div>
-                                    )}
-                                    <div className="flex justify-between py-3 border-b-2 border-teal-500 font-bold text-xl text-teal-600">
-                                        <span>最終合計</span>
-                                        <span>¥{calculateTotal().toLocaleString()}</span>
+                                    <div className="grid grid-cols-1 gap-3">
+                                        {discountOptions.map((opt) => (
+                                            <button
+                                                key={opt.id}
+                                                onClick={() => handleDiscountToggle(opt.id)}
+                                                className={`flex items-center p-4 rounded-xl border-2 transition-all duration-200 ${selectedDiscounts.includes(opt.id)
+                                                        ? 'border-green-400 bg-green-50/50'
+                                                        : 'border-white bg-white hover:border-slate-200 shadow-sm'
+                                                    }`}
+                                            >
+                                                <div className="text-2xl mr-4">{opt.icon}</div>
+                                                <div className="flex-1 text-left">
+                                                    <div className="flex justify-between items-center">
+                                                        <h3 className="text-sm font-bold text-slate-800">{opt.name}</h3>
+                                                        <span className="text-xs font-black text-green-600 bg-green-100 px-2 py-1 rounded">-{opt.amount.toLocaleString()}円</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-400 mt-1">{opt.description}</p>
+                                                </div>
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        {/* 割引オプションセクション */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-6">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">割引オプション</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                {discountOptions.map((discount) => (
-                                    <label
-                                        key={discount.id}
-                                        className="flex items-start p-3 border border-gray-300 rounded-lg hover:border-teal-300 hover:bg-teal-50 transition-all duration-200 cursor-pointer"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedDiscounts.includes(discount.id)}
-                                            onChange={() => handleDiscountChange(discount.id)}
-                                            className="mt-1 h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                                        />
-                                        <div className="ml-3 flex-1">
-                                            <div className="flex justify-between items-start">
+                                {/* Results Card Right */}
+                                <div className="md:col-span-7 md:sticky md:top-32">
+                                    <div className="bg-slate-900 rounded-[2.5rem] shadow-2xl shadow-teal-900/20 overflow-hidden text-white border border-slate-800">
+                                        <div className="p-8 md:p-12">
+                                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
                                                 <div>
-                                                    <span className="font-semibold text-gray-800 text-sm">{discount.name}</span>
-                                                    <p className="text-xs text-gray-600 mt-1">{discount.description}</p>
+                                                    <p className="text-teal-400 text-xs font-black tracking-widest uppercase mb-2">Estimate Total</p>
+                                                    <div className="flex items-baseline">
+                                                        <span className="text-lg font-bold mr-1">¥</span>
+                                                        <span className="text-6xl md:text-7xl font-black tracking-tighter transition-all duration-500">
+                                                            {finalTotal.toLocaleString()}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-slate-400 text-xs mt-2 font-medium italic">※部品代・追加整備分は別途となります</p>
                                                 </div>
-                                                <span className="text-sm font-bold text-green-600 ml-2">
-                                                    -¥{discount.amount.toLocaleString()}
-                                                </span>
+                                                <div className="bg-slate-800/50 backdrop-blur rounded-2xl p-4 border border-slate-700 w-full md:w-auto text-center md:text-left">
+                                                    <div className="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Selected Car</div>
+                                                    <div className="text-xl font-black">{carData.name}</div>
+                                                    <div className="text-xs text-teal-400 mt-1 font-bold">{carData.weight}</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
 
-                    {/* モバイルレイアウト */}
-                    <div className="lg:hidden space-y-6">
-                        {/* 車種選択セクション */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-6">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">車種を選択</h2>
-                            <div className="space-y-3">
-                                {Object.entries(pricingData).map(([key, data]) => (
-                                    <button
-                                        key={key}
-                                        onClick={() => setSelectedCarType(key as CarType)}
-                                        className={`w-full p-4 rounded-xl border-2 transition-all duration-200 ${
-                                            selectedCarType === key
-                                                ? 'border-teal-500 bg-teal-50 shadow-md'
-                                                : 'border-gray-300 bg-white hover:border-teal-300 hover:shadow-sm'
-                                        }`}
-                                    >
-                                        <div className="flex items-center">
-                                            <div className="w-16 h-16 mr-4 bg-gray-100 rounded-lg flex items-center justify-center">
-                                                <Image
-                                                    src={data.image}
-                                                    alt={data.name}
-                                                    width={56}
-                                                    height={56}
-                                                    className="object-cover rounded"
-                                                />
-                                            </div>
-                                            <div className="flex-1 text-left">
-                                                <h3 className="font-semibold text-gray-800">{data.name}</h3>
-                                                {data.weight && (
-                                                    <p className="text-xs text-gray-600">{data.weight}</p>
+                                            {/* Detailed Breakdown */}
+                                            <div className="space-y-4 mb-10">
+                                                <div className="flex justify-between text-sm py-4 border-b border-slate-800">
+                                                    <span className="text-slate-400 font-medium">基本点検・診断費用</span>
+                                                    <span className="font-bold">¥{(carData.basePrice + carData.treatment + carData.cleaning + carData.agency + carData.inspection).toLocaleString()}</span>
+                                                </div>
+                                                <div className="flex justify-between text-sm py-4 border-b border-slate-800">
+                                                    <span className="text-slate-400 font-medium flex items-center">
+                                                        法定費用
+                                                        <span className="ml-2 w-4 h-4 rounded-full bg-slate-700 flex items-center justify-center text-[10px] cursor-help" title="重量税・自賠責保険料・印紙代が含まれます">?</span>
+                                                    </span>
+                                                    <span className="font-bold text-slate-300">¥{carData.statutoryFees.toLocaleString()}</span>
+                                                </div>
+                                                {totalDiscount > 0 && (
+                                                    <div className="flex justify-between text-sm py-4 border-b border-slate-800">
+                                                        <span className="text-green-400 font-bold italic">適用された割引合計</span>
+                                                        <span className="font-black text-green-400">−¥{totalDiscount.toLocaleString()}</span>
+                                                    </div>
                                                 )}
                                             </div>
-                                            <div className="text-right">
-                                                <div className="text-lg font-bold text-teal-600">
-                                                    ¥{data.total.toLocaleString()}
-                                                </div>
-                                                <p className="text-xs text-gray-500">税込</p>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <Link href="tel:076-268-1788" className="flex items-center justify-center bg-white text-slate-900 font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl">
+                                                    <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" /></svg>
+                                                    お電話で予約
+                                                </Link>
+                                                <Link href="https://lin.ee/CKQM0mE" className="flex items-center justify-center bg-green-500 text-white font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl">
+                                                    <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" /></svg>
+                                                    LINEで予約
+                                                </Link>
                                             </div>
                                         </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* 料金詳細セクション */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-6">
-                            <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">料金詳細</h3>
-                            <div className="space-y-3">
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">基本診断費用</span>
-                                    <span className="font-semibold">¥{pricingData[selectedCarType].basePrice.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">基本治療費用</span>
-                                    <span className="font-semibold">¥{pricingData[selectedCarType].treatment.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">下廻り洗浄費用</span>
-                                    <span className="font-semibold">¥{pricingData[selectedCarType].cleaning.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">代行業務費用</span>
-                                    <span className="font-semibold">¥{pricingData[selectedCarType].agency.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">総合検査費用</span>
-                                    <span className="font-semibold">¥{pricingData[selectedCarType].inspection.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">法定費用</span>
-                                    <span className="font-semibold">¥{pricingData[selectedCarType].statutoryFees.toLocaleString()}</span>
-                                </div>
-                                {totalDiscount > 0 && (
-                                    <div className="flex justify-between py-2 border-b border-gray-200">
-                                        <span className="text-green-600">割引合計</span>
-                                        <span className="font-semibold text-green-600">-¥{totalDiscount.toLocaleString()}</span>
                                     </div>
-                                )}
-                                <div className="flex justify-between py-3 border-b-2 border-teal-500 font-bold text-xl text-teal-600">
-                                    <span>最終合計</span>
-                                    <span>¥{calculateTotal().toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </section>
 
-                        {/* 割引オプションセクション */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-300 p-6">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">割引オプション</h2>
-                            <div className="space-y-3">
-                                {discountOptions.map((discount) => (
-                                    <label
-                                        key={discount.id}
-                                        className="flex items-start p-3 border border-gray-300 rounded-lg hover:border-teal-300 hover:bg-teal-50 transition-all duration-200 cursor-pointer"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedDiscounts.includes(discount.id)}
-                                            onChange={() => handleDiscountChange(discount.id)}
-                                            className="mt-1 h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                                        />
-                                        <div className="ml-3 flex-1">
-                                            <div className="flex justify-between items-start">
-                                                <div className="flex-1">
-                                                    <span className="font-semibold text-gray-800 text-sm">{discount.name}</span>
-                                                    <p className="text-xs text-gray-600 mt-1">{discount.description}</p>
-                                                </div>
-                                                <span className="text-sm font-bold text-green-600 ml-2 flex-shrink-0">
-                                                    -¥{discount.amount.toLocaleString()}
-                                                </span>
-                                            </div>
+                {/* Info Sections: Why Choose Us & Flow */}
+                <section className="container mx-auto px-4 mt-32 space-y-32">
+                    {/* Unique Value Props */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="bg-white p-8 rounded-3xl border border-slate-200">
+                            <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">🩺</div>
+                            <h3 className="text-xl font-black mb-4">精密な「対面」診断</h3>
+                            <p className="text-slate-500 text-sm leading-relaxed">ただ車を通すだけではありません。お客様と一緒に車を見ながら、現在の状態と必要な処置を「エンジンの専門医」が専門用語を使わずに優しく解説します。</p>
+                        </div>
+                        <div className="bg-white p-8 rounded-3xl border border-slate-200">
+                            <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">⚡</div>
+                            <h3 className="text-xl font-black mb-4">驚きのスピード (90分)</h3>
+                            <p className="text-slate-500 text-sm leading-relaxed">最新の診断機と効率化されたオペレーションにより、最短90分で完了。店内のカフェスペースでゆっくり寛いでいる間に、すべてが終わります。</p>
+                        </div>
+                        <div className="bg-white p-8 rounded-3xl border border-slate-200">
+                            <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">💎</div>
+                            <h3 className="text-xl font-black mb-4">地域密着の安心保証</h3>
+                            <p className="text-slate-500 text-sm leading-relaxed">創業から続く信頼と確かな技術。車検後も1年間の点検保証をお付けし、地域の皆様の安全なカーライフを末永くサポートさせていただきます。</p>
+                        </div>
+                    </div>
+
+                    {/* Flow Section */}
+                    <div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">車検当日の流れ</h2>
+                            <p className="text-slate-500">ご予約からお引き渡しまで、スムーズで快適な体験をご提供します。</p>
+                        </div>
+                        <div className="relative">
+                            {/* Connection Line (Desktop) */}
+                            <div className="hidden md:block absolute top-10 left-0 w-full h-0.5 bg-slate-200 z-0"></div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                                {[
+                                    { step: '01', title: '受付・カルテ作成', desc: 'お車をお預かりし、本日の健康状態をお伺いします。' },
+                                    { step: '02', title: '精密検査・問診', desc: '整備士が全項目を丁寧にチェック。お客様にもご確認いただきます。' },
+                                    { step: '03', title: '処置・メンテナンス', desc: '必要な処置を迅速に行い、最高のコンディションに調整します。' },
+                                    { step: '04', title: 'ご精算・処方箋', desc: '詳細な診断結果とメンテナンスのアドバイスをお伝えし完了です。' }
+                                ].map((item, idx) => (
+                                    <div key={idx} className="bg-white md:bg-transparent p-6 rounded-2xl border border-slate-100 md:border-none">
+                                        <div className="w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xs font-black mb-6 shadow-lg shadow-teal-200">
+                                            {item.step}
                                         </div>
-                                    </label>
+                                        <h4 className="text-lg font-black mb-2">{item.title}</h4>
+                                        <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                                    </div>
                                 ))}
                             </div>
                         </div>
                     </div>
-
-                    {/* お問い合わせセクション */}
-                    <div className="bg-teal-50 rounded-2xl p-6 text-center mt-6">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">お問い合わせ・ご予約</h2>
-                        <p className="text-gray-600 mb-4 text-sm">
-                            車検のご予約やご質問がございましたら、お気軽にお電話ください。
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <a
-                                href="tel:076-268-1788"
-                                className="inline-flex items-center justify-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg text-sm"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 mr-2"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                                    />
-                                </svg>
-                                076-268-1788
-                            </a>
-                            <a
-                                href="https://lin.ee/CKQM0mE"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-300 font-semibold shadow-md hover:shadow-lg text-sm"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 mr-2"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" />
-                                </svg>
-                                LINEで問い合わせ
-                            </a>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-3">
-                            平日 9:00 〜 18:00 / 土曜 9:00 〜 17:00
-                        </p>
-                    </div>
-                </div>
+                </section>
             </main>
 
-            {/* 固定の最終合計表示（モバイルのみ） */}
-            <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 p-4 shadow-lg z-40">
-                <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold text-gray-800">最終合計</span>
-                    <span className="text-2xl font-bold text-teal-600">¥{calculateTotal().toLocaleString()}</span>
-                </div>
-            </div>
-
             {/* Footer */}
-            <footer className="bg-gray-800 text-white py-12 lg:mt-0 mt-20">
+            <footer className="mt-40 bg-slate-950 text-white pt-24 pb-12">
                 <div className="container mx-auto px-4">
-                    <div className="text-center">
-                        <div className="flex items-center justify-center mb-4">
-                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3">
-                                <span className="text-teal-600 font-bold text-sm">港南</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
+                        <div>
+                            <div className="flex items-center space-x-3 mb-8">
+                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                                    <span className="text-slate-950 font-black text-[10px]">KONAN</span>
+                                </div>
+                                <h3 className="text-2xl font-black">港南自動車サービス</h3>
                             </div>
-                            <h3 className="text-lg font-bold">株式会社港南自動車サービス</h3>
+                            <p className="text-slate-400 max-w-sm text-sm leading-relaxed">
+                                石川県金沢市で半世紀以上にわたり、地域の皆様の安全を守り続けてきました。<br />
+                                丁寧な仕事、誠実な説明、そして確かな技術。
+                            </p>
                         </div>
-                        <p className="text-gray-300 text-sm">
-                            〒920-0336 石川県金沢市金石本町ハ14<br />
-                            TEL: <a href="tel:076-268-1788" className="hover:text-teal-300 transition-colors">076-268-1788</a> / FAX: 076-268-3163
-                        </p>
-                        <div className="border-t border-gray-700 mt-8 pt-8 text-gray-400 text-sm">
-                            &copy; {new Date().getFullYear()} 株式会社港南自動車サービス All Rights Reserved.
+                        <div className="space-y-4">
+                            <div className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Contact Information</div>
+                            <div className="text-xl font-bold">石川県金沢市金石本町ハ14</div>
+                            <div className="flex flex-col space-y-2">
+                                <Link href="tel:076-268-1788" className="text-3xl font-black text-teal-400 hover:text-white transition-colors">076-268-1788</Link>
+                                <span className="text-slate-500 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="pt-12 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs gap-6">
+                        <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
+                        <div className="flex space-x-8">
+                            <Link href="/" className="hover:text-white transition-colors">ホーム</Link>
+                            <Link href="/shaken" className="hover:text-white transition-colors">車検について</Link>
+                            <Link href="/noreta" className="hover:text-white transition-colors">個人リース「ノレタ」</Link>
                         </div>
                     </div>
                 </div>
