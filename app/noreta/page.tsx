@@ -140,543 +140,363 @@ export default function Page() {
     };
 
     return (
-        <div className="min-h-screen bg-white" data-oid="dn0w-eo">
+        <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-teal-100" data-oid="dn0w-eo">
             {/* Header */}
             <header
-                className="fixed top-0 left-0 right-0 bg-white z-50 shadow-md"
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+                    ? 'bg-white/80 backdrop-blur-md shadow-lg py-2'
+                    : 'bg-transparent py-5'
+                    }`}
                 data-oid="fqghwyr"
             >
                 <div
-                    className="container mx-auto px-4 py-3 flex justify-between items-center"
+                    className="container mx-auto px-6 flex justify-between items-center"
                     data-oid="ogzl6xz"
                 >
                     <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
-                        <div className="relative h-12 md:h-14 transition-transform group-hover:scale-105">
+                        <div className={`relative transition-all duration-500 ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}>
                             <Image
                                 src="/logo.png"
                                 alt="港南自動車サービス株式会社"
                                 width={280}
                                 height={70}
-                                className="h-12 md:h-14 w-auto object-contain"
+                                className={`h-full w-auto object-contain transition-all duration-500 ${!isScrolled && 'brightness-0 invert'}`}
                                 priority
                             />
                         </div>
                     </Link>
-                    <div className="hidden md:flex items-center space-x-6" data-oid="jdpcl.f">
-                        <nav className="flex items-center space-x-4" data-oid="_c2.5k6">
-                            <Link
-                                href="/#services"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="g3os_w7"
-                            >
-                                サービス内容
-                            </Link>
-                            <Link
-                                href="/#cases"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="di-cil9"
-                            >
-                                取扱車種
-                            </Link>
-                            <Link
-                                href="/#company"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="pma8w:5"
-                            >
-                                会社情報
-                            </Link>
-                            <Link
-                                href="/#contact"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="epeq407"
-                            >
-                                お問い合わせ
-                            </Link>
+                    <div className="hidden lg:flex items-center space-x-8" data-oid="jdpcl.f">
+                        <nav className={`flex items-center space-x-8 transition-colors duration-500 ${isScrolled ? 'text-slate-700' : 'text-white'}`} data-oid="_c2.5k6">
+                            {[
+                                { name: 'サービス内容', href: '/#services' },
+                                { name: '取扱車種', href: '/#cases' },
+                                { name: '会社情報', href: '/#company' },
+                                { name: 'お問い合わせ', href: '/#contact' }
+                            ].map((item, i) => (
+                                <Link
+                                    key={i}
+                                    href={item.href}
+                                    className="relative font-medium hover:text-teal-500 transition-colors group overflow-hidden"
+                                >
+                                    {item.name}
+                                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-500 transform translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-300"></span>
+                                </Link>
+                            ))}
                         </nav>
                         <Link
                             href="/noreta"
-                            className="bg-teal-600 text-white font-medium rounded-md px-4 py-2 hover:bg-teal-700 transition-colors shadow-sm"
+                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5 ${isScrolled
+                                ? 'bg-teal-600 text-white hover:bg-teal-700'
+                                : 'bg-white text-teal-700 hover:bg-slate-100'
+                                }`}
                             data-oid="r7m-jfd"
                         >
                             ノレタ詳細
                         </Link>
                     </div>
                     <button
-                        className="md:hidden px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors text-sm font-medium flex items-center"
+                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${isScrolled ? 'bg-teal-600 text-white' : 'bg-white/20 text-white backdrop-blur-sm'
+                            }`}
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
-                        aria-controls="mobile-menu"
                         data-oid="av_bd._"
                     >
-                        <span className="mr-2" data-oid="m:bk9_b">
-                            MENU
-                        </span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            strokeWidth="2"
+                            strokeWidth="2.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
-                            data-oid="6_ygnjk"
                         >
                             {menuOpen ? (
-                                <path d="M18 6L6 18M6 6l12 12" data-oid="a-w9x9r" />
+                                <path d="M18 6L6 18M6 6l12 12" />
                             ) : (
-                                <path d="M3 12h18M3 6h18M3 18h18" data-oid="zayhmq9" />
+                                <path d="M3 12h18M3 6h18M3 18h18" />
                             )}
                         </svg>
                     </button>
                 </div>
 
-                {/* Mobile menu, show/hide based on menu state */}
+                {/* Mobile menu */}
                 <div
-                    className={`${
-                        menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                    } md:hidden overflow-hidden transition-all duration-300 ease-in-out`}
-                    id="mobile-menu"
-                    data-oid="zmkdp2r"
+                    className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] lg:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                        }`}
                 >
-                    <nav
-                        className="container mx-auto px-4 py-3 bg-white shadow-lg rounded-b-lg space-y-2"
-                        data-oid="72sbz7o"
+                    <button
+                        onClick={() => setMenuOpen(false)}
+                        className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                     >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                    </button>
+                    {[
+                        { name: 'サービス内容', href: '/#services' },
+                        { name: '取扱車種', href: '/#cases' },
+                        { name: '会社情報', href: '/#company' },
+                        { name: 'お問い合わせ', href: '/#contact' }
+                    ].map((item, i) => (
                         <Link
-                            href="/#services"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
+                            key={i}
+                            href={item.href}
+                            className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
                             onClick={() => setMenuOpen(false)}
-                            data-oid="ni56eff"
                         >
-                            サービス内容
+                            {item.name}
                         </Link>
-                        <Link
-                            href="/#cases"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="_mprlbv"
-                        >
-                            取扱車種
-                        </Link>
-                        <Link
-                            href="/#company"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="x_63-n0"
-                        >
-                            会社情報
-                        </Link>
-                        <Link
-                            href="/#contact"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="-ft-zqw"
-                        >
-                            お問い合わせ
-                        </Link>
-                        <Link
-                            href="/noreta"
-                            className="block px-3 py-2 rounded-md text-base font-medium bg-teal-600 text-white hover:bg-teal-700"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="5e69:q."
-                        >
-                            ノレタ詳細
-                        </Link>
-                    </nav>
+                    ))}
+                    <Link
+                        href="/noreta"
+                        className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                        onClick={() => setMenuOpen(false)}
+                    >
+                        ノレタ詳細
+                    </Link>
                 </div>
             </header>
 
             {/* Hero Section */}
-            <section className="pt-20 pb-20 bg-teal-800 text-white relative" data-oid="jrqex-7">
-                <div className="absolute bottom-0 left-0 w-full overflow-hidden" data-oid="yjefgz9">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1440 320"
-                        className="w-full h-auto"
-                        preserveAspectRatio="none"
-                        data-oid="6.:jlp4"
-                    >
-                        <path
-                            fill="#ffffff"
-                            fillOpacity="1"
-                            d="M0,128L80,138.7C160,149,320,171,480,165.3C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-                            data-oid="0qu5ux:"
-                        ></path>
-                    </svg>
+            <section className="relative h-screen min-h-[700px] overflow-hidden flex items-center justify-center" data-oid="jrqex-7">
+                {/* Immersive Background */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/images/noreta-hero.jpg"
+                        alt="ノレタ - 新しい車の乗り方"
+                        fill
+                        className="object-cover animate-slow-zoom"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-white z-10"></div>
                 </div>
-                <div className="container mx-auto px-4 relative z-10" data-oid="ck:_1y0">
-                    <div
-                        className="flex flex-col md:flex-row items-center justify-between"
-                        data-oid="3.7ew-w"
-                    >
-                        <div className="md:w-1/2 mb-10 md:mb-0" data-oid="c6rur0z">
+
+                <div className="container mx-auto px-6 relative z-20 text-center">
+                    <div className="inline-flex items-center space-x-2 bg-teal-500/20 backdrop-blur-md border border-teal-500/30 px-4 py-2 rounded-full text-teal-300 text-sm font-bold mb-8 tracking-widest uppercase">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                        </span>
+                        <span>創業60年以上の実績</span>
+                    </div>
+
+                    <h1 className="text-5xl md:text-8xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl">
+                        <span className="block text-3xl md:text-5xl mb-2 font-bold opacity-90">港南自動車サービスが提供する</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-300">
+                            ノレタ
+                        </span>
+                    </h1>
+
+                    <p className="text-lg md:text-2xl text-slate-200 mb-12 max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-medium">
+                        新車に乗るなら、もっと気軽に。もっとお得に。<br />
+                        月々定額、頭金・ボーナス払いなしで憧れの一台を。
+                    </p>
+
+                    <div className="flex flex-wrap justify-center gap-4 mb-12">
+                        {['頭金なし', 'ボーナス払いなし', '3年契約'].map((feature, i) => (
                             <div
-                                className="inline-block px-4 py-2 bg-white text-teal-800 rounded-full mb-6 font-semibold"
-                                data-oid="sxfhnl:"
+                                key={i}
+                                className="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl flex items-center shadow-xl"
                             >
-                                創業60年以上の実績
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-3 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span className="text-lg font-bold text-white tracking-wider">{feature}</span>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-bold mb-6" data-oid="mwel:ge">
-                                <span className="block mb-2" data-oid="obh5xr-">
-                                    港南自動車サービスが提供する
-                                </span>
-                                <span className="block text-6xl" data-oid="h5sz4pl">
-                                    ノレタ
-                                </span>
-                            </h1>
-                            <p className="text-xl mb-8 opacity-90" data-oid="-jf_f9x">
-                                新車に乗るなら、もっと気軽に。もっとお得に。
-                            </p>
-                            <div className="flex flex-wrap gap-4" data-oid="q5b3-xv">
-                                <div
-                                    className="bg-white px-5 py-4 rounded-lg flex items-center shadow-md border-2 border-white"
-                                    data-oid="wmlvszb"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-7 w-7 mr-3 text-teal-600"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        data-oid="d5xsmga"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2.5}
-                                            d="M5 13l4 4L19 7"
-                                            data-oid="04hpkcp"
-                                        />
-                                    </svg>
-                                    <span
-                                        className="text-lg font-bold text-teal-800"
-                                        data-oid=":pt8sz:"
-                                    >
-                                        頭金なし
-                                    </span>
-                                </div>
-                                <div
-                                    className="bg-white px-5 py-4 rounded-lg flex items-center shadow-md border-2 border-white"
-                                    data-oid="8lhxicm"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-7 w-7 mr-3 text-teal-600"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        data-oid="f-_mbpp"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2.5}
-                                            d="M5 13l4 4L19 7"
-                                            data-oid=".h0dp2y"
-                                        />
-                                    </svg>
-                                    <span
-                                        className="text-lg font-bold text-teal-800"
-                                        data-oid="e0um1wh"
-                                    >
-                                        ボーナス払いなし
-                                    </span>
-                                </div>
-                                <div
-                                    className="bg-white px-5 py-4 rounded-lg flex items-center shadow-md border-2 border-white"
-                                    data-oid="m_1:h35"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-7 w-7 mr-3 text-teal-600"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        data-oid=":pk0dyr"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2.5}
-                                            d="M5 13l4 4L19 7"
-                                            data-oid="1ihb5uy"
-                                        />
-                                    </svg>
-                                    <span
-                                        className="text-lg font-bold text-teal-800"
-                                        data-oid="zw2cypv"
-                                    >
-                                        3年契約
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="md:w-1/2 hidden md:block" data-oid="mqsv1l-">
-                            <div
-                                className="relative rounded-lg overflow-hidden shadow-2xl"
-                                data-oid="u_e3qrb"
-                            >
-                                <Image
-                                    src="/images/noreta-hero.jpg"
-                                    alt="ノレタ - 新しい車の乗り方"
-                                    width={600}
-                                    height={400}
-                                    className="w-full h-auto"
-                                    data-oid="6849_:l"
-                                />
-                            </div>
-                        </div>
+                        ))}
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                        <a
+                            href="#lineup"
+                            className="group relative px-10 py-5 bg-teal-600 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-teal-500 transition-all duration-300 overflow-hidden"
+                        >
+                            <span className="relative z-10 flex items-center">
+                                ラインナップを見る
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                {/* Scroll Indicator */}
+                <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center">
+                    <span className="text-white/50 text-xs font-bold tracking-[0.3em] uppercase mb-4 [writing-mode:vertical-lr]">Scroll</span>
+                    <div className="w-px h-24 bg-gradient-to-b from-teal-500 to-transparent relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-full bg-white animate-scroll-line"></div>
                     </div>
                 </div>
             </section>
 
             {/* Trust Indicators */}
-            <section className="py-12 bg-white" data-oid="v3mlqst">
-                <div className="container mx-auto px-4" data-oid=".8c3ry7">
+            <section className="py-24 bg-slate-50 relative overflow-hidden" data-oid="v3mlqst">
+                <div className="container mx-auto px-6 relative z-10" data-oid=".8c3ry7">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8" data-oid="molv74.">
-                        <div
-                            className="flex flex-col items-center text-center p-6 rounded-lg hover:shadow-md transition-shadow"
-                            data-oid="9rdc7kf"
-                        >
+                        {[
+                            {
+                                title: '創業60年以上',
+                                desc: '長年の実績と地域への信頼',
+                                icon: (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                )
+                            },
+                            {
+                                title: 'お客様2,000名以上',
+                                desc: '地元石川県で選ばれ続ける安心感',
+                                icon: (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                )
+                            },
+                            {
+                                title: '対応実績 全メーカー',
+                                desc: '国産車から輸入車まで幅広くサポート',
+                                icon: (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                )
+                            }
+                        ].map((indicator, i) => (
                             <div
-                                className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4"
-                                data-oid="lmyrsdy"
+                                key={i}
+                                className="group bg-white/70 backdrop-blur-md border border-white p-10 rounded-3xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 text-center"
+                                data-oid="9rdc7kf"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-8 w-8 text-teal-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    data-oid="a8c0m0w"
+                                <div
+                                    className="w-20 h-20 bg-teal-50 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:bg-teal-600 group-hover:rotate-6 transition-all duration-500"
+                                    data-oid="lmyrsdy"
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        data-oid="x9txn9."
-                                    />
-                                </svg>
-                            </div>
-                            <h3
-                                className="text-2xl font-bold text-gray-800 mb-2"
-                                data-oid="j4njsk5"
-                            >
-                                創業60年以上
-                            </h3>
-                            <p className="text-gray-600" data-oid="se7nczw">
-                                長年の実績と信頼
-                            </p>
-                        </div>
-                        <div
-                            className="flex flex-col items-center text-center p-6 rounded-lg hover:shadow-md transition-shadow"
-                            data-oid=":xprzcw"
-                        >
-                            <div
-                                className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4"
-                                data-oid="y79pe9j"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-8 w-8 text-teal-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    data-oid="feig2fp"
+                                    <div className="group-hover:text-white group-hover:-rotate-6 transition-all duration-500">
+                                        {indicator.icon}
+                                    </div>
+                                </div>
+                                <h3
+                                    className="text-2xl font-black text-slate-800 mb-4 tracking-tight"
+                                    data-oid="j4njsk5"
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                                        data-oid="z8zn-q-"
-                                    />
-                                </svg>
+                                    {indicator.title}
+                                </h3>
+                                <p className="text-slate-500 font-medium leading-relaxed" data-oid="se7nczw">
+                                    {indicator.desc}
+                                </p>
                             </div>
-                            <h3
-                                className="text-2xl font-bold text-gray-800 mb-2"
-                                data-oid="mvnkiq_"
-                            >
-                                お客様2,000名以上
-                            </h3>
-                            <p className="text-gray-600" data-oid="bo9civt">
-                                多くのお客様にご愛顧いただいております
-                            </p>
-                        </div>
-                        <div
-                            className="flex flex-col items-center text-center p-6 rounded-lg hover:shadow-md transition-shadow"
-                            data-oid="hbk2-6n"
-                        >
-                            <div
-                                className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4"
-                                data-oid="ikg-:9e"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-8 w-8 text-teal-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    data-oid="whans1m"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                                        data-oid="op7bqqm"
-                                    />
-                                </svg>
-                            </div>
-                            <h3
-                                className="text-2xl font-bold text-gray-800 mb-2"
-                                data-oid="58fp_4:"
-                            >
-                                対応実績 全メーカー
-                            </h3>
-                            <p className="text-gray-600" data-oid="bca_5n_">
-                                国産車から輸入車まで幅広く対応
-                            </p>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
             {/* Main Content */}
-            <main className="container mx-auto px-4 py-12 mt-10" data-oid="vgxn62n">
+            <main id="lineup" className="relative bg-white pt-24 pb-32" data-oid="vgxn62n">
                 {/* Vehicle Lineup Section */}
-                <div className="mb-20" data-oid="4ni0p50">
-                    <div className="text-center mb-12" data-oid="e3-q:y4">
-                        <span className="text-teal-600 font-semibold" data-oid=":pu:qf-">
-                            LINEUP
-                        </span>
+                <div className="container mx-auto px-6" data-oid="4ni0p50">
+                    <div className="text-center mb-20" data-oid="e3-q:y4">
+                        <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid=":pu:qf-">
+                            Vehicle Lineup
+                        </div>
                         <h2
-                            className="text-3xl font-bold mt-2 mb-4"
+                            className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight"
                             data-oid="sy5_s6q"
                         >
                             ラインナップ
                         </h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto" data-oid="t9gm.vc">
-                            お客様のニーズに合わせた多彩な車種を取り揃えております。月々の定額でお得に新車に乗れます。
+                        <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium" data-oid="t9gm.vc">
+                            お客様のニーズに合わせた多彩な車種を取り揃えております。<br />
+                            月々の定額設定で、憧れの新車をより身近に。
                         </p>
                     </div>
 
                     {/* Category Selector */}
-                    <div className="flex justify-center mb-12" data-oid="gp09t-h">
+                    <div className="flex justify-center mb-16" data-oid="gp09t-h">
                         <div
-                            className="inline-flex rounded-lg border border-gray-200 shadow-sm"
+                            className="inline-flex p-1.5 bg-slate-100 rounded-2xl shadow-inner"
                             data-oid="v36fooq"
                         >
-                            <button
-                                className={`px-8 py-3 rounded-l-lg ${
-                                    activeCategory === 'SUV'
-                                        ? 'bg-teal-600 text-white'
-                                        : 'bg-white text-gray-700 hover:bg-gray-50'
-                                }`}
-                                onClick={() => setActiveCategory('SUV')}
-                                aria-label="SUVカテゴリを表示"
-                                data-oid="0y2xs:-"
-                            >
-                                SUV
-                            </button>
-                            <button
-                                className={`px-8 py-3 border-l border-r ${
-                                    activeCategory === 'MINIVAN'
-                                        ? 'bg-teal-600 text-white'
-                                        : 'bg-white text-gray-700 hover:bg-gray-50'
-                                }`}
-                                onClick={() => setActiveCategory('MINIVAN')}
-                                aria-label="ミニバンカテゴリを表示"
-                                data-oid="i89hxoi"
-                            >
-                                ミニバン
-                            </button>
-                            <button
-                                className={`px-8 py-3 rounded-r-lg ${
-                                    activeCategory === 'KCAR'
-                                        ? 'bg-teal-600 text-white'
-                                        : 'bg-white text-gray-700 hover:bg-gray-50'
-                                }`}
-                                onClick={() => setActiveCategory('KCAR')}
-                                aria-label="軽自動車カテゴリを表示"
-                                data-oid="9xa-tqn"
-                            >
-                                軽自動車
-                            </button>
+                            {(['SUV', 'MINIVAN', 'KCAR'] as const).map((cat) => (
+                                <button
+                                    key={cat}
+                                    className={`px-10 py-4 rounded-xl text-lg font-black transition-all duration-300 ${activeCategory === cat
+                                        ? 'bg-white text-teal-600 shadow-md scale-105'
+                                        : 'text-slate-500 hover:text-slate-700'
+                                        }`}
+                                    onClick={() => setActiveCategory(cat)}
+                                    aria-label={`${cat}カテゴリを表示`}
+                                    data-oid="0y2xs:-"
+                                >
+                                    {cat === 'KCAR' ? '軽自動車' : cat === 'MINIVAN' ? 'ミニバン' : cat}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
                     {/* Car Grid */}
                     <div
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
                         data-oid="wnbbmkp"
                     >
                         {carData[activeCategory].map((car, index) => (
                             <div
                                 key={index}
-                                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow h-full flex flex-col"
+                                className="group relative bg-white rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-100 flex flex-col h-full"
                                 data-oid="50p0a1e"
                             >
-                                <Link href={car.route || '#'} data-oid="rsq6_45">
+                                <Link href={car.route || '#'} className="flex flex-col h-full" data-oid="rsq6_45">
                                     <div
-                                        className="relative w-full pt-[75%] overflow-hidden group"
+                                        className="relative w-full pt-[75%] overflow-hidden"
                                         data-oid="jj074yg"
                                     >
                                         <Image
                                             src={car.image}
                                             alt={car.name}
                                             fill
-                                            className="object-cover absolute top-0 left-0 group-hover:scale-105 transition-transform duration-300"
+                                            className="object-cover absolute top-0 left-0 group-hover:scale-110 transition-transform duration-700 ease-out"
                                             data-oid=":-l:y6e"
                                         />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
 
                                         <div
-                                            className="absolute top-3 right-3 bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium"
+                                            className="absolute top-6 right-6 bg-white/90 backdrop-blur-md text-teal-700 px-5 py-2 rounded-2xl text-lg font-black shadow-lg"
                                             data-oid="hsfw-i4"
                                         >
-                                            月々 {car.price}
+                                            <span className="text-sm font-medium mr-1">月々</span>
+                                            {car.price}
                                         </div>
                                     </div>
-                                    <div className="p-6 flex flex-col flex-grow" data-oid="85w1c.a">
-                                        <h4 className="text-xl font-bold mb-3" data-oid="aqc_wkg">
+
+                                    <div className="p-10 flex flex-col flex-grow" data-oid="85w1c.a">
+                                        <h4 className="text-2xl font-black text-slate-800 mb-4 tracking-tight" data-oid="aqc_wkg">
                                             {car.name}
                                         </h4>
                                         <div
-                                            className="flex flex-wrap gap-2 mb-4"
+                                            className="flex flex-wrap gap-2 mb-8"
                                             data-oid="1zq11i7"
                                         >
-                                            <span
-                                                className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded"
-                                                data-oid="zqj0wrh"
-                                            >
-                                                頭金なし
-                                            </span>
-                                            <span
-                                                className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded"
-                                                data-oid="o48-k._"
-                                            >
-                                                ボーナス払いなし
-                                            </span>
-                                            <span
-                                                className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded"
-                                                data-oid="9drxhd-"
-                                            >
-                                                3年契約
-                                            </span>
+                                            {['頭金なし', 'ボーナスなし', '3年契約'].map((tag, i) => (
+                                                <span
+                                                    key={i}
+                                                    className="bg-teal-50 text-teal-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-teal-100"
+                                                    data-oid="zqj0wrh"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
                                         </div>
-                                        <div className="mt-auto" data-oid="hwnmccz">
+
+                                        <div className="mt-auto border-t border-slate-50 pt-6 flex items-center justify-between" data-oid="hwnmccz">
                                             <span
-                                                className="text-teal-600 font-medium flex items-center"
+                                                className="text-teal-600 text-sm font-black flex items-center group-hover:text-teal-500 transition-colors"
                                                 data-oid="cq:nz8_"
                                             >
                                                 詳細を見る
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-5 w-5 ml-1"
+                                                    className="h-5 w-5 ml-1 transform group-hover:translate-x-1 transition-transform"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
                                                     data-oid="settcez"
@@ -696,556 +516,197 @@ export default function Page() {
                         ))}
                     </div>
                 </div>
+                {/* Why Noreta Section (安さの秘密) */}
+                <section className="py-32 bg-slate-50 relative overflow-hidden" data-oid="709fdsg">
+                    <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-white to-transparent z-10" data-oid="grad-top"></div>
 
-                {/* Question Section */}
-                <div className="text-center mb-16 relative" data-oid="709fdsg">
-                    <div
-                        className="absolute top-0 left-0 w-full overflow-hidden"
-                        data-oid="8c_f3b0"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 1440 320"
-                            className="w-full h-auto transform scale-x-105"
-                            data-oid="uo2gmzn"
-                        >
-                            <path
-                                fill="#f3f4f6"
-                                fillOpacity="1"
-                                d="M0,128L48,144C96,160,192,192,288,197.3C384,203,480,181,576,170.7C672,160,768,160,864,176C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-                                data-oid="cjeyfvo"
-                            ></path>
-                        </svg>
-                    </div>
-                    <div className="relative z-10 pt-16" data-oid="46o57.p">
-                        <span className="text-teal-600 font-semibold" data-oid=":lk30bf">
-                            WHY SO AFFORDABLE?
-                        </span>
-                        <h2
-                            className="text-4xl font-bold mt-2 mb-4"
-                            data-oid="dzihdm7"
-                        >
-                            なんでそんなに安く出来るの？
-                        </h2>
-                        <h3
-                            className="text-2xl font-semibold mt-8 mb-12 text-gray-700"
-                            data-oid="2.9o5tl"
-                        >
-                            ポイントは3点
-                        </h3>
-                    </div>
-                </div>
-
-                {/* Points Section */}
-                <div
-                    className="space-y-16 max-w-4xl mx-auto bg-gray-50 py-12 px-6 md:px-12 rounded-xl shadow-md relative z-10"
-                    data-oid="hxmpxux"
-                >
-                    {/* Point 1 */}
-                    <div
-                        className="flex flex-col md:flex-row md:items-start gap-8"
-                        data-oid=".pgj:90"
-                    >
-                        <div className="md:w-1/4 flex justify-center" data-oid="pc8y:6s">
-                            <div
-                                className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center"
-                                data-oid="2hs-tai"
-                            >
-                                <span
-                                    className="text-teal-700 font-bold text-3xl"
-                                    data-oid="_33zlyb"
-                                >
-                                    1
-                                </span>
+                    <div className="container mx-auto px-6 relative z-10" data-oid="46o57.p">
+                        <div className="text-center mb-24" data-oid="secret-header">
+                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid=":lk30bf">
+                                WHY SO AFFORDABLE?
                             </div>
+                            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight" data-oid="dzihdm7">
+                                なんでそんなに安いの？
+                            </h2>
+                            <p className="text-xl text-slate-500 font-bold" data-oid="2.9o5tl">
+                                港南自動車サービスが実現する、3つの理由
+                            </p>
                         </div>
-                        <div className="md:w-3/4" data-oid="y24d2wj">
-                            <h3
-                                className="text-xl font-bold mb-4 text-teal-700 flex items-center"
-                                data-oid="krp651x"
-                            >
-                                <span
-                                    className="px-4 py-2 bg-teal-100 rounded-lg mr-2"
-                                    data-oid="wl85jl0"
-                                >
-                                    Point 1
-                                </span>
-                                3年後のリセールだけを考慮した車両設定
-                            </h3>
-                            <div className="space-y-4 mt-6" data-oid="y-g00bw">
-                                <p className="text-gray-700 leading-relaxed" data-oid="gfdh3zz">
-                                    新車を短期間で賢く乗り換える上で大切なのが、車両設定。
-                                    リセールが高いと言われている車をただ乗るだけでは、お得感が減少してしまいます。
-                                    これは車業界の事を熟知していないと一筋縄ではいきません。
-                                </p>
-                                <p
-                                    className="text-red-600 font-semibold bg-red-50 p-3 rounded-lg inline-block"
-                                    data-oid="lyx56dy"
-                                >
-                                    それは理不尽だ！
-                                </p>
-                                <p className="text-gray-700" data-oid=":myoqfl">
-                                    という事でこの「ノレタ」を考案させて頂きました。
-                                </p>
-                                <div
-                                    className="bg-white p-6 rounded-lg mt-4 shadow-sm"
-                                    data-oid="7l16u3f"
-                                >
-                                    <p
-                                        className="font-semibold mb-4 text-teal-700"
-                                        data-oid="906.zsh"
-                                    >
-                                        「ノレタ」のご提案させて頂く車両設定と致しましては以下を挙げさせて頂きます。
-                                    </p>
-                                    <ul
-                                        className="list-disc list-inside space-y-3 text-gray-700"
-                                        data-oid="xaachj6"
-                                    >
-                                        <li className="flex items-start" data-oid=":uzdgjm">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0 mt-0.5"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                data-oid="tk9kc1q"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clipRule="evenodd"
-                                                    data-oid="e7nj6hh"
-                                                />
-                                            </svg>
-                                            <span data-oid="s__sjq.">
-                                                リセールの高く、時期も考慮した車種
-                                            </span>
-                                        </li>
-                                        <li className="flex items-start" data-oid="93xp.xo">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0 mt-0.5"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                data-oid="3e6lqrp"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clipRule="evenodd"
-                                                    data-oid="u0cuhnl"
-                                                />
-                                            </svg>
-                                            <span data-oid="29z:cx9">リセールの高いグレード</span>
-                                        </li>
-                                        <li className="flex items-start" data-oid="j25n7lt">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0 mt-0.5"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                data-oid="b3f.9-3"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clipRule="evenodd"
-                                                    data-oid="1q:w613"
-                                                />
-                                            </svg>
-                                            <span data-oid="kuwz3qc">リセールの高いカラー選択</span>
-                                        </li>
-                                        <li className="flex items-start" data-oid="q3k5lci">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0 mt-0.5"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                data-oid="rskeuwe"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clipRule="evenodd"
-                                                    data-oid="-bp42w."
-                                                />
-                                            </svg>
-                                            <span data-oid="bbt:6.w">
-                                                リセールの高い必須メーカーオプション
-                                            </span>
-                                        </li>
-                                        <li className="flex items-start" data-oid="41-9vqw">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0 mt-0.5"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                data-oid="55flw:6"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clipRule="evenodd"
-                                                    data-oid="b4znwl-"
-                                                />
-                                            </svg>
-                                            <span data-oid="bdd5hl_">
-                                                過去の相場を考慮した精密な残価設定
-                                            </span>
-                                        </li>
-                                        <li className="flex items-start" data-oid="5:qy6g6">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0 mt-0.5"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                                data-oid="kklf9qm"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                    clipRule="evenodd"
-                                                    data-oid="pvncrzk"
-                                                />
-                                            </svg>
-                                            <span data-oid="wo:xyka">しっかりとした車両値引き</span>
-                                        </li>
-                                    </ul>
+
+                        <div className="grid grid-cols-1 gap-12 max-w-5xl mx-auto" data-oid="hxmpxux">
+                            {/* Point 1 */}
+                            <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-all duration-500 hover:shadow-2xl" data-oid=".pgj:90">
+                                <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt1-layout">
+                                    <div className="flex-shrink-0" data-oid="pc8y:6s">
+                                        <div className="w-24 h-24 bg-teal-600 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform duration-500" data-oid="2hs-tai">
+                                            <span className="text-white font-black text-4xl" data-oid="_33zlyb">01</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex-grow" data-oid="y24d2wj">
+                                        <h3 className="text-2xl md:text-3xl font-black text-slate-800 mb-6 tracking-tight leading-tight" data-oid="krp651x">
+                                            3年後のリセールだけを考慮した<br className="hidden md:block" />車両・オプション設定
+                                        </h3>
+                                        <div className="space-y-6" data-oid="y-g00bw">
+                                            <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="gfdh3zz">
+                                                新車を賢く乗り換える鍵は「車両設定」にあります。単に人気車を選ぶだけでなく、3年後の市場価値を徹底的に分析。プロの視点で「最も価値が落ちにくい」組み合わせをご提案します。
+                                            </p>
+                                            <div className="bg-slate-50 rounded-3xl p-8" data-oid="7l16u3f">
+                                                <p className="font-black text-teal-700 mb-6 flex items-center" data-oid="906.zsh">
+                                                    <span className="w-1.5 h-6 bg-teal-600 rounded-full mr-3" data-oid="h-line"></span>
+                                                    「ノレタ」が提案する賢い選択
+                                                </p>
+                                                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700 font-bold" data-oid="xaachj6">
+                                                    {[
+                                                        '市場価値の高い人気車種',
+                                                        '値崩れしにくい上位グレード',
+                                                        'リセールに強い定番カラー',
+                                                        '必須と言われるメーカーオプション',
+                                                        '精密な残価（下取り）予測',
+                                                        '最大限の車両値引き'
+                                                    ].map((item, i) => (
+                                                        <li key={i} className="flex items-center" data-oid={`li-${i}`}>
+                                                            <svg className="h-6 w-6 text-teal-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                            </svg>
+                                                            {item}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    {/* Point 2 */}
-                    <div
-                        className="flex flex-col md:flex-row md:items-start gap-8"
-                        data-oid="si6zjvw"
-                    >
-                        <div className="md:w-1/4 flex justify-center" data-oid="wt:8y_e">
-                            <div
-                                className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center"
-                                data-oid="lq-f-k9"
-                            >
-                                <span
-                                    className="text-teal-700 font-bold text-3xl"
-                                    data-oid="sa9bx9-"
-                                >
-                                    2
-                                </span>
-                            </div>
-                        </div>
-                        <div className="md:w-3/4" data-oid="yjv6tmj">
-                            <h3
-                                className="text-xl font-bold mb-4 text-teal-700 flex items-center"
-                                data-oid="obvqt1a"
-                            >
-                                <span
-                                    className="px-4 py-2 bg-teal-100 rounded-lg mr-2"
-                                    data-oid="mfdlu6x"
-                                >
-                                    Point 2
-                                </span>
-                                ローン形式と低金利2.5%
-                            </h3>
-                            <div className="space-y-4 mt-6" data-oid="k3fl9l4">
-                                <p className="text-gray-700 leading-relaxed" data-oid="ac9ko9u">
-                                    弊社サービス「ノレタ」では、残価設定型ローンではなく自由返済型ローンを採用し、ローン金利2.5%で提供させて頂いております。
-                                </p>
-                                <div
-                                    className="bg-white p-6 rounded-lg mt-4 shadow-sm"
-                                    data-oid="x.5k-dj"
-                                >
-                                    <h4
-                                        className="font-semibold mb-6 text-teal-700 border-b border-gray-200 pb-2"
-                                        data-oid="__a:0ry"
-                                    >
-                                        一部ディーラーさんとのメリット・デメリット比較
-                                    </h4>
-                                    <div className="space-y-8" data-oid="pt:2ivh">
-                                        <div
-                                            className="bg-blue-50 p-4 rounded-lg"
-                                            data-oid="nmhqa3g"
-                                        >
-                                            <p
-                                                className="font-semibold text-teal-700 mb-3 flex items-center"
-                                                data-oid="i8z0h70"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-5 w-5 mr-2"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                    data-oid="076n.yq"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                        clipRule="evenodd"
-                                                        data-oid="jo4ervl"
-                                                    />
-                                                </svg>
-                                                メリット
-                                            </p>
-                                            <ul
-                                                className="list-disc list-inside space-y-2 pl-5"
-                                                data-oid="lj3a.zx"
-                                            >
-                                                <li className="text-gray-700" data-oid="ur0-dfp">
-                                                    <span
-                                                        className="font-medium"
-                                                        data-oid="vw0grle"
-                                                    >
-                                                        月々の支払いが安くなる
-                                                    </span>{' '}
-                                                    →
-                                                    「ノレタ」も同様＋月々の金額にオイル系メンテナンスも含めて安くなっております。
-                                                </li>
-                                                <li className="text-gray-700" data-oid="p6xw-ad">
-                                                    <span
-                                                        className="font-medium"
-                                                        data-oid="31:ukyx"
-                                                    >
-                                                        条件を達成すると、3年後の買取保証が受けられる
-                                                    </span>{' '}
-                                                    → 「ノレタ」では買取保証の有無を選べます。
-                                                </li>
-                                            </ul>
+                            {/* Point 2 */}
+                            <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-all duration-500 hover:shadow-2xl" data-oid="si6zjvw">
+                                <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt2-layout">
+                                    <div className="flex-shrink-0" data-oid="wt:8y_e">
+                                        <div className="w-24 h-24 bg-teal-600 rounded-3xl flex items-center justify-center shadow-lg transform rotate-6 group-hover:rotate-0 transition-transform duration-500" data-oid="lq-f-k9">
+                                            <span className="text-white font-black text-4xl" data-oid="sa9bx9-">02</span>
                                         </div>
-                                        <div
-                                            className="bg-red-50 p-4 rounded-lg"
-                                            data-oid="6zbpo6s"
-                                        >
-                                            <p
-                                                className="font-semibold text-red-600 mb-3 flex items-center"
-                                                data-oid="mm8:goj"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-5 w-5 mr-2"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                    data-oid="svwlcy9"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                                        clipRule="evenodd"
-                                                        data-oid="odf77d1"
-                                                    />
-                                                </svg>
-                                                デメリット
+                                    </div>
+                                    <div className="flex-grow" data-oid="yjv6tmj">
+                                        <h3 className="text-2xl md:text-3xl font-black text-slate-800 mb-6 tracking-tight leading-tight" data-oid="obvqt1a">
+                                            自由返済型ローンと<br className="hidden md:block" />業界トップクラスの低金利 2.5%
+                                        </h3>
+                                        <div className="space-y-6" data-oid="k3fl9l4">
+                                            <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="ac9ko9u">
+                                                一般的な残価設定型ローンではなく、柔軟な「自由返済型」を採用。さらに、実質年率2.5%という圧倒的な低金利により、金利負担を最小限に抑えています。
                                             </p>
-                                            <ul
-                                                className="list-disc list-inside space-y-2 pl-5"
-                                                data-oid="ga_sn7_"
-                                            >
-                                                <li className="text-gray-700" data-oid="z2h6k8h">
-                                                    <span
-                                                        className="font-medium"
-                                                        data-oid="9sw1pkc"
-                                                    >
-                                                        ローン金利の実質年率が高い(例：実質年率3.9%等)
-                                                    </span>{' '}
-                                                    → 「ノレタ」はローン金利の実質年率が2.5%と安い
-                                                </li>
-                                                <li className="text-gray-700" data-oid="s8.416g">
-                                                    <span
-                                                        className="font-medium"
-                                                        data-oid="yp2hqu_"
-                                                    >
-                                                        車両の再ローンをする場合、より実質年率が高くなる
-                                                    </span>{' '}
-                                                    →
-                                                    「ノレタ」で採用されている自由返済型ローンでは、車両を乗り続ける場合でも再ローンという手続きはなく、実質年率は2.5%とそのままにお車を乗り続ける事が出来ます。
-                                                </li>
-                                            </ul>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-oid="pt:2ivh">
+                                                <div className="bg-teal-50 rounded-3xl p-8 border border-teal-100" data-oid="nmhqa3g">
+                                                    <p className="font-black text-teal-900 mb-4" data-oid="i8z0h70">金利 2.5% のメリット</p>
+                                                    <p className="text-slate-600 font-medium text-sm leading-relaxed" data-oid="li-m1">
+                                                        一般的なディーラー（3.9%〜）と比較しても、支払総額で大きな差が出ます。もちろん、メンテナンス代も含めた設定が可能です。
+                                                    </p>
+                                                </div>
+                                                <div className="bg-emerald-50 rounded-3xl p-8 border border-emerald-100" data-oid="6zbpo6s">
+                                                    <p className="font-black text-emerald-900 mb-4" data-oid="mm8:goj">自由返済型の安心</p>
+                                                    <p className="text-slate-600 font-medium text-sm leading-relaxed" data-oid="li-m2">
+                                                        3年後に乗り続ける場合も、高金利な「再ローン」手続きは不要。2.5%のまま柔軟に期間を調整できます。
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Point 3 */}
+                            <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-all duration-500 hover:shadow-2xl" data-oid="lw9j4p0">
+                                <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt3-layout">
+                                    <div className="flex-shrink-0" data-oid="yf.7i3a">
+                                        <div className="w-24 h-24 bg-teal-600 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform duration-500" data-oid="c_.q:fw">
+                                            <span className="text-white font-black text-4xl" data-oid="x0m1zb5">03</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex-grow" data-oid="1-8t4mx">
+                                        <h3 className="text-2xl md:text-3xl font-black text-slate-800 mb-6 tracking-tight leading-tight" data-oid=".1wi25_">
+                                            地域密着60年の基盤があるから<br className="hidden md:block" />実現できる「お客様第一」の利益率
+                                        </h3>
+                                        <div className="space-y-6" data-oid=":cp2yeq">
+                                            <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="1-jo5:g">
+                                                「ノレタ」単体での利益は決して多くありません。しかし、車検、点検、保険、販売とトータルカーライフをサポートし続ける港南自動車だからこそ、この驚きの価格設定が可能になりました。
+                                            </p>
+                                            <div className="bg-slate-900 text-white rounded-[2rem] p-8 relative overflow-hidden" data-oid="szywr8a">
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-teal-600 opacity-20 blur-3xl" data-oid="blur"></div>
+                                                <p className="text-white/90 font-medium leading-relaxed italic relative z-10" data-oid=":9m.:r2">
+                                                    「一度きりの利益より、一生のお付き合いを。」<br />
+                                                    創業60年以上の歩みが、お客様への還元という形で実を結んでいます。
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    {/* Point 3 */}
-                    <div
-                        className="flex flex-col md:flex-row md:items-start gap-8"
-                        data-oid="lw9j4p0"
-                    >
-                        <div className="md:w-1/4 flex justify-center" data-oid="yf.7i3a">
-                            <div
-                                className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center"
-                                data-oid="c_.q:fw"
-                            >
-                                <span
-                                    className="text-teal-700 font-bold text-3xl"
-                                    data-oid="x0m1zb5"
-                                >
-                                    3
-                                </span>
-                            </div>
-                        </div>
-                        <div className="md:w-3/4" data-oid="1-8t4mx">
-                            <h3
-                                className="text-xl font-bold mb-4 text-teal-700 flex items-center"
-                                data-oid=".1wi25_"
-                            >
-                                <span
-                                    className="px-4 py-2 bg-teal-100 rounded-lg mr-2"
-                                    data-oid="h21qx2i"
-                                >
-                                    Point 3
-                                </span>
-                                利益率が悪くてもしっかり運営出来る
-                            </h3>
-                            <div className="space-y-4 mt-6" data-oid=":cp2yeq">
-                                <p className="text-gray-700 leading-relaxed" data-oid="1-jo5:g">
-                                    正直言いますと、「ノレタ」での儲けというのは単価で見るとかなり少ないです。
-                                    ですが、「ノレタ」はしっかり運営出来ると断言できます。
-                                </p>
-                                <p className="text-gray-700 leading-relaxed" data-oid="b8ttpff">
-                                    なぜ出来るのかというのは簡単なことで、港南自動車は開業60年以上の会社で、
-                                    「ノレタ」だけをやっている会社ではないからです。
-                                </p>
-                                <div
-                                    className="bg-white p-6 rounded-lg mt-4 shadow-sm"
-                                    data-oid="szywr8a"
-                                >
-                                    <p className="mb-4 text-gray-700" data-oid="lfi-btc">
-                                        新車販売・中古車販売・リース販売・車検・点検・板金・損害保険・生命保険
-                                        この中に「ノレタ」が追加されるだけで、プラスにはなることはあってもマイナスになる事はありません。
-                                    </p>
-                                    <div
-                                        className="bg-teal-50 p-4 rounded border-l-4 border-teal-500"
-                                        data-oid="_ujr-ys"
-                                    >
-                                        <p className="text-gray-700 italic" data-oid=":9m.:r2">
-                                            なのでお得感を強くし、利益率が悪くなっても
-                                            お客様の負担を少なくし短期間での乗り換えをリピートして頂ければ、長期的に見て利益を確保できますのでご安心ください。
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </section>
 
                 {/* Contact Section */}
-                <div className="text-center mt-20 relative" data-oid="._gvodc">
-                    <div
-                        className="absolute top-0 left-0 w-full overflow-hidden transform -translate-y-1/2"
-                        data-oid="uswnepc"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 1440 320"
-                            className="w-full h-auto"
-                            data-oid="a0_u06t"
-                        >
-                            <path
-                                fill="#f3f4f6"
-                                fillOpacity="1"
-                                d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,128C672,128,768,160,864,176C960,192,1056,192,1152,176C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-                                data-oid="-q20x5p"
-                            ></path>
-                        </svg>
-                    </div>
-                    <div className="relative z-10" data-oid="skrri5s">
-                        <span className="text-teal-600 font-semibold" data-oid="g2e7wpr">
-                            GET IN TOUCH
-                        </span>
-                        <h2
-                            className="text-3xl font-bold mt-2 mb-6"
-                            data-oid="74paijr"
-                        >
-                            お問い合わせ
-                        </h2>
-                        <p
-                            className="text-lg mb-8 max-w-2xl mx-auto text-gray-700"
-                            data-oid="zm9jvpt"
-                        >
-                            「ノレタ」をご覧頂きありがとうございました。
-                            少しでもご興味を持って頂けましたら、 お問い合わせ頂けると幸いです。
-                        </p>
-                        <div
-                            className="flex flex-col md:flex-row justify-center gap-6 max-w-4xl mx-auto"
-                            data-oid="kp6ch1_"
-                        >
-                            <div
-                                className="w-full md:w-1/2 bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-                                data-oid="_sis:yn"
-                            >
-                                <div className="flex items-center mb-4" data-oid="bvidzx7">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-6 w-6 text-teal-600 mr-3"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        data-oid="3gjxcvl"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                                            data-oid="_u4qx7."
-                                        />
-                                    </svg>
-                                    <h3 className="text-xl font-bold" data-oid="sda_vfv">
-                                        お電話でのお問い合わせ
-                                    </h3>
-                                </div>
-                                <a
-                                    href="tel:076-268-1788"
-                                    className="block text-2xl font-bold text-teal-600 hover:underline text-center my-5"
-                                    data-oid="l96a_oc"
-                                >
-                                    076-268-1788
-                                </a>
-                                <p className="text-sm text-gray-600 text-center" data-oid="7dop659">
-                                    営業時間: 平日 9:00 〜 18:00 / 土曜 9:00 〜 17:00
-                                    <br data-oid="dkc5kzp" />
-                                    定休日: 第2・第4土曜日、日曜、祝日
-                                </p>
+                <section className="py-32 relative bg-white" data-oid="._gvodc">
+                    <div className="container mx-auto px-6 relative z-10" data-oid="skrri5s">
+                        <div className="text-center mb-20" data-oid="contact-header">
+                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid="g2e7wpr">
+                                GET IN TOUCH
                             </div>
-                            <div
-                                className="w-full md:w-1/2 bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-                                data-oid="_4c975e"
-                            >
-                                <div className="flex items-center mb-4" data-oid="g8-z-w-">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-6 w-6 text-teal-600 mr-3"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        data-oid="p__w.gc"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                            data-oid="e12im6y"
-                                        />
-                                    </svg>
-                                    <h3 className="text-xl font-bold" data-oid="wt-29wd">
-                                        メールでのお問い合わせ
-                                    </h3>
+                            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight" data-oid="74paijr">
+                                お問い合わせ
+                            </h2>
+                            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-bold leading-relaxed" data-oid="zm9jvpt">
+                                「ノレタ」をご覧いただきありがとうございます。<br />
+                                お客様にぴったりのプランをご提案します。
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto" data-oid="kp6ch1_">
+                            {/* Phone Contact */}
+                            <div className="relative group p-1 w-full" data-oid="phone-wrap">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                                <div className="relative bg-white p-10 md:p-12 rounded-[2.5rem] shadow-xl flex flex-col items-center text-center h-full" data-oid="_sis:yn">
+                                    <div className="w-20 h-20 bg-teal-50 rounded-2xl flex items-center justify-center mb-8" data-oid="bvidzx7">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-2xl font-black text-slate-800 mb-4" data-oid="sda_vfv">お電話でのお問い合わせ</h3>
+                                    <a href="tel:076-268-1788" className="text-4xl md:text-5xl font-black text-teal-600 mb-8 hover:scale-105 transition-transform" data-oid="l96a_oc">
+                                        076-268-1788
+                                    </a>
+                                    <p className="text-slate-500 font-bold leading-relaxed" data-oid="7dop659">
+                                        平日 9:00 〜 18:00 / 土曜 9:00 〜 17:00<br />
+                                        <span className="text-sm opacity-75">定休日: 第2・第4土曜日、日曜、祝日</span>
+                                    </p>
                                 </div>
-                                <Link
-                                    href="/#contact"
-                                    className="inline-block bg-teal-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors shadow-md my-5"
-                                    data-oid="0yewdpl"
-                                >
-                                    フォームに移動する
-                                </Link>
-                                <p className="text-sm text-gray-600 text-center" data-oid="o8ffu9e">
-                                    24時間受付中。営業時間内に返信致します。
-                                </p>
+                            </div>
+
+                            {/* Email/Form Contact */}
+                            <div className="relative group p-1 w-full" data-oid="email-wrap">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-slate-700 to-slate-900 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                                <div className="relative bg-white p-10 md:p-12 rounded-[2.5rem] shadow-xl flex flex-col items-center text-center h-full" data-oid="_4c975e">
+                                    <div className="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center mb-8" data-oid="g8-z-w-">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-slate-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-2xl font-black text-slate-800 mb-10" data-oid="wt-29wd">メールでのお問い合わせ</h3>
+                                    <Link href="/#contact" className="group relative w-full inline-flex items-center justify-center px-10 py-6 bg-slate-900 text-white rounded-2xl font-black text-xl shadow-2xl hover:bg-slate-800 transition-all duration-300 overflow-hidden mb-8" data-oid="0yewdpl">
+                                        <span className="relative z-10 flex items-center">
+                                            フォームに移動
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-3 transform group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                            </svg>
+                                        </span>
+                                    </Link>
+                                    <p className="text-slate-500 font-bold" data-oid="o8ffu9e">
+                                        24時間受付中。順次対応させていただきます。
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </main>
 
             {/* Footer */}
@@ -1409,6 +870,6 @@ export default function Page() {
                     </svg>
                 </Link>
             </div>
-        </div>
+        </div >
     );
 }
