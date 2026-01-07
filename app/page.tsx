@@ -96,8 +96,8 @@ export default function Page() {
             {/* Header */}
             <header
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-                        ? 'bg-white/80 backdrop-blur-md shadow-lg py-2'
-                        : 'bg-transparent py-5'
+                    ? 'bg-white/80 backdrop-blur-md shadow-lg py-2'
+                    : 'bg-transparent py-5'
                     }`}
                 data-oid="fqghwyr"
             >
@@ -134,8 +134,8 @@ export default function Page() {
                         <Link
                             href="/noreta"
                             className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5 ${scrolled
-                                    ? 'bg-teal-600 text-white hover:bg-teal-700'
-                                    : 'bg-white text-teal-700 hover:bg-slate-100'
+                                ? 'bg-teal-600 text-white hover:bg-teal-700'
+                                : 'bg-white text-teal-700 hover:bg-slate-100'
                                 }`}
                             data-oid="r7m-jfd"
                         >
@@ -254,9 +254,10 @@ export default function Page() {
                             </a>
                             <a
                                 href="/shaken"
-                                className="group px-10 py-5 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-2xl font-black text-lg hover:bg-white/20 transition-all duration-300"
+                                className="group px-10 py-5 bg-white text-teal-900 rounded-2xl font-black text-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-105 transition-all duration-300 shadow-2xl relative overflow-hidden"
                             >
-                                車検シミュレーター
+                                <span className="relative z-10">車検シミュレーター</span>
+                                <div className="absolute inset-0 bg-teal-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </a>
                         </div>
                     </div>
@@ -279,20 +280,21 @@ export default function Page() {
             </section>
 
             {/* Trust Indicators Section - Enhanced */}
-            <section className="bg-white py-12 border-b border-gray-100" data-oid="upwvaj-">
+            <section className="bg-slate-50 py-16 relative overflow-hidden" data-oid="upwvaj-">
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-teal-200 to-transparent opacity-50"></div>
                 <div className="container mx-auto px-4" data-oid="o:6tvj9">
                     <div
-                        className="flex flex-wrap justify-center md:justify-between items-center gap-8"
+                        className="flex flex-wrap justify-center md:justify-between items-center gap-12"
                         data-oid="yglil0m"
                     >
-                        <div className="flex items-center" data-oid="o_0z9ps">
+                        <div className="flex items-center group" data-oid="o_0z9ps">
                             <div
-                                className="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mr-3"
+                                className="w-16 h-16 bg-white shadow-lg rounded-2xl flex items-center justify-center mr-4 group-hover:bg-teal-600 transition-colors duration-500"
                                 data-oid="gjcnhd:"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-7 w-7 text-teal-600"
+                                    className="h-8 w-8 text-teal-600 group-hover:text-white transition-colors duration-500"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -301,30 +303,30 @@ export default function Page() {
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        strokeWidth={2}
+                                        strokeWidth={1.5}
                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                                         data-oid="s-bi9fi"
                                     />
                                 </svg>
                             </div>
                             <div data-oid="s7a0grm">
-                                <p className="text-sm text-gray-500 font-medium" data-oid="_kae6kx">
+                                <p className="text-xs text-teal-600 font-bold tracking-widest uppercase mb-1" data-oid="_kae6kx">
                                     創業
                                 </p>
-                                <p className="text-2xl font-bold text-gray-800" data-oid="oj_g6:5">
-                                    60年以上
+                                <p className="text-3xl font-black text-gray-900" data-oid="oj_g6:5">
+                                    60<span className="text-lg">年以上</span>
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex items-center" data-oid="h6ix853">
+                        <div className="flex items-center group" data-oid="h6ix853">
                             <div
-                                className="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mr-3"
+                                className="w-16 h-16 bg-white shadow-lg rounded-2xl flex items-center justify-center mr-4 group-hover:bg-teal-600 transition-colors duration-500"
                                 data-oid="n.ykti6"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-7 w-7 text-teal-600"
+                                    className="h-8 w-8 text-teal-600 group-hover:text-white transition-colors duration-500"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -333,30 +335,30 @@ export default function Page() {
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        strokeWidth={2}
+                                        strokeWidth={1.5}
                                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                                         data-oid="3mh-i:3"
                                     />
                                 </svg>
                             </div>
                             <div data-oid="pfs.icu">
-                                <p className="text-sm text-gray-500 font-medium" data-oid="zpzd--2">
+                                <p className="text-xs text-teal-600 font-bold tracking-widest uppercase mb-1" data-oid="zpzd--2">
                                     お客様
                                 </p>
-                                <p className="text-2xl font-bold text-gray-800" data-oid="-958irc">
-                                    2,000名以上
+                                <p className="text-3xl font-black text-gray-900" data-oid="-958irc">
+                                    2,000<span className="text-lg">名以上</span>
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex items-center" data-oid="7wb7j2r">
+                        <div className="flex items-center group" data-oid="7wb7j2r">
                             <div
-                                className="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mr-3"
+                                className="w-16 h-16 bg-white shadow-lg rounded-2xl flex items-center justify-center mr-4 group-hover:bg-teal-600 transition-colors duration-500"
                                 data-oid="ajo0l80"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-7 w-7 text-teal-600"
+                                    className="h-8 w-8 text-teal-600 group-hover:text-white transition-colors duration-500"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -365,17 +367,17 @@ export default function Page() {
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        strokeWidth={2}
+                                        strokeWidth={1.5}
                                         d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                                         data-oid="g2dk209"
                                     />
                                 </svg>
                             </div>
                             <div data-oid="cjorniv">
-                                <p className="text-sm text-gray-500 font-medium" data-oid="h:lifxp">
+                                <p className="text-xs text-teal-600 font-bold tracking-widest uppercase mb-1" data-oid="h:lifxp">
                                     対応実績
                                 </p>
-                                <p className="text-2xl font-bold text-gray-800" data-oid="xfr0ta4">
+                                <p className="text-3xl font-black text-gray-900" data-oid="xfr0ta4">
                                     全メーカー
                                 </p>
                             </div>
@@ -387,7 +389,7 @@ export default function Page() {
             {/* Services Section */}
             <section
                 id="services"
-                className="py-20 relative bg-white overflow-hidden"
+                className="py-32 relative bg-white overflow-hidden"
                 data-oid="vp4fc4m"
             >
                 {/* 装飾要素 - 丸い形の装飾 */}
@@ -424,26 +426,29 @@ export default function Page() {
                         {/* ノレタ - 強調されたカード */}
                         <div className="lg:col-span-6" data-oid=":2lpi6n">
                             <div
-                                className="bg-white rounded-xl shadow-xl overflow-hidden h-full border-2 border-teal-500 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
+                                className="bg-white/40 backdrop-blur-xl rounded-[2.5rem] shadow-2xl overflow-hidden h-full border border-white/60 transform transition-all duration-700 hover:scale-[1.03] hover:shadow-[0_20px_60px_-15px_rgba(45,150,140,0.3)] group"
                                 data-oid="pezj9ya"
                             >
-                                <div className="bg-teal-500 py-3 px-6" data-oid="yedwz7m">
-                                    <div className="flex items-center" data-oid="q:vvet3">
-                                        <span
-                                            className="text-white font-bold mr-2"
-                                            data-oid="m9hb3fr"
-                                        >
-                                            おすすめ
-                                        </span>
-                                        <div
-                                            className="bg-yellow-400 text-xs text-teal-800 font-bold rounded px-2 py-1"
-                                            data-oid="w:ymx5:"
-                                        >
-                                            人気No.1
+                                <div className="bg-teal-600/90 py-4 px-8 backdrop-blur-md" data-oid="yedwz7m">
+                                    <div className="flex items-center justify-between" data-oid="q:vvet3">
+                                        <div className="flex items-center">
+                                            <span
+                                                className="text-white font-black tracking-widest text-sm mr-3"
+                                                data-oid="m9hb3fr"
+                                            >
+                                                RECOMMENDED
+                                            </span>
+                                            <div
+                                                className="bg-yellow-400 text-[10px] text-teal-900 font-black rounded-full px-3 py-1 uppercase"
+                                                data-oid="w:ymx5:"
+                                            >
+                                                人気No.1
+                                            </div>
                                         </div>
+                                        <div className="w-2 h-2 rounded-full bg-white animate-pulse"></div>
                                     </div>
                                 </div>
-                                <div className="p-8 flex flex-col h-full" data-oid="uk4dwlp">
+                                <div className="p-10 flex flex-col h-full" data-oid="uk4dwlp">
                                     <div className="flex items-center mb-6" data-oid="-sb5l-w">
                                         <div
                                             className="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center mr-4"
@@ -590,24 +595,24 @@ export default function Page() {
                                 {/* 車検・点検 */}
                                 <div className="h-full" data-oid="2su7qzq">
                                     <div
-                                        className="bg-white rounded-xl shadow-lg overflow-hidden h-full hover:shadow-xl transition-all duration-500 hover:translate-y-[-5px]"
+                                        className="bg-slate-50/50 backdrop-blur-md rounded-[2rem] border border-white/80 shadow-lg overflow-hidden h-full hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 group"
                                         data-oid="wvpa-nd"
                                     >
                                         <div
-                                            className="p-6 flex flex-col h-full"
+                                            className="p-8 flex flex-col h-full"
                                             data-oid="uwv7u.c"
                                         >
                                             <div
-                                                className="flex items-center mb-4"
+                                                className="flex items-center mb-6"
                                                 data-oid="_8e5qo3"
                                             >
                                                 <div
-                                                    className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mr-3"
+                                                    className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
                                                     data-oid="ckh8tto"
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-6 w-6 text-teal-600"
+                                                        className="h-7 w-7 text-white"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -616,32 +621,35 @@ export default function Page() {
                                                         <path
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
-                                                            strokeWidth={2}
+                                                            strokeWidth={1.5}
                                                             d="M19 14l-7 7m0 0l-7-7m7 7V3"
                                                             data-oid="d4sd-xw"
                                                         />
                                                     </svg>
                                                 </div>
                                                 <h3
-                                                    className="text-xl font-bold text-gray-800"
+                                                    className="text-2xl font-black text-gray-900"
                                                     data-oid="grgahvt"
                                                 >
                                                     車検・点検
                                                 </h3>
                                             </div>
                                             <p
-                                                className="text-gray-600 mb-6 text-base leading-relaxed flex-grow"
+                                                className="text-gray-600 mb-8 text-base leading-relaxed flex-grow"
                                                 data-oid="9kgg544"
                                             >
-                                                車検・整備は経験豊富な整備士が丁寧に対応。お客様の大切な愛車を最新の設備と技術でメンテナンス。定期点検から緊急修理まで、迅速かつ確実なサービスを提供します。
+                                                経験豊富な整備士が、最新設備を駆使してお客様の愛車を精密に診断。最短90分のスピード車検から、徹底的なメンテナンスまで。
                                             </p>
                                             <div className="mt-auto" data-oid="ltpdzhx">
                                                 <Link
                                                     href="/shaken"
-                                                    className="inline-block px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium text-center w-full"
+                                                    className="group/btn inline-flex items-center justify-center px-6 py-4 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition-all duration-300 font-bold w-full shadow-lg shadow-teal-600/20"
                                                     data-oid="77hqg-d"
                                                 >
-                                                    詳細を見る
+                                                    詳しく見る
+                                                    <svg className="w-5 h-5 ml-2 transform group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                    </svg>
                                                 </Link>
                                             </div>
                                         </div>
@@ -651,24 +659,24 @@ export default function Page() {
                                 {/* 新車・中古車販売 */}
                                 <div className="h-full" data-oid="63jbl32">
                                     <div
-                                        className="bg-white rounded-xl shadow-lg overflow-hidden h-full hover:shadow-xl transition-all duration-500 hover:translate-y-[-5px]"
+                                        className="bg-slate-50/50 backdrop-blur-md rounded-[2rem] border border-white/80 shadow-lg overflow-hidden h-full hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 group"
                                         data-oid="-tu:g12"
                                     >
                                         <div
-                                            className="p-6 flex flex-col h-full"
+                                            className="p-8 flex flex-col h-full"
                                             data-oid="cer6ob-"
                                         >
                                             <div
-                                                className="flex items-center mb-4"
+                                                className="flex items-center mb-6"
                                                 data-oid="qogacuv"
                                             >
                                                 <div
-                                                    className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mr-3"
+                                                    className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
                                                     data-oid="wy4l:e3"
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-6 w-6 text-teal-600"
+                                                        className="h-7 w-7 text-white"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -677,32 +685,32 @@ export default function Page() {
                                                         <path
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
-                                                            strokeWidth={2}
+                                                            strokeWidth={1.5}
                                                             d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                                             data-oid="pwgvdva"
                                                         />
                                                     </svg>
                                                 </div>
                                                 <h3
-                                                    className="text-xl font-bold text-gray-800"
+                                                    className="text-2xl font-black text-gray-900"
                                                     data-oid="r1a9shb"
                                                 >
-                                                    新車・中古車販売
+                                                    車両販売
                                                 </h3>
                                             </div>
                                             <p
-                                                className="text-gray-600 mb-6 text-base leading-relaxed flex-grow"
+                                                className="text-gray-600 mb-8 text-base leading-relaxed flex-grow"
                                                 data-oid="3zblmks"
                                             >
-                                                新車は全メーカー取扱い、豊富なラインナップからお選びいただけます。中古車はお客様のご予算やご要望に合わせて、経験豊富なスタッフが最適な一台をご提案します。
+                                                全メーカーの新車から、厳選された高品質な中古車まで。お客様のご予算とライフスタイルに最適な一台をご提案します。
                                             </p>
                                             <div className="mt-auto" data-oid=".cdc81:">
                                                 <a
                                                     href="#contact"
-                                                    className="inline-block px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium text-center w-full"
+                                                    className="group/btn inline-flex items-center justify-center px-6 py-4 bg-slate-200 text-slate-800 rounded-xl hover:bg-slate-300 transition-all duration-300 font-bold w-full"
                                                     data-oid="i1d:4ew"
                                                 >
-                                                    お問い合わせ
+                                                    相談してみる
                                                 </a>
                                             </div>
                                         </div>
@@ -712,24 +720,24 @@ export default function Page() {
                                 {/* 整備・修理 */}
                                 <div className="h-full md:col-span-2" data-oid="yhpit6m">
                                     <div
-                                        className="bg-white rounded-xl shadow-lg overflow-hidden h-full hover:shadow-xl transition-all duration-500 hover:translate-y-[-5px]"
+                                        className="bg-slate-50/50 backdrop-blur-md rounded-[2rem] border border-white/80 shadow-lg overflow-hidden h-full hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 group"
                                         data-oid="wy:s-g1"
                                     >
                                         <div
-                                            className="p-6 flex flex-col h-full"
+                                            className="p-8 flex flex-col h-full"
                                             data-oid="ky_-f.w"
                                         >
                                             <div
-                                                className="flex items-center mb-4"
+                                                className="flex items-center mb-6"
                                                 data-oid="gw22_:."
                                             >
                                                 <div
-                                                    className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mr-3"
+                                                    className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
                                                     data-oid="0wex3mn"
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-6 w-6 text-teal-600"
+                                                        className="h-7 w-7 text-white"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -738,37 +746,29 @@ export default function Page() {
                                                         <path
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
-                                                            strokeWidth={2}
+                                                            strokeWidth={1.5}
                                                             d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
                                                             data-oid="5o919mc"
-                                                        />
-
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                            data-oid="7n:.d-w"
                                                         />
                                                     </svg>
                                                 </div>
                                                 <h3
-                                                    className="text-xl font-bold text-gray-800"
+                                                    className="text-2xl font-black text-gray-900"
                                                     data-oid=":dyiilg"
                                                 >
-                                                    整備・修理
+                                                    整備・一般修理
                                                 </h3>
                                             </div>
                                             <p
-                                                className="text-gray-600 mb-6 text-base leading-relaxed flex-grow"
+                                                className="text-gray-600 mb-8 text-base leading-relaxed flex-grow"
                                                 data-oid="x08gh9-"
                                             >
-                                                故障修理から日常のメンテナンスまで、お車の状態に合わせた最適な整備サービスをご提供。熟練の技術者と最新の診断機器で、あらゆるメーカーの車種に対応いたします。安心の技術力と迅速な対応でお客様のカーライフをサポートします。
+                                                あらゆるメーカー・車種に対応。熟練の技術と最新の診断機で、故障の根本原因を特定し、安心のクオリティで修理いたします。
                                             </p>
                                             <div className="mt-auto" data-oid="hb9kutf">
                                                 <a
                                                     href="#contact"
-                                                    className="inline-block px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium text-center w-full"
+                                                    className="group/btn inline-flex items-center justify-center px-6 py-4 bg-slate-200 text-slate-800 rounded-xl hover:bg-slate-300 transition-all duration-300 font-bold w-full"
                                                     data-oid="xqc:he."
                                                 >
                                                     お問い合わせ
@@ -786,56 +786,45 @@ export default function Page() {
             {/* Cases Section */}
             <section
                 id="cases"
-                className="py-20 relative bg-white overflow-hidden"
+                className="py-32 relative bg-slate-50 overflow-hidden"
                 data-oid="fpg1z7h"
             >
-                {/* 装飾要素 - 波形のSVG */}
-                <div className="absolute top-0 left-0 w-full overflow-hidden" data-oid="8r1u3g3">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1440 320"
-                        className="w-full h-auto opacity-30"
-                        data-oid="wgcy0x4"
-                    >
-                        <path
-                            fill="#4fd1c5"
-                            fillOpacity="0.2"
-                            d="M0,256L48,229.3C96,203,192,149,288,138.7C384,128,480,160,576,192C672,224,768,256,864,240C960,224,1056,160,1152,149.3C1248,139,1344,181,1392,202.7L1440,224L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-                            data-oid="a_x-ga6"
-                        ></path>
+                {/* 装飾要素 - 幾何学模様 */}
+                <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none" data-oid="wgcy0x4">
+                    <svg viewBox="0 0 100 100" className="w-full h-full">
+                        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                        </pattern>
+                        <rect width="100" height="100" fill="url(#grid)" />
                     </svg>
                 </div>
 
-                <div
-                    className="absolute bottom-0 right-10 w-80 h-80 rounded-full bg-amber-100 opacity-30"
-                    data-oid="xawi:fk"
-                ></div>
-
                 <div className="container mx-auto px-4 relative z-10" data-oid="-efx.9k">
-                    <div className="text-center mb-12" data-oid="sogg.k8">
-                        <span className="text-teal-600 font-semibold" data-oid="187h1cd">
+                    <div className="text-center mb-20" data-oid="sogg.k8">
+                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="187h1cd">
                             VEHICLE LINEUP
                         </span>
                         <h2
-                            className="text-4xl font-bold mt-2 mb-4"
+                            className="text-5xl font-black mt-2 mb-6 text-gray-900"
                             data-oid="qz69gm:"
                         >
                             取扱車種
                         </h2>
-                        <p className="text-gray-600 text-lg max-w-2xl mx-auto" data-oid="5bf8vnu">
-                            全国産メーカーと海外メーカーの車両を取り扱っております
+                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium" data-oid="5bf8vnu">
+                            全国産メーカーから輸入車まで、<br />プロの視点で選んだ一台をご提案。
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8" data-oid="mbz_2:i">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10" data-oid="mbz_2:i">
                         {/* スズキ */}
                         <div className="group" data-oid="c342c2e">
                             <div
-                                className="bg-white rounded-xl shadow-lg overflow-hidden h-full transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
+                                className="bg-white rounded-3xl shadow-xl overflow-hidden h-full transform transition-all duration-700 hover:shadow-2xl hover:-translate-y-4"
                                 data-oid="c3v0u3n"
                             >
                                 <div
-                                    className="relative aspect-[16/9] overflow-hidden"
+                                    className="relative aspect-[4/3] overflow-hidden"
                                     data-oid="_p-00fc"
                                 >
                                     <Image
@@ -843,105 +832,48 @@ export default function Page() {
                                         alt="金沢市で人気のスズキ・ジムニー｜港南自動車サービス取扱車種"
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className="object-cover transform transition-transform duration-700 group-hover:scale-110"
+                                        className="object-cover transform transition-transform duration-1000 group-hover:scale-110"
                                         data-oid="aflv8po"
                                     />
 
                                     <div
-                                        className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end"
+                                        className="absolute inset-x-4 bottom-4 p-6 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl md:translate-y-4 md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500"
                                         data-oid="vv7t0x3"
                                     >
-                                        <div className="p-6 w-full" data-oid="4aa4h-4">
-                                            <span
-                                                className="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full mb-2 inline-block"
-                                                data-oid="_kule9r"
-                                            >
-                                                人気車種
-                                            </span>
+                                        <div className="w-full text-center" data-oid="4aa4h-4">
                                             <h4
-                                                className="text-white font-bold text-lg mb-1"
+                                                className="text-white font-black text-xl mb-1 drop-shadow-lg"
                                                 data-oid=":cqc.ef"
                                             >
-                                                ジムニー
+                                                JIMNY
                                             </h4>
-                                            <p className="text-white/90 text-sm" data-oid="4jew..q">
-                                                軽自動車ながらも本格派4WD
+                                            <p className="text-white/90 text-sm font-bold" data-oid="4jew..q">
+                                                本格派4WDの頂点
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-6" data-oid="_bo59d7">
+                                <div className="p-8" data-oid="_bo59d7">
                                     <h3
-                                        className="text-xl font-bold mb-3 text-gray-800 flex items-center"
+                                        className="text-2xl font-black mb-4 text-gray-900 flex items-center"
                                         data-oid="q..bfr_"
                                     >
-                                        <span
-                                            className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mr-3"
-                                            data-oid="ei1y1q8"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-600"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                data-oid="qde96m8"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M5 13l4 4L19 7"
-                                                    data-oid="nt25_dw"
-                                                />
-                                            </svg>
-                                        </span>
                                         スズキ
                                     </h3>
-                                    <p className="text-gray-600 mb-4" data-oid="psny4xi">
-                                        ハスラー、ジムニー、スイフト、ワゴンRなどの人気車種を多数取り揃えています。軽自動車からコンパクトカーまで幅広く対応。
+                                    <p className="text-gray-500 mb-6 font-medium leading-relaxed" data-oid="psny4xi">
+                                        ハスラー、スイフト、ワゴンRなど。金沢の雪道にも強い確かな足回り。
                                     </p>
-                                    <div className="flex flex-wrap gap-2 mb-4" data-oid="szyaex.">
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="3xs_9sa"
-                                        >
-                                            軽自動車
-                                        </span>
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="q636y92"
-                                        >
-                                            コンパクト
-                                        </span>
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="beizcx:"
-                                        >
-                                            4WD
-                                        </span>
+                                    <div className="flex flex-wrap gap-2 mb-8" data-oid="szyaex.">
+                                        <span className="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black rounded-full uppercase tracking-widest">SUV / Compact</span>
                                     </div>
                                     <a
                                         href="#contact"
-                                        className="text-teal-600 hover:text-teal-800 font-medium flex items-center group-hover:underline"
+                                        className="inline-flex items-center text-teal-600 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
                                         data-oid="ow1w84f"
                                     >
-                                        問い合わせる
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-4 w-4 ml-1 transform transition-transform group-hover:translate-x-1"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            data-oid="73ua3nw"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M9 5l7 7-7 7"
-                                                data-oid="17vrhk0"
-                                            />
+                                        More Info
+                                        <svg className="w-4 h-4 ml-2 transform group-hover/link:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
                                     </a>
                                 </div>
@@ -951,11 +883,11 @@ export default function Page() {
                         {/* 三菱 */}
                         <div className="group" data-oid="n0c.vx5">
                             <div
-                                className="bg-white rounded-xl shadow-lg overflow-hidden h-full transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
+                                className="bg-white rounded-3xl shadow-xl overflow-hidden h-full transform transition-all duration-700 hover:shadow-2xl hover:-translate-y-4"
                                 data-oid="qnonjn-"
                             >
                                 <div
-                                    className="relative aspect-[16/9] overflow-hidden"
+                                    className="relative aspect-[4/3] overflow-hidden"
                                     data-oid="v6ttp17"
                                 >
                                     <Image
@@ -963,105 +895,48 @@ export default function Page() {
                                         alt="三菱・デリカミニ｜港南自動車サービスで新車・中古車販売対応"
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className="object-cover transform transition-transform duration-700 group-hover:scale-110"
+                                        className="object-cover transform transition-transform duration-1000 group-hover:scale-110"
                                         data-oid="7loicjh"
                                     />
 
                                     <div
-                                        className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end"
+                                        className="absolute inset-x-4 bottom-4 p-6 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl md:translate-y-4 md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500"
                                         data-oid="_i3kypa"
                                     >
-                                        <div className="p-6 w-full" data-oid="7s_gz71">
-                                            <span
-                                                className="bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded-full mb-2 inline-block"
-                                                data-oid="yfk_yol"
-                                            >
-                                                多目的
-                                            </span>
+                                        <div className="w-full text-center" data-oid="7s_gz71">
                                             <h4
-                                                className="text-white font-bold text-lg mb-1"
+                                                className="text-white font-black text-xl mb-1 drop-shadow-lg"
                                                 data-oid="95w:yx5"
                                             >
-                                                デリカミニ
+                                                DELICA MINI
                                             </h4>
-                                            <p className="text-white/90 text-sm" data-oid="3r:zvnu">
-                                                使いやすい軽ワンボックス
+                                            <p className="text-white/90 text-sm font-bold" data-oid="3r:zvnu">
+                                                遊び心をフル装備
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-6" data-oid="j6i88zl">
+                                <div className="p-8" data-oid="j6i88zl">
                                     <h3
-                                        className="text-xl font-bold mb-3 text-gray-800 flex items-center"
+                                        className="text-2xl font-black mb-4 text-gray-900 flex items-center"
                                         data-oid="bctq14a"
                                     >
-                                        <span
-                                            className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mr-3"
-                                            data-oid="d1y8oxb"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-600"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                data-oid="ym1jpa-"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M5 13l4 4L19 7"
-                                                    data-oid="3q0ee82"
-                                                />
-                                            </svg>
-                                        </span>
                                         三菱
                                     </h3>
-                                    <p className="text-gray-600 mb-4" data-oid="og5tevt">
-                                        デリカミニ、ekワゴン、アウトランダーなど、軽自動車からSUVまで、様々なライフスタイルに合わせた車種をご用意しています。
+                                    <p className="text-gray-500 mb-6 font-medium leading-relaxed" data-oid="og5tevt">
+                                        デリカミニ、アウトランダーなど。タフでアクティブなライフスタイルを。
                                     </p>
-                                    <div className="flex flex-wrap gap-2 mb-4" data-oid="xs7jd2y">
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="x3b-10y"
-                                        >
-                                            軽自動車
-                                        </span>
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="0j07n2c"
-                                        >
-                                            SUV
-                                        </span>
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="26dhi5v"
-                                        >
-                                            多人数乗り
-                                        </span>
+                                    <div className="flex flex-wrap gap-2 mb-8" data-oid="xs7jd2y">
+                                        <span className="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black rounded-full uppercase tracking-widest">Outdoor / SUV</span>
                                     </div>
                                     <a
                                         href="#contact"
-                                        className="text-teal-600 hover:text-teal-800 font-medium flex items-center group-hover:underline"
+                                        className="inline-flex items-center text-teal-600 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
                                         data-oid="y-q270n"
                                     >
-                                        問い合わせる
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-4 w-4 ml-1 transform transition-transform group-hover:translate-x-1"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            data-oid="fr.zjpl"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M9 5l7 7-7 7"
-                                                data-oid="kf81_b."
-                                            />
+                                        More Info
+                                        <svg className="w-4 h-4 ml-2 transform group-hover/link:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
                                     </a>
                                 </div>
@@ -1071,11 +946,11 @@ export default function Page() {
                         {/* トヨタ */}
                         <div className="group" data-oid="q_03:90">
                             <div
-                                className="bg-white rounded-xl shadow-lg overflow-hidden h-full transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
+                                className="bg-white rounded-3xl shadow-xl overflow-hidden h-full transform transition-all duration-700 hover:shadow-2xl hover:-translate-y-4"
                                 data-oid="tqrh5f6"
                             >
                                 <div
-                                    className="relative aspect-[16/9] overflow-hidden"
+                                    className="relative aspect-[4/3] overflow-hidden"
                                     data-oid="r6s7x:b"
                                 >
                                     <Image
@@ -1083,105 +958,48 @@ export default function Page() {
                                         alt="トヨタ・アルファード｜金沢市の港南自動車サービスで高級ミニバンの購入・整備も対応"
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className="object-cover transform transition-transform duration-700 group-hover:scale-110"
+                                        className="object-cover transform transition-transform duration-1000 group-hover:scale-110"
                                         data-oid="t1cxanx"
                                     />
 
                                     <div
-                                        className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end"
+                                        className="absolute inset-x-4 bottom-4 p-6 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl md:translate-y-4 md:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500"
                                         data-oid="b7pc-y7"
                                     >
-                                        <div className="p-6 w-full" data-oid="q.r6vd.">
-                                            <span
-                                                className="bg-indigo-500 text-white text-xs font-bold px-2 py-1 rounded-full mb-2 inline-block"
-                                                data-oid="3jtrjvx"
-                                            >
-                                                高級車
-                                            </span>
+                                        <div className="w-full text-center" data-oid="q.r6vd.">
                                             <h4
-                                                className="text-white font-bold text-lg mb-1"
+                                                className="text-white font-black text-xl mb-1 drop-shadow-lg"
                                                 data-oid="v0csx7c"
                                             >
-                                                アルファード
+                                                ALPHARD
                                             </h4>
-                                            <p className="text-white/90 text-sm" data-oid="ierfeor">
-                                                高級ミニバンで快適な移動を
+                                            <p className="text-white/90 text-sm font-bold" data-oid="ierfeor">
+                                                究極のファーストクラス
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-6" data-oid="b06417g">
+                                <div className="p-8" data-oid="b06417g">
                                     <h3
-                                        className="text-xl font-bold mb-3 text-gray-800 flex items-center"
+                                        className="text-2xl font-black mb-4 text-gray-900 flex items-center"
                                         data-oid="bgnsd0e"
                                     >
-                                        <span
-                                            className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center mr-3"
-                                            data-oid="pcav4h9"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-teal-600"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                data-oid="h96m1e7"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M5 13l4 4L19 7"
-                                                    data-oid="08ff7k9"
-                                                />
-                                            </svg>
-                                        </span>
                                         トヨタ
                                     </h3>
-                                    <p className="text-gray-600 mb-4" data-oid="95sk_in">
-                                        アクア、ハリアー、アルファードなど、トヨタの人気車種を各種取り揃え。コンパクトカーから高級ミニバンまで幅広く対応いたします。
+                                    <p className="text-gray-500 mb-6 font-medium leading-relaxed" data-oid="95sk_in">
+                                        ハリアー、アルファードなど。圧倒的な信頼とプレミアムな体験を。
                                     </p>
-                                    <div className="flex flex-wrap gap-2 mb-4" data-oid="gd3:7__">
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="tns6-v0"
-                                        >
-                                            コンパクト
-                                        </span>
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="3inm:q_"
-                                        >
-                                            ミニバン
-                                        </span>
-                                        <span
-                                            className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                            data-oid="n0ktsew"
-                                        >
-                                            ハイブリッド
-                                        </span>
+                                    <div className="flex flex-wrap gap-2 mb-8" data-oid="gd3:7__">
+                                        <span className="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black rounded-full uppercase tracking-widest">Premium / Hybrid</span>
                                     </div>
                                     <a
                                         href="#contact"
-                                        className="text-teal-600 hover:text-teal-800 font-medium flex items-center group-hover:underline"
+                                        className="inline-flex items-center text-teal-600 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
                                         data-oid="11ye-4a"
                                     >
-                                        問い合わせる
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-4 w-4 ml-1 transform transition-transform group-hover:translate-x-1"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            data-oid="p90uh6n"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M9 5l7 7-7 7"
-                                                data-oid=":ibr9d5"
-                                            />
+                                        More Info
+                                        <svg className="w-4 h-4 ml-2 transform group-hover/link:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
                                     </a>
                                 </div>
@@ -1207,269 +1025,112 @@ export default function Page() {
             {/* Company Section */}
             <section
                 id="company"
-                className="py-20 relative bg-white overflow-hidden"
-                data-oid="tdxdz.b"
+                className="py-32 bg-white"
+                data-oid="3.0m87b"
             >
-                {/* 装飾要素 - 四角形と丸の組み合わせ */}
-                <div
-                    className="absolute top-20 left-20 w-60 h-60 rotate-12 bg-blue-100 opacity-40 rounded-lg"
-                    data-oid="0d278tq"
-                ></div>
-                <div
-                    className="absolute bottom-40 right-20 w-40 h-40 rounded-full bg-teal-100 opacity-30"
-                    data-oid=":_rzbam"
-                ></div>
-                <div
-                    className="absolute top-1/3 right-1/3 w-20 h-20 rounded-full bg-yellow-100 opacity-40"
-                    data-oid="8zru9xx"
-                ></div>
-
-                {/* Wave decoration */}
-                <div
-                    className="absolute top-0 left-0 right-0 h-20 overflow-hidden z-0"
-                    data-oid="dj_tucd"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1440 320"
-                        className="w-full h-auto -translate-y-2/3"
-                        data-oid="xn7a8ah"
-                    >
-                        <path
-                            fill="#fcd34d"
-                            fillOpacity="0.2"
-                            d="M0,224L48,218.7C96,213,192,203,288,181.3C384,160,480,128,576,138.7C672,149,768,203,864,218.7C960,235,1056,213,1152,170.7C1248,128,1344,64,1392,32L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-                            data-oid="2:hk:6u"
-                        ></path>
-                    </svg>
-                </div>
-
-                <div className="container mx-auto px-4 relative z-10" data-oid="hintl74">
-                    <div className="text-center mb-12" data-oid="9w5q6hs">
-                        <span className="text-teal-600 font-semibold" data-oid="_4sik-:">
+                <div className="container mx-auto px-4" data-oid="28o256i">
+                    <div className="text-center mb-20" data-oid="3q7q:er">
+                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="187h1cd">
                             COMPANY INFO
                         </span>
                         <h2
-                            className="text-4xl font-bold mt-2 mb-4"
-                            data-oid="4xnn605"
+                            className="text-5xl font-black mt-2 mb-6 text-gray-900"
+                            data-oid="17r:dsh"
                         >
                             会社情報
                         </h2>
+                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
                     </div>
+
                     <div
-                        className="bg-white rounded-xl shadow-xl p-8 max-w-5xl mx-auto"
-                        data-oid="3pzl:4s"
+                        className="max-w-6xl mx-auto bg-slate-50/50 backdrop-blur-md rounded-[2.5rem] border border-slate-100 shadow-2xl overflow-hidden"
+                        data-oid="v_2:680"
                     >
-                        <div
-                            className="flex flex-col md:flex-row md:items-stretch gap-8"
-                            data-oid="77k0cg9"
-                        >
-                            <div className="w-full md:w-5/12" data-oid="bpiv.kh">
-                                <div className="flex items-center mb-6" data-oid="60.ck7d">
-                                    <div
-                                        className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center mr-4 shadow-md"
-                                        data-oid="1fvu_jn"
+                        <div className="flex flex-col lg:flex-row" data-oid="e1834_j">
+                            <div
+                                className="w-full lg:w-5/12 p-10 lg:p-16 bg-white"
+                                data-oid="h18f__h"
+                            >
+                                <div className="mb-12" data-oid="2z-0.q_">
+                                    <h3
+                                        className="text-3xl font-black text-gray-900 mb-2"
+                                        data-oid="9r-1s.8"
                                     >
-                                        <span
-                                            className="text-white font-bold text-lg"
-                                            data-oid="hmbdh5s"
-                                        >
-                                            港南
-                                        </span>
-                                    </div>
-                                    <div data-oid="4ifxedi">
-                                        <h3 className="text-2xl font-bold" data-oid="s4.dwu5">
-                                            株式会社港南自動車サービス
-                                        </h3>
-                                    </div>
+                                        港南自動車サービス
+                                        <span className="block text-lg font-bold text-teal-600 mt-1">株式会社</span>
+                                    </h3>
                                 </div>
 
-                                <div
-                                    className="border rounded-lg shadow-sm overflow-hidden"
-                                    data-oid="iheycqr"
-                                >
-                                    <div
-                                        className="bg-teal-50 px-4 py-3 border-b"
-                                        data-oid="z:przrj"
-                                    >
-                                        <h4
-                                            className="text-lg font-semibold text-teal-700 flex items-center"
-                                            data-oid="6xfeinm"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 mr-2"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                data-oid="69-cb:o"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                    data-oid="mfom9la"
-                                                />
-                                            </svg>
-                                            基本情報
+                                <div className="space-y-10" data-oid="iheycqr">
+                                    <div data-oid="z:przrj">
+                                        <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-4 flex items-center">
+                                            <span className="w-8 h-px bg-teal-600 mr-3"></span>
+                                            Address
                                         </h4>
+                                        <div className="pl-11 relative">
+                                            <div className="absolute left-0 top-0 w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center text-teal-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                </svg>
+                                            </div>
+                                            <p className="text-gray-500 font-bold mb-1">〒920-0336</p>
+                                            <p className="text-gray-900 font-black text-lg">石川県金沢市金石本町ハ14</p>
+                                        </div>
                                     </div>
 
-                                    <div className="p-4 bg-white" data-oid=".9.1kb0">
-                                        <ul className="space-y-3" data-oid="b4wb0f1">
-                                            <li className="flex items-center" data-oid="qxh9qeb">
-                                                <div
-                                                    className="text-gray-500 w-24 flex-shrink-0"
-                                                    data-oid="h6hyx0y"
-                                                >
-                                                    郵便番号:
-                                                </div>
-                                                <div data-oid="no.q_w8">920-0336</div>
-                                            </li>
-                                            <li className="flex items-start" data-oid="x3ii:iu">
-                                                <div
-                                                    className="text-gray-500 w-24 flex-shrink-0 pt-1"
-                                                    data-oid="5ottm6o"
-                                                >
-                                                    住所:
-                                                </div>
-                                                <div data-oid="3cmbqpt">
-                                                    石川県金沢市金石本町ハ14
-                                                </div>
-                                            </li>
-                                            <li className="flex items-center" data-oid="mhl:h_e">
-                                                <div
-                                                    className="text-gray-500 w-24 flex-shrink-0"
-                                                    data-oid="g1e73u:"
-                                                >
-                                                    TEL:
-                                                </div>
-                                                <a
-                                                    href="tel:076-268-1788"
-                                                    className="text-teal-600 hover:underline"
-                                                    data-oid="km8hefi"
-                                                >
-                                                    076-268-1788
-                                                </a>
-                                            </li>
-                                            <li className="flex items-center" data-oid="m8laftq">
-                                                <div
-                                                    className="text-gray-500 w-24 flex-shrink-0"
-                                                    data-oid="44l25wi"
-                                                >
-                                                    FAX:
-                                                </div>
-                                                <div data-oid="6ffqquv">076-268-3163</div>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div
-                                        className="bg-teal-50 px-4 py-3 border-t border-b"
-                                        data-oid="f05uljd"
-                                    >
-                                        <h4
-                                            className="text-lg font-semibold text-teal-700 flex items-center"
-                                            data-oid=".vfp2d_"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 mr-2"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                data-oid="e01.xj_"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                    data-oid="zjj42fv"
-                                                />
-                                            </svg>
-                                            営業情報
+                                    <div data-oid="f05uljd">
+                                        <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-4 flex items-center">
+                                            <span className="w-8 h-px bg-teal-600 mr-3"></span>
+                                            Contact
                                         </h4>
-                                    </div>
-
-                                    <div className="p-4 bg-white" data-oid="9xkwcsq">
-                                        <ul className="space-y-3" data-oid="wi8fgl7">
-                                            <li className="flex items-center" data-oid="lja56up">
-                                                <div
-                                                    className="text-gray-500 w-24 flex-shrink-0"
-                                                    data-oid="i:16by1"
-                                                >
-                                                    平日:
-                                                </div>
-                                                <div data-oid="a90s14z">9:00 〜 18:00</div>
-                                            </li>
-                                            <li className="flex items-center" data-oid="ofxlv5:">
-                                                <div
-                                                    className="text-gray-500 w-24 flex-shrink-0"
-                                                    data-oid="s411qyy"
-                                                >
-                                                    土曜:
-                                                </div>
-                                                <div data-oid="me88m1.">9:00 〜 17:00</div>
-                                            </li>
-                                            <li className="flex items-start" data-oid="bl00ajd">
-                                                <div
-                                                    className="text-gray-500 w-24 flex-shrink-0 pt-1 flex items-center"
-                                                    data-oid="ss0ru5i"
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-4 w-4 mr-1 text-red-500"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                        data-oid="z48aihz"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M6 18L18 6M6 6l12 12"
-                                                            data-oid="p:hue:9"
-                                                        />
+                                        <div className="pl-11 space-y-4">
+                                            <div className="relative">
+                                                <div className="absolute left-[-44px] top-0 w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center text-teal-600">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                                     </svg>
-                                                    定休日:
                                                 </div>
-                                                <div className="text-gray-700" data-oid="iqklyma">
-                                                    第2・第4土曜日、日曜、祝日
-                                                </div>
-                                            </li>
-                                        </ul>
+                                                <a href="tel:076-268-1788" className="text-gray-900 font-black text-2xl hover:text-teal-600 transition-colors">076-268-1788</a>
+                                            </div>
+                                            <p className="text-gray-500 font-bold">FAX: 076-268-3163</p>
+                                        </div>
+                                    </div>
+
+                                    <div data-oid="9xkwcsq">
+                                        <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-4 flex items-center">
+                                            <span className="w-8 h-px bg-teal-600 mr-3"></span>
+                                            Business Hours
+                                        </h4>
+                                        <div className="pl-11 space-y-4">
+                                            <div className="flex items-center">
+                                                <div className="w-20 text-gray-500 font-bold">平日</div>
+                                                <div className="text-gray-900 font-black">9:00 〜 18:00</div>
+                                            </div>
+                                            <div className="flex items-center">
+                                                <div className="w-20 text-gray-500 font-bold">土曜</div>
+                                                <div className="text-gray-900 font-black">9:00 〜 17:00</div>
+                                            </div>
+                                            <div className="flex items-start text-red-500">
+                                                <div className="w-20 font-bold">定休日</div>
+                                                <div className="font-black">第2・第4土曜日<br />日曜・祝日</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="w-full md:w-7/12" data-oid="ej:xfek">
-                                <div
-                                    className="bg-gray-100 rounded-lg overflow-hidden shadow-md w-full h-full"
-                                    style={{ minHeight: '450px', position: 'relative' }}
-                                    data-oid="nk7m_a3"
-                                >
-                                    <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102498.79916169232!2d136.51245513968695!3d36.600202237727785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff9cc85432c3f01%3A0x9d1d9922dd9db39!2z5riv5Y2X6Ieq5YuV6LuK44K144O844OT44K5!5e0!3m2!1sja!2sjp!4v1744335562038!5m2!1sja!2sjp"
-                                        style={{
-                                            border: 0,
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            height: '100%',
-                                        }}
-                                        allowFullScreen
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        aria-label="港南自動車サービスの地図"
-                                        title="港南自動車サービス地図"
-                                        className="rounded-lg"
-                                        data-oid="x7m2rxr"
-                                    ></iframe>
-                                </div>
+                            <div className="w-full lg:w-7/12 relative h-[500px] lg:h-auto" data-oid="ej:xfek">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102498.79916169232!2d136.51245513968695!3d36.600202237727785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff9cc85432c3f01%3A0x9d1d9922dd9db39!2z5riv5Y2X6Ieq5YuV6LuK44K144O844OT44K5!5e0!3m2!1sja!2sjp!4v1744335562038!5m2!1sja!2sjp"
+                                    className="absolute inset-0 w-full h-full grayscale-[0.2] contrast-[1.1]"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    title="港南自動車サービス地図"
+                                    data-oid="x7m2rxr"
+                                ></iframe>
                             </div>
                         </div>
                     </div>
@@ -1479,10 +1140,15 @@ export default function Page() {
             {/* Instagram Section */}
             <section id="instagram" className="py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
                 <div className="container mx-auto px-4 text-center">
-                    <div className="mb-12">
-                        <span className="text-teal-600 font-semibold uppercase tracking-wider">Follow Us</span>
-                        <h2 className="text-4xl font-bold mt-2 mb-4">Instagram</h2>
-                        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                    <div className="mb-20">
+                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                            FOLLOW US
+                        </span>
+                        <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
+                            Instagram
+                        </h2>
+                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
                             港南自動車の日常や最新情報をお届けしています
                         </p>
                     </div>
@@ -1526,23 +1192,25 @@ export default function Page() {
             </section>
 
             {/* Google Reviews Section */}
-            <section id="reviews" className={`py-20 bg-white transition-all duration-1000 ${fadeIn('reviews')}`}>
+            <section id="reviews" className={`py-32 bg-slate-50 transition-all duration-1000 ${fadeIn('reviews')}`}>
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <span className="text-teal-600 font-semibold uppercase tracking-wider">Customer Voice</span>
-                        <h2 className="text-4xl font-bold mt-2 mb-4">お客様の声</h2>
-                        <div className="w-20 h-1 bg-teal-500 mx-auto rounded-full mb-6"></div>
-                        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                            Googleマップに寄せられた、お客様からの温かいメッセージをご紹介します。
+                    <div className="text-center mb-20">
+                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                            CUSTOMER VOICE
+                        </span>
+                        <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
+                            お客様の声
+                        </h2>
+                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
+                            Googleマップに寄せられた、<br />温かいメッセージの数々。
                         </p>
                     </div>
 
-                    {/* Elfsight Google Reviews Widget */}
                     <div className="max-w-6xl mx-auto">
                         <div className="elfsight-app-b145ba87-fa56-4270-a4cc-ac300fb7c24a" data-elfsight-app-lazy></div>
                     </div>
 
-                    {/* Elfsight Platform Script */}
                     <Script
                         src="https://static.elfsight.com/platform/platform.js"
                         strategy="lazyOnload"
@@ -1554,301 +1222,132 @@ export default function Page() {
             {/* Contact Section */}
             <section
                 id="contact"
-                className="py-20 relative bg-white overflow-hidden"
+                className="py-32 relative bg-white overflow-hidden"
                 data-oid="-2x4u4d"
             >
-                {/* 装飾要素 - 対角線グラデーション */}
-                <div
-                    className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-transparent via-green-100 to-transparent opacity-50 z-0"
-                    data-oid="_0uyu6z"
-                ></div>
-
-                {/* 装飾用の丸 */}
-                <div
-                    className="absolute top-10 left-10 w-32 h-32 rounded-full bg-green-100 opacity-40"
-                    data-oid="tawellk"
-                ></div>
-                <div
-                    className="absolute bottom-20 right-20 w-48 h-48 rounded-full bg-blue-100 opacity-30"
-                    data-oid="yuytvlm"
-                ></div>
+                {/* 装飾要素 */}
+                <div className="absolute top-0 right-0 w-1/3 h-full bg-slate-50 z-0 hidden lg:block" />
 
                 <div className="container mx-auto px-4 relative z-10" data-oid="7o_lrwj">
-                    <div className="text-center mb-12" data-oid=":68pz:9">
-                        <span className="text-teal-600 font-semibold" data-oid="a7z6127">
-                            GET IN TOUCH
-                        </span>
-                        <h2
-                            className="text-4xl font-bold mt-2 mb-4"
-                            data-oid="uwhd9t3"
-                        >
-                            お問い合わせ
-                        </h2>
-                        <p className="text-gray-600 text-lg max-w-2xl mx-auto" data-oid="-bqi13o">
-                            ご質問やご相談など、お気軽にお問い合わせください
-                        </p>
-                    </div>
-                    <div
-                        className="bg-white rounded-xl shadow-xl p-8 max-w-5xl mx-auto"
-                        data-oid="vf8qawn"
-                    >
-                        <div className="flex flex-col md:flex-row" data-oid="3_2k_q4">
-                            <div
-                                className="w-full md:w-1/2 mb-10 md:mb-0 md:pr-8"
-                                data-oid="w2lv4ug"
-                            >
-                                <div
-                                    className="text-4xl text-teal-600 font-light mb-6"
-                                    data-oid="-eunx51"
-                                >
-                                    contact
-                                </div>
-                                <p
-                                    className="text-gray-700 mb-8 leading-relaxed"
-                                    data-oid="x1wsvqw"
-                                >
-                                    車検・点検、ノレタ、新車・中古車販売についてなど、お気軽にご質問・ご相談ください。専門スタッフが丁寧にご対応いたします。
+                    <div className="flex flex-col lg:flex-row gap-16 lg:items-stretch" data-oid="3_2k_q4">
+                        {/* 左側：連絡先情報 */}
+                        <div className="w-full lg:w-5/12" data-oid="w2lv4ug">
+                            <div className="sticky top-32">
+                                <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="a7z6127">
+                                    CONTACT US
+                                </span>
+                                <h2 className="text-5xl font-black mt-2 mb-8 text-gray-900" data-oid="uwhd9t3">
+                                    お問い合わせ
+                                </h2>
+                                <p className="text-gray-500 mb-12 text-lg font-medium leading-relaxed" data-oid="x1wsvqw">
+                                    「車検の相談」「ノレタの詳細を知りたい」「新車を探している」など、何でもお気軽にご相談ください。専門スタッフが親身になってお答えします。
                                 </p>
 
-                                <div
-                                    className="bg-teal-50 rounded-lg p-6 mb-6 hover:shadow-md transition-shadow"
-                                    data-oid="p8a4w1i"
-                                >
-                                    <div className="flex items-center mb-4" data-oid="r:-3s68">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-6 w-6 text-teal-600 mr-3"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            data-oid="o7lwvsc"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                                                data-oid="kc332ev"
-                                            />
-                                        </svg>
-                                        <a
-                                            href="tel:076-268-1788"
-                                            className="text-xl font-bold text-teal-700 hover:underline"
-                                            data-oid="ro1n.8f"
-                                        >
-                                            076-268-1788
-                                        </a>
-                                    </div>
-                                    <div className="ml-9 space-y-2" data-oid="c8kt7:c">
-                                        <div className="text-gray-700 text-sm" data-oid=":s02kns">
-                                            <span className="font-semibold" data-oid="y62ds2q">
-                                                営業時間:
-                                            </span>{' '}
-                                            平日 9:00 〜 18:00 / 土曜 9:00 〜 17:00
-                                        </div>
-                                        <div className="text-gray-700 text-sm" data-oid="i-lpaqb">
-                                            <span className="font-semibold" data-oid="_rfphm.">
-                                                定休日:
-                                            </span>{' '}
-                                            第2・第4土曜日、日曜、祝日
+                                <div className="space-y-6" data-oid="p8a4w1i">
+                                    {/* 電話ボタン */}
+                                    <div className="p-8 bg-slate-50/50 backdrop-blur-md rounded-[2rem] border border-white shadow-lg group hover:bg-teal-600 transition-all duration-500 cursor-pointer" onClick={() => (window as any).location.href = 'tel:076-268-1788'}>
+                                        <div className="flex items-center">
+                                            <div className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-6 shadow-lg group-hover:bg-white transition-colors duration-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white group-hover:text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-black text-teal-600 uppercase tracking-widest mb-1 group-hover:text-white/80">Phone</p>
+                                                <a href="tel:076-268-1788" className="text-3xl font-black text-gray-900 group-hover:text-white transition-colors">076-268-1788</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div
-                                    className="bg-green-50 rounded-lg p-6 mb-6 hover:shadow-md transition-shadow"
-                                    data-oid="o7r29s4"
-                                >
-                                    <div className="flex items-center mb-4" data-oid="-8kdgy7">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-6 w-6 text-green-600 mr-3"
-                                            fill="currentColor"
-                                            viewBox="0 0 24 24"
-                                            data-oid="gpczkad"
-                                        >
-                                            <path
-                                                d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"
-                                                data-oid="7xzefnw"
-                                            ></path>
-                                        </svg>
-                                        <span
-                                            className="text-lg font-bold text-green-700"
-                                            data-oid="oy7fv4z"
-                                        >
-                                            LINE
-                                        </span>
-                                    </div>
-                                    <div className="ml-9" data-oid="vce2w3z">
-                                        <p
-                                            className="text-gray-700 text-sm mb-3"
-                                            data-oid="w-vkk5_"
-                                        >
-                                            LINEでもお問い合わせいただけます。下のボタンから友だち追加してください。
-                                        </p>
-                                        <a
-                                            href="https://lin.ee/CKQM0mE"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors font-medium"
-                                            data-oid="h9sgblm"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 mr-2"
-                                                fill="currentColor"
-                                                viewBox="0 0 24 24"
-                                                data-oid="37y28bf"
-                                            >
-                                                <path
-                                                    d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"
-                                                    data-oid="739ud_7"
-                                                ></path>
-                                            </svg>
-                                            友だち追加
-                                        </a>
+                                    {/* LINEボタン */}
+                                    <div className="p-8 bg-green-50/50 backdrop-blur-md rounded-[2rem] border border-white shadow-lg group hover:bg-[#00b900] transition-all duration-500 cursor-pointer" onClick={() => (window as any).open('https://lin.ee/CKQM0mE', '_blank')}>
+                                        <div className="flex items-center">
+                                            <div className="w-14 h-14 bg-[#00b900] rounded-2xl flex items-center justify-center mr-6 shadow-lg group-hover:bg-white transition-colors duration-500">
+                                                <svg className="w-7 h-7 text-white group-hover:text-[#00b900]" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" />
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-black text-green-600 uppercase tracking-widest mb-1 group-hover:text-white/80">Official LINE</p>
+                                                <span className="text-2xl font-black text-gray-900 group-hover:text-white transition-colors">LINEでお問い合わせ</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/2 bg-white rounded-lg" data-oid="m7t:6i8">
-                                <h3
-                                    className="text-xl font-bold mb-6 text-gray-800"
-                                    data-oid="o8nnnkk"
-                                >
-                                    メールでのお問い合わせ
+                        </div>
+
+                        {/* 右側：フォーム */}
+                        <div className="w-full lg:w-7/12" data-oid="m7t:6i8">
+                            <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-10 lg:p-16 border border-white shadow-2xl">
+                                <h3 className="text-2xl font-black mb-10 text-gray-900" data-oid="o8nnnkk">
+                                    メールフォーム
                                 </h3>
-                                <form
-                                    onSubmit={handleSubmit}
-                                    className="space-y-6"
-                                    data-oid="xtfo009"
-                                >
-                                    <div data-oid="z9gk.8s">
-                                        <label
-                                            className="block text-gray-700 text-sm font-bold mb-2"
-                                            htmlFor="name"
-                                            data-oid="ckkzor2"
-                                        >
-                                            お名前{' '}
-                                            <span className="text-red-500" data-oid="-85n66a">
-                                                *
-                                            </span>
+                                <form onSubmit={handleSubmit} className="space-y-8" data-oid="xtfo009">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-gray-900 ml-1" htmlFor="name">
+                                            お名前<span className="text-teal-600 ml-1">●</span>
                                         </label>
                                         <input
-                                            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 placeholder:text-slate-300"
                                             id="name"
                                             name="name"
                                             type="text"
                                             value={formData.name}
                                             onChange={handleInputChange}
                                             required
-                                            aria-required="true"
                                             placeholder="山田 太郎"
-                                            data-oid="eh4rrrz"
                                         />
-
-                                        <p
-                                            className="text-sm text-gray-500 mt-1"
-                                            data-oid="fmuhxlg"
-                                        >
-                                            例: 山田 太郎
-                                        </p>
                                     </div>
-                                    <div data-oid="7_24rmb">
-                                        <label
-                                            className="block text-gray-700 text-sm font-bold mb-2"
-                                            htmlFor="email"
-                                            data-oid="7kugoah"
-                                        >
-                                            メールアドレス{' '}
-                                            <span className="text-red-500" data-oid="1vpkphf">
-                                                *
-                                            </span>
+
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-gray-900 ml-1" htmlFor="email">
+                                            メールアドレス<span className="text-teal-600 ml-1">●</span>
                                         </label>
                                         <input
-                                            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 placeholder:text-slate-300"
                                             id="email"
                                             name="email"
                                             type="email"
                                             value={formData.email}
                                             onChange={handleInputChange}
                                             required
-                                            aria-required="true"
                                             placeholder="example@email.com"
-                                            data-oid="q31lam2"
                                         />
-
-                                        <p
-                                            className="text-sm text-gray-500 mt-1"
-                                            data-oid="grjdh::"
-                                        >
-                                            例: example@email.com
-                                        </p>
                                     </div>
-                                    <div data-oid="v.3q_5p">
-                                        <label
-                                            className="block text-gray-700 text-sm font-bold mb-2"
-                                            htmlFor="message"
-                                            data-oid="ybog_mf"
-                                        >
-                                            お問い合わせ内容{' '}
-                                            <span className="text-red-500" data-oid="zpbbvrk">
-                                                *
-                                            </span>
+
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-gray-900 ml-1" htmlFor="message">
+                                            お問い合わせ内容<span className="text-teal-600 ml-1">●</span>
                                         </label>
                                         <textarea
-                                            className="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors"
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 min-h-[160px] placeholder:text-slate-300"
                                             id="message"
                                             name="message"
-                                            rows={4}
                                             value={formData.message}
                                             onChange={handleInputChange}
                                             required
-                                            aria-required="true"
-                                            placeholder="お問い合わせ内容をご記入ください"
-                                            data-oid="qcw6oyk"
-                                        ></textarea>
+                                            placeholder="ご相談内容を入力してください"
+                                        />
                                     </div>
-                                    <div className="flex flex-col space-y-4" data-oid="_az9lup">
-                                        <button
-                                            className={`bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors w-full flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-                                            type="submit"
-                                            data-oid="wu1cavh"
-                                            disabled={isSubmitting}
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 mr-2"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                data-oid="73z_bih"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                                    data-oid="bozu9kq"
-                                                />
-                                            </svg>
-                                            {isSubmitting ? '送信中...' : '送信する'}
-                                        </button>
-                                        <p
-                                            className="text-sm text-gray-500 text-center"
-                                            data-oid="2.2ur-3"
-                                        >
-                                            <span className="text-red-500" data-oid="te5xy7z">
-                                                *
-                                            </span>{' '}
-                                            は必須項目です
-                                        </p>
-                                    </div>
-                                    <input
-                                        type="hidden"
-                                        name="recipient"
-                                        value="kounan.lease@gmail.com"
-                                        data-oid="xm.donb"
-                                    />
+
+                                    <button
+                                        className={`w-full group relative overflow-hidden bg-teal-600 text-white font-black py-6 rounded-2xl transition-all duration-500 shadow-xl shadow-teal-600/20 hover:shadow-teal-600/40 hover:-translate-y-1 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                    >
+                                        <span className="relative z-10 flex items-center justify-center text-lg">
+                                            {isSubmitting ? '送信中...' : 'メッセージを送信する'}
+                                            {!isSubmitting && (
+                                                <svg className="w-5 h-5 ml-3 transform group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                </svg>
+                                            )}
+                                        </span>
+                                        <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    </button>
+
+                                    <input type="hidden" name="recipient" value="kounan.lease@gmail.com" />
                                 </form>
                             </div>
                         </div>
