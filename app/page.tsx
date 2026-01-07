@@ -26,20 +26,14 @@ export default function Page() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    useEffect(() => {
-        setVisibleSections({
-            hero: true,
-            services: false,
-            cases: false,
-            company: false,
-            instagram: false,
-            reviews: false,
-            contact: false,
-        });
+    const [scrolled, setScrolled] = useState(false);
 
+    useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
             const windowHeight = window.innerHeight;
+
+            setScrolled(scrollPosition > 50);
 
             setVisibleSections({
                 hero: true,
@@ -98,301 +92,189 @@ export default function Page() {
     };
 
     return (
-        <div className="min-h-screen bg-white text-gray-800 font-sans" data-oid="31zkqzo">
+        <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-teal-100 italic-none" data-oid="31zkqzo">
             {/* Header */}
             <header
-                className="fixed top-0 left-0 right-0 bg-white z-50 shadow-md"
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+                        ? 'bg-white/80 backdrop-blur-md shadow-lg py-2'
+                        : 'bg-transparent py-5'
+                    }`}
                 data-oid="fqghwyr"
             >
                 <div
-                    className="container mx-auto px-4 py-3 flex justify-between items-center"
+                    className="container mx-auto px-6 flex justify-between items-center"
                     data-oid="ogzl6xz"
                 >
                     <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
-                        <div className="relative h-12 md:h-14 transition-transform group-hover:scale-105">
+                        <div className={`relative transition-all duration-500 ${scrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}>
                             <Image
                                 src="/logo.png"
                                 alt="港南自動車サービス株式会社｜石川県金沢市の車検・整備・新車販売"
                                 width={280}
                                 height={70}
-                                className="h-12 md:h-14 w-auto object-contain"
+                                className={`h-full w-auto object-contain transition-all duration-500 ${!scrolled && 'brightness-0 invert'}`}
                                 priority
                             />
                         </div>
                     </Link>
-                    <div className="hidden md:flex items-center space-x-6" data-oid="jdpcl.f">
-                        <nav className="flex items-center space-x-4" data-oid="_c2.5k6">
-                            <a
-                                href="#services"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="g3os_w7"
-                            >
-                                サービス内容
-                            </a>
-                            <a
-                                href="#cases"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="di-cil9"
-                            >
-                                取扱車種
-                            </a>
-                            <a
-                                href="#company"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="pma8w:5"
-                            >
-                                会社情報
-                            </a>
-                            <a
-                                href="#contact"
-                                className="text-gray-700 hover:text-teal-600 font-medium transition-colors px-2 py-1"
-                                data-oid="epeq407"
-                            >
-                                お問い合わせ
-                            </a>
+
+                    <div className="hidden lg:flex items-center space-x-8" data-oid="jdpcl.f">
+                        <nav className={`flex items-center space-x-8 transition-colors duration-500 ${scrolled ? 'text-slate-700' : 'text-white'}`} data-oid="_c2.5k6">
+                            {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ'].map((item, i) => (
+                                <a
+                                    key={i}
+                                    href={`#${['services', 'cases', 'company', 'contact'][i]}`}
+                                    className="relative font-medium hover:text-teal-500 transition-colors group overflow-hidden"
+                                >
+                                    {item}
+                                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-500 transform translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-300"></span>
+                                </a>
+                            ))}
                         </nav>
                         <Link
                             href="/noreta"
-                            className="bg-teal-600 text-white font-medium rounded-md px-4 py-2 hover:bg-teal-700 transition-colors shadow-sm"
+                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5 ${scrolled
+                                    ? 'bg-teal-600 text-white hover:bg-teal-700'
+                                    : 'bg-white text-teal-700 hover:bg-slate-100'
+                                }`}
                             data-oid="r7m-jfd"
                         >
                             ノレタ詳細
                         </Link>
                     </div>
+
                     <button
-                        className="md:hidden px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors text-sm font-medium flex items-center"
+                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-600 text-white' : 'bg-white/20 text-white backdrop-blur-sm'
+                            }`}
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
-                        aria-controls="mobile-menu"
                         data-oid="av_bd._"
                     >
-                        <span className="mr-2" data-oid="m:bk9_b">
-                            MENU
-                        </span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            strokeWidth="2"
+                            strokeWidth="2.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
-                            data-oid="6_ygnjk"
                         >
                             {menuOpen ? (
-                                <path d="M18 6L6 18M6 6l12 12" data-oid="a-w9x9r" />
+                                <path d="M18 6L6 18M6 6l12 12" />
                             ) : (
-                                <path d="M3 12h18M3 6h18M3 18h18" data-oid="zayhmq9" />
+                                <path d="M3 12h18M3 6h18M3 18h18" />
                             )}
                         </svg>
                     </button>
                 </div>
 
-                {/* Mobile menu, show/hide based on menu state */}
+                {/* Mobile menu */}
                 <div
-                    className={`${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                        } md:hidden overflow-hidden transition-all duration-300 ease-in-out`}
-                    id="mobile-menu"
-                    data-oid="zmkdp2r"
+                    className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] lg:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                        }`}
                 >
-                    <nav
-                        className="container mx-auto px-4 py-3 bg-white shadow-lg rounded-b-lg space-y-2"
-                        data-oid="72sbz7o"
+                    <button
+                        onClick={() => setMenuOpen(false)}
+                        className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                     >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                    </button>
+                    {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ'].map((item, i) => (
                         <a
-                            href="#services"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
+                            key={i}
+                            href={`#${['services', 'cases', 'company', 'contact'][i]}`}
+                            className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
                             onClick={() => setMenuOpen(false)}
-                            data-oid="ni56eff"
                         >
-                            サービス内容
+                            {item}
                         </a>
-                        <a
-                            href="#cases"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="_mprlbv"
-                        >
-                            取扱車種
-                        </a>
-                        <a
-                            href="#company"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="x_63-n0"
-                        >
-                            会社情報
-                        </a>
-                        <a
-                            href="#contact"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-600 hover:bg-gray-50"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="-ft-zqw"
-                        >
-                            お問い合わせ
-                        </a>
-                        <Link
-                            href="/noreta"
-                            className="block px-3 py-2 rounded-md text-base font-medium bg-teal-600 text-white hover:bg-teal-700"
-                            onClick={() => setMenuOpen(false)}
-                            data-oid="5e69:q."
-                        >
-                            ノレタ詳細
-                        </Link>
-                    </nav>
+                    ))}
+                    <Link
+                        href="/noreta"
+                        className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                        onClick={() => setMenuOpen(false)}
+                    >
+                        ノレタ詳細
+                    </Link>
                 </div>
             </header>
 
             {/* Hero Section */}
-            <section
-                className="relative h-screen flex items-center"
-                data-oid="_blp.bc"
-            >
-                {/* Hero Background */}
-                <div
-                    className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-teal-600 to-teal-800 rounded-bl-[20%] z-0"
-                    data-oid="endv:k9"
-                ></div>
-
-                {/* Dark overlay for better text contrast */}
-                <div
-                    className="absolute top-0 right-0 w-full h-full bg-black opacity-40 z-[1]"
-                    data-oid="kzmmpyn"
-                ></div>
-
-                {/* Wave decoration */}
-                <div
-                    className="absolute bottom-0 left-0 w-full z-[2] overflow-hidden"
-                    data-oid="om3hugm"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1440 320"
-                        className="w-full h-auto translate-y-1/2"
-                        data-oid="opybbl8"
-                    >
-                        <path
-                            fill="#ffffff"
-                            fillOpacity="1"
-                            d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,128C672,128,768,160,864,176C960,192,1056,192,1152,176C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-                            data-oid="zavdr0p"
-                        ></path>
-                    </svg>
+            <section className="relative h-screen overflow-hidden flex items-center justify-center" data-oid="_blp.bc">
+                {/* Immersive Background */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/images/mechanic.jpg"
+                        alt="Background"
+                        fill
+                        className="object-cover animate-slow-zoom"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-white z-10"></div>
                 </div>
 
-                <div
-                    className="container mx-auto px-4 z-10 flex flex-col md:flex-row items-center"
-                    data-oid="l.8_6bb"
-                >
-                    <div className="w-full md:w-1/2 text-white" data-oid="b10vkh6">
-                        <h1
-                            className="text-4xl md:text-6xl font-bold mb-4 leading-tight drop-shadow-md"
-                            data-oid="58man--"
-                        >
-                            金沢市で安心・快適な
-                            <br data-oid="25r5iw1" />
-                            カーライフを
-                            <br data-oid="uox7y-c" />
-                            <span className="text-yellow-300" data-oid="k7r0.ze">
-                                サポートします
+                {/* Hero Content */}
+                <div className="container mx-auto px-6 relative z-20 text-center">
+                    <div className={`transition-all duration-1000 transform ${visibleSections.hero ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
+                        <div className="inline-flex items-center space-x-2 bg-teal-500/20 backdrop-blur-md border border-teal-500/30 px-4 py-2 rounded-full text-teal-300 text-sm font-bold mb-8 tracking-widest uppercase">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                            </span>
+                            <span>Premium Car Life Support</span>
+                        </div>
+
+                        <h1 className="text-5xl md:text-8xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl">
+                            金沢市で安心・快適な<br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-300">
+                                カーライフを
                             </span>
                         </h1>
-                        <p
-                            className="text-xl mb-8 max-w-lg text-white drop-shadow-md"
-                            data-oid="7kctojp"
-                        >
-                            私たちは地域の皆様の安全な移動をサポートします。
-                            <br data-oid="mp721sb" />
-                            車検・整備から新車販売まで、お客様のニーズにお応えします。
+
+                        <p className="text-lg md:text-2xl text-slate-200 mb-12 max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-medium">
+                            創業60年。私たちが守るのは、お客様の大切な移動の時間と笑顔です。<br className="hidden md:block" />
+                            最新の技術と真心で、お車のあらゆるニーズにお応えします。
                         </p>
-                        <div className="flex flex-wrap gap-4" data-oid="ra4uwuy">
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                             <a
                                 href="#services"
-                                className="px-8 py-4 bg-white text-teal-700 rounded-lg hover:bg-gray-100 transition-all duration-300 font-medium shadow-lg flex items-center justify-center transform hover:-translate-y-1"
-                                data-oid="5x6ctnl"
+                                className="group relative px-10 py-5 bg-teal-600 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-teal-500 transition-all duration-300 overflow-hidden"
                             >
-                                <span data-oid="anzfk49">サービスを見る</span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 ml-2"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    data-oid=":mn62ek"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                        data-oid="tw1lnnx"
-                                    />
-                                </svg>
+                                <span className="relative z-10 flex items-center">
+                                    サービスを見る
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </span>
+                                <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </a>
                             <a
-                                href="/noreta"
-                                className="px-8 py-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-all duration-300 font-medium shadow-lg flex items-center justify-center transform hover:-translate-y-1"
-                                data-oid="9m.9ku2"
+                                href="/shaken"
+                                className="group px-10 py-5 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-2xl font-black text-lg hover:bg-white/20 transition-all duration-300"
                             >
-                                <span data-oid="6phxbfw">ノレタについて</span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 ml-2"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    data-oid="fej2r:r"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                                        data-oid="p0-wj8j"
-                                    />
-                                </svg>
+                                車検シミュレーター
                             </a>
                         </div>
                     </div>
-                    <div
-                        className="w-full md:w-1/2 mt-12 md:mt-0 flex justify-center relative"
-                        data-oid="49fezpj"
-                    >
-                        <div className="w-full max-w-xl relative z-10" data-oid="n_fy0u4">
-                            <div
-                                className="bg-white rounded-lg shadow-2xl overflow-hidden transform md:rotate-3"
-                                data-oid="3y.kp98"
-                            >
-                                <div
-                                    className="relative w-full h-64 md:h-auto md:aspect-[16/9]"
-                                    data-oid=".l4c7.z"
-                                >
-                                    <Image
-                                        src="/images/mechanic.jpg"
-                                        alt="金沢市の港南自動車サービスでの自動車点検・整備風景"
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 60vw"
-                                        className="object-cover"
-                                        data-oid="wfem0-7"
-                                    />
-                                </div>
+                </div>
 
-                            </div>
-
-                            {/* Decorative elements */}
-                            <div
-                                className="absolute -bottom-4 -left-4 w-24 h-24 bg-yellow-400 rounded-lg z-[-1] hidden md:block"
-                                data-oid="22s8axb"
-                            ></div>
-                            <div
-                                className="absolute -top-4 -right-4 w-16 h-16 bg-teal-300 rounded-full z-[-1] hidden md:block"
-                                data-oid="b38e3kz"
-                            ></div>
-                        </div>
+                {/* Scroll Indicator */}
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+                    <span className="text-white/50 text-xs font-bold tracking-[0.3em] uppercase mb-4 animate-pulse">Scroll Down</span>
+                    <div className="w-px h-24 bg-gradient-to-b from-teal-500 to-transparent relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1/2 bg-white animate-scroll-line"></div>
                     </div>
+                </div>
+
+                {/* Decoration */}
+                <div className="absolute -bottom-1 left-0 w-full z-10">
+                    <svg viewBox="0 0 1440 320" className="w-full h-auto">
+                        <path fill="#ffffff" fillOpacity="1" d="M0,160L48,176C96,192,192,224,288,224C384,224,480,192,576,165.3C672,139,768,117,864,133.3C960,149,1056,203,1152,213.3C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                    </svg>
                 </div>
             </section>
 
