@@ -23,17 +23,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
-        name: '港南自動車サービス株式会社',
+        name: '株式会社港南自動車サービス',
         image: 'https://kounan-auto.jp/logo.png', // URL確定後に要調整
         '@id': 'https://kounan-auto.jp',
         url: 'https://kounan-auto.jp',
-        telephone: '076-238-6543',
+        telephone: '076-268-1788',
         address: {
             '@type': 'PostalAddress',
-            streetAddress: '湊1丁目78-8',
+            streetAddress: '金石本町ハ14番地',
             addressLocality: '金沢市',
             addressRegion: '石川県',
-            postalCode: '920-0211',
+            postalCode: '920-0336',
             addressCountry: 'JP',
         },
         geo: {
