@@ -322,13 +322,7 @@ export default function Page() {
                     </div>
                 </div>
 
-                {/* Scroll Indicator */}
-                <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center">
-                    <span className="text-white/50 text-xs font-bold tracking-[0.3em] uppercase mb-4 [writing-mode:vertical-lr]">Scroll</span>
-                    <div className="w-px h-24 bg-gradient-to-b from-teal-500 to-transparent relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-full bg-white animate-scroll-line"></div>
-                    </div>
-                </div>
+
             </section>
 
             {/* Trust Indicators */}
