@@ -120,10 +120,10 @@ export default function Page() {
 
                     <div className="hidden lg:flex items-center space-x-8" data-oid="jdpcl.f">
                         <nav className={`flex items-center space-x-8 transition-colors duration-500 ${scrolled ? 'text-slate-700' : 'text-white'}`} data-oid="_c2.5k6">
-                            {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ'].map((item, i) => (
+                            {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ', '採用情報'].map((item, i) => (
                                 <a
                                     key={i}
-                                    href={`#${['services', 'cases', 'company', 'contact'][i]}`}
+                                    href={`${['#services', '#cases', '#company', '#contact', '/recruit'][i]}`}
                                     className="relative font-medium hover:text-teal-500 transition-colors group overflow-hidden"
                                 >
                                     {item}
@@ -182,10 +182,10 @@ export default function Page() {
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                     </button>
-                    {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ'].map((item, i) => (
+                    {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ', '採用情報'].map((item, i) => (
                         <a
                             key={i}
-                            href={`#${['services', 'cases', 'company', 'contact'][i]}`}
+                            href={`${['#services', '#cases', '#company', '#contact', '/recruit'][i]}`}
                             className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
                             onClick={() => setMenuOpen(false)}
                         >
@@ -1355,6 +1355,14 @@ export default function Page() {
                                             data-oid="on9cjd1"
                                         >
                                             プライバシーポリシー
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="/recruit"
+                                            className="hover:text-teal-300 transition-colors"
+                                        >
+                                            採用情報
                                         </a>
                                     </li>
                                 </ul>
