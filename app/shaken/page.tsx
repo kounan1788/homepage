@@ -309,10 +309,10 @@ export default function ShakenPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
                                 {[
-                                    { step: '01', title: '受付・カルテ作成', desc: 'お車をお預かりし、本日の健康状態をお伺いします。' },
-                                    { step: '02', title: '精密検査・問診', desc: '整備士が全項目を丁寧にチェック。お客様にもご確認いただきます。' },
+                                    { step: '01', title: '受付', desc: 'お車をお預かりし、おクルマの健康状態をお伺いします。' },
+                                    { step: '02', title: '検査・問診', desc: '整備士が全項目を丁寧にチェック。お客様にもご確認いただきます。' },
                                     { step: '03', title: '処置・メンテナンス', desc: '必要な処置を迅速に行い、最高のコンディションに調整します。' },
-                                    { step: '04', title: 'ご精算・処方箋', desc: '詳細な診断結果とメンテナンスのアドバイスをお伝えし完了です。' }
+                                    { step: '04', title: 'ご精算', desc: '診断結果とメンテナンスのアドバイスをお伝えし完了です。' }
                                 ].map((item, idx) => (
                                     <div key={idx} className="bg-white md:bg-transparent p-6 rounded-2xl border border-slate-100 md:border-none">
                                         <div className="w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xs font-black mb-6 shadow-lg shadow-teal-200">
