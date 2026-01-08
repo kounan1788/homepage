@@ -134,7 +134,7 @@ export default function ShakenPage() {
                             ずっと安心なドライブを。
                         </h1>
                         <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
-                            完全予約制・1日限定3台。国家資格を持つ専門医（整備士）が、あなたの愛車を徹底的にチェック。最短90分で完了する、ハイクオリティな対面車検サービスです。※最短90分で車検を完了させる場合は、追加整備が一切ない場合のみになります。
+                            完全予約制・1日限定3台。国家資格を持つ整備士が、あなたの愛車を徹底的にチェック。最短90分で完了する、ハイクオリティな対面車検サービスです。※最短90分で車検を完了させる場合は、追加整備が一切ない場合のみになります。
                         </p>
                     </div>
 
@@ -283,7 +283,7 @@ export default function ShakenPage() {
                         <div className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">🩺</div>
                             <h3 className="text-xl font-black mb-4">精密な「対面」診断</h3>
-                            <p className="text-slate-500 text-sm leading-relaxed">ただ車を通すだけではありません。お客様と一緒に車を見ながら、現在の状態と必要な処置を「エンジンの専門医」が専門用語を使わずに優しく解説します。</p>
+                            <p className="text-slate-500 text-sm leading-relaxed">ただ車を通すだけではありません。お客様と一緒に車を見ながら、現在の状態と必要な処置を「クルマのプロフェッショナル」が専門用語を使わずに優しく解説します。</p>
                         </div>
                         <div className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">⚡</div>
