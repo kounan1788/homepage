@@ -395,19 +395,21 @@ export default function Page() {
                                         />
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
 
-                                        <div
-                                            className="absolute top-6 right-6 bg-white/90 backdrop-blur-md text-teal-700 px-5 py-2 rounded-2xl text-lg font-black shadow-lg"
-                                            data-oid="hsfw-i4"
-                                        >
-                                            <span className="text-sm font-medium mr-1">月々</span>
-                                            {car.price}
-                                        </div>
                                     </div>
 
                                     <div className="p-10 flex flex-col flex-grow" data-oid="85w1c.a">
-                                        <h4 className="text-2xl font-black text-slate-800 mb-4 tracking-tight" data-oid="aqc_wkg">
-                                            {car.name}
-                                        </h4>
+                                        <div className="flex items-baseline justify-between mb-4 gap-4" data-oid="price-header-wrap">
+                                            <h4 className="text-2xl font-black text-slate-800 tracking-tight" data-oid="aqc_wkg">
+                                                {car.name}
+                                            </h4>
+                                            <div
+                                                className="bg-teal-50 text-teal-700 px-4 py-1.5 rounded-xl text-lg font-black whitespace-nowrap"
+                                                data-oid="hsfw-i4"
+                                            >
+                                                <span className="text-xs font-bold mr-1 opacity-70">月々</span>
+                                                {car.price}
+                                            </div>
+                                        </div>
                                         <div
                                             className="flex flex-wrap gap-2 mb-8"
                                             data-oid="1zq11i7"
