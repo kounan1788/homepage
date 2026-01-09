@@ -20,6 +20,7 @@ export default function Page() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        category: '',
         message: '',
     });
 
@@ -54,7 +55,7 @@ export default function Page() {
         return visibleSections[section] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10';
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -74,6 +75,7 @@ export default function Page() {
                 setFormData({
                     name: '',
                     email: '',
+                    category: '',
                     message: '',
                 });
             } else {
@@ -1219,6 +1221,33 @@ export default function Page() {
                                             required
                                             placeholder="example@email.com"
                                         />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-gray-900 ml-1" htmlFor="category">
+                                            お問い合わせジャンル<span className="text-teal-600 ml-1">●</span>
+                                        </label>
+                                        <select
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 appearance-none cursor-pointer"
+                                            id="category"
+                                            name="category"
+                                            value={formData.category}
+                                            onChange={handleInputChange}
+                                            required
+                                        >
+                                            <option value="" disabled>選択してください</option>
+                                            <option value="車検">車検</option>
+                                            <option value="点検">点検</option>
+                                            <option value="整備・修理">整備・修理</option>
+                                            <option value="板金修理">板金修理</option>
+                                            <option value="新車販売">新車販売</option>
+                                            <option value="中古車販売">中古車販売</option>
+                                            <option value="ノレタ（個人向けリース）">ノレタ（個人向けリース）</option>
+                                            <option value="ノリドク（法人向けリース）">ノリドク（法人向けリース）</option>
+                                            <option value="リース全般">リース全般</option>
+                                            <option value="自動車保険">自動車保険</option>
+                                            <option value="その他">その他</option>
+                                        </select>
                                     </div>
 
                                     <div className="space-y-2">
