@@ -141,6 +141,15 @@ export default function Page() {
                         >
                             ノレタ詳細
                         </Link>
+                        <Link
+                            href="/noridoku"
+                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5 ${scrolled
+                                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                                : 'bg-blue-500 text-white hover:bg-blue-600'
+                                }`}
+                        >
+                            ノリドク詳細
+                        </Link>
                     </div>
 
                     <button
@@ -198,6 +207,13 @@ export default function Page() {
                         onClick={() => setMenuOpen(false)}
                     >
                         ノレタ詳細
+                    </Link>
+                    <Link
+                        href="/noridoku"
+                        className="px-10 py-4 bg-blue-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                        onClick={() => setMenuOpen(false)}
+                    >
+                        ノリドク詳細
                     </Link>
                 </div>
             </header>
@@ -1309,6 +1325,14 @@ export default function Page() {
                                             data-oid="ls0suaz"
                                         >
                                             ノレタ
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="/noridoku"
+                                            className="hover:text-teal-300 transition-colors"
+                                        >
+                                            ノリドク
                                         </a>
                                     </li>
                                     <li data-oid="ggexpgn">
