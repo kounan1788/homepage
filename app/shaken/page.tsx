@@ -79,6 +79,11 @@ export default function ShakenPage() {
     const [selectedCarType, setSelectedCarType] = useState<CarType>('light');
     const [selectedDiscounts, setSelectedDiscounts] = useState<number[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
     useEffect(() => {
         setIsLoaded(true);
@@ -124,8 +129,74 @@ export default function ShakenPage() {
                             ノリドク詳細
                         </Link>
                     </nav>
+                    <button
+                        className="md:hidden p-2 rounded-xl bg-teal-600 text-white transition-all duration-300"
+                        onClick={toggleMenu}
+                        aria-expanded={menuOpen}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+                        >
+                            {menuOpen ? (
+                                <path d="M18 6L6 18M6 6l12 12" />
+                            ) : (
+                                <path d="M3 12h18M3 6h18M3 18h18" />
+                            )}
+                        </svg>
+                    </button>
                 </div>
             </header>
+
+            {/* Mobile menu */}
+            <div
+                className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] md:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+            >
+                <button
+                    onClick={() => setMenuOpen(false)}
+                    className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                </button>
+                {[
+                    { name: 'サービス内容', href: '/#services' },
+                    { name: '取扱車種', href: '/#cases' },
+                    { name: '会社情報', href: '/#company' },
+                    { name: 'お問い合わせ', href: '/#contact' },
+                    { name: '採用情報', href: '/recruit' }
+                ].map((item, i) => (
+                    <Link
+                        key={i}
+                        href={item.href}
+                        className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
+                        onClick={() => setMenuOpen(false)}
+                    >
+                        {item.name}
+                    </Link>
+                ))}
+                <Link
+                    href="/noreta"
+                    className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                    onClick={() => setMenuOpen(false)}
+                >
+                    ノレタ詳細
+                </Link>
+                <Link
+                    href="/noridoku"
+                    className="px-10 py-4 bg-blue-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                    onClick={() => setMenuOpen(false)}
+                >
+                    ノリドク詳細
+                </Link>
+            </div>
 
             <main className="pt-24 md:pt-32">
                 {/* Hero Section */}
