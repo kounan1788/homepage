@@ -144,10 +144,16 @@ export default function NoridokuPage() {
                             <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                         </Link>
                         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                            <Link href="/" className="text-slate-600 hover:text-teal-600 transition-colors">ホーム</Link>
-                            <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス</Link>
+                            <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
+                            <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
+                            <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
+                            <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
+                            <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
                             <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
                                 ノレタ詳細
+                            </Link>
+                            <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                                ノリドク詳細
                             </Link>
                         </nav>
                     </div>
@@ -187,9 +193,14 @@ export default function NoridokuPage() {
                         <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
                     <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                        <Link href="/" className="text-slate-600 hover:text-blue-600 transition-colors">ホーム</Link>
-                        <Link href="/#services" className="text-slate-600 hover:text-blue-600 transition-colors">サービス</Link>
-                        <Link href="/noreta" className="text-slate-600 hover:text-blue-600 transition-colors">ノレタ</Link>
+                        <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
+                        <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
+                        <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
+                        <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
+                        <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
+                        <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
+                            ノレタ詳細
+                        </Link>
                         <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
                             ノリドク詳細
                         </Link>
