@@ -121,6 +121,7 @@ export default function ShakenPage() {
                         <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
                         <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
                         <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
+                        <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
                         <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
                         <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
                             ノレタ詳細
@@ -171,6 +172,7 @@ export default function ShakenPage() {
                     { name: '取扱車種', href: '/#cases' },
                     { name: '会社情報', href: '/#company' },
                     { name: 'お問い合わせ', href: '/#contact' },
+                    { name: '車検', href: '/shaken' },
                     { name: '採用情報', href: '/recruit' }
                 ].map((item, i) => (
                     <Link

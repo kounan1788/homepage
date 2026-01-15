@@ -172,6 +172,7 @@ export default function Page() {
                                 { name: '取扱車種', href: '/#cases' },
                                 { name: '会社情報', href: '/#company' },
                                 { name: 'お問い合わせ', href: '/#contact' },
+                                { name: '車検', href: '/shaken' },
                                 { name: '採用情報', href: '/recruit' }
                             ].map((item, i) => (
                                 <Link
@@ -249,6 +250,7 @@ export default function Page() {
                     { name: '取扱車種', href: '/#cases' },
                     { name: '会社情報', href: '/#company' },
                     { name: 'お問い合わせ', href: '/#contact' },
+                    { name: '車検', href: '/shaken' },
                     { name: '採用情報', href: '/recruit' }
                 ].map((item, i) => (
                     <Link
