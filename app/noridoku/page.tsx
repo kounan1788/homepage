@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
+import Breadcrumb from '@/components/Breadcrumb';
 
 // ノリドク FAQ データ
 const noridokuFaqData = [
@@ -392,6 +393,13 @@ export default function NoridokuPage() {
             </div>
 
             <main className="pt-20 md:pt-24">
+                {/* パンくずリスト */}
+                <Breadcrumb
+                    items={[
+                        { name: 'ホーム', href: '/' },
+                        { name: 'ノリドク', href: '/noridoku' },
+                    ]}
+                />
                 {/* Hero Section */}
                 <section className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-sky-400 py-20 md:py-32 overflow-hidden">
                     {/* Decorative geometric shapes */}

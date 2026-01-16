@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
+import Breadcrumb from '@/components/Breadcrumb';
 
 // 車種タイプの定義
 type CarType = 'light' | 'small' | 'medium' | 'regular';
@@ -320,6 +321,13 @@ export default function ShakenPage() {
             </div>
 
             <main className="pt-24 md:pt-32">
+                {/* パンくずリスト */}
+                <Breadcrumb
+                    items={[
+                        { name: 'ホーム', href: '/' },
+                        { name: '車検', href: '/shaken' },
+                    ]}
+                />
                 {/* Hero Section */}
                 <section className="container mx-auto px-4 mb-16 relative">
                     <div className={`transition-all duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>

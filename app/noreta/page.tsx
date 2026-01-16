@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
+import Breadcrumb from '@/components/Breadcrumb';
 
 // ノレタ FAQ データ
 const noretaFaqData = [
