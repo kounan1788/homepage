@@ -226,7 +226,7 @@ export default function Page() {
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/images/mechanic.jpg"
-                        alt="Background"
+                        alt="石川県金沢市の港南自動車サービス - 車検・整備・新車販売"
                         fill
                         className="object-cover animate-slow-zoom"
                         priority
@@ -246,7 +246,7 @@ export default function Page() {
                         </div>
 
                         <h1 className="text-5xl md:text-8xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl">
-                            安心・快適な<br />
+                            <span className="sr-only">金沢市の港南自動車 - </span>安心・快適な<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-300">
                                 カーライフを
                             </span>

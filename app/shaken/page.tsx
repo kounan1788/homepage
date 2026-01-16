@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
 
 // 車種タイプの定義
 type CarType = 'light' | 'small' | 'medium' | 'regular';
@@ -75,6 +76,26 @@ const discountOptions = [
     { id: 8, name: '初入庫割引', amount: 2200, icon: '🤝', description: '初めてご利用のお客様' }
 ];
 
+// FAQ データ（構造化データ用）
+const faqData = [
+    {
+        question: '金沢市で車検を受けるならどこがおすすめですか？',
+        answer: '港南自動車サービスは創業60年以上の実績があり、金沢市で信頼できる車検サービスを提供しています。最短90分のスピード車検、国家資格を持つ整備士による丁寧な診断が特徴です。'
+    },
+    {
+        question: '車検にかかる時間はどれくらいですか？',
+        answer: '港南自動車サービスでは、追加整備がない場合、最短90分で車検が完了します。完全予約制・1日限定3台で、お客様をお待たせしません。'
+    },
+    {
+        question: '車検費用はいくらくらいかかりますか？',
+        answer: '軽自動車で約65,090円〜、普通乗用車で約99,990円〜となります。各種割引制度もご用意しており、最大で約20,000円以上お得になる場合もあります。'
+    },
+    {
+        question: '代車を借りることはできますか？',
+        answer: 'はい、代車をご用意しております。代車が不要な場合は1,100円の割引が適用されます。'
+    }
+];
+
 export default function ShakenPage() {
     const [selectedCarType, setSelectedCarType] = useState<CarType>('light');
     const [selectedDiscounts, setSelectedDiscounts] = useState<number[]>([]);
@@ -108,13 +129,109 @@ export default function ShakenPage() {
         );
     };
 
+    // LocalBusiness + AutoRepair 構造化データ
+    const localBusinessSchema = {
+        '@context': 'https://schema.org',
+        '@type': ['LocalBusiness', 'AutoRepair'],
+        name: '港南自動車サービス株式会社',
+        image: 'https://kounan-auto.jp/logo.png',
+        '@id': 'https://kounan-auto.jp',
+        url: 'https://kounan-auto.jp/shaken',
+        telephone: '076-268-1788',
+        priceRange: '¥65,090〜',
+        address: {
+            '@type': 'PostalAddress',
+            streetAddress: '金石本町ハ14番地',
+            addressLocality: '金沢市',
+            addressRegion: '石川県',
+            postalCode: '920-0336',
+            addressCountry: 'JP'
+        },
+        geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 36.6268,
+            longitude: 136.6406
+        },
+        openingHoursSpecification: [
+            {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                opens: '09:00',
+                closes: '18:00'
+            },
+            {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: 'Saturday',
+                opens: '09:00',
+                closes: '17:00'
+            }
+        ],
+        description: '石川県金沢市の車検・自動車整備専門店。創業60年以上の実績。最短90分スピード車検、国家資格整備士による安心の点検・診断。',
+        areaServed: {
+            '@type': 'City',
+            name: '金沢市'
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: '車検サービス',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: '軽自動車車検',
+                        description: '軽自動車（ハスラー、タント、N-BOX等）の車検'
+                    },
+                    price: '65090',
+                    priceCurrency: 'JPY'
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: '普通乗用車車検',
+                        description: '普通乗用車（クラウン、アルファード等）の車検'
+                    },
+                    price: '99990',
+                    priceCurrency: 'JPY'
+                }
+            ]
+        }
+    };
+
+    // FAQPage 構造化データ
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqData.map(item => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.answer
+            }
+        }))
+    };
+
     return (
         <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 pb-20 overflow-x-hidden">
+            {/* 構造化データ */}
+            <Script
+                id="local-business-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+            />
+            <Script
+                id="faq-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+
             {/* Header - Fixed & Glassmorphism */}
             <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
                 <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
                     <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-[1.02]">
-                        <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
+                        <Image src="/logo.png" alt="港南自動車サービス｜石川県金沢市の車検・自動車整備" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
                     <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
                         <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
@@ -134,6 +251,7 @@ export default function ShakenPage() {
                         className="md:hidden p-2 rounded-xl bg-teal-600 text-white transition-all duration-300"
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
+                        aria-label="メニューを開く"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -164,6 +282,7 @@ export default function ShakenPage() {
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                    aria-label="メニューを閉じる"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
@@ -209,11 +328,11 @@ export default function ShakenPage() {
                             90分立会い車検：ドクター車検
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
-                            お車の<span className="text-teal-600">プレミアム健康診断</span>で<br />
-                            ずっと安心なドライブを。
+                            金沢市の<span className="text-teal-600">車検</span>なら<br />
+                            港南自動車サービス
                         </h1>
                         <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
-                            完全予約制・1日限定3台。国家資格を持つ整備士が、あなたの愛車を徹底的にチェック。最短90分で完了する、ハイクオリティな対面車検サービスです。※最短90分で車検を完了させる場合は、追加整備が一切ない場合のみになります。
+                            石川県金沢市で創業60年以上。国家資格を持つ整備士が、あなたの愛車を徹底的にチェック。完全予約制・1日限定3台、最短90分で完了するプレミアム車検サービスです。※最短90分で車検を完了させる場合は、追加整備が一切ない場合のみになります。
                         </p>
                     </div>
 
@@ -359,21 +478,21 @@ export default function ShakenPage() {
                 <section className="container mx-auto px-4 mt-32 space-y-32">
                     {/* Unique Value Props */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="bg-white p-8 rounded-3xl border border-slate-200">
+                        <article className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">🩺</div>
                             <h3 className="text-xl font-black mb-4">精密な「対面」診断</h3>
                             <p className="text-slate-500 text-sm leading-relaxed">ただ車を通すだけではありません。お客様と一緒に車を見ながら、現在の状態と必要な処置を「クルマのプロフェッショナル」が専門用語を使わずに優しく解説します。</p>
-                        </div>
-                        <div className="bg-white p-8 rounded-3xl border border-slate-200">
+                        </article>
+                        <article className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">⚡</div>
                             <h3 className="text-xl font-black mb-4">驚きのスピード (90分)</h3>
                             <p className="text-slate-500 text-sm leading-relaxed">最新の診断機と効率化されたオペレーションにより、最短90分で完了。店内の待合ペースでゆっくり寛いでいる間に、すべてが終わります。</p>
-                        </div>
-                        <div className="bg-white p-8 rounded-3xl border border-slate-200">
+                        </article>
+                        <article className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">💎</div>
                             <h3 className="text-xl font-black mb-4">地域密着の安心保証</h3>
                             <p className="text-slate-500 text-sm leading-relaxed">創業から続く信頼と確かな技術。車検後も1年間の点検保証をお付けし、地域の皆様の安全なカーライフを末永くサポートさせていただきます。</p>
-                        </div>
+                        </article>
                     </div>
 
                     {/* Flow Section */}
@@ -393,15 +512,37 @@ export default function ShakenPage() {
                                     { step: '03', title: '処置・メンテナンス', desc: '必要な処置を迅速に行い、最高のコンディションに調整します。' },
                                     { step: '04', title: 'ご精算', desc: '診断結果とメンテナンスのアドバイスをお伝えし完了です。' }
                                 ].map((item, idx) => (
-                                    <div key={idx} className="bg-white md:bg-transparent p-6 rounded-2xl border border-slate-100 md:border-none">
+                                    <article key={idx} className="bg-white md:bg-transparent p-6 rounded-2xl border border-slate-100 md:border-none">
                                         <div className="w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xs font-black mb-6 shadow-lg shadow-teal-200">
                                             {item.step}
                                         </div>
                                         <h4 className="text-lg font-black mb-2">{item.title}</h4>
                                         <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-                                    </div>
+                                    </article>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+
+                    {/* FAQ Section */}
+                    <div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">よくある質問</h2>
+                            <p className="text-slate-500">金沢市での車検に関するご質問にお答えします</p>
+                        </div>
+                        <div className="max-w-3xl mx-auto space-y-6">
+                            {faqData.map((item, idx) => (
+                                <article key={idx} className="bg-white p-8 rounded-2xl border border-slate-200">
+                                    <h3 className="text-lg font-black text-slate-800 mb-4 flex items-start">
+                                        <span className="text-teal-600 mr-3">Q.</span>
+                                        {item.question}
+                                    </h3>
+                                    <p className="text-slate-600 leading-relaxed pl-8">
+                                        <span className="text-teal-600 font-bold mr-2">A.</span>
+                                        {item.answer}
+                                    </p>
+                                </article>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -425,7 +566,7 @@ export default function ShakenPage() {
                         </div>
                         <div className="space-y-4">
                             <div className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Contact Information</div>
-                            <div className="text-xl font-bold">石川県金沢市金石本町ハ14</div>
+                            <address className="text-xl font-bold not-italic">石川県金沢市金石本町ハ14</address>
                             <div className="flex flex-col space-y-2">
                                 <Link href="tel:076-268-1788" className="text-3xl font-black text-teal-400 hover:text-white transition-colors">076-268-1788</Link>
                                 <span className="text-slate-500 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00</span>
@@ -434,11 +575,11 @@ export default function ShakenPage() {
                     </div>
                     <div className="pt-12 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs gap-6">
                         <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
-                        <div className="flex space-x-8">
+                        <nav className="flex space-x-8">
                             <Link href="/" className="hover:text-white transition-colors">ホーム</Link>
                             <Link href="/shaken" className="hover:text-white transition-colors">車検について</Link>
                             <Link href="/noreta" className="hover:text-white transition-colors">個人リース「ノレタ」</Link>
-                        </div>
+                        </nav>
                     </div>
                 </div>
             </footer>
