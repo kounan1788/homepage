@@ -82,14 +82,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const jsonLd = {
+    // LocalBusiness 構造化データ
+    const localBusinessSchema = {
         '@context': 'https://schema.org',
-        '@type': 'LocalBusiness',
-        name: '株式会社港南自動車サービス',
-        image: 'https://kounan-auto.jp/logo.png', // URL確定後に要調整
-        '@id': 'https://kounan-auto.jp',
+        '@type': ['LocalBusiness', 'AutoRepair', 'AutoDealer'],
+        '@id': 'https://kounan-auto.jp/#organization',
+        name: '港南自動車サービス株式会社',
+        alternateName: '港南自動車',
+        image: 'https://kounan-auto.jp/logo.png',
         url: 'https://kounan-auto.jp',
         telephone: '076-268-1788',
+        faxNumber: '076-268-3163',
+        email: 'info@kounan-auto.jp',
+        priceRange: '¥¥',
         address: {
             '@type': 'PostalAddress',
             streetAddress: '金石本町ハ14番地',
@@ -103,15 +108,67 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             latitude: 36.6268,
             longitude: 136.6406,
         },
+        areaServed: [
+            { '@type': 'City', name: '金沢市' },
+            { '@type': 'State', name: '石川県' },
+        ],
         openingHoursSpecification: [
             {
                 '@type': 'OpeningHoursSpecification',
-                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-                opens: '08:30',
-                closes: '17:30',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                opens: '09:00',
+                closes: '18:00',
+            },
+            {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: 'Saturday',
+                opens: '09:00',
+                closes: '17:00',
             },
         ],
-        description: '石川県金沢市の自動車整備工場。車検、一般整備、新車・中古車販売、カーリース「ノレタ」を展開しています。',
+        description:
+            '石川県金沢市で創業60年以上の自動車整備工場。車検、一般整備、新車・中古車販売、カーリース「ノレタ」「ノリドク」を展開。金沢市の車検なら港南自動車へ。',
+        foundingDate: '1964',
+        slogan: '安心・快適なカーライフを',
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: '港南自動車サービス一覧',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: '車検・点検' },
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: '新車販売' },
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: '中古車販売' },
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: 'カーリース「ノレタ」' },
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: { '@type': 'Service', name: '法人リース「ノリドク」' },
+                },
+            ],
+        },
+        sameAs: ['https://www.instagram.com/kounan_auto/'],
+    };
+
+    // WebSite 構造化データ
+    const webSiteSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': 'https://kounan-auto.jp/#website',
+        url: 'https://kounan-auto.jp',
+        name: '港南自動車サービス',
+        description: '石川県金沢市の車検・新車販売・カーリース',
+        publisher: { '@id': 'https://kounan-auto.jp/#organization' },
+        inLanguage: 'ja',
     };
 
     return (
@@ -119,7 +176,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <body className="" data-oid="wjvghu5">
                 <script
                     type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
                 />
                 {children}
             </body>

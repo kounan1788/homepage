@@ -3,6 +3,27 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
+
+// ノリドク FAQ データ
+const noridokuFaqData = [
+    {
+        question: '法人向けカーリースのメリットは何ですか？',
+        answer: 'リース料は全額経費として計上でき、固定資産税や保険の管理が不要になります。また、キャッシュフローが安定し、銀行融資枠を温存できます。',
+    },
+    {
+        question: 'ノリドクの金利はどれくらいですか？',
+        answer: '業界最安水準の1.9%〜でご提供しています。一般的なディーラーローン（3〜5%）と比較して大幅にコストを削減できます。',
+    },
+    {
+        question: '途中解約はできますか？',
+        answer: 'はい、ノリドクは中途解約時の違約金をいただきません。ビジネスの変化に柔軟に対応できます。',
+    },
+    {
+        question: 'どのような車種が利用できますか？',
+        answer: '軽自動車から商用バン、高級セダンまで、全メーカー・全車種に対応しています。御社のニーズに合わせた車両をご提案します。',
+    },
+];
 
 // ============================================
 // ページ公開フラグ
@@ -258,8 +279,28 @@ export default function NoridokuPage() {
         );
     }
 
+    // FAQPage 構造化データ
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: noridokuFaqData.map((item) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.answer,
+            },
+        })),
+    };
+
     return (
         <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 overflow-x-hidden">
+            {/* FAQ構造化データ */}
+            <Script
+                id="noridoku-faq-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
             {/* Header */}
             <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
                 <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
@@ -707,6 +748,37 @@ export default function NoridokuPage() {
                                     <div className="mt-6 bg-green-50 rounded-xl p-4 text-center border border-green-200"><p className="text-green-800">金利差による節約額: <span className="font-black text-2xl text-green-600">{((interestB.interest - interestA.interest) / 10000).toFixed(1)}万円</span></p></div>
                                 </div>
                             )}
+                        </div>
+                    </div>
+                </section>
+
+                {/* FAQ Section */}
+                <section className="py-24 bg-white">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-black tracking-widest uppercase mb-4">
+                                FAQ
+                            </div>
+                            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">
+                                よくある質問
+                            </h2>
+                            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+                                ノリドク（法人向けカーリース）についてよくいただくご質問にお答えします
+                            </p>
+                        </div>
+                        <div className="max-w-3xl mx-auto space-y-6">
+                            {noridokuFaqData.map((item, idx) => (
+                                <article key={idx} className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                                    <h3 className="text-lg font-black text-slate-800 mb-4 flex items-start">
+                                        <span className="text-blue-600 mr-3">Q.</span>
+                                        {item.question}
+                                    </h3>
+                                    <p className="text-slate-600 leading-relaxed pl-8">
+                                        <span className="text-blue-600 font-bold mr-2">A.</span>
+                                        {item.answer}
+                                    </p>
+                                </article>
+                            ))}
                         </div>
                     </div>
                 </section>

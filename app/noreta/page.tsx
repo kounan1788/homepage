@@ -3,6 +3,27 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Script from 'next/script';
+
+// ノレタ FAQ データ
+const noretaFaqData = [
+    {
+        question: '金沢市で新車リースはどこがおすすめですか？',
+        answer: '港南自動車サービスの「ノレタ」がおすすめです。月々定額、頭金・ボーナス払いなしで新車に乗れる3年リースプラン。創業60年以上の実績と信頼があります。',
+    },
+    {
+        question: 'ノレタの月々の支払いはいくらからですか？',
+        answer: '軽自動車で月々22,000円から、SUVで30,000円からご利用いただけます。頭金・ボーナス払いは不要です。',
+    },
+    {
+        question: '3年後はどうなりますか？',
+        answer: '3年後は、①新しい車に乗り換え、②同じ車を継続利用、③車を返却、の3つの選択肢からお選びいただけます。',
+    },
+    {
+        question: '車検やメンテナンスは含まれていますか？',
+        answer: 'はい、ノレタには車検費用、オイル交換、故障修理などがすべて含まれています。急な出費の心配がありません。',
+    },
+];
 
 type CarCategory = 'SUV' | 'MINIVAN' | 'KCAR';
 
@@ -139,8 +160,28 @@ export default function Page() {
         KCAR: sortByPrice(rawCarData.KCAR),
     };
 
+    // FAQPage 構造化データ
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: noretaFaqData.map((item) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: item.answer,
+            },
+        })),
+    };
+
     return (
         <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-teal-100" data-oid="dn0w-eo">
+            {/* FAQ構造化データ */}
+            <Script
+                id="noreta-faq-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
             {/* Header */}
             <header
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
@@ -597,6 +638,37 @@ export default function Page() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* FAQ Section */}
+                <section className="py-24 bg-white">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4">
+                                FAQ
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+                                よくある質問
+                            </h2>
+                            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+                                ノレタについてよくいただくご質問にお答えします
+                            </p>
+                        </div>
+                        <div className="max-w-3xl mx-auto space-y-6">
+                            {noretaFaqData.map((item, idx) => (
+                                <article key={idx} className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+                                    <h3 className="text-lg font-black text-slate-800 mb-4 flex items-start">
+                                        <span className="text-teal-600 mr-3">Q.</span>
+                                        {item.question}
+                                    </h3>
+                                    <p className="text-slate-600 leading-relaxed pl-8">
+                                        <span className="text-teal-600 font-bold mr-2">A.</span>
+                                        {item.answer}
+                                    </p>
+                                </article>
+                            ))}
                         </div>
                     </div>
                 </section>
