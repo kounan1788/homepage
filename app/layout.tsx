@@ -73,8 +73,7 @@ export const metadata: Metadata = {
         images: ['/og-image.jpg'],
     },
     verification: {
-        // Google Search Console認証コード（取得後に設定）
-        // google: 'xxxxxxxxxxxxxx',
+        google: '-W2UbNO9NQ_vzSdJH6hzGyC8-VrA04QghkXdl8JvSLc',
     },
     icons: {
         icon: '/icon.png',
