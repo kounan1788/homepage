@@ -26,9 +26,10 @@ export const metadata: Metadata = {
         '車検 金沢市 おすすめ',
         '自動車整備 石川県',
     ],
-    authors: [{ name: '港南自動車サービス株式会社' }],
-    creator: '港南自動車サービス株式会社',
-    publisher: '港南自動車サービス株式会社',
+    authors: [{ name: '株式会社港南自動車サービス' }],
+    creator: '株式会社港南自動車サービス',
+    publisher: '株式会社港南自動車サービス',
+    applicationName: '株式会社港南自動車サービス',
     formatDetection: {
         email: false,
         address: false,
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
         url: 'https://kounan-auto.jp',
         type: 'website',
         locale: 'ja_JP',
-        siteName: '港南自動車サービス株式会社',
+        siteName: '株式会社港南自動車サービス',
         images: [
             {
                 url: '/og-image.jpg',
@@ -77,6 +78,7 @@ export const metadata: Metadata = {
     },
     icons: {
         icon: '/icon.png',
+        shortcut: '/icon.png',
         apple: '/icon.png',
     },
 };
@@ -87,8 +89,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         '@context': 'https://schema.org',
         '@type': ['LocalBusiness', 'AutoRepair', 'AutoDealer'],
         '@id': 'https://kounan-auto.jp/#organization',
-        name: '港南自動車サービス株式会社',
-        alternateName: '港南自動車',
+        name: '株式会社港南自動車サービス',
+        alternateName: ['港南自動車', '港南自動車サービス'],
         image: 'https://kounan-auto.jp/logo.png',
         url: 'https://kounan-auto.jp',
         telephone: '076-268-1788',
@@ -165,7 +167,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         '@type': 'WebSite',
         '@id': 'https://kounan-auto.jp/#website',
         url: 'https://kounan-auto.jp',
-        name: '港南自動車サービス',
+        name: '株式会社港南自動車サービス',
+        alternateName: ['港南自動車', '港南自動車サービス'],
         description: '石川県金沢市の車検・新車販売・カーリース',
         publisher: { '@id': 'https://kounan-auto.jp/#organization' },
         inLanguage: 'ja',
