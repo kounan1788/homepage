@@ -77,6 +77,12 @@ export default function Page() {
                 image: '/cars/yariscross.jpg',
                 route: '/suv/yariscross',
             },
+            {
+                name: 'クロスビー',
+                price: '42,000円～',
+                image: '/cars/xbee.jpg',
+                route: '/suv/xbee',
+            },
             { name: 'VEZEL', price: '49,000円～', image: '/cars/vezel.jpg', route: '/suv/vezel' },
             {
                 name: 'カローラクロス',
