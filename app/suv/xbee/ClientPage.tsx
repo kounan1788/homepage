@@ -21,17 +21,16 @@ export default function Page() {
     const basePrice = 42000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'ピュアホワイトパール', price: 0, colorCode: '#FFFFFF' },
-        { name: 'スーパーブラックパール', price: 500, colorCode: '#000000' },
-        { name: 'キャラバンアイボリーパールメタリック', price: 500, colorCode: '#F5F0E6' },
+        { name: 'ピュアホワイトパール', price: 500, colorCode: '#FFFFFF' },
+        { name: 'スーパーブラックパール', price: 0, colorCode: '#000000' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
-        { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
-        { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: 'ナビゲーション', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'ETC車載器', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 5500, category: 'タイヤ・ホイール' },
+        { name: 'フロアマット(ジュータン)〈ノーブル〉', price: 0, isDefault: true, category: 'インテリア' },
+        { name: '全方位モニター付メモリーナビゲーション・スズキコネクト対応通信機装着車', price: 0, isDefault: true, category: 'ナビ・電装' },
+        { name: 'ETC車載器（ビルトインタイプ）', price: 900, category: 'ナビ・電装' },
+        { name: 'アップグレードパッケージ装着車', price: 2000, category: 'パッケージ' },
+        { name: 'スタッドレスタイヤ', price: 5000, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
