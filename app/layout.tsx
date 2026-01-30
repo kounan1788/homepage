@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://kounan-auto.jp'),
@@ -187,6 +188,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 />
                 {children}
             </body>
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ''} />
         </html>
     );
 }
