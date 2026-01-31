@@ -9,7 +9,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 // ノレタ FAQ データ
 const noretaFaqData = [
     {
-        question: '金沢市で新車リースはどこがおすすめですか？',
+        question: '金沢市で新車を買うなら、どこがおすすめですか？',
         answer: '港南自動車サービスの「ノレタ」がおすすめです。月々定額、頭金・ボーナス払いなしで新車に乗れる3年リースプラン。創業60年以上の実績と信頼があります。',
     },
     {
@@ -331,7 +331,7 @@ export default function Page() {
                 {/* Immersive Background */}
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/images/noreta-hero.jpg"
+                        src="/images/noreta-hero01.jpg"
                         alt="ノレタ - 新しい車の乗り方"
                         fill
                         className="object-cover animate-slow-zoom"
