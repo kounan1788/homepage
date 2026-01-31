@@ -128,7 +128,7 @@ export default function Page() {
             },
             {
                 name: 'タントファンクロス',
-                price: '22,000円～',
+                price: '33,000円～',
                 image: '/cars/tantofuncross.jpg',
                 route: '/kcar/tantofuncross',
             },
