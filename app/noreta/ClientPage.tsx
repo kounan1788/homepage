@@ -123,13 +123,13 @@ export default function Page() {
             {
                 name: 'タントカスタム',
                 price: '22,000円～',
-                image: '/cars/tanto.jpg',
+                image: '/cars/tantocustom.jpg',
                 route: '/kcar/tantocustom',
             },
             {
                 name: 'タントファンクロス',
                 price: '22,000円～',
-                image: '/cars/tantofun.jpg',
+                image: '/cars/tantofuncross.jpg',
                 route: '/kcar/tantofuncross',
             },
             {
