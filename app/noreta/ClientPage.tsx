@@ -124,13 +124,13 @@ export default function Page() {
                 name: 'タントカスタム',
                 price: '22,000円～',
                 image: '/cars/tanto.jpg',
-                route: '/kcar/tanto',
+                route: '/kcar/tantocustom',
             },
             {
                 name: 'タントファンクロス',
                 price: '22,000円～',
                 image: '/cars/tantofun.jpg',
-                route: '/kcar/tantofun',
+                route: '/kcar/tantofuncross',
             },
             {
                 name: 'デリカミニ',
