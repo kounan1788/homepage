@@ -122,7 +122,7 @@ export default function Page() {
             { name: 'NBOX カスタム', price: '24,000円～', image: '/cars/nbox.jpg', route: '/kcar/nbox' },
             {
                 name: 'タントカスタム',
-                price: '22,000円～',
+                price: '32,000円～',
                 image: '/cars/tantocustom.jpg',
                 route: '/kcar/tantocustom',
             },

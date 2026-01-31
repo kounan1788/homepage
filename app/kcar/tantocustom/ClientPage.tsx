@@ -19,19 +19,17 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 24000; // 基本月額料金
+    const basePrice = 32000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'ブラックマイカメタリック', price: 0, colorCode: '#1a1a1a' },
-        { name: 'パールホワイトIII', price: 0, colorCode: '#f8f8f8' },
-        { name: 'レーザーブルークリスタルシャイン', price: 0, colorCode: '#2e4a87' },
+        { name: 'シャイニングホワイトパール', price: 800, colorCode: '#f8f8f8' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
-        { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: '7インチフルセグナビ', price: 3500, category: 'ナビ・電装' },
-        { name: '9インチナビ連動ドラレコ', price: 4500, category: 'ナビ・電装' },
+        { name: 'スマートクルーズパック(全車速追従機能付ACC・スマートアシスト運転負荷軽減LKC・CTA・ETCユニット・ステアリングスイッチ)', price: 0, isDefault: true, category: '安全・運転支援' },
+        { name: '9インチスマホ連携ディスプレイオーディオ(スマートパノラマパーキングパック付)', price: 0, isDefault: true, category: 'ナビ・電装' },
         { name: 'スタッドレスタイヤ', price: 3000, category: 'タイヤ・ホイール' },
     ], []);
 
