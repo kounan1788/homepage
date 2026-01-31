@@ -18,7 +18,7 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 30000; // 基本月額料金
+    const basePrice = 35000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'ピュアホワイトパール', price: 800, colorCode: '#FFFFFF' },
@@ -171,11 +171,10 @@ export default function Page() {
                                 {colors.map((color) => (
                                     <label
                                         key={color.name}
-                                        className={`flex items-center gap-3 p-3 rounded-lg border ${
-                                            selectedColor === color.name
+                                        className={`flex items-center gap-3 p-3 rounded-lg border ${selectedColor === color.name
                                                 ? 'border-blue-500 bg-white shadow-md'
                                                 : 'border-gray-300'
-                                        } hover:border-blue-300 hover:shadow-sm transition-all duration-200 cursor-pointer`}
+                                            } hover:border-blue-300 hover:shadow-sm transition-all duration-200 cursor-pointer`}
                                         data-oid="zvn05:-"
                                     >
                                         <input
@@ -236,11 +235,10 @@ export default function Page() {
                                                 return (
                                                     <label
                                                         key={option.name}
-                                                        className={`flex items-center gap-3 p-3 rounded-lg border ${
-                                                            isChecked
+                                                        className={`flex items-center gap-3 p-3 rounded-lg border ${isChecked
                                                                 ? 'border-blue-500 bg-white shadow-md'
                                                                 : 'border-gray-300'
-                                                        } hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all duration-200`}
+                                                            } hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all duration-200`}
                                                         data-oid="-::4g92"
                                                     >
                                                         <input

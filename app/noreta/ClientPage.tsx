@@ -67,7 +67,7 @@ export default function Page() {
         SUV: [
             {
                 name: 'ジムニーシエラ',
-                price: '30,000円～',
+                price: '35,000円～',
                 image: '/cars/jimnysierra.jpg',
                 route: '/suv/jimnysierra',
             },
