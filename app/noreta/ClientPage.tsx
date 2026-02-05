@@ -86,7 +86,7 @@ export default function Page() {
             { name: 'VEZEL', price: '49,000円～', image: '/cars/vezel.jpg', route: '/suv/vezel' },
             {
                 name: 'カローラクロス',
-                price: '49,000円～',
+                price: '52,000円～',
                 image: '/cars/corollacross.jpg',
                 route: '/suv/corollacross',
             },

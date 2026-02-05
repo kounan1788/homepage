@@ -19,7 +19,7 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 49000; // 基本月額料金
+    const basePrice = 52000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'プラチナホワイトパールマイカ', price: 1000, colorCode: '#FFFFFF' },
@@ -27,15 +27,17 @@ export default function Page() {
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
-        { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
-        { name: 'パノラマルーフ（電動サンシェード＆挟み込み防止機能付）', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: 'パノラミックビューモニター（床下透過表示機能付）', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'ブラインドスポットモニター［BSM］＋安心降車アシスト［SEA］', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: 'アダプティブハイビームシステム［AHS］', price: 1500, isDefault: false, category: 'エクステリア' },
-        { name: 'アクセサリーコンセント（AC100V・1500W/非常時給電システム付/デッキサイド左側1個）', price: 1300, isDefault: false, category: 'ナビ・電装' },
-        { name: 'おくだけ充電(R)', price: 400, isDefault: false, category: 'ナビ・電装' },
-        { name: 'ステアリングヒーター', price: 350, isDefault: false, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 6700, category: 'タイヤ・ホイール' },
+        { name: 'フロアマット（デラックスタイプ）', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'パノラマルーフ（電動サンシェード＆挟み込み防止機能付）', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'アダプティブハイビームシステム［AHS］', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'ブラインドスポットモニター［BSM］＋安心降車アシスト［SEA］', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'パノラミックビューモニター（床下透過表示機能付）', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'スペアタイヤ（応急用 T155/70D17）', price: 400, category: 'オプション' },
+        { name: 'LEDリヤフォグランプ（右側のみ）+寒冷地仕様', price: 800, category: 'オプション' },
+        { name: 'ステアリングヒーター', price: 350, category: 'オプション' },
+        { name: 'デジタルキー', price: 1000, category: 'オプション' },
+        { name: 'ナノイーX', price: 350, category: 'オプション' },
+        { name: 'おくだけ充電(R)', price: 400, category: 'オプション' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
@@ -116,7 +118,7 @@ export default function Page() {
                                 駆動方式: 2WD
                             </span>
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                排気量: 1,500cc
+                                排気量: 1,800cc
                             </span>
                         </div>
                     </div>
