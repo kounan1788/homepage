@@ -32,7 +32,7 @@ export default function Page() {
         { name: 'MODELLISTAエアロパーツセット', price: 0, isDefault: true, category: '標準装備' },
         { name: 'デジタルキー', price: 0, isDefault: true, category: '標準装備' },
         { name: '寒冷地仕様', price: 0, isDefault: true, category: '標準装備' },
-        { name: 'スタッドレスタイヤ', price: 9500, category: 'オプション' },
+        { name: 'スタッドレスタイヤ', price: 9500, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
