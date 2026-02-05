@@ -103,7 +103,7 @@ export default function Page() {
                 image: '/cars/landcruiser.jpg',
                 route: '/suv/landcruiser',
             },
-            { name: 'クラウン', price: '80,500円～', image: '/cars/crown.jpg', route: '/suv/crown' },
+            { name: 'クラウンスポーツ', price: '80,500円～', image: '/cars/crown.jpg', route: '/suv/crown' },
             { name: 'NX', price: '80,000円～', image: '/cars/nx.jpg', route: '/suv/nx' },
         ],
 

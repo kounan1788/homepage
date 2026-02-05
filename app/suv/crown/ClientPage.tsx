@@ -24,37 +24,15 @@ export default function Page() {
     const colors: ColorOption[] = useMemo(() => [
         { name: 'アティチュードブラックマイカ', price: 0, colorCode: '#000000' },
         { name: 'プレシャスホワイトパール', price: 1100, colorCode: '#F5F5F5' },
-        { name: 'プレシャスシルバー', price: 0, colorCode: '#C0C0C0' },
-        { name: 'エモーショナルレッドⅢ', price: 1100, colorCode: '#8B0000' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
-        { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
-        {
-            name: 'ディスプレイオーディオPlus',
-            price: 0,
-            isDefault: true,
-            category: 'ナビ・電装',
-        },
-        { name: 'パノラミックビューモニター', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'デジタルインナーミラー', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'ハンズフリーパワーバックドア', price: 2750, category: 'エクステリア' },
-        { name: 'パワートランクリッド', price: 3300, category: 'エクステリア' },
-        { name: 'デジタルキー', price: 1100, category: 'セキュリティ' },
-        { name: 'プレミアムサウンドシステム', price: 4400, category: 'ナビ・電装' },
-        { name: '寒冷地仕様', price: 600, category: 'その他' },
-        {
-            name: 'スタッドレスタイヤ',
-            price: 6800,
-            category: 'タイヤ・ホイール',
-            incompatibleWith: ['オールシーズンタイヤ'],
-        },
-        {
-            name: 'オールシーズンタイヤ',
-            price: 5500,
-            category: 'タイヤ・ホイール',
-            incompatibleWith: ['スタッドレスタイヤ'],
-        },
+        { name: 'フロアマット', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'パノラマルーフ（電動シェード＆挟み込み防止機能付）', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'MODELLISTAエアロパーツセット', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'デジタルキー', price: 0, isDefault: true, category: '標準装備' },
+        { name: '寒冷地仕様', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'スタッドレスタイヤ', price: 9500, category: 'オプション' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
@@ -132,18 +110,18 @@ export default function Page() {
                                 </span>
                             </div>
                             <h1 className="text-3xl md:text-5xl font-black tracking-tight">
-                                トヨタ クラウン
+                                トヨタ クラウンスポーツ
                             </h1>
                         </div>
                         <div className="flex flex-wrap gap-3">
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                グレード: CROSSOVER RS
+                                グレード: Z
                             </span>
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                駆動方式: AWD
+                                駆動方式: E-Four
                             </span>
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                排気量: 2,400cc
+                                排気量: 2,500cc
                             </span>
                         </div>
                     </div>
@@ -157,8 +135,8 @@ export default function Page() {
                     <div className="space-y-6">
                         <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white shadow-2xl">
                             <Image
-                                src="/cars/crown.jpg"
-                                alt="トヨタ クラウン"
+                                src="/cars/crownsport.jpg"
+                                alt="トヨタ クラウンスポーツ"
                                 fill
                                 className="object-contain p-4"
                                 priority
