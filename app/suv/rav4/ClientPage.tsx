@@ -19,23 +19,21 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 49000; // 基本月額料金
+    const basePrice = 65000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'スーパーホワイトⅡ', price: 0, colorCode: '#FFFFFF' },
         { name: 'アティチュードブラックマイカ', price: 0, colorCode: '#000000' },
-        { name: 'グレーメタリック', price: 900, colorCode: '#6B7280' },
-        { name: 'アティチュードブラックマイカ×アーバンカーキ', price: 3200, colorCode: '#4A5D23' },
+        { name: 'プラチナホワイトパールマイカ', price: 950, colorCode: '#F5F5F5' },
+        { name: 'アバンギャルドブロンズメタリック', price: 950, colorCode: '#8B7355' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
-        { name: 'フロアマット（デラックスタイプ）', price: 0, isDefault: true, category: 'インテリア' },
-        { name: 'ハンズフリーパワーバックドア（挟み込み防止機能・停止位置メモリー機能付）', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: 'パノラミックビューモニター（床下透過表示機能付）', price: 2500, isDefault: false, category: 'ナビ・電装' },
-        { name: 'スペアタイヤ（応急用）　T165/80D17', price: 400, isDefault: false, category: 'エクステリア' },
-        { name: 'デジタルインナーミラー（前後方録画機能付）', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'アクセサリーコンセント（ラゲージ）　AC100V・100W', price: 300, isDefault: false, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 5200, category: 'タイヤ・ホイール' },
+        { name: 'フロアマット（デラックスタイプ）', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'Toyota Safety Sense　緊急時操舵支援（アクティブ操舵機能付）＋フロントクロストラフィックアラート［FCTA］＋レーンチェンジアシスト［LCA］', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'パノラマムーンルーフ（チルト＆スライド電動［フロント側］/挟み込み防止機能付）', price: 0, isDefault: true, category: '標準装備' },
+        { name: 'スペアタイヤ（応急用）　165/90D18ST', price: 0, isDefault: true, category: '標準装備' },
+        { name: '235/50R20タイヤ＆20×7 1/2Jアルミホイール（切削光輝＋ブラック塗装）＋センターオーナメント＋ホイールナット', price: 3500, category: 'タイヤ・ホイール' },
+        { name: 'スタッドレスタイヤ', price: 7000, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
@@ -110,13 +108,13 @@ export default function Page() {
                         </div>
                         <div className="flex flex-wrap gap-3">
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                グレード: Adventure OFFROAD package Ⅱ
+                                グレード: ハイブリッド Z
                             </span>
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                駆動方式: 4WD
+                                駆動方式: E-Four
                             </span>
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                排気量: 2,000cc
+                                排気量: 2,500cc
                             </span>
                         </div>
                     </div>

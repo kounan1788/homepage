@@ -96,7 +96,7 @@ export default function Page() {
                 image: '/cars/harrier.jpg',
                 route: '/suv/harrier',
             },
-            { name: 'RAV4', price: '49,000円～', image: '/cars/rav4.jpg', route: '/suv/rav4' },
+            { name: 'RAV4', price: '65,000円～', image: '/cars/rav4.jpg', route: '/suv/rav4' },
             {
                 name: 'ランクル 250',
                 price: '55,000円～',
