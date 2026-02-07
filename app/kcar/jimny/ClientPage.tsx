@@ -19,10 +19,9 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 22000; // 基本月額料金
+    const basePrice = 23000; // 基本月額料金
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'ジャングルグリーン', price: 0, colorCode: '#4a5d23' },
         { name: 'ミディアムグレー', price: 0, colorCode: '#808080' },
         { name: 'ピュアホワイトパール', price: 0, colorCode: '#f8f8f8' },
     ], []);
@@ -32,6 +31,7 @@ export default function Page() {
         { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
         { name: '7インチフルセグナビ', price: 3500, isDefault: false, category: 'ナビ・電装' },
         { name: '8インチフルセグナビ', price: 4200, isDefault: false, category: 'ナビ・電装' },
+        { name: 'バックアイカメラ付ディスプレイオーディオ・スズキコネクト対応通信機', price: 3600, isDefault: false, category: 'ナビ・電装' },
         { name: 'スタッドレスタイヤ', price: 3000, isDefault: false, category: 'タイヤ・ホイール' },
     ], []);
 
