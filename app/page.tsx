@@ -1067,7 +1067,7 @@ export default function Page() {
                             width="100%"
                             height="600"
                             frameBorder="0"
-                            scrolling="no"
+                            scrolling="yes"
                             allowTransparency={true}
                             className="rounded-xl w-full"
                             title="Kounan Auto Instagram Feed"
