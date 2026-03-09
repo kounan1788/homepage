@@ -1242,7 +1242,7 @@ export default function Page() {
                                             <option value="板金修理">板金修理</option>
                                             <option value="新車販売">新車販売</option>
                                             <option value="中古車販売">中古車販売</option>
-                                            <option value="ノレタ（個人向けリース）">ノレタ（個人向けリース）</option>
+                                            <option value="ノレタ">ノレタ</option>
                                             <option value="ノリドク（法人向けリース）">ノリドク（法人向けリース）</option>
                                             <option value="リース全般">リース全般</option>
                                             <option value="自動車保険">自動車保険</option>
