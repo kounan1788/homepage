@@ -1061,7 +1061,7 @@ export default function Page() {
                     </div>
 
                     {/* Instagram Profile Embed */}
-                    <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 p-2 md:p-4">
+                    <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-2 md:p-6 text-center">
                         <iframe
                             src="https://www.instagram.com/kounanj1788/embed/"
                             width="100%"
@@ -1069,9 +1069,21 @@ export default function Page() {
                             frameBorder="0"
                             scrolling="yes"
                             allowTransparency={true}
-                            className="rounded-xl w-full"
+                            className="rounded-xl w-full mb-6"
                             title="Kounan Auto Instagram Feed"
                         ></iframe>
+
+                        <a
+                            href="https://www.instagram.com/kounanj1788"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center px-8 py-3 bg-slate-100 text-slate-700 font-bold rounded-full hover:bg-slate-200 transition-all duration-300 group"
+                        >
+                            もっと表示する
+                            <svg className="w-4 h-4 ml-2 text-slate-500 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
                     </div>
 
                     {/* Instagramフォローリンク */}
