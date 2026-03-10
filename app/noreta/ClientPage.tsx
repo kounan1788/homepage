@@ -221,7 +221,8 @@ export default function Page() {
                                 { name: '会社情報', href: '/#company' },
                                 { name: 'お問い合わせ', href: '/#contact' },
                                 { name: '車検', href: '/shaken' },
-                                { name: '採用情報', href: '/recruit' }
+                                { name: '採用情報', href: '/recruit' },
+                                { name: 'ITサポート', href: '/it-support' }
                             ].map((item, i) => (
                                 <Link
                                     key={i}
@@ -299,7 +300,8 @@ export default function Page() {
                     { name: '会社情報', href: '/#company' },
                     { name: 'お問い合わせ', href: '/#contact' },
                     { name: '車検', href: '/shaken' },
-                    { name: '採用情報', href: '/recruit' }
+                    { name: '採用情報', href: '/recruit' },
+                    { name: 'ITサポート', href: '/it-support' }
                 ].map((item, i) => (
                     <Link
                         key={i}

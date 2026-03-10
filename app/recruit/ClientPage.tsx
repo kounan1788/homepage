@@ -137,6 +137,7 @@ export default function RecruitPage() {
                             <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
                             <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
                             <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
+                            <Link href="/it-support" className="text-slate-600 hover:text-teal-600 transition-colors">ITサポート</Link>
                             <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
                                 ノレタ詳細
                             </Link>
@@ -187,7 +188,8 @@ export default function RecruitPage() {
                         { name: '会社情報', href: '/#company' },
                         { name: 'お問い合わせ', href: '/#contact' },
                         { name: '車検', href: '/shaken' },
-                        { name: '採用情報', href: '/recruit' }
+                        { name: '採用情報', href: '/recruit' },
+                        { name: 'ITサポート', href: '/it-support' }
                     ].map((item, i) => (
                         <Link
                             key={i}
@@ -266,6 +268,7 @@ export default function RecruitPage() {
                         <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
                         <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
                         <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
+                        <Link href="/it-support" className="text-slate-600 hover:text-teal-600 transition-colors">ITサポート</Link>
                         <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
                             ノレタ詳細
                         </Link>
@@ -316,7 +319,8 @@ export default function RecruitPage() {
                     { name: '会社情報', href: '/#company' },
                     { name: 'お問い合わせ', href: '/#contact' },
                     { name: '車検', href: '/shaken' },
-                    { name: '採用情報', href: '/recruit' }
+                    { name: '採用情報', href: '/recruit' },
+                    { name: 'ITサポート', href: '/it-support' }
                 ].map((item, i) => (
                     <Link
                         key={i}
