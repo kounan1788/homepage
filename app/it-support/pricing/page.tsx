@@ -1,6 +1,4 @@
 'use client';
-// trigger deployment
-
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
