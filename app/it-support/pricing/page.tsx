@@ -7,28 +7,11 @@ import Image from 'next/image';
 export default function PricingPage() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [visibleSections, setVisibleSections] = useState({
-        hero: true,
-        monthly: false,
-        courses: false,
-        website: false,
-        synergy: false,
-    });
 
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
-            const windowHeight = window.innerHeight;
-
             setScrolled(scrollPosition > 50);
-
-            setVisibleSections({
-                hero: true,
-                monthly: scrollPosition > windowHeight * 0.2,
-                courses: scrollPosition > windowHeight * 1.5,
-                website: scrollPosition > windowHeight * 2.8,
-                synergy: scrollPosition > windowHeight * 3.5,
-            });
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -183,9 +166,7 @@ export default function PricingPage() {
                 <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] z-0"></div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <div
-                        className={`transition-all duration-1000 transform ${visibleSections.hero ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
-                    >
+                    <div className="opacity-100">
                         <span className="text-teal-400 font-bold tracking-widest text-sm mb-4 block">
                             PRICING PLANS
                         </span>
@@ -202,9 +183,7 @@ export default function PricingPage() {
             {/* 1. 月額IT支援サポート（松竹梅） */}
             <section id="monthly" className="py-24 relative overflow-hidden bg-slate-50">
                 <div className="container mx-auto px-6 relative z-10">
-                    <div
-                        className={`transition-all duration-1000 transform ${visibleSections.monthly ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
-                    >
+                    <div className="opacity-100">
                         <div className="text-center mb-16">
                             <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">
                                 MONTHLY SUPPORT
@@ -486,9 +465,7 @@ export default function PricingPage() {
             {/* 2. AI講座プラン (マンツーマン vs グループ) */}
             <section id="courses" className="py-24 relative overflow-hidden bg-white">
                 <div className="container mx-auto px-6 relative z-10">
-                    <div
-                        className={`transition-all duration-1000 transform ${visibleSections.courses ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
-                    >
+                    <div className="opacity-100">
                         <div className="text-center mb-16">
                             <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">
                                 COURSES
@@ -631,9 +608,7 @@ export default function PricingPage() {
             {/* 3. ホームページ制作プラン */}
             <section id="website" className="py-24 relative overflow-hidden bg-slate-50 border-t border-slate-200">
                 <div className="container mx-auto px-6 relative z-10">
-                    <div
-                        className={`transition-all duration-1000 transform ${visibleSections.website ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
-                    >
+                    <div className="opacity-100">
                         <div className="text-center mb-16">
                             <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">
                                 WEBSITE CREATION
@@ -817,9 +792,7 @@ export default function PricingPage() {
             >
                 <div className="absolute inset-0 z-0 opacity-20 bg-[url('/images/mechanic.jpg')] bg-cover bg-center mix-blend-overlay"></div>
                 <div className="container mx-auto px-6 relative z-10">
-                    <div
-                        className={`transition-all duration-1000 transform ${visibleSections.synergy ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
-                    >
+                    <div className="opacity-100">
                         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 bg-black/40 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
                             <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-[0_0_30px_rgba(250,204,21,0.4)]">
                                 <svg

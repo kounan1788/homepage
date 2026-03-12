@@ -34,10 +34,10 @@ export default function CoffeeSiteTemplate() {
         <div className="font-serif text-amber-900 bg-[#fdfaf6] min-h-screen selection:bg-amber-700 selection:text-white">
 
             {/* Header */}
-            <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
+            <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-1' : 'bg-transparent py-2'}`}>
                 <div className="container mx-auto px-6 max-w-6xl flex justify-between items-center">
                     <Link href="#home" className="flex items-center">
-                        <Image src="/images/coffee/logo.png" alt="COFFEE ROASTERS" width={160} height={40} className="object-contain" />
+                        <Image src="/images/coffee/logo.png" alt="COFFEE ROASTERS" width={120} height={30} className="object-contain" />
                     </Link>
 
                     {/* Desktop Nav */}

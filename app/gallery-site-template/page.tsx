@@ -27,22 +27,22 @@ export default function GallerySiteTemplate() {
 
     // サンプル画像データ（テンプレートのimages_sampleに準拠、動画はスキップ）
     const portfolioItems = [
-        { id: 2, src: '/images/gallery/2.jpg', caption: 'ポートレート写真' },
-        { id: 3, src: '/images/gallery/3.jpg', caption: '街並みのスケッチ' },
-        { id: 4, src: '/images/gallery/4.jpg', caption: '猫の写真' },
-        { id: 5, src: '/images/gallery/5.jpg', caption: '静物画' },
-        { id: 7, src: '/images/gallery/7.jpg', caption: '旅行先での一枚' },
-        { id: 8, src: '/images/gallery/8.jpg', caption: 'インテリアデザイン' },
-        { id: 9, src: '/images/gallery/9.jpg', caption: '自然風景' },
-        { id: 10, src: '/images/gallery/10.jpg', caption: 'カフェの写真' },
-        { id: 12, src: '/images/gallery/12.jpg', caption: '製品撮影' },
-        { id: 14, src: '/images/gallery/14.jpg', caption: 'モノクロ写真' },
-        { id: 15, src: '/images/gallery/15.jpg', caption: 'テクスチャ素材' },
-        { id: 16, src: '/images/gallery/16.jpg', caption: '建築写真' },
-        { id: 17, src: '/images/gallery/17.jpg', caption: 'アートワーク' },
-        { id: 18, src: '/images/gallery/18.jpg', caption: '夕焼け空' },
-        { id: 19, src: '/images/gallery/19.jpg', caption: '夜景' },
-        { id: 20, src: '/images/gallery/20.jpg', caption: '花の写真' },
+        { id: 2, src: '/images/gallery/2.jpg', caption: '魅力的な人物のポートレート' },
+        { id: 3, src: '/images/gallery/3.jpg', caption: '活気に満ちた街並みのスケッチ' },
+        { id: 4, src: '/images/gallery/4.jpg', caption: 'ピンクのギフトボックス' },
+        { id: 5, src: '/images/gallery/5.jpg', caption: '静物画の芸術' },
+        { id: 7, src: '/images/gallery/7.jpg', caption: '澄み切った湖と山の風景' },
+        { id: 8, src: '/images/gallery/8.jpg', caption: 'モダンで洗練されたリビング' },
+        { id: 9, src: '/images/gallery/9.jpg', caption: '雄大な山々のパノラマ' },
+        { id: 10, src: '/images/gallery/10.jpg', caption: '落ち着いたカフェのひととき' },
+        { id: 12, src: '/images/gallery/12.jpg', caption: '洗練されたプロダクトデザイン' },
+        { id: 14, src: '/images/gallery/14.jpg', caption: '鮮やかに彩られた花々' },
+        { id: 15, src: '/images/gallery/15.jpg', caption: 'コスメティックの美学' },
+        { id: 16, src: '/images/gallery/16.jpg', caption: '彩り豊かなガラスの器' },
+        { id: 17, src: '/images/gallery/17.jpg', caption: '黄金色に輝くパンパスグラス' },
+        { id: 18, src: '/images/gallery/18.jpg', caption: 'お洒落なセーターを着たわんちゃん' },
+        { id: 19, src: '/images/gallery/19.jpg', caption: '雪に包まれたヨーロッパの古都' },
+        { id: 20, src: '/images/gallery/20.jpg', caption: '水滴が輝く幻想的な桜' },
     ];
 
     return (
