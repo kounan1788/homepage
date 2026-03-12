@@ -118,6 +118,10 @@ export default function ITSupportPage() {
                                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-400 transform translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-300"></span>
                             </a>
                         ))}
+                        <Link href="/it-support/pricing" className="relative font-bold hover:text-teal-400 transition-colors group overflow-hidden">
+                            料金プラン
+                            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-400 transform translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-300"></span>
+                        </Link>
                         <a
                             href="#contact"
                             className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${scrolled ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-teal-500 text-white hover:bg-teal-400'}`}
@@ -152,6 +156,13 @@ export default function ITSupportPage() {
                         {item}
                     </a>
                 ))}
+                <Link
+                    href="/it-support/pricing"
+                    className="text-2xl font-bold text-teal-400 hover:text-teal-300 transition-colors"
+                    onClick={() => setMenuOpen(false)}
+                >
+                    料金プラン
+                </Link>
                 <a
                     href="#contact"
                     className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
@@ -197,9 +208,10 @@ export default function ITSupportPage() {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                 </span>
                             </a>
-                            <a href="#ai" className="px-10 py-5 bg-white/10 text-white border border-white/20 rounded-2xl font-black text-lg hover:bg-white/20 transition-all duration-300 backdrop-blur-sm w-full sm:w-auto">
-                                サービス詳細
-                            </a>
+                            <Link href="/it-support/pricing" className="px-10 py-5 bg-white/10 text-white border border-white/20 rounded-2xl font-black text-lg hover:bg-white/20 transition-all duration-300 backdrop-blur-sm w-full sm:w-auto text-center flex items-center justify-center group">
+                                料金プランを見る
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -361,6 +373,13 @@ export default function ITSupportPage() {
                                 </ul>
                             </div>
                         </div>
+
+                        <div className="mt-12 text-center">
+                            <Link href="/it-support/pricing#courses" className="inline-flex items-center text-teal-600 font-bold hover:text-teal-700 transition-colors group">
+                                詳細な料金プランを見る
+                                <svg className="w-5 h-5 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -409,6 +428,13 @@ export default function ITSupportPage() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="mt-12 text-center">
+                            <Link href="/it-support/pricing#courses" className="inline-flex items-center text-teal-600 font-bold hover:text-teal-700 transition-colors group">
+                                詳細な料金プランを見る
+                                <svg className="w-5 h-5 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                            </Link>
                         </div>
                     </div>
                 </div>
