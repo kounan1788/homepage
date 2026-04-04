@@ -595,17 +595,17 @@ export default function Page() {
                                     </div>
                                     <div className="flex-grow" data-oid="yjv6tmj">
                                         <h3 className="text-2xl md:text-3xl font-black text-slate-800 mb-6 tracking-tight leading-tight" data-oid="obvqt1a">
-                                            自由返済型ローンと<br className="hidden md:block" />業界トップクラスの低金利 2.5%
+                                            自由返済型ローンと<br className="hidden md:block" />業界トップクラスの低金利 3.2%
                                         </h3>
                                         <div className="space-y-6" data-oid="k3fl9l4">
                                             <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="ac9ko9u">
-                                                一般的な残価設定型ローンではなく、柔軟な「自由返済型」を採用。さらに、実質年率2.5%という圧倒的な低金利により、金利負担を最小限に抑えています。
+                                                一般的な残価設定型ローンではなく、柔軟な「自由返済型」を採用。さらに、実質年率3.2%という圧倒的な低金利により、金利負担を最小限に抑えています。
                                             </p>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-oid="pt:2ivh">
                                                 <div className="bg-teal-50 rounded-3xl p-8 border border-teal-100" data-oid="nmhqa3g">
-                                                    <p className="font-black text-teal-900 mb-4" data-oid="i8z0h70">金利 2.5% のメリット</p>
+                                                    <p className="font-black text-teal-900 mb-4" data-oid="i8z0h70">金利 3.2% のメリット</p>
                                                     <p className="text-slate-600 font-medium text-sm leading-relaxed" data-oid="li-m1">
-                                                        一般的なディーラー（3.9%〜）と比較しても、支払総額で大きな差が出ます。もちろん、メンテナンス代も含めた設定が可能です。
+                                                        一般的なディーラー（4.9%〜）と比較しても、支払総額で大きな差が出ます。もちろん、メンテナンス代も含めた設定が可能です。
                                                     </p>
                                                 </div>
                                                 <div className="bg-emerald-50 rounded-3xl p-8 border border-emerald-100" data-oid="6zbpo6s">
