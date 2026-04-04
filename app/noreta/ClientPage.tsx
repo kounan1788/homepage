@@ -611,7 +611,7 @@ export default function Page() {
                                                 <div className="bg-emerald-50 rounded-3xl p-8 border border-emerald-100" data-oid="6zbpo6s">
                                                     <p className="font-black text-emerald-900 mb-4" data-oid="mm8:goj">自由返済型の安心</p>
                                                     <p className="text-slate-600 font-medium text-sm leading-relaxed" data-oid="li-m2">
-                                                        3年後に乗り続ける場合も、高金利な「再ローン」手続きは不要。2.5%のまま柔軟に期間を調整できます。
+                                                        3年後に乗り続ける場合も、高金利な「再ローン」手続きは不要。3.2%のまま柔軟に期間を調整できます。
                                                     </p>
                                                 </div>
                                             </div>
