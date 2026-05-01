@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { carBasePrices } from '@/lib/carPrices';
 
 interface ColorOption {
     name: string;
@@ -19,7 +20,7 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 32000; // 基本月額料金
+    const basePrice = carBasePrices['/kcar/tantocustom'];
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'ブラックマイカメタリック', price: 0, colorCode: '#1a1a1a' },

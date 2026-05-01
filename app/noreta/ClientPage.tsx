@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
 import Breadcrumb from '@/components/Breadcrumb';
+import { carBasePrices, formatPrice } from '@/lib/carPrices';
 
 // ノレタ FAQ データ
 const noretaFaqData = [
@@ -67,96 +68,96 @@ export default function Page() {
         SUV: [
             {
                 name: 'ジムニーシエラ',
-                price: '35,000円～',
+                price: formatPrice(carBasePrices['/suv/jimnysierra']),
                 image: '/cars/jimnysierra.jpg',
                 route: '/suv/jimnysierra',
             },
             {
                 name: 'ヤリスクロス',
-                price: '42,000円～',
+                price: formatPrice(carBasePrices['/suv/yariscross']),
                 image: '/cars/yariscross.jpg',
                 route: '/suv/yariscross',
             },
             {
                 name: 'クロスビー',
-                price: '42,000円～',
+                price: formatPrice(carBasePrices['/suv/xbee']),
                 image: '/cars/xbee.jpg',
                 route: '/suv/xbee',
             },
-            { name: 'VEZEL', price: '49,000円～', image: '/cars/vezel.jpg', route: '/suv/vezel' },
+            { name: 'VEZEL', price: formatPrice(carBasePrices['/suv/vezel']), image: '/cars/vezel.jpg', route: '/suv/vezel' },
             {
                 name: 'カローラクロス',
-                price: '52,000円～',
+                price: formatPrice(carBasePrices['/suv/corollacross']),
                 image: '/cars/corollacross.jpg',
                 route: '/suv/corollacross',
             },
             {
                 name: 'ハリアー',
-                price: '56,000円～',
+                price: formatPrice(carBasePrices['/suv/harrier']),
                 image: '/cars/harrier.jpg',
                 route: '/suv/harrier',
             },
-            { name: 'RAV4', price: '65,000円～', image: '/cars/rav4.jpg', route: '/suv/rav4' },
+            { name: 'RAV4', price: formatPrice(carBasePrices['/suv/rav4']), image: '/cars/rav4.jpg', route: '/suv/rav4' },
             {
                 name: 'ランクル 250',
-                price: '55,000円～',
+                price: formatPrice(carBasePrices['/suv/landcruiser']),
                 image: '/cars/landcruiser.jpg',
                 route: '/suv/landcruiser',
             },
-            { name: 'クラウンスポーツ', price: '80,500円～', image: '/cars/crownsport.jpg', route: '/suv/crown' },
-            { name: 'NX', price: '80,000円～', image: '/cars/nx.jpg', route: '/suv/nx' },
+            { name: 'クラウンスポーツ', price: formatPrice(carBasePrices['/suv/crown']), image: '/cars/crownsport.jpg', route: '/suv/crown' },
+            { name: 'NX', price: formatPrice(carBasePrices['/suv/nx']), image: '/cars/nx.jpg', route: '/suv/nx' },
         ],
 
         MINIVAN: [
-            { name: 'ノア', price: '58,000円～', image: '/cars/noah.jpg', route: '/minivan/noah' },
-            { name: 'ヴォクシー', price: '58,000円～', image: '/cars/voxy.jpg', route: '/minivan/voxy' },
+            { name: 'ノア', price: formatPrice(carBasePrices['/minivan/noah']), image: '/cars/noah.jpg', route: '/minivan/noah' },
+            { name: 'ヴォクシー', price: formatPrice(carBasePrices['/minivan/voxy']), image: '/cars/voxy.jpg', route: '/minivan/voxy' },
             {
                 name: 'アルファード',
-                price: '72,800円～',
+                price: formatPrice(carBasePrices['/minivan/alphard']),
                 image: '/cars/alphard.jpg',
                 route: '/minivan/alphard',
             },
         ],
 
         KCAR: [
-            { name: 'NBOX カスタム', price: '24,000円～', image: '/cars/nbox.jpg', route: '/kcar/nbox' },
+            { name: 'NBOX カスタム', price: formatPrice(carBasePrices['/kcar/nbox']), image: '/cars/nbox.jpg', route: '/kcar/nbox' },
             {
                 name: 'タントカスタム',
-                price: '32,000円～',
+                price: formatPrice(carBasePrices['/kcar/tantocustom']),
                 image: '/cars/tantocustom.jpg',
                 route: '/kcar/tantocustom',
             },
             {
                 name: 'タントファンクロス',
-                price: '33,000円～',
+                price: formatPrice(carBasePrices['/kcar/tantofuncross']),
                 image: '/cars/tantofuncross.jpg',
                 route: '/kcar/tantofuncross',
             },
             {
                 name: 'デリカミニ',
-                price: '25,000円～',
+                price: formatPrice(carBasePrices['/kcar/delicamini']),
                 image: '/cars/delicamini.jpg',
                 route: '/kcar/delicamini',
             },
             {
                 name: 'スペーシアカスタム',
-                price: '22,000円～',
+                price: formatPrice(carBasePrices['/kcar/spacia']),
                 image: '/cars/spacia.jpg',
                 route: '/kcar/spacia',
             },
             {
                 name: 'スペーシアギア',
-                price: '22,000円～',
+                price: formatPrice(carBasePrices['/kcar/spaciagear']),
                 image: '/cars/spaciagear.jpg',
                 route: '/kcar/spaciagear',
             },
             {
                 name: 'ハスラー',
-                price: '22,000円～',
+                price: formatPrice(carBasePrices['/kcar/hustler']),
                 image: '/cars/hustler.jpg',
                 route: '/kcar/hustler',
             },
-            { name: 'ジムニー', price: '22,000円～', image: '/cars/jimny.jpg', route: '/kcar/jimny' },
+            { name: 'ジムニー', price: formatPrice(carBasePrices['/kcar/jimny']), image: '/cars/jimny.jpg', route: '/kcar/jimny' },
         ],
     };
 

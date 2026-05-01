@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { carBasePrices } from '@/lib/carPrices';
 
 interface ColorOption {
     name: string;
@@ -19,7 +20,7 @@ interface VehicleOption {
 }
 
 export default function Page() {
-    const basePrice = 22000; // 基本月額料金
+    const basePrice = carBasePrices['/kcar/spaciagear'];
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'ソフトベージュガンメタ2トーン', price: 0, colorCode: '#c4a882' },
