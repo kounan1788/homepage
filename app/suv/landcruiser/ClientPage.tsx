@@ -29,9 +29,9 @@ export default function Page() {
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット（ラグジュアリー）　7人乗り用', price: 0, isDefault: true, category: 'インテリア' },
         { name: 'ヒッチメンバー', price: 2200, isDefault: false, category: 'エクステリア' },
-        { name: 'トヨタ チームメイト［アドバンスト ドライブ（渋滞時支援）］＋ドライバーモニターカメラ＋緊急時操舵支援（アクティブ操舵機能付）＋フロントクロストラフィックアラート［FCTA］＋レーンチェンジアシスト［LCA］', price: 2800, isDefault: false, category: 'ナビ・電装' },
+        { name: '丸目型Bi-Beam LEDヘッドランプ（オートレベリング機能付）＋LEDクリアランスランプ（おむかえ照明機能付）＆LEDデイタイムランニングランプ', price: 5200, isDefault: false, category: 'エクステリア' },
         { name: 'デジタルキー', price: 1000, isDefault: false, category: 'ナビ・電装' },
-        { name: 'ZV ディーゼル変更', price: 7000, isDefault: false, category: 'ナビ・電装' },
+        { name: 'ZV ディーゼル変更', price: 7000, isDefault: false, category: 'グレード' },
         { name: 'スタッドレスタイヤ', price: 8000, category: 'タイヤ・ホイール' },
     ], []);
 
@@ -107,7 +107,7 @@ export default function Page() {
                         </div>
                         <div className="flex flex-wrap gap-3">
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
-                                グレード: VZ GAS
+                                グレード: VX GAS
                             </span>
                             <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
                                 駆動方式: 4WD
