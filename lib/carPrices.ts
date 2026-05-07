@@ -22,7 +22,7 @@ export const carBasePrices: Record<string, number> = {
     // MINIVAN
     '/minivan/noah': 58000,
     '/minivan/voxy': 58000,
-    '/minivan/alphard': 72800,
+    '/minivan/alphard': 78000,
 
     // KCAR
     '/kcar/nbox': 24000,
