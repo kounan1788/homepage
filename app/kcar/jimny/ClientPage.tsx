@@ -253,7 +253,6 @@ export default function Page() {
                         { icon: '💰', label: '頭金', value: '無し' },
                         { icon: '🎁', label: 'ボーナス', value: '無し' },
                         { icon: '🔧', label: '車検', value: '不要' },
-                        { icon: '⚡', label: 'オイルメンテ', value: '港南負担' },
                         { icon: '🛡️', label: '1年間', value: '傷保証' },
                     ].map((feature, index) => (
                         <div key={index} className="bg-white rounded-2xl p-4 shadow-lg text-center hover:shadow-xl transition-shadow">
