@@ -210,7 +210,7 @@ export default function PricingPage() {
                                     </h3>
                                     <div className="flex items-baseline text-slate-800">
                                         <span className="text-4xl font-black">
-                                            ¥30,000<span className="text-xl">〜</span>
+                                            ¥20,000
                                         </span>
                                         <span className="text-slate-500 ml-2 font-medium">
                                             / 月
@@ -283,7 +283,7 @@ export default function PricingPage() {
                                     </h3>
                                     <div className="flex items-baseline text-slate-800">
                                         <span className="text-5xl font-black">
-                                            ¥80,000<span className="text-xl">〜</span>
+                                            ¥50,000
                                         </span>
                                         <span className="text-slate-500 ml-2 font-medium">
                                             / 月
@@ -376,7 +376,7 @@ export default function PricingPage() {
                                     </h3>
                                     <div className="flex items-baseline text-white">
                                         <span className="text-4xl font-black">
-                                            ¥150,000<span className="text-xl">〜</span>
+                                            ¥80,000
                                         </span>
                                         <span className="text-slate-400 ml-2 font-medium">
                                             / 月
@@ -492,10 +492,10 @@ export default function PricingPage() {
                                                 講座レベル
                                             </th>
                                             <th className="p-4 md:p-6 font-bold text-slate-700 bg-teal-50/50 w-1/4 text-center">
-                                                マンツーマン
+                                                グループプラン
                                                 <br />
                                                 <span className="text-xs font-normal">
-                                                    （基本料金/1名様）
+                                                    （5名まで）
                                                 </span>
                                             </th>
                                             <th className="p-4 md:p-6 font-bold text-slate-700 w-1/4 text-center">
