@@ -6,6 +6,54 @@ import Image from 'next/image';
 import Script from 'next/script';
 import { sendEmail } from '@/app/actions/sendEmail';
 
+// 2026〜2027年の日本の祝日
+const JAPANESE_HOLIDAYS: Record<string, string> = {
+    '2026-01-01': '元日',
+    '2026-01-12': '成人の日',
+    '2026-02-11': '建国記念日',
+    '2026-02-23': '天皇誕生日',
+    '2026-03-20': '春分の日',
+    '2026-04-29': '昭和の日',
+    '2026-05-03': '憲法記念日',
+    '2026-05-04': 'みどりの日',
+    '2026-05-05': 'こどもの日',
+    '2026-05-06': '振替休日',
+    '2026-07-20': '海の日',
+    '2026-08-11': '山の日',
+    '2026-09-21': '敬老の日',
+    '2026-09-23': '秋分の日',
+    '2026-10-12': 'スポーツの日',
+    '2026-11-03': '文化の日',
+    '2026-11-23': '勤労感謝の日',
+    '2027-01-01': '元日',
+    '2027-01-11': '成人の日',
+    '2027-02-11': '建国記念日',
+    '2027-02-23': '天皇誕生日',
+    '2027-03-21': '春分の日',
+};
+
+// 月の最初の土曜日の日付(1始まり)を返す
+function getFirstSaturdayOfMonth(year: number, month: number): number {
+    const firstDayOfWeek = new Date(year, month, 1).getDay();
+    return 1 + ((6 - firstDayOfWeek + 7) % 7);
+}
+
+// 定休日判定: 日曜・祝日・第1/2/4土曜日
+function isClosedDay(year: number, month: number, day: number): boolean {
+    const date = new Date(year, month, day);
+    const dow = date.getDay();
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+    if (dow === 0) return true;
+    if (JAPANESE_HOLIDAYS[dateStr]) return true;
+    if (dow === 6) {
+        const firstSat = getFirstSaturdayOfMonth(year, month);
+        const satNum = Math.floor((day - firstSat) / 7) + 1;
+        return satNum === 1 || satNum === 2 || satNum === 4;
+    }
+    return false;
+}
+
 export default function Page() {
     const [visibleSections, setVisibleSections] = useState({
         hero: true,
@@ -26,6 +74,11 @@ export default function Page() {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const [calendarDate, setCalendarDate] = useState(() => {
+        const now = new Date();
+        return { year: now.getFullYear(), month: now.getMonth() };
+    });
 
     const [scrolled, setScrolled] = useState(false);
 
@@ -91,6 +144,100 @@ export default function Page() {
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
+    };
+
+    const goPrevMonth = () => {
+        setCalendarDate(prev =>
+            prev.month === 0
+                ? { year: prev.year - 1, month: 11 }
+                : { year: prev.year, month: prev.month - 1 }
+        );
+    };
+
+    const goNextMonth = () => {
+        setCalendarDate(prev =>
+            prev.month === 11
+                ? { year: prev.year + 1, month: 0 }
+                : { year: prev.year, month: prev.month + 1 }
+        );
+    };
+
+    // カレンダーのセルを生成する
+    const buildCalendarCells = () => {
+        const { year, month } = calendarDate;
+        const firstDow = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const todayDate = new Date();
+        const firstSat = getFirstSaturdayOfMonth(year, month);
+        const cells: React.ReactNode[] = [];
+
+        // 月初前の空白
+        for (let i = 0; i < firstDow; i++) {
+            cells.push(
+                <div key={`pre-${i}`} className="min-h-[64px] bg-gray-50 border-b border-r border-gray-100" />
+            );
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(year, month, day);
+            const dow = date.getDay();
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const isSunday = dow === 0;
+            const isSaturday = dow === 6;
+            const holidayName = JAPANESE_HOLIDAYS[dateStr] ?? null;
+            const isHoliday = !!holidayName;
+            const isToday =
+                day === todayDate.getDate() &&
+                month === todayDate.getMonth() &&
+                year === todayDate.getFullYear();
+
+            let satNum = 0;
+            if (isSaturday) {
+                satNum = Math.floor((day - firstSat) / 7) + 1;
+            }
+            const isOpenSat = isSaturday && satNum === 3;
+            const isClosed = isClosedDay(year, month, day);
+
+            const numColor =
+                isSunday || isHoliday
+                    ? 'text-red-500'
+                    : isOpenSat
+                    ? 'text-blue-500'
+                    : isSaturday && !isOpenSat
+                    ? 'text-red-400'
+                    : 'text-gray-800';
+
+            cells.push(
+                <div
+                    key={day}
+                    className={`min-h-[64px] border-b border-r border-gray-100 p-1.5 flex flex-col
+                        ${isClosed ? 'bg-red-50' : 'bg-white'}
+                        ${isToday ? 'ring-2 ring-inset ring-teal-500' : ''}
+                    `}
+                >
+                    <span className={`text-sm font-black ${numColor}`}>{day}</span>
+                    {isHoliday && (
+                        <span className="text-[9px] leading-tight text-red-400 font-bold mt-0.5 break-all">
+                            {holidayName}
+                        </span>
+                    )}
+                    {isClosed && !isHoliday && (
+                        <span className="text-[9px] leading-tight text-red-300 font-bold mt-0.5">定休</span>
+                    )}
+                </div>
+            );
+        }
+
+        // 末尾の空白（行を揃える）
+        const total = firstDow + daysInMonth;
+        const trailing = (7 - (total % 7)) % 7;
+        for (let i = 0; i < trailing; i++) {
+            cells.push(
+                <div key={`post-${i}`} className="min-h-[64px] bg-gray-50 border-b border-r border-gray-100" />
+            );
+        }
+
+        return cells;
     };
 
     return (
@@ -1020,7 +1167,7 @@ export default function Page() {
                                             </div>
                                             <div className="flex items-start text-red-500">
                                                 <div className="w-20 font-bold">定休日</div>
-                                                <div className="font-black">第2・第4土曜日<br />日曜・祝日</div>
+                                                <div className="font-black">第1・第2・第4土曜日<br />日曜・祝日</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1038,6 +1185,89 @@ export default function Page() {
                                     title="港南自動車サービス地図"
                                     data-oid="x7m2rxr"
                                 ></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 休日カレンダー Section */}
+            <section className="py-20 bg-slate-50">
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-12">
+                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                            HOLIDAY CALENDAR
+                        </span>
+                        <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
+                            休日カレンダー
+                        </h2>
+                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
+                            定休日をご確認いただけます
+                        </p>
+                    </div>
+
+                    <div className="max-w-lg mx-auto">
+                        {/* 月ナビゲーション */}
+                        <div className="flex items-center justify-between mb-6">
+                            <button
+                                onClick={goPrevMonth}
+                                className="flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-md hover:shadow-lg hover:bg-teal-50 transition-all duration-300 font-bold text-gray-700 text-sm"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                                </svg>
+                                前の月
+                            </button>
+                            <h3 className="text-2xl font-black text-gray-900">
+                                {calendarDate.year}年&nbsp;{calendarDate.month + 1}月
+                            </h3>
+                            <button
+                                onClick={goNextMonth}
+                                className="flex items-center gap-2 px-5 py-2.5 bg-white rounded-xl shadow-md hover:shadow-lg hover:bg-teal-50 transition-all duration-300 font-bold text-gray-700 text-sm"
+                            >
+                                翌月
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* カレンダー本体 */}
+                        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                            {/* 曜日ヘッダー */}
+                            <div className="grid grid-cols-7 bg-gray-800">
+                                {['日', '月', '火', '水', '木', '金', '土'].map((d, i) => (
+                                    <div
+                                        key={d}
+                                        className={`py-3 text-center text-sm font-black
+                                            ${i === 0 ? 'text-red-400' : i === 6 ? 'text-blue-300' : 'text-gray-300'}
+                                        `}
+                                    >
+                                        {d}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* 日付グリッド */}
+                            <div className="grid grid-cols-7">
+                                {buildCalendarCells()}
+                            </div>
+                        </div>
+
+                        {/* 凡例 */}
+                        <div className="mt-5 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm">
+                            <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 rounded bg-red-50 border border-red-200"></div>
+                                <span className="text-gray-600 font-medium">定休日</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="font-black text-red-500">日</span>
+                                <span className="text-gray-600 font-medium">日曜・祝日・第1/2/4土曜</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="font-black text-blue-500">土</span>
+                                <span className="text-gray-600 font-medium">第3土曜（9:00〜17:00）</span>
                             </div>
                         </div>
                     </div>
