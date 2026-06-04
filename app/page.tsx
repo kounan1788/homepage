@@ -6,13 +6,8 @@ import Image from 'next/image';
 import Script from 'next/script';
 import { sendEmail } from '@/app/actions/sendEmail';
 
-// 2026〜2027年の日本の祝日
+// 祝日・特別休業日の名称（カレンダーに表示する）
 const JAPANESE_HOLIDAYS: Record<string, string> = {
-    '2026-01-01': '元日',
-    '2026-01-12': '成人の日',
-    '2026-02-11': '建国記念日',
-    '2026-02-23': '天皇誕生日',
-    '2026-03-20': '春分の日',
     '2026-04-29': '昭和の日',
     '2026-05-03': '憲法記念日',
     '2026-05-04': 'みどりの日',
@@ -20,6 +15,9 @@ const JAPANESE_HOLIDAYS: Record<string, string> = {
     '2026-05-06': '振替休日',
     '2026-07-20': '海の日',
     '2026-08-11': '山の日',
+    '2026-08-12': 'お盆休み',
+    '2026-08-13': 'お盆休み',
+    '2026-08-14': 'お盆休み',
     '2026-09-21': '敬老の日',
     '2026-09-22': '国民の休日',
     '2026-09-23': '秋分の日',
@@ -29,6 +27,7 @@ const JAPANESE_HOLIDAYS: Record<string, string> = {
     '2026-12-30': '年末休業',
     '2026-12-31': '年末休業',
     '2027-01-01': '元日',
+    '2027-01-04': '年始休業',
     '2027-01-11': '成人の日',
     '2027-02-11': '建国記念日',
     '2027-02-23': '天皇誕生日',
@@ -36,24 +35,61 @@ const JAPANESE_HOLIDAYS: Record<string, string> = {
     '2027-03-22': '振替休日',
 };
 
-// 月の最初の土曜日の日付(1始まり)を返す
+// 年間休日カレンダー（画像）で赤く表示されている定休日をそのまま列挙
+const CLOSED_DATES = new Set<string>([
+    // 4月
+    '2026-04-05', '2026-04-11', '2026-04-12', '2026-04-19', '2026-04-25', '2026-04-26', '2026-04-29',
+    // 5月
+    '2026-05-02', '2026-05-03', '2026-05-04', '2026-05-05', '2026-05-06', '2026-05-09', '2026-05-10',
+    '2026-05-17', '2026-05-23', '2026-05-24', '2026-05-31',
+    // 6月
+    '2026-06-06', '2026-06-07', '2026-06-13', '2026-06-14', '2026-06-21', '2026-06-27', '2026-06-28',
+    // 7月
+    '2026-07-04', '2026-07-05', '2026-07-11', '2026-07-12', '2026-07-19', '2026-07-20', '2026-07-25', '2026-07-26',
+    // 8月
+    '2026-08-02', '2026-08-08', '2026-08-09', '2026-08-11', '2026-08-12', '2026-08-13', '2026-08-14',
+    '2026-08-15', '2026-08-16', '2026-08-22', '2026-08-23', '2026-08-30',
+    // 9月
+    '2026-09-05', '2026-09-06', '2026-09-12', '2026-09-13', '2026-09-20', '2026-09-21', '2026-09-22',
+    '2026-09-23', '2026-09-26', '2026-09-27',
+    // 10月
+    '2026-10-03', '2026-10-04', '2026-10-10', '2026-10-11', '2026-10-12', '2026-10-18', '2026-10-24', '2026-10-25',
+    // 11月
+    '2026-11-01', '2026-11-03', '2026-11-08', '2026-11-14', '2026-11-15', '2026-11-22', '2026-11-23',
+    '2026-11-28', '2026-11-29',
+    // 12月
+    '2026-12-06', '2026-12-12', '2026-12-13', '2026-12-20', '2026-12-26', '2026-12-27', '2026-12-30', '2026-12-31',
+    // 1月
+    '2027-01-01', '2027-01-02', '2027-01-03', '2027-01-04', '2027-01-09', '2027-01-10', '2027-01-11',
+    '2027-01-17', '2027-01-23', '2027-01-24', '2027-01-31',
+    // 2月
+    '2027-02-06', '2027-02-07', '2027-02-11', '2027-02-13', '2027-02-14', '2027-02-21', '2027-02-23',
+    '2027-02-27', '2027-02-28',
+    // 3月
+    '2027-03-07', '2027-03-13', '2027-03-14', '2027-03-21', '2027-03-22', '2027-03-27', '2027-03-28',
+]);
+
+// 月の最初の土曜日の日付(1始まり)を返す（範囲外フォールバック用）
 function getFirstSaturdayOfMonth(year: number, month: number): number {
     const firstDayOfWeek = new Date(year, month, 1).getDay();
     return 1 + ((6 - firstDayOfWeek + 7) % 7);
 }
 
-// 定休日判定: 日曜・祝日・第1/2/4土曜日
+// 定休日判定: 2026年度は画像どおりの休日セット、範囲外は日曜・祝日・第2/第4土曜で代替
 function isClosedDay(year: number, month: number, day: number): boolean {
-    const date = new Date(year, month, day);
-    const dow = date.getDay();
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
+    if (dateStr >= '2026-04-01' && dateStr <= '2027-03-31') {
+        return CLOSED_DATES.has(dateStr);
+    }
+
+    const dow = new Date(year, month, day).getDay();
     if (dow === 0) return true;
     if (JAPANESE_HOLIDAYS[dateStr]) return true;
     if (dow === 6) {
         const firstSat = getFirstSaturdayOfMonth(year, month);
         const satNum = Math.floor((day - firstSat) / 7) + 1;
-        return satNum === 1 || satNum === 2 || satNum === 4;
+        return satNum === 2 || satNum === 4;
     }
     return false;
 }
@@ -172,7 +208,6 @@ export default function Page() {
         const firstDow = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const todayDate = new Date();
-        const firstSat = getFirstSaturdayOfMonth(year, month);
         const cells: React.ReactNode[] = [];
 
         // 月初前の空白
@@ -186,7 +221,6 @@ export default function Page() {
             const date = new Date(year, month, day);
             const dow = date.getDay();
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            const isSunday = dow === 0;
             const isSaturday = dow === 6;
             const holidayName = JAPANESE_HOLIDAYS[dateStr] ?? null;
             const isHoliday = !!holidayName;
@@ -195,21 +229,15 @@ export default function Page() {
                 month === todayDate.getMonth() &&
                 year === todayDate.getFullYear();
 
-            let satNum = 0;
-            if (isSaturday) {
-                satNum = Math.floor((day - firstSat) / 7) + 1;
-            }
-            const isOpenSat = isSaturday && satNum === 3;
             const isClosed = isClosedDay(year, month, day);
+            // 営業土曜日（定休日ではない土曜。9:00〜17:00営業）
+            const isOpenSat = isSaturday && !isClosed;
 
-            const numColor =
-                isSunday || isHoliday
-                    ? 'text-red-500'
-                    : isOpenSat
-                    ? 'text-blue-500'
-                    : isSaturday && !isOpenSat
-                    ? 'text-red-400'
-                    : 'text-gray-800';
+            const numColor = isClosed
+                ? 'text-red-500'
+                : isOpenSat
+                ? 'text-blue-500'
+                : 'text-gray-800';
 
             cells.push(
                 <div
@@ -1263,15 +1291,12 @@ export default function Page() {
                         <div className="mt-5 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm">
                             <div className="flex items-center gap-2">
                                 <div className="w-4 h-4 rounded bg-red-50 border border-red-200"></div>
-                                <span className="text-gray-600 font-medium">定休日</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="font-black text-red-500">日</span>
-                                <span className="text-gray-600 font-medium">日曜・祝日・第1/2/4土曜</span>
+                                <span className="font-black text-red-500">定休日</span>
+                                <span className="text-gray-600 font-medium">（日曜・祝日・休業日）</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="font-black text-blue-500">土</span>
-                                <span className="text-gray-600 font-medium">第3土曜（9:00〜17:00）</span>
+                                <span className="text-gray-600 font-medium">営業土曜日（9:00〜17:00）</span>
                             </div>
                         </div>
                     </div>
