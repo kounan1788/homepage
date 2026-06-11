@@ -94,6 +94,34 @@ function isClosedDay(year: number, month: number, day: number): boolean {
     return false;
 }
 
+// トップページ FAQ データ（表示と FAQPage 構造化データの両方で使用）
+const topFaqData = [
+    {
+        question: '営業時間と定休日を教えてください。',
+        answer: '営業時間は平日9:00〜18:00、土曜9:00〜17:00です。日曜・祝日はお休みをいただいております。詳しくはトップページの営業カレンダーをご確認ください。',
+    },
+    {
+        question: '車検はどのくらいの時間で終わりますか？',
+        answer: '追加整備がない場合、最短90分で完了します。完全予約制・1日限定3台で対応しているため、お待たせしません。',
+    },
+    {
+        question: '車検の費用はいくらかかりますか？',
+        answer: '法定費用込みの総額で、軽自動車65,090円〜、普通乗用車99,990円〜です。持込・引取割引や早期予約割引など各種割引制度の組み合わせで、最大約20,000円お得になります。',
+    },
+    {
+        question: 'カーリース「ノレタ」とはどんなサービスですか？',
+        answer: '月々定額・頭金なし・ボーナス払いなしで新車に乗れる3年リースプランです。車検費用・オイル交換・故障修理もすべてコミコミ。3年後は「乗り換え」「継続利用」「返却」から選べます。',
+    },
+    {
+        question: '法人向けのカーリースはありますか？',
+        answer: 'はい、法人・個人事業主向けカーリース「ノリドク」をご用意しています。月々定額で経費処理が簡単になり、車両管理の手間も削減できます。全メーカー対応・メンテナンスパック付きです。',
+    },
+    {
+        question: 'どのメーカーの車でも対応できますか？',
+        answer: 'はい、全メーカーに対応しています。車検・整備はもちろん、新車・中古車販売もメーカーを問わずご相談いただけます。',
+    },
+];
+
 export default function Page() {
     const [visibleSections, setVisibleSections] = useState({
         hero: true,
@@ -1394,6 +1422,71 @@ export default function Page() {
                         strategy="lazyOnload"
                         data-use-service-core
                     />
+                </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section id="faq" className="py-32 bg-white">
+                {/* FAQPage 構造化データ */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'FAQPage',
+                            mainEntity: topFaqData.map((item) => ({
+                                '@type': 'Question',
+                                name: item.question,
+                                acceptedAnswer: {
+                                    '@type': 'Answer',
+                                    text: item.answer,
+                                },
+                            })),
+                        }),
+                    }}
+                />
+
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-20">
+                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                            FAQ
+                        </span>
+                        <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
+                            よくある質問
+                        </h2>
+                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
+                            車検・カーリースについて、<br />お客様からよくいただくご質問にお答えします。
+                        </p>
+                    </div>
+
+                    <div className="max-w-3xl mx-auto space-y-4">
+                        {topFaqData.map((item, index) => (
+                            <details
+                                key={index}
+                                className="group bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden"
+                            >
+                                <summary className="flex items-center justify-between cursor-pointer list-none p-6 font-black text-gray-900 hover:text-teal-600 transition-colors">
+                                    <span className="flex items-start">
+                                        <span className="text-teal-600 mr-3 shrink-0">Q.</span>
+                                        {item.question}
+                                    </span>
+                                    <svg
+                                        className="w-5 h-5 ml-4 shrink-0 text-teal-600 transition-transform duration-300 group-open:rotate-180"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </summary>
+                                <div className="px-6 pb-6 text-gray-600 font-medium leading-relaxed flex items-start">
+                                    <span className="text-teal-600 font-black mr-3 shrink-0">A.</span>
+                                    <p>{item.answer}</p>
+                                </div>
+                            </details>
+                        ))}
+                    </div>
                 </div>
             </section>
 

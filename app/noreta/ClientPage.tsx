@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Script from 'next/script';
 import Breadcrumb from '@/components/Breadcrumb';
 import { carBasePrices, formatPrice } from '@/lib/carPrices';
 
@@ -15,7 +14,7 @@ const noretaFaqData = [
     },
     {
         question: 'ノレタの月々の支払いはいくらからですか？',
-        answer: '軽自動車で月々22,000円から、SUVで30,000円からご利用いただけます。頭金・ボーナス払いは不要です。',
+        answer: '軽自動車で月々27,000円から、SUVで35,000円からご利用いただけます。頭金・ボーナス払いは不要です。',
     },
     {
         question: '3年後はどうなりますか？',
@@ -184,9 +183,8 @@ export default function Page() {
 
     return (
         <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-teal-100" data-oid="dn0w-eo">
-            {/* FAQ構造化データ */}
-            <Script
-                id="noreta-faq-schema"
+            {/* FAQ構造化データ（AIクローラーにも見えるよう静的HTMLに含める） */}
+            <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />

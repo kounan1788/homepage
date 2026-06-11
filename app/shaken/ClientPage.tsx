@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Script from 'next/script';
 import Breadcrumb from '@/components/Breadcrumb';
 
 // 車種タイプの定義
@@ -216,14 +215,12 @@ export default function ShakenPage() {
 
     return (
         <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 pb-20 overflow-x-hidden">
-            {/* 構造化データ */}
-            <Script
-                id="local-business-schema"
+            {/* 構造化データ（AIクローラーにも見えるよう静的HTMLに含める） */}
+            <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
             />
-            <Script
-                id="faq-schema"
+            <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />

@@ -27,5 +27,23 @@ export const metadata: Metadata = {
 };
 
 export default function RecruitLayout({ children }: { children: React.ReactNode }) {
-    return <>{children}</>;
+    // パンくず構造化データ（ホーム > 採用情報）
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://kounan-auto.jp' },
+            { '@type': 'ListItem', position: 2, name: '採用情報' },
+        ],
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            {children}
+        </>
+    );
 }

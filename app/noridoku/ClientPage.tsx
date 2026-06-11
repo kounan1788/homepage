@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Script from 'next/script';
 import Breadcrumb from '@/components/Breadcrumb';
 
 // ノリドク FAQ データ
@@ -298,9 +297,8 @@ export default function NoridokuPage() {
 
     return (
         <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 overflow-x-hidden">
-            {/* FAQ構造化データ */}
-            <Script
-                id="noridoku-faq-schema"
+            {/* FAQ構造化データ（AIクローラーにも見えるよう静的HTMLに含める） */}
+            <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />

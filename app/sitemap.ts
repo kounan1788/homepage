@@ -89,6 +89,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.6,
         },
+        {
+            url: `${baseUrl}/suv/xbee`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.6,
+        },
         // ミニバン車種ページ
         {
             url: `${baseUrl}/minivan/noah`,
@@ -116,13 +122,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.6,
         },
         {
-            url: `${baseUrl}/kcar/tanto`,
+            url: `${baseUrl}/kcar/tantocustom`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.6,
         },
         {
-            url: `${baseUrl}/kcar/tantofun`,
+            url: `${baseUrl}/kcar/tantofuncross`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.6,

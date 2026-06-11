@@ -39,5 +39,23 @@ export const metadata: Metadata = {
 };
 
 export default function ShakenLayout({ children }: { children: React.ReactNode }) {
-    return <>{children}</>;
+    // パンくず構造化データ（ホーム > 車検）
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://kounan-auto.jp' },
+            { '@type': 'ListItem', position: 2, name: '車検・点検' },
+        ],
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            {children}
+        </>
+    );
 }
