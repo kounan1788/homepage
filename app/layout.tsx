@@ -91,7 +91,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         '@type': ['LocalBusiness', 'AutoRepair', 'AutoDealer'],
         '@id': 'https://kounan-auto.jp/#organization',
         name: '株式会社港南自動車サービス',
-        alternateName: ['港南自動車', '港南自動車サービス'],
+        // 誤表記（湖南・河南）でも検索されているため alternateName に含める
+        alternateName: ['港南自動車', '港南自動車サービス', '湖南自動車', '河南自動車'],
         image: 'https://kounan-auto.jp/logo.png',
         url: 'https://kounan-auto.jp',
         telephone: '076-268-1788',
@@ -169,7 +170,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         '@id': 'https://kounan-auto.jp/#website',
         url: 'https://kounan-auto.jp',
         name: '株式会社港南自動車サービス',
-        alternateName: ['港南自動車', '港南自動車サービス'],
+        alternateName: ['港南自動車', '港南自動車サービス', '湖南自動車', '河南自動車'],
         description: '石川県金沢市の車検・新車販売・カーリース',
         publisher: { '@id': 'https://kounan-auto.jp/#organization' },
         inLanguage: 'ja',

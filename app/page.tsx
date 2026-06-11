@@ -894,6 +894,26 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
+
+                    {/* 金沢市で新車をお探しの方向けの説明（「新車 金沢」検索対策） */}
+                    <div className="mt-16 max-w-3xl mx-auto bg-slate-50/60 rounded-[2rem] border border-white/80 p-8 md:p-10">
+                        <h3 className="text-xl font-black text-gray-900 mb-4">
+                            金沢市で新車をお探しの方へ
+                        </h3>
+                        <p className="text-gray-600 leading-relaxed mb-4">
+                            港南自動車サービスは、石川県金沢市で創業60年以上、トヨタ・ホンダ・スズキ・ダイハツなど全メーカーの新車を取り扱う自動車販売店です。ご購入のほか、頭金なし・ボーナス払いなしの月々定額で新車に乗れる新車リース「ノレタ」もご用意。車検やオイル交換などの維持費もコミコミなので、初めて新車に乗る方にも安心です。
+                        </p>
+                        <p className="text-gray-600 leading-relaxed">
+                            <Link href="/noreta" className="text-teal-600 font-bold hover:underline">
+                                金沢市の新車リース「ノレタ」の料金・取扱車種はこちら
+                            </Link>
+                            。ご予算に合わせた一台のご提案は
+                            <a href="#contact" className="text-teal-600 font-bold hover:underline">
+                                お問い合わせ
+                            </a>
+                            からお気軽にどうぞ。
+                        </p>
+                    </div>
                 </div>
             </section>
 

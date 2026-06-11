@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: '新車リース「ノレタ」｜月々定額・頭金なし・ボーナス払いなし',
+    title: '金沢市で新車に乗るなら「ノレタ」｜月々定額・頭金なしの新車リース',
     description:
         '金沢市で新車をお探しなら港南自動車の「ノレタ」。月々定額、頭金・ボーナス払いなしで新車に乗れる3年リースプラン。軽自動車27,000円〜、SUV35,000円〜。車検・メンテナンスもコミコミで安心。石川県金沢市の方はお気軽にご相談ください。',
     keywords: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         canonical: '/noreta',
     },
     openGraph: {
-        title: '新車リース「ノレタ」｜月々定額・頭金なし【港南自動車サービス】',
+        title: '金沢市で新車に乗るなら「ノレタ」｜月々定額・頭金なし【港南自動車サービス】',
         description:
             '金沢市で新車をお探しなら港南自動車の「ノレタ」。月々定額、頭金・ボーナス払いなしで新車に乗れます。',
         url: 'https://kounan-auto.jp/noreta',
