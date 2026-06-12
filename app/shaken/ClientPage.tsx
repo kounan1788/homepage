@@ -18,8 +18,8 @@ const pricingData = {
         cleaning: 3300,
         agency: 8580,
         inspection: 8250,
-        statutoryFees: 26040,
-        total: 65090,
+        statutoryFees: 25990,
+        total: 65040,
         image: '/cars/delicamini.jpg',
         description: 'ハスラー、タント、N-BOXなど'
     },
@@ -31,8 +31,8 @@ const pricingData = {
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        statutoryFees: 35850,
-        total: 79190,
+        statutoryFees: 35900,
+        total: 79240,
         image: '/cars/xbee.jpg',
         description: 'ヴィッツ、フィット、パッソなど'
     },
@@ -44,8 +44,8 @@ const pricingData = {
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        statutoryFees: 44050,
-        total: 88490,
+        statutoryFees: 44100,
+        total: 88540,
         image: '/cars/harrier.jpg',
         description: 'カローラ、プリウス、アクセラなど'
     },
@@ -57,8 +57,8 @@ const pricingData = {
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        statutoryFees: 52250,
-        total: 99990,
+        statutoryFees: 52300,
+        total: 100040,
         image: '/cars/alphard.jpg',
         description: 'クラウン、アルファード、エルグランドなど'
     }
@@ -80,20 +80,70 @@ const discountOptions = [
 const faqData = [
     {
         question: '金沢市で車検を受けるならどこがおすすめですか？',
-        answer: '港南自動車サービスは創業60年以上の実績があり、金沢市で信頼できる車検サービスを提供しています。最短90分のスピード車検、国家資格を持つ整備士による丁寧な診断が特徴です。'
+        answer: '港南自動車サービスは創業60年以上の実績があり、金沢市で信頼できる車検サービスを提供しています。最短90分の立会い車検（新車ご購入後の初回車検の方限定）、国家資格を持つ整備士による丁寧な診断が特徴です。'
     },
     {
         question: '車検にかかる時間はどれくらいですか？',
-        answer: '港南自動車サービスでは、追加整備がない場合、最短90分で車検が完了します。完全予約制・1日限定3台で、お客様をお待たせしません。'
+        answer: '港南自動車サービスでは、追加整備がない場合、最短90分で車検が完了します。完全予約制・1日限定3台で、お客様をお待たせしません。なお、90分立会い車検は新車ご購入後、初めての車検の方限定のサービスです。'
     },
     {
         question: '車検費用はいくらくらいかかりますか？',
-        answer: '軽自動車で約65,090円〜、普通乗用車で約99,990円〜となります。各種割引制度もご用意しており、最大で約20,000円以上お得になる場合もあります。'
+        answer: '軽自動車で約65,040円〜、普通乗用車で約100,040円〜となります。各種割引制度もご用意しており、最大で約20,000円以上お得になる場合もあります。'
     },
     {
         question: '代車を借りることはできますか？',
-        answer: 'はい、代車をご用意しております。代車が不要な場合は1,100円の割引が適用されます。'
+        answer: 'はい、代車をご用意しております。当社の代車は全車保険完備で安心です。代車が不要な場合は1,100円の割引が適用されます。'
+    },
+    {
+        question: '立会い車検とはなんですか？',
+        answer: 'お客様にお立ち会いいただき、整備士と一緒に愛車の状態を確認しながら進める車検です。現在の状態と必要な処置を専門用語を使わずにご説明するので、納得したうえで整備を進められます。'
+    },
+    {
+        question: 'OBD車検には対応していますか？',
+        answer: 'はい、対応しています。令和3年10月以降に登録された国産車（輸入車は令和4年10月以降）はOBD検査が義務化されており、自動ブレーキやレーンキープアシストなどの電子制御装置が正常に作動しているかをコンピューター診断でチェックします。'
+    },
+    {
+        question: '車検費用の支払い方法は何が使えますか？',
+        answer: '現金のほか、カード払い、当社ローンがご利用いただけます。車検シール（検査標章）は後日郵送いたします。'
+    },
+    {
+        question: '輸入車や4WD車・ディーゼル車の車検もできますか？',
+        answer: 'はい、全メーカー対応しています。なお、輸入車は基本診断費用・基本治療費用がそれぞれ2,200円、フルタイム4WD車・ディーゼル車は総合検査費用が1,100円追加となります。'
     }
+];
+
+// 車検費用の内訳の解説データ（チラシ準拠）
+const costBreakdownData = [
+    {
+        no: '01',
+        name: '基本診断費用',
+        description: '安全にお乗り頂けるよう、法定で定められている項目をチェックし、おクルマの状態を把握します。さらに、コンピューターにより制御される各種装置の故障の有無（OBD検査）も診断します。',
+    },
+    {
+        no: '02',
+        name: '基本治療費用',
+        description: '安全確保のために最小限必要な治療を行います。ベルト類の調整、ブレーキの清掃及び調整、エアクリーナーの清掃が含まれます。',
+    },
+    {
+        no: '03',
+        name: '下廻り洗浄費用',
+        description: '不具合箇所の発見をしやすくし、確実に検査を行うために愛車の下廻りの洗浄を行います。',
+    },
+    {
+        no: '04',
+        name: '総合検査費用',
+        description: '道路運送車両法に基づいた保安基準に適合するかを、検査員が検査機器類を用いて判断・確認を行います。',
+    },
+    {
+        no: '05',
+        name: 'OSS申請費用',
+        description: '継続検査OSS申請における「申請依頼データ」を作成し、送信する費用です。',
+    },
+    {
+        no: '06',
+        name: '法定費用',
+        description: '重量税・自賠責保険・印紙代の合計です。次世代自動車（電気自動車・ハイブリッド車・クリーンディーゼル車）は重量税がお安くなります。登録後13年経過した車は重量税が異なります。',
+    },
 ];
 
 export default function ShakenPage() {
@@ -138,7 +188,7 @@ export default function ShakenPage() {
         '@id': 'https://kounan-auto.jp',
         url: 'https://kounan-auto.jp/shaken',
         telephone: '076-268-1788',
-        priceRange: '¥65,090〜',
+        priceRange: '¥65,040〜',
         address: {
             '@type': 'PostalAddress',
             streetAddress: '金石本町ハ14番地',
@@ -166,7 +216,7 @@ export default function ShakenPage() {
                 closes: '17:00'
             }
         ],
-        description: '石川県金沢市の車検・自動車整備専門店。創業60年以上の実績。最短90分スピード車検、国家資格整備士による安心の点検・診断。',
+        description: '石川県金沢市の車検・自動車整備専門店。創業60年以上の実績。最短90分立会い車検（新車購入後の初回車検の方限定）、国家資格整備士による安心の点検・診断。',
         areaServed: {
             '@type': 'City',
             name: '金沢市'
@@ -182,7 +232,7 @@ export default function ShakenPage() {
                         name: '軽自動車車検',
                         description: '軽自動車（ハスラー、タント、N-BOX等）の車検'
                     },
-                    price: '65090',
+                    price: '65040',
                     priceCurrency: 'JPY'
                 },
                 {
@@ -192,7 +242,7 @@ export default function ShakenPage() {
                         name: '普通乗用車車検',
                         description: '普通乗用車（クラウン、アルファード等）の車検'
                     },
-                    price: '99990',
+                    price: '100040',
                     priceCurrency: 'JPY'
                 }
             ]
@@ -339,7 +389,7 @@ export default function ShakenPage() {
                             港南自動車サービス
                         </h1>
                         <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
-                            石川県金沢市で創業60年以上。国家資格を持つ整備士が、あなたの愛車を徹底的にチェック。完全予約制・1日限定3台、最短90分で完了するプレミアム車検サービスです。※最短90分で車検を完了させる場合は、追加整備が一切ない場合のみになります。
+                            石川県金沢市で創業60年以上。国家資格を持つ整備士が、あなたの愛車を徹底的にチェック。完全予約制・1日限定3台、最短90分で完了するプレミアム車検サービスです。※90分立会い車検は、新車ご購入後初めての車検の方限定です。※最短90分で車検を完了させる場合は、追加整備が一切ない場合のみになります。
                         </p>
                     </div>
 
@@ -493,7 +543,7 @@ export default function ShakenPage() {
                         <article className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">⚡</div>
                             <h3 className="text-xl font-black mb-4">驚きのスピード (90分)</h3>
-                            <p className="text-slate-500 text-sm leading-relaxed">最新の診断機と効率化されたオペレーションにより、最短90分で完了。店内の待合ペースでゆっくり寛いでいる間に、すべてが終わります。</p>
+                            <p className="text-slate-500 text-sm leading-relaxed">最新の診断機と効率化されたオペレーションにより、最短90分で完了（新車ご購入後の初回車検の方限定）。店内の待合スペースでゆっくり寛いでいる間に、すべてが終わります。</p>
                         </article>
                         <article className="bg-white p-8 rounded-3xl border border-slate-200">
                             <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">💎</div>
@@ -502,22 +552,47 @@ export default function ShakenPage() {
                         </article>
                     </div>
 
+                    {/* Cost Breakdown Section（車検費用の内訳の解説） */}
+                    <div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">車検費用の内訳</h2>
+                            <p className="text-slate-500">金沢市の「ドクター車検」の費用は、以下の項目で構成されています。<br className="hidden md:block" />何にいくらかかるのかを明確にし、納得いただける車検をご提供します。</p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                            {costBreakdownData.map((item, idx) => (
+                                <article key={idx} className="bg-white p-8 rounded-2xl border border-slate-200">
+                                    <div className="flex items-center mb-4">
+                                        <span className="text-3xl font-black text-teal-600/30 mr-3">{item.no}</span>
+                                        <h3 className="text-lg font-black text-slate-800">{item.name}</h3>
+                                    </div>
+                                    <p className="text-slate-500 text-sm leading-relaxed">{item.description}</p>
+                                </article>
+                            ))}
+                        </div>
+                        <div className="max-w-5xl mx-auto mt-8 bg-slate-100 rounded-2xl p-6">
+                            <p className="text-slate-500 text-xs leading-relaxed">
+                                ※潤滑剤・ウエス等のショートパーツ代として1,100円〜2,200円が加算されます。※交換部品代金の3%を上限として交換部品処理費を頂いております。※輸入車は基本診断費用・基本治療費用が各2,200円、フルタイム4WD車・ディーゼル車は総合検査費用が1,100円追加となります。※追加整備は別途お見積りいたします。
+                            </p>
+                        </div>
+                    </div>
+
                     {/* Flow Section */}
                     <div>
                         <div className="text-center mb-16">
                             <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">車検当日の流れ</h2>
-                            <p className="text-slate-500">ご予約からお引き渡しまで、スムーズで快適な体験をご提供します。</p>
+                            <p className="text-slate-500">完全予約制・1日限定3台。ご予約からお引き渡しまで、スムーズで快適な体験をご提供します。</p>
                         </div>
                         <div className="relative">
                             {/* Connection Line (Desktop) */}
                             <div className="hidden md:block absolute top-10 left-0 w-full h-0.5 bg-slate-200 z-0"></div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                            <div className="grid grid-cols-1 md:grid-cols-5 gap-8 relative z-10">
                                 {[
-                                    { step: '01', title: '受付', desc: 'お車をお預かりし、おクルマの健康状態をお伺いします。' },
-                                    { step: '02', title: '検査・問診', desc: '整備士が全項目を丁寧にチェック。お客様にもご確認いただきます。' },
-                                    { step: '03', title: '処置・メンテナンス', desc: '必要な処置を迅速に行い、最高のコンディションに調整します。' },
-                                    { step: '04', title: 'ご精算', desc: '診断結果とメンテナンスのアドバイスをお伝えし完了です。' }
+                                    { step: '01', title: '電話予約', desc: '完全予約制です。お電話またはLINEでご希望日をご予約ください。平日・夕方・土曜の入庫もOKです。' },
+                                    { step: '02', title: 'おクルマ入庫', desc: 'ご予約の日時にご来店ください。受付後、すぐに車検作業に入ります。' },
+                                    { step: '03', title: '立会い車検作業', desc: '整備士がお客様と一緒に愛車の状態を確認しながら、診断・治療・総合検査を行います。' },
+                                    { step: '04', title: '完了・ご精算', desc: '診断結果とアドバイスをご説明後、ご精算。現金・カード・当社ローンがご利用いただけます。' },
+                                    { step: '05', title: 'お帰り', desc: '追加整備がなければ最短90分で完了。車検シール（検査標章）は後日郵送いたします。' }
                                 ].map((item, idx) => (
                                     <article key={idx} className="bg-white md:bg-transparent p-6 rounded-2xl border border-slate-100 md:border-none">
                                         <div className="w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xs font-black mb-6 shadow-lg shadow-teal-200">
@@ -529,6 +604,39 @@ export default function ShakenPage() {
                                 ))}
                             </div>
                         </div>
+                    </div>
+
+                    {/* Maintenance Pack Section（車検時のお得な整備パック） */}
+                    <div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">車検時のお得な整備パック</h2>
+                            <p className="text-slate-500">車検と同時に整備をまとめると、通常価格よりお得になります。</p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                            <article className="bg-white p-8 rounded-3xl border border-slate-200">
+                                <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">🌸</div>
+                                <h3 className="text-xl font-black mb-4">快適パック</h3>
+                                <ul className="text-slate-500 text-sm leading-relaxed mb-6 space-y-1">
+                                    <li>・キーレス電池交換</li>
+                                    <li>・ワイパーブレード交換（3本）</li>
+                                    <li>・エアコンフィルター交換</li>
+                                </ul>
+                                <p className="text-sm text-slate-400">通常価格 7,865円のところ</p>
+                                <p className="text-2xl font-black text-teal-600">車検時パック価格 7,080円<span className="text-sm font-bold text-slate-400 ml-1">（税込・軽自動車の例）</span></p>
+                            </article>
+                            <article className="bg-white p-8 rounded-3xl border border-slate-200">
+                                <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">🛡️</div>
+                                <h3 className="text-xl font-black mb-4">安心パック</h3>
+                                <ul className="text-slate-500 text-sm leading-relaxed mb-6 space-y-1">
+                                    <li>・快適パックの内容すべて</li>
+                                    <li>・下回りサビ止め塗装</li>
+                                    <li>・オイル交換</li>
+                                </ul>
+                                <p className="text-sm text-slate-400">通常価格 20,581円のところ</p>
+                                <p className="text-2xl font-black text-teal-600">車検時パック価格 18,500円<span className="text-sm font-bold text-slate-400 ml-1">（税込・軽自動車の例）</span></p>
+                            </article>
+                        </div>
+                        <p className="text-center text-slate-400 text-xs mt-8">※価格は軽自動車の例です。車種により異なりますので、詳細はお気軽にお声掛けください。</p>
                     </div>
 
                     {/* FAQ Section */}
