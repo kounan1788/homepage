@@ -8,9 +8,17 @@ export async function sendEmail(formData: {
     name: string;
     email: string;
     category: string;
+    preferredDate?: string;
+    preferredTime?: string;
     message: string;
 }) {
-    const { name, email, category, message } = formData;
+    const { name, email, category, preferredDate, preferredTime, message } = formData;
+
+    // 希望日時が入力されている場合のみメール本文に追加する
+    const preferredLine =
+        preferredDate || preferredTime
+            ? `ご希望日時: ${preferredDate || '指定なし'} ${preferredTime || ''}\n`
+            : '';
 
     try {
         const data = await resend.emails.send({
@@ -22,7 +30,7 @@ export async function sendEmail(formData: {
 お名前: ${name}
 メールアドレス: ${email}
 お問い合わせジャンル: ${category}
-
+${preferredLine}
 メッセージ内容:
 ${message}
             `,

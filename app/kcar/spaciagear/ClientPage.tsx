@@ -89,7 +89,16 @@ export default function Page() {
             {/* Hero Header */}
             <div className="bg-gradient-to-r from-slate-800 to-slate-900 text-white py-8 px-4 md:px-8">
                 <div className="max-w-5xl mx-auto">
-                    <Link href="/noreta" className="inline-flex items-center text-slate-300 hover:text-white transition-colors mb-4 group">
+                    {/* パンくずリスト（構造化データは page.tsx 側で出力済み） */}
+                    <nav aria-label="パンくずリスト" className="mb-3">
+                        <ol className="flex flex-wrap items-center text-xs text-slate-400">
+                            <li><Link href="/" className="hover:text-white transition-colors">ホーム</Link></li>
+                            <li className="mx-2">›</li>
+                            <li><Link href="/noreta" className="hover:text-white transition-colors">カーリース ノレタ</Link></li>
+                            <li className="mx-2">›</li>
+                            <li className="text-slate-200">スズキ スペーシアギア</li>
+                        </ol>
+                    </nav>                    <Link href="/noreta" className="inline-flex items-center text-slate-300 hover:text-white transition-colors mb-4 group">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
@@ -102,7 +111,7 @@ export default function Page() {
                                     NoReTa
                                 </span>
                                 <span className="text-slate-400 text-sm">
-                                    港南自動車オリジナルサービス
+                                    月々定額・頭金なしで新車に乗れるカーリース
                                 </span>
                             </div>
                             <h1 className="text-3xl md:text-5xl font-black tracking-tight">

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
 import { sendEmail } from '@/app/actions/sendEmail';
+import MobileActionBar from '@/components/MobileActionBar';
 
 // 祝日・特別休業日の名称（カレンダーに表示する）
 const JAPANESE_HOLIDAYS: Record<string, string> = {
@@ -120,6 +121,10 @@ const topFaqData = [
         question: 'どのメーカーの車でも対応できますか？',
         answer: 'はい、全メーカーに対応しています。車検・整備はもちろん、新車・中古車販売もメーカーを問わずご相談いただけます。',
     },
+    {
+        question: '故障や事故のときはどうすればいいですか？',
+        answer: 'まずはお電話（076-268-1788）でご連絡ください。状況をお伺いし、修理・点検のご案内をいたします。自走できない場合は、ご加入の自動車保険のロードサービスをご利用のうえ、搬入先として当社をご指定いただけます。',
+    },
 ];
 
 export default function Page() {
@@ -137,6 +142,8 @@ export default function Page() {
         name: '',
         email: '',
         category: '',
+        preferredDate: '',
+        preferredTime: '',
         message: '',
     });
 
@@ -197,6 +204,8 @@ export default function Page() {
                     name: '',
                     email: '',
                     category: '',
+                    preferredDate: '',
+                    preferredTime: '',
                     message: '',
                 });
             } else {
@@ -329,10 +338,10 @@ export default function Page() {
 
                     <div className="hidden lg:flex items-center space-x-8" data-oid="jdpcl.f">
                         <nav className={`flex items-center space-x-8 transition-colors duration-500 ${scrolled ? 'text-slate-700' : 'text-white'}`} data-oid="_c2.5k6">
-                            {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ', '車検', '採用情報', 'ITサポート'].map((item, i) => (
+                            {['車検', 'サービス内容', '取扱車種', '会社情報', '採用情報', 'お問い合わせ'].map((item, i) => (
                                 <a
                                     key={i}
-                                    href={`${['#services', '#cases', '#company', '#contact', '/shaken', '/recruit', '/it-support'][i]}`}
+                                    href={`${['/shaken', '#services', '#cases', '#company', '/recruit', '#contact'][i]}`}
                                     className="relative font-medium hover:text-teal-500 transition-colors group overflow-hidden"
                                 >
                                     {item}
@@ -401,10 +410,10 @@ export default function Page() {
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
-                {['サービス内容', '取扱車種', '会社情報', 'お問い合わせ', '車検', '採用情報', 'ITサポート'].map((item, i) => (
+                {['車検', 'サービス内容', '取扱車種', '会社情報', '採用情報', 'お問い合わせ'].map((item, i) => (
                     <a
                         key={i}
-                        href={`${['#services', '#cases', '#company', '#contact', '/shaken', '/recruit', '/it-support'][i]}`}
+                        href={`${['/shaken', '#services', '#cases', '#company', '/recruit', '#contact'][i]}`}
                         className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
                         onClick={() => setMenuOpen(false)}
                     >
@@ -1634,6 +1643,40 @@ export default function Page() {
                                         </select>
                                     </div>
 
+                                    {/* 車検・点検などの希望日時（任意） */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-black text-gray-900 ml-1" htmlFor="preferredDate">
+                                                ご希望日<span className="text-gray-400 text-xs ml-2">任意</span>
+                                            </label>
+                                            <input
+                                                className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300"
+                                                id="preferredDate"
+                                                name="preferredDate"
+                                                type="date"
+                                                value={formData.preferredDate}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-black text-gray-900 ml-1" htmlFor="preferredTime">
+                                                ご希望の時間帯<span className="text-gray-400 text-xs ml-2">任意</span>
+                                            </label>
+                                            <select
+                                                className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 appearance-none cursor-pointer"
+                                                id="preferredTime"
+                                                name="preferredTime"
+                                                value={formData.preferredTime}
+                                                onChange={handleInputChange}
+                                            >
+                                                <option value="">指定なし</option>
+                                                <option value="午前">午前</option>
+                                                <option value="午後">午後</option>
+                                                <option value="夕方">夕方</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div className="space-y-2">
                                         <label className="text-sm font-black text-gray-900 ml-1" htmlFor="message">
                                             お問い合わせ内容<span className="text-teal-600 ml-1">●</span>
@@ -1711,6 +1754,10 @@ export default function Page() {
                                 </a>
                                 <br data-oid="zrp5wng" />
                                 FAX: 076-268-3163
+                                <br />
+                                営業時間: 平日 9:00〜18:00 / 土曜 9:00〜17:00
+                                <br />
+                                定休日: 日曜・祝日
                             </p>
                         </div>
                         <div className="grid grid-cols-2 gap-8" data-oid="cfrlowo">
@@ -1724,7 +1771,7 @@ export default function Page() {
                                 <ul className="space-y-2 text-gray-300" data-oid="fh4ryrt">
                                     <li data-oid="jvm44g3">
                                         <a
-                                            href="#services"
+                                            href="/shaken"
                                             className="hover:text-teal-300 transition-colors"
                                             data-oid="qmgv:w0"
                                         >
@@ -1802,6 +1849,14 @@ export default function Page() {
                                             採用情報
                                         </a>
                                     </li>
+                                    <li>
+                                        <a
+                                            href="/it-support"
+                                            className="hover:text-teal-300 transition-colors"
+                                        >
+                                            ITサポート
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -1816,8 +1871,8 @@ export default function Page() {
                 </div>
             </footer>
 
-            {/* Floating Contact Button */}
-            <div className="fixed bottom-8 right-8 z-50 group" data-oid="ia5c0ck">
+            {/* Floating Contact Button（スマホでは下部固定バーがあるため非表示） */}
+            <div className="hidden md:block fixed bottom-8 right-8 z-50 group" data-oid="ia5c0ck">
                 <div
                     className="bg-white rounded-lg shadow-lg p-2 mb-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300"
                     data-oid="5se0-6w"
@@ -1850,6 +1905,9 @@ export default function Page() {
                     </svg>
                 </a>
             </div>
+
+            {/* スマホ用の電話・LINE固定バー */}
+            <MobileActionBar />
         </div >
     );
 }

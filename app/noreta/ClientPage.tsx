@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
+import MobileActionBar from '@/components/MobileActionBar';
 import { carBasePrices, formatPrice } from '@/lib/carPrices';
 
 // ノレタ FAQ データ
@@ -215,13 +216,12 @@ export default function Page() {
                     <div className="hidden lg:flex items-center space-x-8" data-oid="jdpcl.f">
                         <nav className={`flex items-center space-x-8 transition-colors duration-500 ${isScrolled ? 'text-slate-700' : 'text-white'}`} data-oid="_c2.5k6">
                             {[
+                                { name: '車検', href: '/shaken' },
                                 { name: 'サービス内容', href: '/#services' },
                                 { name: '取扱車種', href: '/#cases' },
                                 { name: '会社情報', href: '/#company' },
-                                { name: 'お問い合わせ', href: '/#contact' },
-                                { name: '車検', href: '/shaken' },
                                 { name: '採用情報', href: '/recruit' },
-                                { name: 'ITサポート', href: '/it-support' }
+                                { name: 'お問い合わせ', href: '/#contact' }
                             ].map((item, i) => (
                                 <Link
                                     key={i}
@@ -294,13 +294,12 @@ export default function Page() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
                 {[
+                    { name: '車検', href: '/shaken' },
                     { name: 'サービス内容', href: '/#services' },
                     { name: '取扱車種', href: '/#cases' },
                     { name: '会社情報', href: '/#company' },
-                    { name: 'お問い合わせ', href: '/#contact' },
-                    { name: '車検', href: '/shaken' },
                     { name: '採用情報', href: '/recruit' },
-                    { name: 'ITサポート', href: '/it-support' }
+                    { name: 'お問い合わせ', href: '/#contact' }
                 ].map((item, i) => (
                     <Link
                         key={i}
@@ -874,7 +873,7 @@ export default function Page() {
             </footer>
 
             {/* Floating Contact Button */}
-            <div className="fixed bottom-8 right-8 z-50 group" data-oid="3jfrilz">
+            <div className="hidden md:block fixed bottom-8 right-8 z-50 group" data-oid="3jfrilz">
                 <div
                     className="bg-white rounded-lg shadow-lg p-2 mb-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300"
                     data-oid="icu1r5p"
@@ -907,6 +906,9 @@ export default function Page() {
                     </svg>
                 </Link>
             </div>
+
+            {/* スマホ用の電話・LINE固定バー */}
+            <MobileActionBar />
         </div >
     );
 }

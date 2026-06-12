@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Script from 'next/script';
 
 interface BreadcrumbItem {
     name: string;
@@ -10,9 +9,11 @@ interface BreadcrumbItem {
 
 interface BreadcrumbProps {
     items: BreadcrumbItem[];
+    /** 構造化データを出力するか（ページ側で別途出力済みの場合は false にして重複を防ぐ） */
+    includeSchema?: boolean;
 }
 
-export default function Breadcrumb({ items }: BreadcrumbProps) {
+export default function Breadcrumb({ items, includeSchema = true }: BreadcrumbProps) {
     // 構造化データの生成
     const breadcrumbSchema = {
         '@context': 'https://schema.org',
@@ -27,11 +28,13 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
 
     return (
         <>
-            <Script
-                id="breadcrumb-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
+            {/* AIクローラーにも見えるよう静的HTMLに含める */}
+            {includeSchema && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+                />
+            )}
             <nav aria-label="パンくずリスト" className="container mx-auto px-4 py-4">
                 <ol className="flex items-center space-x-2 text-sm text-slate-500">
                     {items.map((item, index) => (
