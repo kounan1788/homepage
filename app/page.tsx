@@ -95,6 +95,13 @@ function isClosedDay(year: number, month: number, day: number): boolean {
     return false;
 }
 
+// お問い合わせフォームの希望時間の選択肢（9:00〜17:00 を30分間隔で生成）
+const TIME_SLOTS: string[] = [];
+for (let hour = 9; hour < 17; hour++) {
+    TIME_SLOTS.push(`${hour}:00`, `${hour}:30`);
+}
+TIME_SLOTS.push('17:00');
+
 // トップページ FAQ データ（表示と FAQPage 構造化データの両方で使用）
 const topFaqData = [
     {
@@ -1660,7 +1667,7 @@ export default function Page() {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-black text-gray-900 ml-1" htmlFor="preferredTime">
-                                                ご希望の時間帯<span className="text-gray-400 text-xs ml-2">任意</span>
+                                                ご希望の時間<span className="text-gray-400 text-xs ml-2">任意</span>
                                             </label>
                                             <select
                                                 className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 appearance-none cursor-pointer"
@@ -1670,10 +1677,15 @@ export default function Page() {
                                                 onChange={handleInputChange}
                                             >
                                                 <option value="">指定なし</option>
-                                                <option value="午前">午前</option>
-                                                <option value="午後">午後</option>
-                                                <option value="夕方">夕方</option>
+                                                {TIME_SLOTS.map((slot) => (
+                                                    <option key={slot} value={slot}>
+                                                        {slot}
+                                                    </option>
+                                                ))}
                                             </select>
+                                            <p className="text-xs text-gray-400 ml-1">
+                                                ※土曜の営業は17:00まで、日曜・祝日は定休日です。
+                                            </p>
                                         </div>
                                     </div>
 
