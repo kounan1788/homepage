@@ -26,6 +26,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/api/', '/_next/'],
             },
         ],
-        sitemap: 'https://kounan-auto.jp/sitemap.xml',
+        sitemap: 'https://www.kounan-auto.jp/sitemap.xml',
     };
 }

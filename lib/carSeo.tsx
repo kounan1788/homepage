@@ -15,7 +15,7 @@ export interface CarSeoInfo {
     image: string;
 }
 
-const BASE_URL = 'https://kounan-auto.jp';
+const BASE_URL = 'https://www.kounan-auto.jp';
 
 /**
  * 車種ページの Metadata（title / description / canonical / OGP）を生成します。

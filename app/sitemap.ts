@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://kounan-auto.jp';
+    const baseUrl = 'https://www.kounan-auto.jp';
 
     return [
         {

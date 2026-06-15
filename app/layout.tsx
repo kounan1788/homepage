@@ -3,7 +3,7 @@ import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://kounan-auto.jp'),
+    metadataBase: new URL('https://www.kounan-auto.jp'),
     title: {
         default: '港南自動車｜金沢市の車検・新車販売・カーリース【創業60年】',
         template: '%s | 港南自動車サービス - 金沢市',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
         title: '港南自動車｜金沢市の車検・新車販売・カーリース【創業60年】',
         description:
             '石川県金沢市の港南自動車サービス。車検・整備から新車・中古車販売、月々定額カーリース「ノレタ」まで。創業60年以上の信頼と実績。',
-        url: 'https://kounan-auto.jp',
+        url: 'https://www.kounan-auto.jp',
         type: 'website',
         locale: 'ja_JP',
         siteName: '株式会社港南自動車サービス',
@@ -89,12 +89,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     const localBusinessSchema = {
         '@context': 'https://schema.org',
         '@type': ['LocalBusiness', 'AutoRepair', 'AutoDealer'],
-        '@id': 'https://kounan-auto.jp/#organization',
+        '@id': 'https://www.kounan-auto.jp/#organization',
         name: '株式会社港南自動車サービス',
         // 誤表記（湖南・河南）でも検索されているため alternateName に含める
         alternateName: ['港南自動車', '港南自動車サービス', '湖南自動車', '河南自動車'],
-        image: 'https://kounan-auto.jp/logo.png',
-        url: 'https://kounan-auto.jp',
+        image: 'https://www.kounan-auto.jp/logo.png',
+        url: 'https://www.kounan-auto.jp',
         telephone: '076-268-1788',
         faxNumber: '076-268-3163',
         email: 'info@kounan-auto.jp',
@@ -167,12 +167,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     const webSiteSchema = {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        '@id': 'https://kounan-auto.jp/#website',
-        url: 'https://kounan-auto.jp',
+        '@id': 'https://www.kounan-auto.jp/#website',
+        url: 'https://www.kounan-auto.jp',
         name: '株式会社港南自動車サービス',
         alternateName: ['港南自動車', '港南自動車サービス', '湖南自動車', '河南自動車'],
         description: '石川県金沢市の車検・新車販売・カーリース',
-        publisher: { '@id': 'https://kounan-auto.jp/#organization' },
+        publisher: { '@id': 'https://www.kounan-auto.jp/#organization' },
         inLanguage: 'ja',
     };
 

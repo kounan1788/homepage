@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         title: '金沢市で新車に乗るなら「ノレタ」｜月々定額・頭金なし【港南自動車サービス】',
         description:
             '金沢市で新車をお探しなら港南自動車の「ノレタ」。月々定額、頭金・ボーナス払いなしで新車に乗れます。',
-        url: 'https://kounan-auto.jp/noreta',
+        url: 'https://www.kounan-auto.jp/noreta',
         type: 'website',
         locale: 'ja_JP',
         siteName: '港南自動車サービス株式会社',
@@ -44,7 +44,7 @@ export default function NoretaLayout({ children }: { children: React.ReactNode }
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://kounan-auto.jp' },
+            { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://www.kounan-auto.jp' },
             { '@type': 'ListItem', position: 2, name: '新車リース「ノレタ」' },
         ],
     };

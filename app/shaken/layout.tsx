@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         title: '金沢市の車検｜最短90分スピード車検【港南自動車サービス】',
         description:
             '石川県金沢市の車検なら港南自動車サービス。創業60年以上の信頼と実績。最短90分立会い車検（新車購入後の初回車検限定）。',
-        url: 'https://kounan-auto.jp/shaken',
+        url: 'https://www.kounan-auto.jp/shaken',
         type: 'website',
         locale: 'ja_JP',
         siteName: '港南自動車サービス株式会社',

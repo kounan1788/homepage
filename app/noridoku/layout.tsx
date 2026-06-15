@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         title: '法人向けカーリース「ノリドク」｜月々定額【港南自動車サービス】',
         description:
             '石川県金沢市の法人向けカーリース「ノリドク」。月々定額で経費処理が簡単、車両管理の手間を削減。',
-        url: 'https://kounan-auto.jp/noridoku',
+        url: 'https://www.kounan-auto.jp/noridoku',
         type: 'website',
         locale: 'ja_JP',
         siteName: '港南自動車サービス株式会社',

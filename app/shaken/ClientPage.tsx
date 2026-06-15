@@ -189,9 +189,9 @@ export default function ShakenPage() {
         '@context': 'https://schema.org',
         '@type': ['LocalBusiness', 'AutoRepair'],
         name: '港南自動車サービス株式会社',
-        image: 'https://kounan-auto.jp/logo.png',
-        '@id': 'https://kounan-auto.jp',
-        url: 'https://kounan-auto.jp/shaken',
+        image: 'https://www.kounan-auto.jp/logo.png',
+        '@id': 'https://www.kounan-auto.jp',
+        url: 'https://www.kounan-auto.jp/shaken',
         telephone: '076-268-1788',
         priceRange: '¥65,040〜',
         address: {

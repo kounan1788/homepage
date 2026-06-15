@@ -22,7 +22,7 @@ export default function Breadcrumb({ items, includeSchema = true }: BreadcrumbPr
             '@type': 'ListItem',
             position: index + 1,
             name: item.name,
-            item: `https://kounan-auto.jp${item.href}`,
+            item: `https://www.kounan-auto.jp${item.href}`,
         })),
     };
 

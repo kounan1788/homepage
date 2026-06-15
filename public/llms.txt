@@ -10,12 +10,12 @@
 - メール: info@kounan-auto.jp
 - 営業時間: 平日 9:00-18:00、土曜 9:00-17:00（日曜・祝日定休）
 - 創業: 1964年
-- 公式サイト: https://kounan-auto.jp
+- 公式サイト: https://www.kounan-auto.jp
 - Instagram: https://www.instagram.com/kounan_auto/
 
 ## サービス
 
-### 車検・点検（https://kounan-auto.jp/shaken）
+### 車検・点検（https://www.kounan-auto.jp/shaken）
 
 - 90分立会い車検（新車ご購入後の初回車検の方限定。追加整備がない場合、最短90分で完了）
 - 完全予約制・1日限定3台
@@ -29,7 +29,7 @@
 - 支払い方法: 現金・カード・当社ローン。代車無料（全車保険完備）
 - 各種割引制度あり（持込・引取割引、早期予約割引、代車不要割引など、組み合わせで最大約20,000円割引）
 
-### 新車カーリース「ノレタ」（https://kounan-auto.jp/noreta）
+### 新車カーリース「ノレタ」（https://www.kounan-auto.jp/noreta）
 
 - 月々定額・頭金なし・ボーナス払いなしで新車に乗れる3年リースプラン
 - 車検費用・オイル交換・故障修理などコミコミ
@@ -39,7 +39,7 @@
   - SUV: 月々35,000円〜（ジムニーシエラ、ヤリスクロス、クロスビー、ヴェゼル、ハリアー、RAV4、ランドクルーザー250、クラウン、レクサスNXなど）
   - ミニバン: 月々58,000円〜（ノア、ヴォクシー、アルファード）
 
-### 法人向けカーリース「ノリドク」（https://kounan-auto.jp/noridoku）
+### 法人向けカーリース「ノリドク」（https://www.kounan-auto.jp/noridoku）
 
 - 法人・個人事業主向けの月々定額カーリース
 - 経費処理が簡単、車両管理の手間を削減
@@ -49,15 +49,15 @@
 
 - 新車・中古車販売（全メーカー対応）
 - 一般整備・修理
-- 採用情報: https://kounan-auto.jp/recruit
+- 採用情報: https://www.kounan-auto.jp/recruit
 
 ## 主要ページ
 
-- [トップページ](https://kounan-auto.jp): 会社概要・サービス一覧・営業カレンダー・お問い合わせ
-- [車検・点検](https://kounan-auto.jp/shaken): 車検料金シミュレーション・割引制度
-- [新車リース「ノレタ」](https://kounan-auto.jp/noreta): 取扱車種一覧・月額料金
-- [法人リース「ノリドク」](https://kounan-auto.jp/noridoku): 法人向けリースの特徴
-- [採用情報](https://kounan-auto.jp/recruit): 整備士・営業スタッフ募集
+- [トップページ](https://www.kounan-auto.jp): 会社概要・サービス一覧・営業カレンダー・お問い合わせ
+- [車検・点検](https://www.kounan-auto.jp/shaken): 車検料金シミュレーション・割引制度
+- [新車リース「ノレタ」](https://www.kounan-auto.jp/noreta): 取扱車種一覧・月額料金
+- [法人リース「ノリドク」](https://www.kounan-auto.jp/noridoku): 法人向けリースの特徴
+- [採用情報](https://www.kounan-auto.jp/recruit): 整備士・営業スタッフ募集
 
 ## よくある質問への回答
 

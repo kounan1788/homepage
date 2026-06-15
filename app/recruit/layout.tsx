@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         title: '採用情報｜港南自動車サービス【金沢市】',
         description:
             '石川県金沢市の港南自動車サービスで一緒に働きませんか？創業60年以上の安定企業で自動車整備士・営業スタッフ募集中。',
-        url: 'https://kounan-auto.jp/recruit',
+        url: 'https://www.kounan-auto.jp/recruit',
         type: 'website',
         locale: 'ja_JP',
         siteName: '港南自動車サービス株式会社',
@@ -32,7 +32,7 @@ export default function RecruitLayout({ children }: { children: React.ReactNode 
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://kounan-auto.jp' },
+            { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://www.kounan-auto.jp' },
             { '@type': 'ListItem', position: 2, name: '採用情報' },
         ],
     };
