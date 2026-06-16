@@ -1385,16 +1385,27 @@ export default function Page() {
 
                     {/* Instagram Profile Embed */}
                     <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-2 md:p-6 text-center">
-                        <iframe
-                            src="https://www.instagram.com/kounanj1788/embed/"
-                            width="100%"
-                            height="600"
-                            frameBorder="0"
-                            scrolling="yes"
-                            allowTransparency={true}
-                            className="rounded-xl w-full mb-6"
-                            title="Kounan Auto Instagram Feed"
-                        ></iframe>
+                        {/* スクロールでセクションが近づくまでiframeを生成せず初期表示を軽くする（高さ分は確保してCLSを防ぐ） */}
+                        {visibleSections.instagram ? (
+                            <iframe
+                                src="https://www.instagram.com/kounanj1788/embed/"
+                                width="100%"
+                                height="600"
+                                frameBorder="0"
+                                scrolling="yes"
+                                allowTransparency={true}
+                                loading="lazy"
+                                className="rounded-xl w-full mb-6"
+                                title="Kounan Auto Instagram Feed"
+                            ></iframe>
+                        ) : (
+                            <div
+                                className="rounded-xl w-full mb-6 flex items-center justify-center bg-gray-50 text-gray-400 text-sm"
+                                style={{ height: 600 }}
+                            >
+                                Instagramを読み込み中…
+                            </div>
+                        )}
 
                         <a
                             href="https://www.instagram.com/kounanj1788"
