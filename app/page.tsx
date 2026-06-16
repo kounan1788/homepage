@@ -1482,6 +1482,36 @@ export default function Page() {
                 </div>
             </section>
 
+            {/* Game Banner Section */}
+            <section className="py-20 bg-white">
+                <div className="container mx-auto px-4">
+                    <Link
+                        href="/game"
+                        className="group block max-w-5xl mx-auto bg-gradient-to-r from-teal-700 to-teal-800 rounded-[2.5rem] shadow-2xl overflow-hidden hover:shadow-teal-900/30 transition-all duration-500"
+                    >
+                        <div className="flex flex-col md:flex-row items-center gap-8 p-10 md:p-14">
+                            <div className="flex-1 text-center md:text-left">
+                                <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-amber-400 text-amber-900 text-xs font-black mb-4">
+                                    遊んで割引GET・無料
+                                </span>
+                                <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+                                    港南ドライブチャレンジ
+                                </h2>
+                                <p className="text-teal-50 leading-relaxed">
+                                    ガードレールをよけて走るだけ！走った距離に応じて割引コードがもらえるミニゲーム。PC・スマホで今すぐ遊べます。
+                                </p>
+                            </div>
+                            <span className="inline-flex items-center justify-center px-8 py-4 bg-white text-teal-800 rounded-xl font-black shadow-lg group-hover:scale-105 transition-transform shrink-0">
+                                ゲームで遊ぶ
+                                <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </span>
+                        </div>
+                    </Link>
+                </div>
+            </section>
+
             {/* FAQ Section */}
             <section id="faq" className="py-32 bg-white">
                 {/* FAQPage 構造化データ */}
@@ -1835,6 +1865,14 @@ export default function Page() {
                                             data-oid="xm.-ekq"
                                         >
                                             新車・中古車販売
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="/game"
+                                            className="hover:text-teal-300 transition-colors"
+                                        >
+                                            ゲームで遊ぶ
                                         </a>
                                     </li>
                                 </ul>
