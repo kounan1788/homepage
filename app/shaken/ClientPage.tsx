@@ -287,13 +287,13 @@ export default function ShakenPage() {
                         <Image src="/logo.png" alt="港南自動車サービス｜石川県金沢市の車検・自動車整備" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
                     <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                        <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
-                        <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
-                        <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
-                        <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
-                        <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
-                        <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
-                        <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
+                        <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
+                        <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
+                        <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
+                        <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
+                        <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
+                        <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
+                        <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
                             ノレタ詳細
                         </Link>
                         <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
@@ -301,7 +301,7 @@ export default function ShakenPage() {
                         </Link>
                     </nav>
                     <button
-                        className="md:hidden p-2 rounded-xl bg-teal-600 text-white transition-all duration-300"
+                        className="md:hidden p-2 rounded-xl bg-teal-700 text-white transition-all duration-300"
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
                         aria-label="メニューを開く"
@@ -388,7 +388,7 @@ export default function ShakenPage() {
                             90分立会い車検：ドクター車検
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
-                            金沢市の<span className="text-teal-600">車検</span>なら<br />
+                            金沢市の<span className="text-teal-700">車検</span>なら<br />
                             港南自動車サービス
                         </h1>
                         <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
@@ -409,7 +409,7 @@ export default function ShakenPage() {
                             {/* Step 1: Car Selection */}
                             <div className="space-y-6">
                                 <div className="flex items-center space-x-3">
-                                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-600 text-white text-sm font-bold">1</span>
+                                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-700 text-white text-sm font-bold">1</span>
                                     <h2 className="text-xl font-bold">車種を選択</h2>
                                 </div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -423,7 +423,7 @@ export default function ShakenPage() {
                                                 }`}
                                         >
                                             <div className="relative z-10">
-                                                <h3 className={`font-bold transition-colors ${selectedCarType === key ? 'text-teal-600' : 'text-slate-800'}`}>{data.name}</h3>
+                                                <h3 className={`font-bold transition-colors ${selectedCarType === key ? 'text-teal-700' : 'text-slate-800'}`}>{data.name}</h3>
                                                 <p className="text-xs text-slate-400 mt-1">{data.weight}</p>
                                                 <div className="mt-4 flex items-end justify-between">
                                                     <span className="text-sm font-semibold text-slate-600">¥{data.total.toLocaleString()}~</span>
@@ -447,7 +447,7 @@ export default function ShakenPage() {
                                 {/* Discount Selector Left */}
                                 <div className="md:col-span-5 space-y-6">
                                     <div className="flex items-center space-x-3">
-                                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-600 text-white text-sm font-bold">2</span>
+                                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-700 text-white text-sm font-bold">2</span>
                                         <h2 className="text-xl font-bold">割引を適用</h2>
                                     </div>
                                     <div className="grid grid-cols-1 gap-3">
@@ -565,7 +565,7 @@ export default function ShakenPage() {
                             {costBreakdownData.map((item, idx) => (
                                 <article key={idx} className="bg-white p-8 rounded-2xl border border-slate-200">
                                     <div className="flex items-center mb-4">
-                                        <span className="text-3xl font-black text-teal-600/30 mr-3">{item.no}</span>
+                                        <span className="text-3xl font-black text-teal-700/30 mr-3">{item.no}</span>
                                         <h3 className="text-lg font-black text-slate-800">{item.name}</h3>
                                     </div>
                                     <p className="text-slate-500 text-sm leading-relaxed">{item.description}</p>
@@ -598,7 +598,7 @@ export default function ShakenPage() {
                                     { step: '05', title: 'お帰り', desc: '追加整備がなければ最短90分で完了。車検シール（検査標章）は後日郵送いたします。' }
                                 ].map((item, idx) => (
                                     <article key={idx} className="bg-white md:bg-transparent p-6 rounded-2xl border border-slate-100 md:border-none">
-                                        <div className="w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xs font-black mb-6 shadow-lg shadow-teal-200">
+                                        <div className="w-12 h-12 bg-teal-700 text-white rounded-full flex items-center justify-center text-xs font-black mb-6 shadow-lg shadow-teal-200">
                                             {item.step}
                                         </div>
                                         <h4 className="text-lg font-black mb-2">{item.title}</h4>
@@ -619,11 +619,11 @@ export default function ShakenPage() {
                             {faqData.map((item, idx) => (
                                 <article key={idx} className="bg-white p-8 rounded-2xl border border-slate-200">
                                     <h3 className="text-lg font-black text-slate-800 mb-4 flex items-start">
-                                        <span className="text-teal-600 mr-3">Q.</span>
+                                        <span className="text-teal-700 mr-3">Q.</span>
                                         {item.question}
                                     </h3>
                                     <p className="text-slate-600 leading-relaxed pl-8">
-                                        <span className="text-teal-600 font-bold mr-2">A.</span>
+                                        <span className="text-teal-700 font-bold mr-2">A.</span>
                                         {item.answer}
                                     </p>
                                 </article>

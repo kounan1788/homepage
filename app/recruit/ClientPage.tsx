@@ -131,13 +131,13 @@ export default function RecruitPage() {
                             <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                         </Link>
                         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                            <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
-                            <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
-                            <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
-                            <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
-                            <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
-                            <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
-                            <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
+                            <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
+                            <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
+                            <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
+                            <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
+                            <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
+                            <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
+                            <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
                                 ノレタ詳細
                             </Link>
                             <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
@@ -145,9 +145,10 @@ export default function RecruitPage() {
                             </Link>
                         </nav>
                         <button
-                            className="md:hidden p-2 rounded-xl bg-teal-600 text-white transition-all duration-300"
+                            className="md:hidden p-2 rounded-xl bg-teal-700 text-white transition-all duration-300"
                             onClick={toggleMenu}
                             aria-expanded={menuOpen}
+                        aria-label="メニューを開く"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -178,6 +179,7 @@ export default function RecruitPage() {
                     <button
                         onClick={() => setMenuOpen(false)}
                         className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                    aria-label="メニューを閉じる"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                     </button>
@@ -219,7 +221,7 @@ export default function RecruitPage() {
                 <main className="flex-1 flex items-center justify-center pt-20">
                     <div className="text-center px-6">
                         <div className="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                            <svg className="w-12 h-12 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-12 h-12 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                         </div>
@@ -232,7 +234,7 @@ export default function RecruitPage() {
                         </p>
                         <Link
                             href="/"
-                            className="inline-flex items-center px-8 py-4 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 transition-colors shadow-lg"
+                            className="inline-flex items-center px-8 py-4 bg-teal-700 text-white font-bold rounded-xl hover:bg-teal-800 transition-colors shadow-lg"
                         >
                             <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -260,13 +262,13 @@ export default function RecruitPage() {
                         <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
                     <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                        <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
-                        <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
-                        <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
-                        <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
-                        <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
-                        <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
-                        <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
+                        <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
+                        <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
+                        <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
+                        <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
+                        <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
+                        <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
+                        <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
                             ノレタ詳細
                         </Link>
                         <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
@@ -274,9 +276,10 @@ export default function RecruitPage() {
                         </Link>
                     </nav>
                     <button
-                        className="md:hidden p-2 rounded-xl bg-teal-600 text-white transition-all duration-300"
+                        className="md:hidden p-2 rounded-xl bg-teal-700 text-white transition-all duration-300"
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
+                    aria-label="メニューを開く"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -307,6 +310,7 @@ export default function RecruitPage() {
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                aria-label="メニューを閉じる"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
@@ -352,7 +356,7 @@ export default function RecruitPage() {
                             RECRUIT - 採用情報
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
-                            <span className="text-teal-600">あなたの力</span>を、<br />
+                            <span className="text-teal-700">あなたの力</span>を、<br />
                             地域のカーライフに。
                         </h1>
                         <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
@@ -402,7 +406,7 @@ export default function RecruitPage() {
                                 className="bg-white rounded-[2rem] shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300"
                             >
                                 {/* Job Header */}
-                                <div className="bg-gradient-to-r from-teal-600 to-teal-500 p-6 md:p-8">
+                                <div className="bg-gradient-to-r from-teal-700 to-teal-500 p-6 md:p-8">
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                         <div className="flex items-center gap-4">
                                             <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-4xl">
@@ -418,7 +422,7 @@ export default function RecruitPage() {
                                         </div>
                                         <button
                                             onClick={() => setActiveJob(activeJob === job.id ? null : job.id)}
-                                            className="flex items-center justify-center bg-white text-teal-700 font-bold px-6 py-3 rounded-xl hover:bg-teal-50 transition-colors shadow-lg"
+                                            className="flex items-center justify-center bg-white text-teal-800 font-bold px-6 py-3 rounded-xl hover:bg-teal-50 transition-colors shadow-lg"
                                         >
                                             {activeJob === job.id ? '閉じる' : '詳細を見る'}
                                             <svg
@@ -439,7 +443,7 @@ export default function RecruitPage() {
                                         {/* Description */}
                                         <div>
                                             <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center text-sm mr-3">📝</span>
+                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">📝</span>
                                                 仕事内容
                                             </h4>
                                             <p className="text-slate-600 leading-relaxed pl-11">{job.description}</p>
@@ -448,7 +452,7 @@ export default function RecruitPage() {
                                         {/* Requirements */}
                                         <div>
                                             <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center text-sm mr-3">✅</span>
+                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">✅</span>
                                                 応募資格
                                             </h4>
                                             <ul className="space-y-2 pl-11">
@@ -466,11 +470,11 @@ export default function RecruitPage() {
                                         {/* Salary */}
                                         <div className="bg-slate-50 rounded-2xl p-6">
                                             <h4 className="text-lg font-black text-slate-900 mb-4 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center text-sm mr-3">💰</span>
+                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">💰</span>
                                                 給与・待遇
                                             </h4>
                                             <div className="pl-11 space-y-3">
-                                                <div className="text-2xl font-black text-teal-600">{job.salary.base}</div>
+                                                <div className="text-2xl font-black text-teal-700">{job.salary.base}</div>
                                                 <p className="text-slate-500 text-sm">{job.salary.details}</p>
                                                 <div className="flex flex-wrap gap-3 pt-2">
                                                     <span className="px-4 py-2 bg-white rounded-lg text-sm font-bold text-slate-700 shadow-sm">{job.salary.bonus}</span>
@@ -482,12 +486,12 @@ export default function RecruitPage() {
                                         {/* Benefits */}
                                         <div>
                                             <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center text-sm mr-3">🎁</span>
+                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🎁</span>
                                                 福利厚生
                                             </h4>
                                             <div className="pl-11 flex flex-wrap gap-2">
                                                 {job.benefits.map((benefit, idx) => (
-                                                    <span key={idx} className="px-3 py-1.5 bg-teal-50 text-teal-700 text-sm font-medium rounded-lg">
+                                                    <span key={idx} className="px-3 py-1.5 bg-teal-50 text-teal-800 text-sm font-medium rounded-lg">
                                                         {benefit}
                                                     </span>
                                                 ))}
@@ -497,7 +501,7 @@ export default function RecruitPage() {
                                         {/* Work Style */}
                                         <div>
                                             <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center text-sm mr-3">🕐</span>
+                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🕐</span>
                                                 勤務条件
                                             </h4>
                                             <div className="pl-11 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -527,7 +531,7 @@ export default function RecruitPage() {
                     <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-10 md:p-16 text-white relative overflow-hidden">
                         {/* Decorative elements */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-0 left-0 w-48 h-48 bg-teal-600/10 rounded-full blur-2xl"></div>
+                        <div className="absolute bottom-0 left-0 w-48 h-48 bg-teal-700/10 rounded-full blur-2xl"></div>
 
                         <div className="relative z-10 text-center max-w-2xl mx-auto">
                             <h2 className="text-3xl md:text-4xl font-black mb-6">ご応募・お問い合わせ</h2>
@@ -548,7 +552,7 @@ export default function RecruitPage() {
                                 </Link>
                                 <Link
                                     href="/#contact"
-                                    className="flex items-center justify-center bg-teal-600 text-white font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl hover:bg-teal-500"
+                                    className="flex items-center justify-center bg-teal-700 text-white font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl hover:bg-teal-500"
                                 >
                                     <svg className="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />

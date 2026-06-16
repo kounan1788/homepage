@@ -298,7 +298,7 @@ export default function Page() {
                         </span>
                     )}
                     {isClosed && !isHoliday && (
-                        <span className="text-[9px] leading-tight text-red-300 font-bold mt-0.5">定休</span>
+                        <span className="text-[9px] leading-tight text-red-600 font-bold mt-0.5">定休</span>
                     )}
                 </div>
             );
@@ -359,8 +359,8 @@ export default function Page() {
                         <Link
                             href="/noreta"
                             className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5 ${scrolled
-                                ? 'bg-teal-600 text-white hover:bg-teal-700'
-                                : 'bg-white text-teal-700 hover:bg-slate-100'
+                                ? 'bg-teal-700 text-white hover:bg-teal-800'
+                                : 'bg-white text-teal-800 hover:bg-slate-100'
                                 }`}
                             data-oid="r7m-jfd"
                         >
@@ -378,10 +378,11 @@ export default function Page() {
                     </div>
 
                     <button
-                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-600 text-white' : 'bg-white/20 text-white backdrop-blur-sm'
+                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-700 text-white' : 'bg-white/20 text-white backdrop-blur-sm'
                             }`}
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
+                        aria-label="メニューを開く"
                         data-oid="av_bd._"
                     >
                         <svg
@@ -414,6 +415,7 @@ export default function Page() {
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                    aria-label="メニューを閉じる"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
@@ -483,7 +485,7 @@ export default function Page() {
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                             <a
                                 href="#services"
-                                className="group relative px-10 py-5 bg-teal-600 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-teal-500 transition-all duration-300 overflow-hidden"
+                                className="group relative px-10 py-5 bg-teal-700 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-teal-500 transition-all duration-300 overflow-hidden"
                             >
                                 <span className="relative z-10 flex items-center">
                                     サービスを見る
@@ -491,7 +493,7 @@ export default function Page() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-teal-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </a>
                             <a
                                 href="/shaken"
@@ -538,7 +540,7 @@ export default function Page() {
 
                 <div className="container mx-auto px-4 relative z-10" data-oid="zvu:q62">
                     <div className="text-center mb-12" data-oid="d0snta5">
-                        <span className="text-teal-600 font-semibold" data-oid="sxr0.v9">
+                        <span className="text-teal-700 font-semibold" data-oid="sxr0.v9">
                             OUR SERVICES
                         </span>
                         <h2
@@ -559,7 +561,7 @@ export default function Page() {
                                 className="bg-white/40 backdrop-blur-xl rounded-[2.5rem] shadow-2xl overflow-hidden h-full border border-white/60 transform transition-all duration-700 hover:scale-[1.03] hover:shadow-[0_20px_60px_-15px_rgba(45,150,140,0.3)] group"
                                 data-oid="pezj9ya"
                             >
-                                <div className="bg-teal-600/90 py-4 px-8 backdrop-blur-md" data-oid="yedwz7m">
+                                <div className="bg-teal-700/90 py-4 px-8 backdrop-blur-md" data-oid="yedwz7m">
                                     <div className="flex items-center justify-between" data-oid="q:vvet3">
                                         <div className="flex items-center">
                                             <span
@@ -586,7 +588,7 @@ export default function Page() {
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                className="h-8 w-8 text-teal-600"
+                                                className="h-8 w-8 text-teal-700"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -602,7 +604,7 @@ export default function Page() {
                                             </svg>
                                         </div>
                                         <h3
-                                            className="text-3xl font-bold text-teal-600"
+                                            className="text-3xl font-bold text-teal-700"
                                             data-oid="i6ngfk:"
                                         >
                                             ノレタ
@@ -629,7 +631,7 @@ export default function Page() {
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-5 w-5 text-teal-600 mr-2"
+                                                    className="h-5 w-5 text-teal-700 mr-2"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -656,7 +658,7 @@ export default function Page() {
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-5 w-5 text-teal-600 mr-2"
+                                                    className="h-5 w-5 text-teal-700 mr-2"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -683,7 +685,7 @@ export default function Page() {
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-5 w-5 text-teal-600 mr-2"
+                                                    className="h-5 w-5 text-teal-700 mr-2"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -707,7 +709,7 @@ export default function Page() {
                                         </div>
                                         <Link
                                             href="/noreta"
-                                            className="inline-block px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium text-center w-full shadow-md hover:shadow-lg mt-4 mb-9"
+                                            className="inline-block px-6 py-3 bg-teal-700 text-white rounded-lg hover:bg-teal-800 transition-colors font-medium text-center w-full shadow-md hover:shadow-lg mt-4 mb-9"
                                             data-oid="6ybwf61"
                                         >
                                             詳細を見る
@@ -737,7 +739,7 @@ export default function Page() {
                                                 data-oid="_8e5qo3"
                                             >
                                                 <div
-                                                    className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
+                                                    className="w-14 h-14 bg-teal-700 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
                                                     data-oid="ckh8tto"
                                                 >
                                                     <svg
@@ -773,7 +775,7 @@ export default function Page() {
                                             <div className="mt-auto" data-oid="ltpdzhx">
                                                 <Link
                                                     href="/shaken"
-                                                    className="group/btn inline-flex items-center justify-center px-6 py-4 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition-all duration-300 font-bold w-full shadow-lg shadow-teal-600/20"
+                                                    className="group/btn inline-flex items-center justify-center px-6 py-4 bg-teal-700 text-white rounded-xl hover:bg-teal-800 transition-all duration-300 font-bold w-full shadow-lg shadow-teal-700/20"
                                                     data-oid="77hqg-d"
                                                 >
                                                     詳しく見る
@@ -801,7 +803,7 @@ export default function Page() {
                                                 data-oid="qogacuv"
                                             >
                                                 <div
-                                                    className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
+                                                    className="w-14 h-14 bg-teal-700 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
                                                     data-oid="wy4l:e3"
                                                 >
                                                     <svg
@@ -862,7 +864,7 @@ export default function Page() {
                                                 data-oid="gw22_:."
                                             >
                                                 <div
-                                                    className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
+                                                    className="w-14 h-14 bg-teal-700 rounded-2xl flex items-center justify-center mr-4 shadow-lg group-hover:rotate-12 transition-transform duration-500"
                                                     data-oid="0wex3mn"
                                                 >
                                                     <svg
@@ -920,11 +922,11 @@ export default function Page() {
                             港南自動車サービスは、石川県金沢市で創業60年以上、トヨタ・ホンダ・スズキ・ダイハツなど全メーカーの新車を取り扱う自動車販売店です。ご購入のほか、頭金なし・ボーナス払いなしの月々定額で新車に乗れる新車リース「ノレタ」もご用意。車検やオイル交換などの維持費もコミコミなので、初めて新車に乗る方にも安心です。
                         </p>
                         <p className="text-gray-600 leading-relaxed">
-                            <Link href="/noreta" className="text-teal-600 font-bold hover:underline">
+                            <Link href="/noreta" className="text-teal-700 font-bold hover:underline">
                                 金沢市の新車リース「ノレタ」の料金・取扱車種はこちら
                             </Link>
                             。ご予算に合わせた一台のご提案は
-                            <a href="#contact" className="text-teal-600 font-bold hover:underline">
+                            <a href="#contact" className="text-teal-700 font-bold hover:underline">
                                 お問い合わせ
                             </a>
                             からお気軽にどうぞ。
@@ -951,7 +953,7 @@ export default function Page() {
 
                 <div className="container mx-auto px-4 relative z-10" data-oid="-efx.9k">
                     <div className="text-center mb-20" data-oid="sogg.k8">
-                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="187h1cd">
+                        <span className="text-teal-700 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="187h1cd">
                             VEHICLE LINEUP
                         </span>
                         <h2
@@ -960,7 +962,7 @@ export default function Page() {
                         >
                             取扱車種
                         </h2>
-                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <div className="w-20 h-1.5 bg-teal-700 mx-auto rounded-full mb-8"></div>
                         <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium" data-oid="5bf8vnu">
                             全国産メーカーから輸入車まで、<br />プロの視点で選んだ一台をご提案。
                         </p>
@@ -991,12 +993,12 @@ export default function Page() {
                                         data-oid="vv7t0x3"
                                     >
                                         <div className="w-full text-center" data-oid="4aa4h-4">
-                                            <h4
+                                            <p
                                                 className="text-white font-black text-xl mb-1 drop-shadow-lg"
                                                 data-oid=":cqc.ef"
                                             >
                                                 JIMNY
-                                            </h4>
+                                            </p>
                                             <p className="text-white/90 text-sm font-bold" data-oid="4jew..q">
                                                 本格派4WDの頂点
                                             </p>
@@ -1014,11 +1016,11 @@ export default function Page() {
                                         ハスラー、スイフト、ワゴンRなど。金沢の雪道にも強い確かな足回り。
                                     </p>
                                     <div className="flex flex-wrap gap-2 mb-8" data-oid="szyaex.">
-                                        <span className="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black rounded-full uppercase tracking-widest">SUV / Compact</span>
+                                        <span className="px-3 py-1 bg-teal-50 text-teal-800 text-[10px] font-black rounded-full uppercase tracking-widest">SUV / Compact</span>
                                     </div>
                                     <a
                                         href="#contact"
-                                        className="inline-flex items-center text-teal-600 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
+                                        className="inline-flex items-center text-teal-700 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
                                         data-oid="ow1w84f"
                                     >
                                         More Info
@@ -1054,12 +1056,12 @@ export default function Page() {
                                         data-oid="_i3kypa"
                                     >
                                         <div className="w-full text-center" data-oid="7s_gz71">
-                                            <h4
+                                            <p
                                                 className="text-white font-black text-xl mb-1 drop-shadow-lg"
                                                 data-oid="95w:yx5"
                                             >
                                                 DELICA MINI
-                                            </h4>
+                                            </p>
                                             <p className="text-white/90 text-sm font-bold" data-oid="3r:zvnu">
                                                 遊び心をフル装備
                                             </p>
@@ -1077,11 +1079,11 @@ export default function Page() {
                                         デリカミニ、アウトランダーなど。タフでアクティブなライフスタイルを。
                                     </p>
                                     <div className="flex flex-wrap gap-2 mb-8" data-oid="xs7jd2y">
-                                        <span className="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black rounded-full uppercase tracking-widest">Outdoor / SUV</span>
+                                        <span className="px-3 py-1 bg-teal-50 text-teal-800 text-[10px] font-black rounded-full uppercase tracking-widest">Outdoor / SUV</span>
                                     </div>
                                     <a
                                         href="#contact"
-                                        className="inline-flex items-center text-teal-600 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
+                                        className="inline-flex items-center text-teal-700 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
                                         data-oid="y-q270n"
                                     >
                                         More Info
@@ -1117,12 +1119,12 @@ export default function Page() {
                                         data-oid="b7pc-y7"
                                     >
                                         <div className="w-full text-center" data-oid="q.r6vd.">
-                                            <h4
+                                            <p
                                                 className="text-white font-black text-xl mb-1 drop-shadow-lg"
                                                 data-oid="v0csx7c"
                                             >
                                                 ALPHARD
-                                            </h4>
+                                            </p>
                                             <p className="text-white/90 text-sm font-bold" data-oid="ierfeor">
                                                 究極のファーストクラス
                                             </p>
@@ -1140,11 +1142,11 @@ export default function Page() {
                                         ハリアー、アルファードなど。圧倒的な信頼とプレミアムな体験を。
                                     </p>
                                     <div className="flex flex-wrap gap-2 mb-8" data-oid="gd3:7__">
-                                        <span className="px-3 py-1 bg-teal-50 text-teal-700 text-[10px] font-black rounded-full uppercase tracking-widest">Premium / Hybrid</span>
+                                        <span className="px-3 py-1 bg-teal-50 text-teal-800 text-[10px] font-black rounded-full uppercase tracking-widest">Premium / Hybrid</span>
                                     </div>
                                     <a
                                         href="#contact"
-                                        className="inline-flex items-center text-teal-600 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
+                                        className="inline-flex items-center text-teal-700 font-black text-sm uppercase tracking-widest hover:text-teal-800 transition-colors group/link"
                                         data-oid="11ye-4a"
                                     >
                                         More Info
@@ -1160,7 +1162,7 @@ export default function Page() {
                     <div className="text-center mt-12" data-oid="133zyu8">
                         <a
                             href="#contact"
-                            className="inline-block px-8 py-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-all duration-300 font-medium shadow-lg transform hover:-translate-y-1"
+                            className="inline-block px-8 py-4 bg-teal-700 text-white rounded-lg hover:bg-teal-800 transition-all duration-300 font-medium shadow-lg transform hover:-translate-y-1"
                             data-oid="n9p-vyk"
                         >
                             車種について問い合わせる
@@ -1180,7 +1182,7 @@ export default function Page() {
             >
                 <div className="container mx-auto px-4" data-oid="28o256i">
                     <div className="text-center mb-20" data-oid="3q7q:er">
-                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="187h1cd">
+                        <span className="text-teal-700 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="187h1cd">
                             COMPANY INFO
                         </span>
                         <h2
@@ -1189,7 +1191,7 @@ export default function Page() {
                         >
                             会社情報
                         </h2>
-                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <div className="w-20 h-1.5 bg-teal-700 mx-auto rounded-full mb-8"></div>
                     </div>
 
                     <div
@@ -1207,18 +1209,18 @@ export default function Page() {
                                         data-oid="9r-1s.8"
                                     >
                                         港南自動車サービス
-                                        <span className="block text-lg font-bold text-teal-600 mt-1">株式会社</span>
+                                        <span className="block text-lg font-bold text-teal-700 mt-1">株式会社</span>
                                     </h3>
                                 </div>
 
                                 <div className="space-y-10" data-oid="iheycqr">
                                     <div data-oid="z:przrj">
-                                        <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-4 flex items-center">
-                                            <span className="w-8 h-px bg-teal-600 mr-3"></span>
+                                        <p className="text-xs font-black text-teal-700 uppercase tracking-widest mb-4 flex items-center">
+                                            <span className="w-8 h-px bg-teal-700 mr-3"></span>
                                             Address
-                                        </h4>
+                                        </p>
                                         <div className="pl-11 relative">
-                                            <div className="absolute left-0 top-0 w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center text-teal-600">
+                                            <div className="absolute left-0 top-0 w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -1230,28 +1232,28 @@ export default function Page() {
                                     </div>
 
                                     <div data-oid="f05uljd">
-                                        <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-4 flex items-center">
-                                            <span className="w-8 h-px bg-teal-600 mr-3"></span>
+                                        <p className="text-xs font-black text-teal-700 uppercase tracking-widest mb-4 flex items-center">
+                                            <span className="w-8 h-px bg-teal-700 mr-3"></span>
                                             Contact
-                                        </h4>
+                                        </p>
                                         <div className="pl-11 space-y-4">
                                             <div className="relative">
-                                                <div className="absolute left-[-44px] top-0 w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center text-teal-600">
+                                                <div className="absolute left-[-44px] top-0 w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                                     </svg>
                                                 </div>
-                                                <a href="tel:076-268-1788" className="text-gray-900 font-black text-2xl hover:text-teal-600 transition-colors">076-268-1788</a>
+                                                <a href="tel:076-268-1788" className="text-gray-900 font-black text-2xl hover:text-teal-700 transition-colors">076-268-1788</a>
                                             </div>
                                             <p className="text-gray-500 font-bold">FAX: 076-268-3163</p>
                                         </div>
                                     </div>
 
                                     <div data-oid="9xkwcsq">
-                                        <h4 className="text-xs font-black text-teal-600 uppercase tracking-widest mb-4 flex items-center">
-                                            <span className="w-8 h-px bg-teal-600 mr-3"></span>
+                                        <p className="text-xs font-black text-teal-700 uppercase tracking-widest mb-4 flex items-center">
+                                            <span className="w-8 h-px bg-teal-700 mr-3"></span>
                                             Business Hours
-                                        </h4>
+                                        </p>
                                         <div className="pl-11 space-y-4">
                                             <div className="flex items-center">
                                                 <div className="w-20 text-gray-500 font-bold">平日</div>
@@ -1291,13 +1293,13 @@ export default function Page() {
             <section className="py-20 bg-slate-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
-                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                        <span className="text-teal-700 font-black tracking-[0.3em] uppercase text-sm block mb-4">
                             HOLIDAY CALENDAR
                         </span>
                         <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
                             休日カレンダー
                         </h2>
-                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <div className="w-20 h-1.5 bg-teal-700 mx-auto rounded-full mb-8"></div>
                         <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
                             定休日をご確認いただけます
                         </p>
@@ -1371,13 +1373,13 @@ export default function Page() {
             <section id="instagram" className="py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
                 <div className="container mx-auto px-4 text-center">
                     <div className="mb-20">
-                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                        <span className="text-teal-700 font-black tracking-[0.3em] uppercase text-sm block mb-4">
                             FOLLOW US
                         </span>
                         <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
                             Instagram
                         </h2>
-                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <div className="w-20 h-1.5 bg-teal-700 mx-auto rounded-full mb-8"></div>
                         <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
                             港南自動車の日常や最新情報をお届けしています
                         </p>
@@ -1448,13 +1450,13 @@ export default function Page() {
             <section id="reviews" className={`py-32 bg-slate-50 transition-all duration-1000 ${fadeIn('reviews')}`}>
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-20">
-                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                        <span className="text-teal-700 font-black tracking-[0.3em] uppercase text-sm block mb-4">
                             CUSTOMER VOICE
                         </span>
                         <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
                             お客様の声
                         </h2>
-                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <div className="w-20 h-1.5 bg-teal-700 mx-auto rounded-full mb-8"></div>
                         <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
                             Googleマップに寄せられた、<br />温かいメッセージの数々。
                         </p>
@@ -1503,13 +1505,13 @@ export default function Page() {
 
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-20">
-                        <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4">
+                        <span className="text-teal-700 font-black tracking-[0.3em] uppercase text-sm block mb-4">
                             FAQ
                         </span>
                         <h2 className="text-5xl font-black mt-2 mb-6 text-gray-900">
                             よくある質問
                         </h2>
-                        <div className="w-20 h-1.5 bg-teal-600 mx-auto rounded-full mb-8"></div>
+                        <div className="w-20 h-1.5 bg-teal-700 mx-auto rounded-full mb-8"></div>
                         <p className="text-gray-500 text-lg max-w-2xl mx-auto font-medium">
                             車検・カーリースについて、<br />お客様からよくいただくご質問にお答えします。
                         </p>
@@ -1521,13 +1523,13 @@ export default function Page() {
                                 key={index}
                                 className="group bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden"
                             >
-                                <summary className="flex items-center justify-between cursor-pointer list-none p-6 font-black text-gray-900 hover:text-teal-600 transition-colors">
+                                <summary className="flex items-center justify-between cursor-pointer list-none p-6 font-black text-gray-900 hover:text-teal-700 transition-colors">
                                     <span className="flex items-start">
-                                        <span className="text-teal-600 mr-3 shrink-0">Q.</span>
+                                        <span className="text-teal-700 mr-3 shrink-0">Q.</span>
                                         {item.question}
                                     </span>
                                     <svg
-                                        className="w-5 h-5 ml-4 shrink-0 text-teal-600 transition-transform duration-300 group-open:rotate-180"
+                                        className="w-5 h-5 ml-4 shrink-0 text-teal-700 transition-transform duration-300 group-open:rotate-180"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -1536,7 +1538,7 @@ export default function Page() {
                                     </svg>
                                 </summary>
                                 <div className="px-6 pb-6 text-gray-600 font-medium leading-relaxed flex items-start">
-                                    <span className="text-teal-600 font-black mr-3 shrink-0">A.</span>
+                                    <span className="text-teal-700 font-black mr-3 shrink-0">A.</span>
                                     <p>{item.answer}</p>
                                 </div>
                             </details>
@@ -1559,7 +1561,7 @@ export default function Page() {
                         {/* 左側：連絡先情報 */}
                         <div className="w-full lg:w-5/12" data-oid="w2lv4ug">
                             <div className="sticky top-32">
-                                <span className="text-teal-600 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="a7z6127">
+                                <span className="text-teal-700 font-black tracking-[0.3em] uppercase text-sm block mb-4" data-oid="a7z6127">
                                     CONTACT US
                                 </span>
                                 <h2 className="text-5xl font-black mt-2 mb-8 text-gray-900" data-oid="uwhd9t3">
@@ -1571,15 +1573,15 @@ export default function Page() {
 
                                 <div className="space-y-6" data-oid="p8a4w1i">
                                     {/* 電話ボタン */}
-                                    <div className="p-8 bg-slate-50/50 backdrop-blur-md rounded-[2rem] border border-white shadow-lg group hover:bg-teal-600 transition-all duration-500 cursor-pointer" onClick={() => (window as any).location.href = 'tel:076-268-1788'}>
+                                    <div className="p-8 bg-slate-50/50 backdrop-blur-md rounded-[2rem] border border-white shadow-lg group hover:bg-teal-700 transition-all duration-500 cursor-pointer" onClick={() => (window as any).location.href = 'tel:076-268-1788'}>
                                         <div className="flex items-center">
-                                            <div className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center justify-center mr-6 shadow-lg group-hover:bg-white transition-colors duration-500">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white group-hover:text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <div className="w-14 h-14 bg-teal-700 rounded-2xl flex items-center justify-center mr-6 shadow-lg group-hover:bg-white transition-colors duration-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white group-hover:text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <p className="text-xs font-black text-teal-600 uppercase tracking-widest mb-1 group-hover:text-white/80">Phone</p>
+                                                <p className="text-xs font-black text-teal-700 uppercase tracking-widest mb-1 group-hover:text-white/80">Phone</p>
                                                 <a href="tel:076-268-1788" className="text-3xl font-black text-gray-900 group-hover:text-white transition-colors">076-268-1788</a>
                                             </div>
                                         </div>
@@ -1612,10 +1614,10 @@ export default function Page() {
                                 <form onSubmit={handleSubmit} className="space-y-8" data-oid="xtfo009">
                                     <div className="space-y-2">
                                         <label className="text-sm font-black text-gray-900 ml-1" htmlFor="name">
-                                            お名前<span className="text-teal-600 ml-1">●</span>
+                                            お名前<span className="text-teal-700 ml-1">●</span>
                                         </label>
                                         <input
-                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 placeholder:text-slate-300"
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-700 focus:bg-white transition-all duration-300 placeholder:text-slate-300"
                                             id="name"
                                             name="name"
                                             type="text"
@@ -1628,10 +1630,10 @@ export default function Page() {
 
                                     <div className="space-y-2">
                                         <label className="text-sm font-black text-gray-900 ml-1" htmlFor="email">
-                                            メールアドレス<span className="text-teal-600 ml-1">●</span>
+                                            メールアドレス<span className="text-teal-700 ml-1">●</span>
                                         </label>
                                         <input
-                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 placeholder:text-slate-300"
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-700 focus:bg-white transition-all duration-300 placeholder:text-slate-300"
                                             id="email"
                                             name="email"
                                             type="email"
@@ -1644,10 +1646,10 @@ export default function Page() {
 
                                     <div className="space-y-2">
                                         <label className="text-sm font-black text-gray-900 ml-1" htmlFor="category">
-                                            お問い合わせジャンル<span className="text-teal-600 ml-1">●</span>
+                                            お問い合わせジャンル<span className="text-teal-700 ml-1">●</span>
                                         </label>
                                         <select
-                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 appearance-none cursor-pointer"
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-700 focus:bg-white transition-all duration-300 appearance-none cursor-pointer"
                                             id="category"
                                             name="category"
                                             value={formData.category}
@@ -1676,7 +1678,7 @@ export default function Page() {
                                                 ご希望日<span className="text-gray-400 text-xs ml-2">任意</span>
                                             </label>
                                             <input
-                                                className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300"
+                                                className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-700 focus:bg-white transition-all duration-300"
                                                 id="preferredDate"
                                                 name="preferredDate"
                                                 type="date"
@@ -1689,7 +1691,7 @@ export default function Page() {
                                                 ご希望の時間<span className="text-gray-400 text-xs ml-2">任意</span>
                                             </label>
                                             <select
-                                                className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 appearance-none cursor-pointer"
+                                                className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-700 focus:bg-white transition-all duration-300 appearance-none cursor-pointer"
                                                 id="preferredTime"
                                                 name="preferredTime"
                                                 value={formData.preferredTime}
@@ -1710,10 +1712,10 @@ export default function Page() {
 
                                     <div className="space-y-2">
                                         <label className="text-sm font-black text-gray-900 ml-1" htmlFor="message">
-                                            お問い合わせ内容<span className="text-teal-600 ml-1">●</span>
+                                            お問い合わせ内容<span className="text-teal-700 ml-1">●</span>
                                         </label>
                                         <textarea
-                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-600 focus:bg-white transition-all duration-300 min-h-[160px] placeholder:text-slate-300"
+                                            className="w-full bg-slate-50/50 border-2 border-slate-100 rounded-2xl py-5 px-6 text-gray-900 font-bold focus:outline-none focus:border-teal-700 focus:bg-white transition-all duration-300 min-h-[160px] placeholder:text-slate-300"
                                             id="message"
                                             name="message"
                                             value={formData.message}
@@ -1724,7 +1726,7 @@ export default function Page() {
                                     </div>
 
                                     <button
-                                        className={`w-full group relative overflow-hidden bg-teal-600 text-white font-black py-6 rounded-2xl transition-all duration-500 shadow-xl shadow-teal-600/20 hover:shadow-teal-600/40 hover:-translate-y-1 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                        className={`w-full group relative overflow-hidden bg-teal-700 text-white font-black py-6 rounded-2xl transition-all duration-500 shadow-xl shadow-teal-700/20 hover:shadow-teal-700/40 hover:-translate-y-1 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                                         type="submit"
                                         disabled={isSubmitting}
                                     >
@@ -1736,7 +1738,7 @@ export default function Page() {
                                                 </svg>
                                             )}
                                         </span>
-                                        <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-teal-800 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                     </button>
 
                                     <input type="hidden" name="recipient" value="kounan.lease@gmail.com" />
@@ -1758,7 +1760,7 @@ export default function Page() {
                                     data-oid="nkz2rg_"
                                 >
                                     <span
-                                        className="text-teal-600 font-bold text-sm"
+                                        className="text-teal-700 font-bold text-sm"
                                         data-oid="uvqt7yh"
                                     >
                                         港南
@@ -1914,7 +1916,7 @@ export default function Page() {
                 </div>
                 <a
                     href="#contact"
-                    className="bg-teal-500 hover:bg-teal-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+                    className="bg-teal-500 hover:bg-teal-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
                     aria-label="お問い合わせセクションへ移動"
                     data-oid="xobsylp"
                 >

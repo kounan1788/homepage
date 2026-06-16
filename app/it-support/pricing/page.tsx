@@ -70,14 +70,14 @@ export default function PricingPage() {
                         </a>
                         <a
                             href="/it-support#contact"
-                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${scrolled ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-teal-500 text-white hover:bg-teal-400'}`}
+                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${scrolled ? 'bg-teal-700 text-white hover:bg-teal-800' : 'bg-teal-500 text-white hover:bg-teal-400'}`}
                         >
                             無料相談
                         </a>
                     </nav>
 
                     <button
-                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-600 text-white' : 'bg-white/20 text-white backdrop-blur-sm'}`}
+                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-700 text-white' : 'bg-white/20 text-white backdrop-blur-sm'}`}
                         onClick={toggleMenu}
                     >
                         <svg
@@ -185,7 +185,7 @@ export default function PricingPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="opacity-100">
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">
                                 MONTHLY SUPPORT
                             </span>
                             <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6">
@@ -277,7 +277,7 @@ export default function PricingPage() {
                                     一番おすすめ！
                                 </div>
                                 <div className="mb-6 border-b border-slate-100 pb-6">
-                                    <div className="text-teal-600 font-bold mb-1">スタンダード</div>
+                                    <div className="text-teal-700 font-bold mb-1">スタンダード</div>
                                     <h3 className="text-3xl font-black text-slate-800 mb-4">
                                         竹プラン
                                     </h3>
@@ -309,7 +309,7 @@ export default function PricingPage() {
                                             />
                                         </svg>
                                         <div>
-                                            <span className="font-bold text-teal-700 block">
+                                            <span className="font-bold text-teal-800 block">
                                                 IT相談が無制限
                                             </span>
                                             <span className="text-sm text-slate-600">
@@ -467,7 +467,7 @@ export default function PricingPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="opacity-100">
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">
                                 COURSES
                             </span>
                             <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6">
@@ -476,7 +476,7 @@ export default function PricingPage() {
                             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
                                 難易度に応じたベース料金に対し、グループ受講（複数名）の場合は1名追加ごとの料金を大幅に割り引く仕組みです。
                                 <br />
-                                <span className="font-bold text-teal-600">
+                                <span className="font-bold text-teal-700">
                                     上位講座になるほどグループ受講での1人あたりの単価がお得になります。
                                 </span>
                             </p>
@@ -527,7 +527,7 @@ export default function PricingPage() {
                                                 10,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
-                                            <td className="p-4 md:p-6 text-center text-lg text-teal-600 font-bold">
+                                            <td className="p-4 md:p-6 text-center text-lg text-teal-700 font-bold">
                                                 +5,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
@@ -554,7 +554,7 @@ export default function PricingPage() {
                                                 20,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
-                                            <td className="p-4 md:p-6 text-center text-lg text-teal-600 font-bold">
+                                            <td className="p-4 md:p-6 text-center text-lg text-teal-700 font-bold">
                                                 +10,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
@@ -581,7 +581,7 @@ export default function PricingPage() {
                                                 20,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
-                                            <td className="p-4 md:p-6 text-center text-lg text-teal-600 font-bold">
+                                            <td className="p-4 md:p-6 text-center text-lg text-teal-700 font-bold">
                                                 +10,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
@@ -610,7 +610,7 @@ export default function PricingPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="opacity-100">
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">
                                 WEBSITE CREATION
                             </span>
                             <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6">
@@ -687,15 +687,15 @@ export default function PricingPage() {
                                 <ul className="space-y-4 pt-2">
                                     <li className="flex justify-between items-center border-b border-slate-100 pb-4">
                                         <span className="font-medium text-slate-700 text-sm">ページ追加 一枚</span>
-                                        <span className="font-bold text-teal-600">10,000円</span>
+                                        <span className="font-bold text-teal-700">10,000円</span>
                                     </li>
                                     <li className="flex justify-between items-center border-b border-slate-100 py-2 pb-4">
                                         <span className="font-medium text-slate-700 text-sm">予約システム設置</span>
-                                        <span className="font-bold text-teal-600">40,000円</span>
+                                        <span className="font-bold text-teal-700">40,000円</span>
                                     </li>
                                     <li className="flex justify-between items-center py-2">
                                         <span className="font-medium text-slate-700 text-sm">決算機能追加</span>
-                                        <span className="font-bold text-teal-600">30,000円</span>
+                                        <span className="font-bold text-teal-700">30,000円</span>
                                     </li>
                                 </ul>
                             </div>
@@ -744,7 +744,7 @@ export default function PricingPage() {
                                     </div>
 
                                     <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6 mt-2">
-                                        <svg className="w-8 h-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="w-8 h-8 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                         </svg>
                                     </div>
@@ -752,11 +752,11 @@ export default function PricingPage() {
                                         港南おまかせプラン
                                     </h5>
                                     <div className="flex flex-col items-center justify-center mb-6">
-                                        <div className="text-teal-700 font-bold flex items-baseline">
+                                        <div className="text-teal-800 font-bold flex items-baseline">
                                             <span className="text-4xl font-black">¥20,000<span className="text-2xl font-bold">〜</span></span>
                                             <span className="text-sm font-medium ml-1">/月</span>
                                         </div>
-                                        <span className="text-xs text-teal-600 mt-2 font-medium bg-teal-100/50 py-1 px-3 rounded-full">
+                                        <span className="text-xs text-teal-700 mt-2 font-medium bg-teal-100/50 py-1 px-3 rounded-full">
                                             ※任せたい内容によるため要相談
                                         </span>
                                     </div>
@@ -829,7 +829,7 @@ export default function PricingPage() {
                         <div className="mt-16 text-center relative z-10">
                             <a
                                 href="/it-support#contact"
-                                className="inline-flex items-center justify-center px-10 py-5 bg-teal-600 text-white rounded-2xl font-black text-xl shadow-[0_0_40px_rgba(20,184,166,0.3)] hover:shadow-[0_0_60px_rgba(20,184,166,0.5)] hover:bg-teal-500 hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto group"
+                                className="inline-flex items-center justify-center px-10 py-5 bg-teal-700 text-white rounded-2xl font-black text-xl shadow-[0_0_40px_rgba(20,184,166,0.3)] hover:shadow-[0_0_60px_rgba(20,184,166,0.5)] hover:bg-teal-500 hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto group"
                             >
                                 料金・プランについて無料相談する
                                 <svg

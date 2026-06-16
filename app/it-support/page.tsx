@@ -124,14 +124,14 @@ export default function ITSupportPage() {
                         </Link>
                         <a
                             href="#contact"
-                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${scrolled ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-teal-500 text-white hover:bg-teal-400'}`}
+                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${scrolled ? 'bg-teal-700 text-white hover:bg-teal-800' : 'bg-teal-500 text-white hover:bg-teal-400'}`}
                         >
                             無料相談
                         </a>
                     </nav>
 
                     <button
-                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-600 text-white' : 'bg-white/20 text-white backdrop-blur-sm'}`}
+                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-700 text-white' : 'bg-white/20 text-white backdrop-blur-sm'}`}
                         onClick={toggleMenu}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}>
@@ -202,7 +202,7 @@ export default function ITSupportPage() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                            <a href="#contact" className="group relative px-10 py-5 bg-teal-600 text-white rounded-2xl font-black text-lg shadow-[0_0_40px_rgba(20,184,166,0.4)] hover:shadow-[0_0_60px_rgba(20,184,166,0.6)] transition-all duration-300 overflow-hidden w-full sm:w-auto">
+                            <a href="#contact" className="group relative px-10 py-5 bg-teal-700 text-white rounded-2xl font-black text-lg shadow-[0_0_40px_rgba(20,184,166,0.4)] hover:shadow-[0_0_60px_rgba(20,184,166,0.6)] transition-all duration-300 overflow-hidden w-full sm:w-auto">
                                 <span className="relative z-10 flex items-center justify-center">
                                     対面での無料相談へ
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
@@ -229,7 +229,7 @@ export default function ITSupportPage() {
                 <div className="container mx-auto px-6">
                     <div className={`transition-all duration-1000 transform ${visibleSections.problems ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">PROBLEMS</span>
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">PROBLEMS</span>
                             <h2 className="text-3xl md:text-5xl font-black text-slate-800">こんなお悩みありませんか？</h2>
                         </div>
 
@@ -240,7 +240,7 @@ export default function ITSupportPage() {
                                 { title: 'Webサイトの運用が負担', desc: 'ホームページは作りたいが、制作にかかる予算や、公開後の保守・運用が心配。', icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9' }
                             ].map((item, i) => (
                                 <div key={i} className="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow border border-slate-100 relative overflow-hidden group">
-                                    <div className="w-16 h-16 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    <div className="w-16 h-16 bg-teal-50 text-teal-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} /></svg>
                                     </div>
                                     <h3 className="text-xl font-bold mb-4 text-slate-800">{item.title}</h3>
@@ -258,7 +258,7 @@ export default function ITSupportPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className={`transition-all duration-1000 transform ${visibleSections.strength ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">OUR STRENGTHS</span>
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">OUR STRENGTHS</span>
                             <h2 className="text-3xl md:text-5xl font-black text-slate-800 mb-6">港南自動車ならではの独自サービス</h2>
                             <p className="text-lg text-slate-600 max-w-2xl mx-auto">自動車関連事業との相乗効果を最大限に活かし、お客様のビジネス成長を加速させます。</p>
                         </div>
@@ -266,8 +266,8 @@ export default function ITSupportPage() {
                         <div className="space-y-8 max-w-5xl mx-auto">
                             {/* Strength 1 */}
                             <div className="flex flex-col md:flex-row bg-slate-50 rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 group">
-                                <div className="md:w-1/3 bg-teal-600 p-8 flex flex-col justify-center text-white relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-teal-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div className="md:w-1/3 bg-teal-700 p-8 flex flex-col justify-center text-white relative overflow-hidden">
+                                    <div className="absolute inset-0 bg-teal-800 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     <div className="relative z-10">
                                         <div className="text-teal-200 font-bold mb-2">強み 01</div>
                                         <h3 className="text-2xl font-black">IT化応援割引</h3>
@@ -275,7 +275,7 @@ export default function ITSupportPage() {
                                 </div>
                                 <div className="md:w-2/3 p-8 md:p-12 flex flex-col justify-center">
                                     <p className="text-slate-700 text-lg leading-relaxed font-medium">
-                                        車検・整備・車両購入などをご利用の既存顧客のお客様には、<span className="text-teal-600 font-bold">AI講座の入門講座を初回半額</span>でご提供いたします。既存のお客様への還元を通して、IT活用の第一歩を負担なくスタートしていただけます。
+                                        車検・整備・車両購入などをご利用の既存顧客のお客様には、<span className="text-teal-700 font-bold">AI講座の入門講座を初回半額</span>でご提供いたします。既存のお客様への還元を通して、IT活用の第一歩を負担なくスタートしていただけます。
                                     </p>
                                 </div>
                             </div>
@@ -325,7 +325,7 @@ export default function ITSupportPage() {
                 <div className="container mx-auto px-6">
                     <div className={`transition-all duration-1000 transform ${visibleSections.ai ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">SERVICE 01</span>
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">SERVICE 01</span>
                             <h2 className="text-3xl md:text-5xl font-black text-slate-800 mb-6">対面特化型 AI活用講座</h2>
                             <p className="text-lg text-slate-600 max-w-2xl mx-auto">中小企業の実務に直結するAI活用法を、顔を合わせて何度でも質問できる環境でマンツーマン・グループ対応で提供します。</p>
                         </div>
@@ -333,10 +333,10 @@ export default function ITSupportPage() {
                         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                             {/* Course 1 */}
                             <div className="bg-white rounded-3xl p-8 shadow-xl border border-teal-100 relative flex flex-col h-full">
-                                <div className="absolute -top-5 left-8 bg-teal-600 text-white font-bold py-1.5 px-4 rounded-full text-sm shadow-md">STEP 1</div>
+                                <div className="absolute -top-5 left-8 bg-teal-700 text-white font-bold py-1.5 px-4 rounded-full text-sm shadow-md">STEP 1</div>
                                 <div className="mt-4 mb-6">
                                     <h3 className="text-2xl font-black text-slate-800 mb-2">入門講座</h3>
-                                    <div className="text-teal-600 font-medium text-sm">対象: AI未経験者</div>
+                                    <div className="text-teal-700 font-medium text-sm">対象: AI未経験者</div>
                                 </div>
                                 <p className="text-slate-600 leading-relaxed mb-6 flex-grow">AIの基本概念から、ChatGPTなどのツールを使った基本的な質問の仕方など、基礎からしっかり学べる第一歩です。</p>
                                 <ul className="space-y-2 border-t border-slate-100 pt-6 mt-auto">
@@ -375,7 +375,7 @@ export default function ITSupportPage() {
                         </div>
 
                         <div className="mt-12 text-center">
-                            <Link href="/it-support/pricing#courses" className="inline-flex items-center text-teal-600 font-bold hover:text-teal-700 transition-colors group">
+                            <Link href="/it-support/pricing#courses" className="inline-flex items-center text-teal-700 font-bold hover:text-teal-800 transition-colors group">
                                 詳細な料金プランを見る
                                 <svg className="w-5 h-5 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                             </Link>
@@ -389,7 +389,7 @@ export default function ITSupportPage() {
                 <div className="container mx-auto px-6">
                     <div className={`transition-all duration-1000 transform ${visibleSections.web ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">SERVICE 02</span>
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">SERVICE 02</span>
                             <h2 className="text-3xl md:text-5xl font-black text-slate-800 mb-6">Webサイト制作・運用</h2>
                             <p className="text-lg text-slate-600 max-w-2xl mx-auto">小規模コーポレートサイトやLPに特化し、「名刺代わり」のサイトを短納期・低コストでご提供します。</p>
                         </div>
@@ -415,7 +415,7 @@ export default function ITSupportPage() {
                                     <div className="border-l-4 border-teal-500 bg-teal-50/50 p-6 rounded-r-2xl">
                                         <div className="flex justify-between items-center mb-2">
                                             <h4 className="font-bold text-lg text-teal-900">自社運用サポート</h4>
-                                            <span className="bg-white text-teal-600 px-3 py-1 rounded-full text-xs font-bold border border-teal-100">都度対応</span>
+                                            <span className="bg-white text-teal-700 px-3 py-1 rounded-full text-xs font-bold border border-teal-100">都度対応</span>
                                         </div>
                                         <p className="text-slate-600 text-sm">お知らせなど、お客様自身での簡単な更新作業を行えるようサポートします。どうしても困った時だけご相談いただけるプランです。</p>
                                     </div>
@@ -431,7 +431,7 @@ export default function ITSupportPage() {
                         </div>
 
                         <div className="mt-12 text-center">
-                            <Link href="/it-support/pricing#courses" className="inline-flex items-center text-teal-600 font-bold hover:text-teal-700 transition-colors group">
+                            <Link href="/it-support/pricing#courses" className="inline-flex items-center text-teal-700 font-bold hover:text-teal-800 transition-colors group">
                                 詳細な料金プランを見る
                                 <svg className="w-5 h-5 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                             </Link>
@@ -445,7 +445,7 @@ export default function ITSupportPage() {
                 <div className="container mx-auto px-6">
                     <div className={`transition-all duration-1000 transform ${visibleSections.templates ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
                         <div className="text-center mb-16">
-                            <span className="text-teal-600 font-bold tracking-widest text-sm mb-2 block">TEMPLATE SITES</span>
+                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">TEMPLATE SITES</span>
                             <h2 className="text-3xl md:text-5xl font-black text-slate-800 mb-6">制作テンプレート例</h2>
                             <p className="text-lg text-slate-600 max-w-2xl mx-auto">以下の高品質なテンプレートをベースに、お客様専用のWebサイトを素早く構築いたします。</p>
                         </div>
@@ -486,12 +486,12 @@ export default function ITSupportPage() {
                                     <div className="p-8 flex flex-col flex-grow">
                                         <div className="mb-4">
                                             <div className="font-bold text-slate-800 text-lg mb-1">{item.siteName}</div>
-                                            <div className="text-teal-600 text-sm font-bold bg-teal-50 px-3 py-1 rounded-full inline-block">{item.title}</div>
+                                            <div className="text-teal-700 text-sm font-bold bg-teal-50 px-3 py-1 rounded-full inline-block">{item.title}</div>
                                         </div>
                                         <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">{item.text}</p>
 
                                         <div className="mt-auto border-t border-slate-100 pt-4 pb-1">
-                                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-teal-600 font-bold text-sm tracking-widest hover:text-teal-700 transition-colors flex items-center cursor-pointer group/link w-fit">
+                                            <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-teal-700 font-bold text-sm tracking-widest hover:text-teal-800 transition-colors flex items-center cursor-pointer group/link w-fit">
                                                 デモサイトを見る
                                                 <svg className="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                                             </a>
@@ -507,7 +507,7 @@ export default function ITSupportPage() {
             {/* 7. CTA / Contact */}
             <section id="contact" className="py-32 bg-slate-900 relative overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <div className="absolute top-1/2 left-0 w-96 h-96 bg-teal-600 rounded-full blur-[128px] opacity-30 -translate-y-1/2"></div>
+                    <div className="absolute top-1/2 left-0 w-96 h-96 bg-teal-700 rounded-full blur-[128px] opacity-30 -translate-y-1/2"></div>
                     <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600 rounded-full blur-[128px] opacity-20 translate-x-1/2"></div>
                 </div>
 
@@ -557,7 +557,7 @@ export default function ITSupportPage() {
                             </div>
 
                             <div className="text-center">
-                                <button type="submit" disabled={isSubmitting} className="inline-flex items-center justify-center px-10 py-5 bg-teal-600 text-white rounded-2xl font-black text-lg w-full md:w-auto hover:bg-teal-700 hover:shadow-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+                                <button type="submit" disabled={isSubmitting} className="inline-flex items-center justify-center px-10 py-5 bg-teal-700 text-white rounded-2xl font-black text-lg w-full md:w-auto hover:bg-teal-800 hover:shadow-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed">
                                     {isSubmitting ? (
                                         <span className="flex items-center">
                                             <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>

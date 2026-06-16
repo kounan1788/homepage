@@ -171,7 +171,7 @@ export default function Page() {
                                                 <div className="absolute inset-1 rounded-full border border-slate-200"></div>
                                             )}
                                         </div>
-                                        <span className={`mt-3 text-sm font-medium text-center leading-tight ${selectedColor === color.name ? 'text-teal-600' : 'text-slate-600'
+                                        <span className={`mt-3 text-sm font-medium text-center leading-tight ${selectedColor === color.name ? 'text-teal-700' : 'text-slate-600'
                                             }`}>
                                             {color.name}
                                         </span>
@@ -217,17 +217,17 @@ export default function Page() {
                                                 </div>
                                                 <div className="flex-grow">
                                                     <div className="flex items-center gap-2">
-                                                        <span className={`font-bold ${isChecked ? 'text-teal-700' : 'text-slate-700'}`}>
+                                                        <span className={`font-bold ${isChecked ? 'text-teal-800' : 'text-slate-700'}`}>
                                                             {option.name}
                                                         </span>
                                                         {isDefault && (
-                                                            <span className="text-xs font-bold text-teal-600 bg-teal-100 px-2 py-0.5 rounded-full">
+                                                            <span className="text-xs font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded-full">
                                                                 標準装備
                                                             </span>
                                                         )}
                                                     </div>
                                                 </div>
-                                                <div className={`text-right font-bold ${isChecked ? 'text-teal-600' : 'text-slate-500'}`}>
+                                                <div className={`text-right font-bold ${isChecked ? 'text-teal-700' : 'text-slate-500'}`}>
                                                     {option.price > 0 ? `+${option.price.toLocaleString()}円/月` : '無料'}
                                                 </div>
                                             </button>
@@ -262,12 +262,12 @@ export default function Page() {
                     ].map((feature, i) => (
                         <div key={i} className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-shadow text-center">
                             <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={feature.icon} />
                                 </svg>
                             </div>
                             <p className="text-sm text-slate-500 mb-1">{feature.label}</p>
-                            <p className="text-lg font-bold text-teal-600">{feature.value}</p>
+                            <p className="text-lg font-bold text-teal-700">{feature.value}</p>
                         </div>
                     ))}
                 </div>
@@ -290,13 +290,13 @@ export default function Page() {
                     <div className="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-between sm:justify-end">
                         <div className="text-right">
                             <p className="text-xs text-slate-500">月々のお支払い</p>
-                            <p className="text-2xl md:text-3xl font-black text-teal-600">
+                            <p className="text-2xl md:text-3xl font-black text-teal-700">
                                 {calculateTotalPrice().toLocaleString()}<span className="text-sm ml-1">円</span>
                             </p>
                         </div>
                         <Link
                             href="/#contact"
-                            className="bg-gradient-to-r from-teal-500 to-teal-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl hover:from-teal-600 hover:to-teal-700 transition-all whitespace-nowrap"
+                            className="bg-gradient-to-r from-teal-500 to-teal-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl hover:from-teal-700 hover:to-teal-800 transition-all whitespace-nowrap"
                         >
                             お問い合わせ
                         </Link>

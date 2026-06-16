@@ -170,7 +170,7 @@ export default function Page() {
                                                 style={{ backgroundColor: color.colorCode }}
                                             ></div>
                                         </div>
-                                        <span className={`mt-3 text-sm font-medium text-center leading-tight ${selectedColor === color.name ? 'text-teal-600' : 'text-slate-600'
+                                        <span className={`mt-3 text-sm font-medium text-center leading-tight ${selectedColor === color.name ? 'text-teal-700' : 'text-slate-600'
                                             }`}>
                                             {color.name}
                                         </span>
@@ -221,12 +221,12 @@ export default function Page() {
                                                         {option.name}
                                                     </div>
                                                     {isDefault && (
-                                                        <span className="text-xs text-teal-600 bg-teal-100 px-2 py-0.5 rounded-full">
+                                                        <span className="text-xs text-teal-700 bg-teal-100 px-2 py-0.5 rounded-full">
                                                             標準装備
                                                         </span>
                                                     )}
                                                 </div>
-                                                <div className={`text-lg font-bold ${isChecked ? 'text-teal-600' : 'text-slate-500'}`}>
+                                                <div className={`text-lg font-bold ${isChecked ? 'text-teal-700' : 'text-slate-500'}`}>
                                                     {option.price > 0 ? `+${option.price.toLocaleString()}円` : '¥0'}
                                                 </div>
                                             </button>
@@ -237,13 +237,13 @@ export default function Page() {
                         ))}
 
                         {/* Price Summary Card */}
-                        <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-3xl p-6 shadow-xl text-white">
+                        <div className="bg-gradient-to-br from-teal-500 to-teal-700 rounded-3xl p-6 shadow-xl text-white">
                             <div className="text-center">
                                 <div className="text-teal-100 text-sm mb-1">月々のお支払い</div>
                                 <div className="text-5xl font-black mb-4">
                                     ¥{calculateTotalPrice().toLocaleString()}
                                 </div>
-                                <button className="w-full bg-white text-teal-600 font-bold py-4 px-8 rounded-2xl hover:bg-teal-50 transition-colors shadow-lg">
+                                <button className="w-full bg-white text-teal-700 font-bold py-4 px-8 rounded-2xl hover:bg-teal-50 transition-colors shadow-lg">
                                     お問い合わせはコチラ
                                 </button>
                             </div>
@@ -263,7 +263,7 @@ export default function Page() {
                         <div key={index} className="bg-white rounded-2xl p-4 shadow-lg text-center hover:shadow-xl transition-shadow">
                             <div className="text-3xl mb-2">{feature.icon}</div>
                             <div className="text-xs text-slate-500 mb-1">{feature.label}</div>
-                            <div className="font-bold text-teal-600">{feature.value}</div>
+                            <div className="font-bold text-teal-700">{feature.value}</div>
                         </div>
                     ))}
                 </div>
@@ -286,11 +286,11 @@ export default function Page() {
                     <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                         <div className="text-right">
                             <div className="text-slate-500 text-xs">月々のお支払い</div>
-                            <div className="text-2xl md:text-3xl font-black text-teal-600">
+                            <div className="text-2xl md:text-3xl font-black text-teal-700">
                                 ¥{calculateTotalPrice().toLocaleString()}
                             </div>
                         </div>
-                        <button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-lg">
+                        <button className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-lg">
                             お問い合わせ
                         </button>
                     </div>

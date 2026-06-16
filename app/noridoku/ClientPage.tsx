@@ -171,13 +171,13 @@ export default function NoridokuPage() {
                             <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                         </Link>
                         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                            <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
-                            <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
-                            <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
-                            <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
-                            <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
-                            <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
-                            <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
+                            <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
+                            <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
+                            <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
+                            <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
+                            <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
+                            <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
+                            <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
                                 ノレタ詳細
                             </Link>
                             <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
@@ -188,6 +188,7 @@ export default function NoridokuPage() {
                             className="md:hidden p-2 rounded-xl bg-blue-600 text-white transition-all duration-300"
                             onClick={toggleMenu}
                             aria-expanded={menuOpen}
+                        aria-label="メニューを開く"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -218,6 +219,7 @@ export default function NoridokuPage() {
                     <button
                         onClick={() => setMenuOpen(false)}
                         className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                    aria-label="メニューを閉じる"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                     </button>
@@ -308,13 +310,13 @@ export default function NoridokuPage() {
                         <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
                     <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                        <Link href="/shaken" className="text-slate-600 hover:text-teal-600 transition-colors">車検</Link>
-                        <Link href="/#services" className="text-slate-600 hover:text-teal-600 transition-colors">サービス内容</Link>
-                        <Link href="/#cases" className="text-slate-600 hover:text-teal-600 transition-colors">取扱車種</Link>
-                        <Link href="/#company" className="text-slate-600 hover:text-teal-600 transition-colors">会社情報</Link>
-                        <Link href="/recruit" className="text-slate-600 hover:text-teal-600 transition-colors">採用情報</Link>
-                        <Link href="/#contact" className="text-slate-600 hover:text-teal-600 transition-colors">お問い合わせ</Link>
-                        <Link href="/noreta" className="text-white bg-teal-600 px-5 py-2.5 rounded-full hover:bg-teal-700 transition-all shadow-md hover:shadow-lg">
+                        <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
+                        <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
+                        <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
+                        <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
+                        <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
+                        <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
+                        <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
                             ノレタ詳細
                         </Link>
                         <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
@@ -325,6 +327,7 @@ export default function NoridokuPage() {
                         className="md:hidden p-2 rounded-xl bg-blue-600 text-white transition-all duration-300"
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
+                    aria-label="メニューを開く"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -355,6 +358,7 @@ export default function NoridokuPage() {
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                aria-label="メニューを閉じる"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>

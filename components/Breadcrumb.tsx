@@ -59,7 +59,7 @@ export default function Breadcrumb({ items, includeSchema = true }: BreadcrumbPr
                             ) : (
                                 <Link
                                     href={item.href}
-                                    className="hover:text-teal-600 transition-colors"
+                                    className="hover:text-teal-700 transition-colors"
                                 >
                                     {item.name}
                                 </Link>

@@ -236,8 +236,8 @@ export default function Page() {
                         <Link
                             href="/noreta"
                             className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-teal-500/20 hover:-translate-y-0.5 ${isScrolled
-                                ? 'bg-teal-600 text-white hover:bg-teal-700'
-                                : 'bg-white text-teal-700 hover:bg-slate-100'
+                                ? 'bg-teal-700 text-white hover:bg-teal-800'
+                                : 'bg-white text-teal-800 hover:bg-slate-100'
                                 }`}
                             data-oid="r7m-jfd"
                         >
@@ -254,10 +254,11 @@ export default function Page() {
                         </Link>
                     </div>
                     <button
-                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${isScrolled ? 'bg-teal-600 text-white' : 'bg-white/20 text-white backdrop-blur-sm'
+                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${isScrolled ? 'bg-teal-700 text-white' : 'bg-white/20 text-white backdrop-blur-sm'
                             }`}
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
+                        aria-label="メニューを開く"
                         data-oid="av_bd._"
                     >
                         <svg
@@ -290,6 +291,7 @@ export default function Page() {
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
+                    aria-label="メニューを閉じる"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
@@ -378,7 +380,7 @@ export default function Page() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                         <a
                             href="#lineup"
-                            className="group relative px-10 py-5 bg-teal-600 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-teal-500 transition-all duration-300 overflow-hidden"
+                            className="group relative px-10 py-5 bg-teal-700 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-teal-500 transition-all duration-300 overflow-hidden"
                         >
                             <span className="relative z-10 flex items-center">
                                 ラインナップを見る
@@ -400,7 +402,7 @@ export default function Page() {
                 {/* Vehicle Lineup Section */}
                 <div className="container mx-auto px-6" data-oid="4ni0p50">
                     <div className="text-center mb-20" data-oid="e3-q:y4">
-                        <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid=":pu:qf-">
+                        <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-700 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid=":pu:qf-">
                             Vehicle Lineup
                         </div>
                         <h2
@@ -425,7 +427,7 @@ export default function Page() {
                                 <button
                                     key={cat}
                                     className={`px-10 py-4 rounded-xl text-lg font-black transition-all duration-300 ${activeCategory === cat
-                                        ? 'bg-white text-teal-600 shadow-md scale-105'
+                                        ? 'bg-white text-teal-700 shadow-md scale-105'
                                         : 'text-slate-500 hover:text-slate-700'
                                         }`}
                                     onClick={() => setActiveCategory(cat)}
@@ -471,7 +473,7 @@ export default function Page() {
                                                 {car.name}
                                             </h4>
                                             <div
-                                                className="bg-teal-50 text-teal-700 px-4 py-1.5 rounded-xl text-lg font-black whitespace-nowrap"
+                                                className="bg-teal-50 text-teal-800 px-4 py-1.5 rounded-xl text-lg font-black whitespace-nowrap"
                                                 data-oid="hsfw-i4"
                                             >
                                                 <span className="text-xs font-bold mr-1 opacity-70">月々</span>
@@ -485,7 +487,7 @@ export default function Page() {
                                             {['頭金なし', 'ボーナスなし', '3年契約'].map((tag, i) => (
                                                 <span
                                                     key={i}
-                                                    className="bg-teal-50 text-teal-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-teal-100"
+                                                    className="bg-teal-50 text-teal-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-teal-100"
                                                     data-oid="zqj0wrh"
                                                 >
                                                     {tag}
@@ -495,7 +497,7 @@ export default function Page() {
 
                                         <div className="mt-auto border-t border-slate-50 pt-6 flex items-center justify-between" data-oid="hwnmccz">
                                             <span
-                                                className="text-teal-600 text-sm font-black flex items-center group-hover:text-teal-500 transition-colors"
+                                                className="text-teal-700 text-sm font-black flex items-center group-hover:text-teal-500 transition-colors"
                                                 data-oid="cq:nz8_"
                                             >
                                                 詳細を見る
@@ -527,7 +529,7 @@ export default function Page() {
 
                     <div className="container mx-auto px-6 relative z-10" data-oid="46o57.p">
                         <div className="text-center mb-24" data-oid="secret-header">
-                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid=":lk30bf">
+                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-700 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid=":lk30bf">
                                 WHY SO AFFORDABLE?
                             </div>
                             <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight" data-oid="dzihdm7">
@@ -543,7 +545,7 @@ export default function Page() {
                             <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-all duration-500 hover:shadow-2xl" data-oid=".pgj:90">
                                 <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt1-layout">
                                     <div className="flex-shrink-0" data-oid="pc8y:6s">
-                                        <div className="w-24 h-24 bg-teal-600 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform duration-500" data-oid="2hs-tai">
+                                        <div className="w-24 h-24 bg-teal-700 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform duration-500" data-oid="2hs-tai">
                                             <span className="text-white font-black text-4xl" data-oid="_33zlyb">01</span>
                                         </div>
                                     </div>
@@ -556,8 +558,8 @@ export default function Page() {
                                                 新車を賢く乗り換える鍵は「車両設定」にあります。単に人気車を選ぶだけでなく、3年後の市場価値を徹底的に分析。プロの視点で「最も価値が落ちにくい」組み合わせをご提案します。
                                             </p>
                                             <div className="bg-slate-50 rounded-3xl p-8" data-oid="7l16u3f">
-                                                <p className="font-black text-teal-700 mb-6 flex items-center" data-oid="906.zsh">
-                                                    <span className="w-1.5 h-6 bg-teal-600 rounded-full mr-3" data-oid="h-line"></span>
+                                                <p className="font-black text-teal-800 mb-6 flex items-center" data-oid="906.zsh">
+                                                    <span className="w-1.5 h-6 bg-teal-700 rounded-full mr-3" data-oid="h-line"></span>
                                                     「ノレタ」が提案する賢い選択
                                                 </p>
                                                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700 font-bold" data-oid="xaachj6">
@@ -587,7 +589,7 @@ export default function Page() {
                             <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-all duration-500 hover:shadow-2xl" data-oid="si6zjvw">
                                 <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt2-layout">
                                     <div className="flex-shrink-0" data-oid="wt:8y_e">
-                                        <div className="w-24 h-24 bg-teal-600 rounded-3xl flex items-center justify-center shadow-lg transform rotate-6 group-hover:rotate-0 transition-transform duration-500" data-oid="lq-f-k9">
+                                        <div className="w-24 h-24 bg-teal-700 rounded-3xl flex items-center justify-center shadow-lg transform rotate-6 group-hover:rotate-0 transition-transform duration-500" data-oid="lq-f-k9">
                                             <span className="text-white font-black text-4xl" data-oid="sa9bx9-">02</span>
                                         </div>
                                     </div>
@@ -622,7 +624,7 @@ export default function Page() {
                             <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-all duration-500 hover:shadow-2xl" data-oid="lw9j4p0">
                                 <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt3-layout">
                                     <div className="flex-shrink-0" data-oid="yf.7i3a">
-                                        <div className="w-24 h-24 bg-teal-600 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform duration-500" data-oid="c_.q:fw">
+                                        <div className="w-24 h-24 bg-teal-700 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform duration-500" data-oid="c_.q:fw">
                                             <span className="text-white font-black text-4xl" data-oid="x0m1zb5">03</span>
                                         </div>
                                     </div>
@@ -635,7 +637,7 @@ export default function Page() {
                                                 「ノレタ」単体での利益は決して多くありません。しかし、車検、点検、保険、販売とトータルカーライフをサポートし続ける港南自動車だからこそ、この驚きの価格設定が可能になりました。
                                             </p>
                                             <div className="bg-slate-900 text-white rounded-[2rem] p-8 relative overflow-hidden" data-oid="szywr8a">
-                                                <div className="absolute top-0 right-0 w-32 h-32 bg-teal-600 opacity-20 blur-3xl" data-oid="blur"></div>
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-teal-700 opacity-20 blur-3xl" data-oid="blur"></div>
                                                 <p className="text-white/90 font-medium leading-relaxed italic relative z-10" data-oid=":9m.:r2">
                                                     「一度きりの利益より、一生のお付き合いを。」<br />
                                                     創業60年以上の歩みが、お客様への還元という形で実を結んでいます。
@@ -653,7 +655,7 @@ export default function Page() {
                 <section className="py-24 bg-white">
                     <div className="container mx-auto px-6">
                         <div className="text-center mb-16">
-                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4">
+                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-700 rounded-full text-sm font-black tracking-widest uppercase mb-4">
                                 FAQ
                             </div>
                             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
@@ -667,11 +669,11 @@ export default function Page() {
                             {noretaFaqData.map((item, idx) => (
                                 <article key={idx} className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
                                     <h3 className="text-lg font-black text-slate-800 mb-4 flex items-start">
-                                        <span className="text-teal-600 mr-3">Q.</span>
+                                        <span className="text-teal-700 mr-3">Q.</span>
                                         {item.question}
                                     </h3>
                                     <p className="text-slate-600 leading-relaxed pl-8">
-                                        <span className="text-teal-600 font-bold mr-2">A.</span>
+                                        <span className="text-teal-700 font-bold mr-2">A.</span>
                                         {item.answer}
                                     </p>
                                 </article>
@@ -684,7 +686,7 @@ export default function Page() {
                 <section className="py-32 relative bg-white" data-oid="._gvodc">
                     <div className="container mx-auto px-6 relative z-10" data-oid="skrri5s">
                         <div className="text-center mb-20" data-oid="contact-header">
-                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid="g2e7wpr">
+                            <div className="inline-block px-4 py-1.5 bg-teal-50 text-teal-700 rounded-full text-sm font-black tracking-widest uppercase mb-4" data-oid="g2e7wpr">
                                 GET IN TOUCH
                             </div>
                             <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight" data-oid="74paijr">
@@ -702,12 +704,12 @@ export default function Page() {
                                 <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                                 <div className="relative bg-white p-10 md:p-12 rounded-[2.5rem] shadow-xl flex flex-col items-center text-center h-full" data-oid="_sis:yn">
                                     <div className="w-20 h-20 bg-teal-50 rounded-2xl flex items-center justify-center mb-8" data-oid="bvidzx7">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                         </svg>
                                     </div>
                                     <h3 className="text-2xl font-black text-slate-800 mb-4" data-oid="sda_vfv">お電話でのお問い合わせ</h3>
-                                    <a href="tel:076-268-1788" className="text-4xl md:text-5xl font-black text-teal-600 mb-8 hover:scale-105 transition-transform" data-oid="l96a_oc">
+                                    <a href="tel:076-268-1788" className="text-4xl md:text-5xl font-black text-teal-700 mb-8 hover:scale-105 transition-transform" data-oid="l96a_oc">
                                         076-268-1788
                                     </a>
                                     <p className="text-slate-500 font-bold leading-relaxed" data-oid="7dop659">
@@ -756,7 +758,7 @@ export default function Page() {
                                     data-oid="8p9ado."
                                 >
                                     <span
-                                        className="text-teal-600 font-bold text-sm"
+                                        className="text-teal-700 font-bold text-sm"
                                         data-oid="gialhj-"
                                     >
                                         港南
@@ -884,7 +886,7 @@ export default function Page() {
                 </div>
                 <Link
                     href="/#contact"
-                    className="bg-teal-500 hover:bg-teal-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+                    className="bg-teal-500 hover:bg-teal-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
                     aria-label="お問い合わせセクションへ移動"
                     data-oid="wcbuw78"
                 >
