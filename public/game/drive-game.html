@@ -430,8 +430,14 @@
       if(req){ const p=req.call(el); if(p&&p.catch) p.catch(()=>{}); }
     }catch(e){}
   }
+  function isIOS(){ return /iP(hone|od|ad)/.test(navigator.userAgent) || (navigator.maxTouchPoints>1 && /Macintosh/.test(navigator.userAgent)); }
+  function enterBig(){
+    // iOSは全画面API非対応のため親ページにiframe拡大を依頼。それ以外は通常の全画面API。
+    if(isIOS()){ try{ (window.parent||window).postMessage({type:'kounan-game',action:'enlarge'},'*'); }catch(e){} }
+    else { goFullscreen(); }
+  }
   function start(){
-    goFullscreen(); initAudio(); track('game_start');
+    enterBig(); initAudio(); track('game_start');
     $('startScreen').classList.add('hidden'); $('resultScreen').classList.add('hidden'); $('reward').classList.add('hidden');
     reset(); state='countdown';
     drawIdle();                          // 道路と車を表示したまま

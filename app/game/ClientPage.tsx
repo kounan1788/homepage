@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Breadcrumb from '@/components/Breadcrumb';
@@ -31,6 +31,26 @@ const steps = [
 export default function Page() {
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => setMenuOpen(!menuOpen);
+
+    // iOS Safari は全画面APIが使えないため、ゲーム(iframe)からの通知でiframeを画面いっぱいに広げる
+    const [enlarged, setEnlarged] = useState(false);
+    useEffect(() => {
+        const onMsg = (e: MessageEvent) => {
+            if (e.origin !== window.location.origin) return;
+            if (e.data && e.data.type === 'kounan-game' && e.data.action === 'enlarge') {
+                setEnlarged(true);
+            }
+        };
+        window.addEventListener('message', onMsg);
+        return () => window.removeEventListener('message', onMsg);
+    }, []);
+    // 拡大中は背面ページのスクロールを止める
+    useEffect(() => {
+        document.body.style.overflow = enlarged ? 'hidden' : '';
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [enlarged]);
 
     return (
         <div className="min-h-screen bg-neutral-50 font-sans text-slate-900">
@@ -139,12 +159,25 @@ export default function Page() {
 
                 {/* ゲーム本体（iframe埋め込み） */}
                 <section className="container mx-auto px-4 mb-24">
-                    <div className="max-w-[460px] mx-auto">
+                    <div className={enlarged ? 'fixed inset-0 z-[9999] bg-slate-950' : 'max-w-[460px] mx-auto'}>
+                        {enlarged && (
+                            <button
+                                onClick={() => setEnlarged(false)}
+                                className="fixed top-3 right-3 z-[10000] px-4 py-2 rounded-full bg-white/90 text-slate-900 font-bold text-sm shadow-lg"
+                                aria-label="拡大表示を閉じる"
+                            >
+                                ✕ 閉じる
+                            </button>
+                        )}
                         <iframe
                             src="/game/drive-game.html"
                             title="港南ドライブチャレンジ"
-                            className="w-full rounded-3xl shadow-2xl border border-slate-200 bg-slate-900"
-                            style={{ height: 760 }}
+                            className={
+                                enlarged
+                                    ? 'w-full border-0 bg-slate-900'
+                                    : 'w-full rounded-3xl shadow-2xl border border-slate-200 bg-slate-900'
+                            }
+                            style={enlarged ? { height: '100dvh' } : { height: 760 }}
                             loading="lazy"
                             allow="fullscreen"
                             allowFullScreen
