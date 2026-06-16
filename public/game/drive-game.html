@@ -124,9 +124,9 @@
 (function(){
   // ===== 店舗側で調整できる設定 =====
   const TIERS = [
-    { min: 6000, rank:"PLATINUM", amount:300, prefix:"DRIVE300" },
-    { min: 3600, rank:"GOLD",     amount:200, prefix:"DRIVE200" },
-    { min: 2000, rank:"SILVER",   amount:100, prefix:"DRIVE100" },
+    { min: 6500, rank:"PLATINUM", amount:200, prefix:"DRIVE200" },
+    { min: 4500, rank:"GOLD",     amount:150, prefix:"DRIVE150" },
+    { min: 2500, rank:"SILVER",   amount:100, prefix:"DRIVE100" },
     { min:  750, rank:"BRONZE",   amount: 50, prefix:"DRIVE50"  },
     { min:    0, rank:"TRY",      amount:  0, prefix:"DRIVE0"   },
   ];
@@ -169,15 +169,18 @@
 
   let state='idle', dist=0, speed=BASE_SPEED, playerLane=1, playerX=0, targetX=0;
   let obstacles=[], spawnTimer=0, spawnGap=START_SPAWN, last=0, bgScroll=0;
-  let awarded={}, restTime=0;          // 到達済みランク, 休憩残り秒数
+  let awarded={}, restTime=0, laneStarve=[0,0,0];   // 到達済みランク, 休憩残り秒数, 各車線の未出現度
   const REST_SECONDS=5;                 // 休憩の長さ
 
   function laneCenter(i){ return roadLeft + laneW*i + laneW/2; }
-  function reset(){ dist=0;speed=BASE_SPEED;playerLane=1;obstacles=[];spawnTimer=0;spawnGap=START_SPAWN;bgScroll=0;awarded={};restTime=0;playerX=targetX=laneCenter(playerLane); }
+  function reset(){ dist=0;speed=BASE_SPEED;playerLane=1;obstacles=[];spawnTimer=0;spawnGap=START_SPAWN;bgScroll=0;awarded={};restTime=0;laneStarve=[0,0,0];playerX=targetX=laneCenter(playerLane); }
 
   function spawn(){
     const count = dist>800 ? (Math.random()<0.5?2:1) : 1;
-    const lanes=[0,1,2].sort(()=>Math.random()-0.5).slice(0,count);
+    // 未出現度(laneStarve)が高い車線を優先して選び、特定車線が空きっぱなしになるのを防ぐ
+    const order=[0,1,2].map(l=>({l, s:laneStarve[l]+Math.random()})).sort((a,b)=>b.s-a.s).map(o=>o.l);
+    const lanes=order.slice(0,count);
+    for(let l=0;l<LANES;l++){ laneStarve[l] = lanes.indexOf(l)>=0 ? 0 : laneStarve[l]+1; }
     lanes.forEach(l=>obstacles.push({lane:l, y:-railH()}));
   }
   function move(dir){
@@ -349,7 +352,7 @@
     } else {
       $('resultTitle').textContent='クラッシュ！';
       $('couponAmount').textContent='あと少しで割引!';
-      $('couponCode').textContent='750mでBRONZE';
+      $('couponCode').textContent='750mで割引';
       $('couponNote').innerHTML='750m以上の走破で割引コードがもらえます。';
     }
   }

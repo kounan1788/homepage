@@ -12,12 +12,12 @@ const controls = [
     { device: 'スマホ', op: '画面の左半分 / 右半分をタップ', desc: '左右の車線へ移動' },
 ];
 
-// 割引ランク（仕様書 TIERS より）
+// 割引ランク（ゲーム内 TIERS と一致）
 const tiers = [
     { rank: 'BRONZE', dist: '750m 以上', amount: '50円引き' },
-    { rank: 'SILVER', dist: '2,000m 以上', amount: '100円引き' },
-    { rank: 'GOLD', dist: '3,600m 以上', amount: '200円引き' },
-    { rank: 'PLATINUM', dist: '6,000m 以上', amount: '300円引き' },
+    { rank: 'SILVER', dist: '2,500m 以上', amount: '100円引き' },
+    { rank: 'GOLD', dist: '4,500m 以上', amount: '150円引き' },
+    { rank: 'PLATINUM', dist: '6,500m 以上', amount: '200円引き' },
 ];
 
 // 遊び方の流れ（仕様書 2.1 より）
