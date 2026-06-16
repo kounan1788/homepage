@@ -146,6 +146,8 @@ export default function Page() {
                             className="w-full rounded-3xl shadow-2xl border border-slate-200 bg-slate-900"
                             style={{ height: 760 }}
                             loading="lazy"
+                            allow="fullscreen"
+                            allowFullScreen
                         />
                     </div>
                     <p className="text-center text-slate-400 text-xs mt-4">

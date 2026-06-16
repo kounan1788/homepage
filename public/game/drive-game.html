@@ -112,7 +112,7 @@
         <div class="rank" id="couponRank">RANK</div>
         <div class="amount" id="couponAmount">¥0引き</div>
         <div class="code" id="couponCode">------</div>
-        <div class="note">このコードを来店時にご提示ください。<br>有効期限・適用条件は店頭規定に準じます。</div>
+        <div class="note" id="couponNote">このコードを来店時にご提示ください。<br>有効期限・適用条件は店頭規定に準じます。</div>
       </div>
       <button class="big-btn" id="retryBtn">もう一度</button>
     </div>
@@ -247,7 +247,7 @@
       restTime-=dt;
       // 休憩中も道路はゆっくり流れ続け、車は走っている演出
       bgScroll += BASE_SPEED*0.5*dt;
-      playerX += (targetX-playerX)*Math.min(1,dt*14);
+      playerX += (targetX-playerX)*(1-Math.exp(-dt*16));
       drawBg(); drawPlayer(playerX,H-carH()/2-16);
       $('rewardCount').textContent=Math.max(0,Math.ceil(restTime));
       if(restTime<=0){
@@ -263,7 +263,7 @@
     dist += speed*dt*0.12;
     bgScroll += speed*dt;
 
-    playerX += (targetX-playerX)*Math.min(1,dt*14);
+    playerX += (targetX-playerX)*(1-Math.exp(-dt*16));
     spawnTimer-=dt; if(spawnTimer<=0){ spawn(); spawnTimer=spawnGap; }
 
     const playerY=H-carH()/2-16;
@@ -291,7 +291,16 @@
 
   function drawIdle(){ drawBg(); drawPlayer(laneCenter(1),H-carH()/2-16); }
 
+  function goFullscreen(){
+    try{
+      if(document.fullscreenElement||document.webkitFullscreenElement) return;
+      const el=document.documentElement;
+      const req=el.requestFullscreen||el.webkitRequestFullscreen||el.webkitRequestFullScreen;
+      if(req){ const p=req.call(el); if(p&&p.catch) p.catch(()=>{}); }
+    }catch(e){}
+  }
   function start(){
+    goFullscreen();
     $('startScreen').classList.add('hidden'); $('resultScreen').classList.add('hidden'); $('reward').classList.add('hidden');
     reset(); state='countdown';
     drawIdle();                          // 道路と車を表示したまま
@@ -334,10 +343,14 @@
       $('resultTitle').textContent='ナイスドライブ！';
       $('couponAmount').textContent='¥'+tier.amount.toLocaleString()+' 引き';
       $('couponCode').textContent=genCode(tier.prefix); $('couponCode').style.display='';
+      var _d=new Date(); _d.setDate(_d.getDate()+1);
+      var _exp=_d.getFullYear()+'年'+(_d.getMonth()+1)+'月'+_d.getDate()+'日';
+      $('couponNote').innerHTML='有効期限：'+_exp+'（プレイ翌日）まで<br><b style=\'color:#ffb43a\'>1会計につき1回のみ有効</b><br>このコードを来店時にご提示ください。';
     } else {
       $('resultTitle').textContent='クラッシュ！';
       $('couponAmount').textContent='あと少しで割引!';
       $('couponCode').textContent='750mでBRONZE';
+      $('couponNote').innerHTML='750m以上の走破で割引コードがもらえます。';
     }
   }
   $('startBtn').onclick=start; $('retryBtn').onclick=start;
