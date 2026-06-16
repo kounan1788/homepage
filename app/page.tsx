@@ -1461,14 +1461,22 @@ export default function Page() {
                     </div>
 
                     <div className="max-w-6xl mx-auto">
-                        <div className="elfsight-app-b145ba87-fa56-4270-a4cc-ac300fb7c24a" data-elfsight-app-lazy></div>
+                        {/* セクションが画面に近づくまでウィジェットと外部スクリプトを生成せず、初期表示のメインスレッド負荷を減らす */}
+                        {visibleSections.reviews ? (
+                            <>
+                                <div className="elfsight-app-b145ba87-fa56-4270-a4cc-ac300fb7c24a" data-elfsight-app-lazy></div>
+                                <Script
+                                    src="https://static.elfsight.com/platform/platform.js"
+                                    strategy="lazyOnload"
+                                    data-use-service-core
+                                />
+                            </>
+                        ) : (
+                            <div className="flex items-center justify-center bg-slate-100 rounded-2xl text-slate-400 text-sm" style={{ minHeight: 400 }}>
+                                お客様の声を読み込み中…
+                            </div>
+                        )}
                     </div>
-
-                    <Script
-                        src="https://static.elfsight.com/platform/platform.js"
-                        strategy="lazyOnload"
-                        data-use-service-core
-                    />
                 </div>
             </section>
 
