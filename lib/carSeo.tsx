@@ -53,16 +53,26 @@ export function buildCarMetadata(car: CarSeoInfo, description: string): Metadata
 export function CarJsonLd({ car, description }: { car: CarSeoInfo; description: string }) {
     const basePrice = carBasePrices[car.path];
 
-    // Product + Offer 構造化データ（月額リース価格）
-    const productSchema = {
+    // Service + Offer 構造化データ（月額リース価格）
+    // ※通販商品ではなく「カーリースというサービス」のため Service を使用。
+    //   Product にするとレビュー・送料・返品ポリシー等（通販向け）の警告対象になるため避けている。
+    const serviceSchema = {
         '@context': 'https://schema.org',
-        '@type': 'Product',
-        name: `${car.name}（カーリース ノレタ）`,
+        '@type': 'Service',
+        serviceType: 'カーリース（ノレタ）',
+        name: `${car.name} カーリース「ノレタ」`,
         image: `${BASE_URL}${car.image}`,
         description,
         brand: {
             '@type': 'Brand',
             name: car.brand,
+        },
+        areaServed: {
+            '@type': 'City',
+            name: '金沢市',
+        },
+        provider: {
+            '@id': `${BASE_URL}/#organization`,
         },
         offers: {
             '@type': 'Offer',
@@ -116,7 +126,7 @@ export function CarJsonLd({ car, description }: { car: CarSeoInfo; description: 
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
             />
             <script
                 type="application/ld+json"
