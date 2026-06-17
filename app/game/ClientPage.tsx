@@ -16,8 +16,8 @@ const controls = [
 const tiers = [
     { rank: 'BRONZE', dist: '750m 以上', amount: '50円引き' },
     { rank: 'SILVER', dist: '2,500m 以上', amount: '100円引き' },
-    { rank: 'GOLD', dist: '4,500m 以上', amount: '150円引き' },
-    { rank: 'PLATINUM', dist: '6,500m 以上', amount: '200円引き' },
+    { rank: 'GOLD', dist: '4,500m 以上', amount: '200円引き' },
+    { rank: 'PLATINUM', dist: '6,500m 以上', amount: '300円引き' },
 ];
 
 // 遊び方の流れ（仕様書 2.1 より）
