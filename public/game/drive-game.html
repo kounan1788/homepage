@@ -93,6 +93,7 @@
   .eff{font-size:.66rem;font-weight:800;padding:3px 9px;border-radius:99px;color:#06160d}
   .eff-sh{background:#5ab4ff}
   .eff-sl{background:#7ad0ff}
+  .eff-dash{background:#ffce3a}
   .coinhud{position:absolute;top:10px;right:10px;z-index:4;font-size:.8rem;font-weight:800;color:#ffce3a;text-shadow:0 1px 3px rgba(0,0,0,.85);pointer-events:none}
   .result-coins{font-size:.85rem;font-weight:700;color:#ffce3a;margin-top:-4px}
 </style>
@@ -186,6 +187,7 @@
   function sfxCrash(){ if(muted||!audioCtx) return; const t=audioCtx.currentTime,o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.type='sawtooth'; o.frequency.setValueAtTime(240,t); o.frequency.exponentialRampToValueAtTime(55,t+0.4); g.gain.setValueAtTime(0.22,t); g.gain.exponentialRampToValueAtTime(0.0001,t+0.45); o.connect(g).connect(audioCtx.destination); o.start(t); o.stop(t+0.48); }
   function sfxCoin(){ tone(1050,0.07,'square',0.14); setTimeout(function(){tone(1400,0.09,'square',0.14);},60); }
   function sfxItem(){ tone(700,0.09,'triangle',0.16); setTimeout(function(){tone(1050,0.12,'triangle',0.16);},80); }
+  function sfxDash(){ tone(500,0.08,'sawtooth',0.16); setTimeout(function(){tone(800,0.1,'sawtooth',0.16);},70); setTimeout(function(){tone(1200,0.14,'sawtooth',0.16);},150); }
   function updateMuteBtn(){ const b=$('muteBtn'); if(b) b.textContent= muted?'🔇':'🔊'; }
   if($('muteBtn')){ $('muteBtn').onclick=function(){ muted=!muted; localStorage.setItem('kounanMuted',muted?'1':'0'); updateMuteBtn(); if(!muted) initAudio(); }; updateMuteBtn(); }
   document.querySelectorAll('.cta-btn').forEach(function(a){ a.addEventListener('click',function(){ var ty=a.className.indexOf('cta-call')>=0?'tel':(a.className.indexOf('cta-line')>=0?'line':'shaken'); track('cta_click',{type:ty}); }); });
@@ -198,14 +200,15 @@
   const IMG_COIN="assets/coin.png";
   const IMG_SHIELD="assets/invincible.png";
   const IMG_SLOW="assets/slow.png";
+  const IMG_KOUNAN="assets/kounan_coin.png";
   const imgBg=new Image(), imgCar=new Image(), imgRail=new Image();
-  const imgEnemy=new Image(), imgCoin=new Image(), imgShield=new Image(), imgSlow=new Image();
-  let loaded=0; const need=7;
+  const imgEnemy=new Image(), imgCoin=new Image(), imgShield=new Image(), imgSlow=new Image(), imgKounan=new Image();
+  let loaded=0; const need=8;
   function onload(){ if(++loaded>=need){ $('loading').classList.add('hidden'); $('startScreen').classList.remove('hidden'); reset(); drawIdle(); } }
   imgBg.onload=onload; imgCar.onload=onload; imgRail.onload=onload;
-  imgEnemy.onload=onload; imgCoin.onload=onload; imgShield.onload=onload; imgSlow.onload=onload;
+  imgEnemy.onload=onload; imgCoin.onload=onload; imgShield.onload=onload; imgSlow.onload=onload; imgKounan.onload=onload;
   imgBg.src=IMG_BG; imgCar.src=IMG_CAR; imgRail.src=IMG_RAIL;
-  imgEnemy.src=IMG_ENEMY; imgCoin.src=IMG_COIN; imgShield.src=IMG_SHIELD; imgSlow.src=IMG_SLOW;
+  imgEnemy.src=IMG_ENEMY; imgCoin.src=IMG_COIN; imgShield.src=IMG_SHIELD; imgSlow.src=IMG_SLOW; imgKounan.src=IMG_KOUNAN;
 
   function resize(){
     const r=document.getElementById('stage').clientWidth;
@@ -224,11 +227,11 @@
   let obstacles=[], spawnTimer=0, spawnGap=START_SPAWN, last=0, bgScroll=0;
   let awarded={}, restTime=0, laneStarve=[0,0,0];   // 到達済みランク, 休憩残り秒数, 各車線の未出現度
   let items=[], itemTimer=0, itemGap=3.2, coins=0;  // アイテム（コイン・無敵・スロー）・取得コイン数
-  let shieldTime=0, slowTime=0, shakeTime=0;        // 効果の残り秒数・画面シェイク
+  let shieldTime=0, slowTime=0, shakeTime=0, dashDist=0; // 効果の残り秒数・画面シェイク・港南コイン突破の残り距離
   const REST_SECONDS=5;                 // 休憩の長さ
 
   function laneCenter(i){ return roadLeft + laneW*i + laneW/2; }
-  function reset(){ dist=0;speed=BASE_SPEED;playerLane=1;obstacles=[];items=[];spawnTimer=0;spawnGap=START_SPAWN;itemTimer=itemGap;bgScroll=0;awarded={};restTime=0;laneStarve=[0,0,0];shieldTime=0;slowTime=0;shakeTime=0;coins=0;playerX=targetX=laneCenter(playerLane); }
+  function reset(){ dist=0;speed=BASE_SPEED;playerLane=1;obstacles=[];items=[];spawnTimer=0;spawnGap=START_SPAWN;itemTimer=itemGap;bgScroll=0;awarded={};restTime=0;laneStarve=[0,0,0];shieldTime=0;slowTime=0;shakeTime=0;dashDist=0;coins=0;playerX=targetX=laneCenter(playerLane); }
 
   function spawn(){
     const count = dist>800 ? (Math.random()<0.5?2:1) : 1;
@@ -237,7 +240,7 @@
     const lanes=order.slice(0,count);
     for(let l=0;l<LANES;l++){ laneStarve[l] = lanes.indexOf(l)>=0 ? 0 : laneStarve[l]+1; }
     lanes.forEach(l=>{
-      const enemy = dist>500 && Math.random()<0.35;   // 500m以降は対向車も出現（やや速い）
+      const enemy = dist>600 && Math.random()<0.18;   // 600m以降、約18%で対向車（生成抑えめ）
       obstacles.push({lane:l, y:enemy?-enemyH():-railH(), type:enemy?'enemy':'rail', vf:enemy?1.35:1});
     });
   }
@@ -248,7 +251,7 @@
     if(!free.length) return;
     const lane=free[Math.floor(Math.random()*free.length)];
     const r=Math.random();
-    const type = r<0.6?'coin' : (r<0.8?'shield':'slow');
+    const type = r<0.55?'coin' : r<0.72?'shield' : r<0.88?'slow' : 'dash';
     items.push({lane, y:-itemSize(), type});
   }
   function move(dir){
@@ -298,8 +301,13 @@
   }
   function drawItem(it){
     const x=laneCenter(it.lane), y=it.y, s=itemSize();
-    const img = it.type==='coin'?imgCoin : it.type==='shield'?imgShield : imgSlow;
+    const img = it.type==='coin'?imgCoin : it.type==='shield'?imgShield : it.type==='slow'?imgSlow : imgKounan;
     ctx.drawImage(img, x-s/2, y-s/2, s, s);
+  }
+  function drawDashRing(x,y){
+    const r=carW()*1.05;
+    ctx.save(); ctx.strokeStyle='rgba(255,206,58,'+(0.5+0.35*Math.sin(performance.now()/70))+')'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.restore();
   }
   function drawShieldRing(x,y){
     const r=carW()*0.95;
@@ -320,6 +328,7 @@
     let s='';
     if(shieldTime>0) s+='<span class="eff eff-sh">🛡 無敵 '+Math.ceil(shieldTime)+'s</span>';
     if(slowTime>0) s+='<span class="eff eff-sl">⏳ スロー '+Math.ceil(slowTime)+'s</span>';
+    if(dashDist>0) s+='<span class="eff eff-dash">💨 突破 '+Math.ceil(dashDist)+'m</span>';
     el.innerHTML=s;
     const ch=$('coinHud'); if(ch) ch.textContent='🪙 '+coins;
   }
@@ -370,9 +379,11 @@
     if(slowTime>0) slowTime=Math.max(0,slowTime-dt);
     const slowK = slowTime>0?0.6:1;               // スロー中は減速
     speed=Math.min(MAX_SPEED, BASE_SPEED + dist*SPEED_PER_M);
-    const eff=speed*slowK;                          // 実効速度
+    const eff = dashDist>0 ? speed*3 : speed*slowK;  // 港南コイン突破中は3倍速
     spawnGap=Math.max(MIN_SPAWN, START_SPAWN - dist*0.0004);
-    dist += eff*dt*0.12;
+    const gained = eff*dt*0.12;
+    dist += gained;
+    if(dashDist>0) dashDist=Math.max(0, dashDist-gained);   // 進んだ分だけ突破残距離を消費
     bgScroll += eff*dt;
 
     playerX += (targetX-playerX)*(1-Math.exp(-dt*16));
@@ -392,7 +403,8 @@
       if(Math.abs(ix-playerX)<(pw+s)/2 && Math.abs(it.y-playerY)<(ph+s)/2){
         if(it.type==='coin'){ dist+=30; coins++; sfxCoin(); }
         else if(it.type==='shield'){ shieldTime=4.5; sfxItem(); }
-        else { slowTime=4; sfxItem(); }
+        else if(it.type==='slow'){ slowTime=4; sfxItem(); }
+        else { dashDist=200; sfxDash(); }   // 港南コイン：200m突破ダッシュ
         items.splice(i,1);
       }
     }
@@ -401,7 +413,7 @@
       const o=obstacles[i], ox=laneCenter(o.lane);
       const rw=obW(o)*0.82, rh=obH(o)*0.55;
       if(Math.abs(ox-playerX)<(pw+rw)/2 && Math.abs(o.y-playerY)<(ph+rh)/2){
-        if(shieldTime>0){ obstacles.splice(i,1); continue; }
+        if(shieldTime>0||dashDist>0){ obstacles.splice(i,1); continue; }
         return crash();
       }
     }
@@ -411,6 +423,7 @@
     for(const it of items) drawItem(it);
     drawPlayer(playerX,playerY);
     if(shieldTime>0) drawShieldRing(playerX,playerY);
+    if(dashDist>0) drawDashRing(playerX,playerY);
 
     $('dist').innerHTML=Math.floor(dist)+'<small style="font-size:.6rem"> m</small>';
     $('speed').textContent=Math.round(eff/3.6);
