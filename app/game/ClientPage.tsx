@@ -170,7 +170,7 @@ export default function Page() {
                             </button>
                         )}
                         <iframe
-                            src="/game/drive-game.html"
+                            src="/game/drive_game/drive-game.html"
                             title="港南ドライブチャレンジ"
                             className={
                                 enlarged
@@ -184,7 +184,7 @@ export default function Page() {
                         />
                     </div>
                     <p className="text-center text-slate-400 text-xs mt-4">
-                        ※ うまく表示されない場合は<a href="/game/drive-game.html" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-bold hover:underline">こちら（別ウィンドウ）</a>からお楽しみください。
+                        ※ うまく表示されない場合は<a href="/game/drive_game/drive-game.html" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-bold hover:underline">こちら（別ウィンドウ）</a>からお楽しみください。
                     </p>
                 </section>
 
