@@ -94,6 +94,31 @@
   #overlay .near-best{font-size:clamp(13px,3.5vw,17px);color:#ffd98a;margin-bottom:14px;}
   #overlay .near-best b{color:var(--gold);}
   #overlay .run-stats{font-size:clamp(11px,2.8vw,13px);color:#cbbaa3;margin-bottom:14px;}
+  /* 高さが低い画面（横画面スマホ等）でスタート画面・結果画面を画面内に収める（プレイ画面には影響しない） */
+  @media (max-height:560px){
+    #overlay{padding:8px;}
+    #overlay .panel{padding:10px 16px;width:min(560px,96vw);}
+    #overlay .hero-horse{width:clamp(54px,11vh,90px);margin-bottom:0;}
+    #overlay h1{font-size:clamp(20px,6vh,38px);margin-bottom:0;}
+    #overlay .sub{font-size:clamp(10px,3vh,14px);margin-bottom:5px;line-height:1.35;}
+    #overlay .best-badge{margin-bottom:7px;padding:4px 13px;}
+    #overlay .controls{margin-bottom:5px;gap:7px;}
+    #overlay .chip{padding:4px 11px;}
+    #overlay .legend2{gap:2px 16px;margin-bottom:7px;}
+    #overlay .legend2 .row{margin:2px 0;gap:7px;}
+    #overlay .legend2 .row img{width:18px;height:18px;}
+    #overlay .btn{padding:9px 38px;font-size:clamp(15px,4.5vh,22px);}
+    #overlay .btn.survey{padding:9px 22px;font-size:clamp(13px,3.6vh,17px);}
+    #overlay .stat{font-size:clamp(15px,5vh,26px);margin-bottom:7px;}
+    #overlay .record{font-size:clamp(14px,4.5vh,22px);margin-bottom:5px;}
+    #overlay .best{font-size:clamp(11px,3vh,16px);margin-bottom:8px;}
+    #overlay .discount{padding:8px 13px;margin-bottom:9px;}
+    #overlay .discount .dc-amount{font-size:clamp(15px,4.5vh,24px);}
+    #overlay .discount .dc-next{margin-bottom:8px;}
+    #overlay .near-best{margin-bottom:8px;}
+    #overlay .run-stats{margin-bottom:8px;}
+    #overlay .hint-tap{margin-top:7px;}
+  }
   /* 紙吹雪（新記録） */
   .confetti{position:absolute;top:-14px;width:9px;height:14px;border-radius:2px;
     pointer-events:none;opacity:.95;animation:fall linear forwards;z-index:6;}
