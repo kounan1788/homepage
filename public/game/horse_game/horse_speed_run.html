@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>馬スピードラン</title>
+<style>
+  :root{
+    --sky-top:#ffd9a0;
+    --sky-bot:#ffb36b;
+    --ground:#caa05a;
+    --ground-dark:#a87f3c;
+    --ink:#3a2410;
+    --accent:#d6473b;
+    --gold:#f5c542;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;background:#1c1208;
+    font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;}
+  canvas{display:block;width:100%;height:100%;touch-action:none;
+    image-rendering:pixelated;image-rendering:crisp-edges;}
+  #overlay{position:absolute;inset:0;display:flex;
+    align-items:center;justify-content:center;text-align:center;color:#fff;
+    padding:18px;overflow:auto;
+    background:
+      linear-gradient(180deg,rgba(18,11,4,.50),rgba(18,11,4,.80)),
+      url('background.png') center/cover no-repeat;}
+  #overlay.hidden{display:none;}
+  #overlay h1{font-size:clamp(32px,7.5vw,56px);font-weight:800;letter-spacing:.06em;
+    background:linear-gradient(180deg,#ffe79a,#f3aa18);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(2px 3px 0 rgba(58,36,16,.85));margin-bottom:2px;}
+  #overlay .sub{font-size:clamp(13px,3.4vw,17px);color:#ffe7c2;margin-bottom:10px;line-height:1.55;}
+  #overlay .stat{font-size:clamp(18px,5vw,30px);margin-bottom:14px;color:#fff;}
+  #overlay .stat b{color:var(--gold);}
+  .btn{background:linear-gradient(180deg,#e8584a,#cf3a2e);color:#fff;border:none;border-radius:16px;
+    padding:16px 56px;font-size:clamp(19px,5vw,26px);font-weight:800;letter-spacing:.08em;
+    box-shadow:0 6px 0 #8f261d,0 10px 22px rgba(0,0,0,.4);cursor:pointer;}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #8f261d,0 4px 12px rgba(0,0,0,.4);}
+
+  /* ---- メニュー パネル ---- */
+  .panel{width:min(560px,94vw);background:rgba(26,16,7,.74);
+    border:2px solid rgba(245,197,66,.45);border-radius:22px;
+    padding:clamp(14px,3vw,24px) clamp(16px,3.5vw,30px);
+    box-shadow:0 20px 55px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06);
+    backdrop-filter:blur(3px);}
+  .hero-horse{width:clamp(110px,28vw,150px);image-rendering:pixelated;display:block;
+    margin:0 auto -2px;filter:drop-shadow(0 7px 0 rgba(0,0,0,.28));
+    animation:bob 1.1s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.20);border-radius:999px;padding:7px 15px;
+    font-size:clamp(12px,3vw,15px);}
+  .chip b{color:var(--gold);}
+  .best-badge{display:inline-flex;align-items:center;gap:9px;
+    background:linear-gradient(180deg,#3c2814,#241608);
+    border:1px solid rgba(245,197,66,.5);border-radius:13px;padding:8px 18px;margin-bottom:18px;
+    font-size:clamp(13px,3.4vw,16px);color:#ffe7c2;margin-top:0;}
+  .best-badge{margin-bottom:12px;}
+  .best-badge b{color:var(--gold);font-size:1.2em;}
+  /* 凡例（アイテム/障害物の2グループ） */
+  .legend2{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;text-align:left;margin-bottom:16px;}
+  .legend2 h3{font-size:clamp(11px,2.7vw,13px);letter-spacing:.08em;color:#ffd98a;
+    margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.14);}
+  .legend2 .row{display:flex;align-items:flex-start;gap:9px;margin:7px 0;}
+  .legend2 .row img{width:26px;height:26px;object-fit:contain;image-rendering:pixelated;flex:0 0 auto;}
+  .legend2 .row .txt{line-height:1.25;}
+  .legend2 .row .txt b{display:block;font-size:clamp(12px,2.9vw,14px);color:#fff;}
+  .legend2 .row .txt span{font-size:clamp(10px,2.5vw,12px);color:#cbbaa3;}
+  /* ゲームオーバー用 */
+  #overlay .record{font-size:clamp(16px,4.5vw,24px);color:var(--gold);font-weight:800;
+    margin-bottom:10px;text-shadow:2px 2px 0 var(--ink);animation:pop .5s ease;}
+  #overlay .best{font-size:clamp(13px,3.5vw,18px);color:#ffe7c2;margin-bottom:18px;}
+  #overlay .best b{color:var(--gold);}
+  #overlay .hint-tap{font-size:clamp(11px,3vw,14px);color:#ffe7c2;opacity:.7;margin-top:14px;}
+  @keyframes pop{0%{transform:scale(.4);opacity:0;}70%{transform:scale(1.15);}100%{transform:scale(1);opacity:1;}}
+  @media (prefers-reduced-motion:reduce){ .hero-horse{animation:none;} }
+  /* 割引リワード（結果画面） */
+  #overlay .discount{background:rgba(245,197,66,.12);border:1px solid rgba(245,197,66,.55);
+    border-radius:14px;padding:13px 16px;margin-bottom:16px;}
+  #overlay .discount .dc-amount{font-size:clamp(18px,5vw,26px);font-weight:800;color:var(--gold);margin-bottom:4px;}
+  #overlay .discount .dc-next{font-size:clamp(11px,3vw,13px);color:#ffe7c2;margin-bottom:11px;}
+  #overlay .discount.none{color:#ffe7c2;font-size:clamp(13px,3.5vw,16px);line-height:1.6;}
+  #overlay .discount.none b{color:var(--gold);}
+  #overlay .discount.none .dc-sub{font-size:clamp(10px,2.6vw,12px);color:#cbbaa3;}
+  .btn.survey{display:inline-block;text-decoration:none;
+    background:linear-gradient(180deg,#ffd75e,#f0a81a);color:#3a2410;
+    padding:13px 26px;font-size:clamp(15px,4vw,19px);border-radius:14px;
+    box-shadow:0 5px 0 #a9760c,0 8px 18px rgba(0,0,0,.35);}
+  .btn.survey:active{transform:translateY(3px);box-shadow:0 2px 0 #a9760c;}
+  #overlay .near-best{font-size:clamp(13px,3.5vw,17px);color:#ffd98a;margin-bottom:14px;}
+  #overlay .near-best b{color:var(--gold);}
+  #overlay .run-stats{font-size:clamp(11px,2.8vw,13px);color:#cbbaa3;margin-bottom:14px;}
+  /* 紙吹雪（新記録） */
+  .confetti{position:absolute;top:-14px;width:9px;height:14px;border-radius:2px;
+    pointer-events:none;opacity:.95;animation:fall linear forwards;z-index:6;}
+  @keyframes fall{0%{transform:translateY(-16px) rotate(0)}100%{transform:translateY(112vh) rotate(720deg)}}
+  @media (prefers-reduced-motion:reduce){ .confetti{display:none;} }
+  /* HUDボタン（ミュート/ポーズ） */
+  #hudBtns{position:absolute;top:10px;right:12px;display:flex;gap:8px;z-index:5;}
+  #hudBtns button{width:38px;height:38px;border:none;border-radius:50%;
+    background:rgba(28,18,8,.55);color:#fff;font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    backdrop-filter:blur(2px);transition:transform .08s,background .15s;}
+  #hudBtns button:active{transform:scale(.9);}
+  #hudBtns button.hidden{display:none;}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game"></canvas>
+  <div id="hudBtns">
+    <button id="muteBtn" title="音のオン/オフ">🔊</button>
+    <button id="shakeBtn" title="画面の揺れ">💥</button>
+    <button id="pauseBtn" class="hidden" title="一時停止">⏸</button>
+  </div>
+  <div id="overlay">
+    <div class="panel">
+      <img class="hero-horse" src="horse.png" alt="">
+      <h1>馬スピードラン</h1>
+      <div class="sub">馬は自動で右へ走り続けます。障害物をよけて走った距離を競おう。</div>
+      <div class="controls">
+        <span class="chip">▲ タップ / スペース … <b>ジャンプ</b></span>
+        <span class="chip">▼ 長押し / ↓ … <b>しゃがむ</b></span>
+      </div>
+      <div class="best-badge">🏆 ベスト <b id="bestVal">0</b> m</div>
+      <div class="legend2">
+        <div class="col">
+          <h3>アイテム（取ると有利）</h3>
+          <div class="row"><img src="cake.png" alt=""><span class="txt"><b>ケーキ</b><span>5秒間 無敵</span></span></div>
+          <div class="row"><img src="parfait.png" alt=""><span class="txt"><b>パフェ</b><span>体力を1回復</span></span></div>
+          <div class="row"><img src="coffee.png" alt=""><span class="txt"><b>コーヒー</b><span>炎をまとって直進</span></span></div>
+        </div>
+        <div class="col">
+          <h3>障害物（よけろ）</h3>
+          <div class="row"><img src="snake.png" alt=""><span class="txt"><b>蛇</b><span>ジャンプで回避</span></span></div>
+          <div class="row"><img src="rock.png" alt=""><span class="txt"><b>岩</b><span>ジャンプで回避</span></span></div>
+          <div class="row"><img src="ufo.png" alt=""><span class="txt"><b>UFO</b><span>しゃがんで回避</span></span></div>
+          <div class="row"><img src="bird.png" alt=""><span class="txt"><b>鳥</b><span>しゃがんで回避</span></span></div>
+        </div>
+      </div>
+      <button class="btn" id="startBtn">スタート</button>
+    </div>
+  </div>
+</div>
+<script>
+const cv = document.getElementById('game');
+const ctx = cv.getContext('2d');
+const overlay = document.getElementById('overlay');
+const startBtn = document.getElementById('startBtn');
+
+// ---- background image (looping course) ----
+const bgImg = new Image();
+let bgReady = false;
+bgImg.onload = ()=>{ bgReady = true; };
+bgImg.src = 'background.png';
+
+// ---- sprite images (player horse / obstacles) ----
+// 各PNGを読み込み、ready フラグで描画可否を判定する。
+// 未読込のあいだは従来のベクター描画にフォールバックする。
+// 走行アニメ用フレーム（horse.png を1コマ目とし、horse2〜4.png を追加）。
+// 画像が一部しか無くても、読み込めたフレームだけでループする。
+const horseFrames = ['horse.png','horse2.png','horse3.png','horse4.png'].map(src=>{
+  const im = new Image(); im.src = src; return im;
+});
+const horseImg = horseFrames[0];   // 1コマ目（フォールバック兼用）
+let horseReady = false;
+horseImg.onload = ()=>{ horseReady = true; };
+
+const snakeImg = new Image(); let snakeReady = false;
+snakeImg.onload = ()=>{ snakeReady = true; };
+snakeImg.src = 'snake.png';
+
+const ufoImg = new Image(); let ufoReady = false;
+ufoImg.onload = ()=>{ ufoReady = true; };
+ufoImg.src = 'ufo.png';
+
+const rockImg = new Image(); let rockReady = false;
+rockImg.onload = ()=>{ rockReady = true; };
+rockImg.src = 'rock.png';
+
+const birdImg = new Image(); birdImg.src = 'bird.png'; // 低空の鳥（しゃがみで回避）
+
+// アイテム画像（未読込時は従来のベクター描画にフォールバック）
+const cakeImg = new Image();    cakeImg.src = 'cake.png';
+const parfaitImg = new Image(); parfaitImg.src = 'parfait.png';
+const coffeeImg = new Image();  coffeeImg.src = 'coffee.png';
+// アイテムごとの表示サイズ（当たり判定34x34の中心に配置。元画像の縦横比に合わせる）
+const ITEM_SIZE = {
+  cake:    {w:44, h:40},
+  parfait: {w:32, h:48},
+  coffee:  {w:44, h:36}
+};
+
+// 体力ハート画像（filled=heart.png / 空=heart_gray.png。未読込時はベクター描画）
+const heartImg = new Image();     heartImg.src = 'heart.png';
+const heartGrayImg = new Image(); heartGrayImg.src = 'heart_gray.png';
+
+// ==== サウンド（WebAudio・外部ファイル不要） ====
+// ブラウザの自動再生制限のため、AudioContext は最初のユーザー操作(スタート)で生成する。
+const Sound = (function(){
+  let ctx=null, master=null, sfxGain=null;
+  let muted = localStorage.getItem('horseRunMuted')==='1';
+  // BGM は game_bgm.mp3 を HTMLAudioElement でループ再生する
+  const bgm = new Audio('game_bgm.mp3'); bgm.loop = true; bgm.volume = 0.5; bgm.muted = muted;
+
+  function ensure(){
+    if(ctx) return;
+    try{
+      ctx = new (window.AudioContext||window.webkitAudioContext)();
+      master = ctx.createGain();  master.gain.value = muted?0:0.9; master.connect(ctx.destination);
+      sfxGain = ctx.createGain();   sfxGain.gain.value = 0.9;       sfxGain.connect(master);
+    }catch(e){ ctx=null; } // 非対応環境では無音
+  }
+  function resume(){ ensure(); if(ctx && ctx.state==='suspended') ctx.resume(); }
+
+  // 単音（周波数スライド可）
+  function tone(freq, dur, type, gain, dest, slideTo){
+    if(!ctx) return;
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=type||'square'; o.frequency.setValueAtTime(freq, ctx.currentTime);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime+dur);
+    g.gain.setValueAtTime(gain||0.4, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
+    o.connect(g); g.connect(dest||sfxGain); o.start(); o.stop(ctx.currentTime+dur+0.02);
+  }
+  // ノイズ（被弾の衝撃音用）
+  function noise(dur, gain){
+    if(!ctx) return;
+    const n=ctx.createBufferSource();
+    const buf=ctx.createBuffer(1, Math.max(1,ctx.sampleRate*dur), ctx.sampleRate);
+    const d=buf.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+    n.buffer=buf;
+    const g=ctx.createGain(); g.gain.setValueAtTime(gain||0.4, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
+    const f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=1400;
+    n.connect(f); f.connect(g); g.connect(sfxGain); n.start(); n.stop(ctx.currentTime+dur);
+  }
+
+  // 効果音
+  const sfx = {
+    jump(){ resume(); tone(420,0.16,'square',0.35,sfxGain,820); },
+    hit(){ resume(); tone(180,0.3,'sawtooth',0.5,sfxGain,55); noise(0.25,0.5); },
+    pickup(){ resume(); tone(660,0.08,'square',0.35); setTimeout(()=>tone(990,0.12,'square',0.35),80); },
+    knock(){ resume(); tone(300,0.12,'square',0.35,sfxGain,760); noise(0.08,0.25); }, // 弾き飛ばし
+    coin(){ resume(); tone(880,0.07,'square',0.35); setTimeout(()=>tone(1320,0.14,'square',0.35),70); }, // 割引獲得
+    fanfare(){ resume(); [523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,0.2,'triangle',0.45),i*110)); }, // ベスト更新
+    over(){ resume(); [440,330,247,165].forEach((f,i)=>setTimeout(()=>tone(f,0.24,'square',0.45),i*140)); }
+  };
+
+  // BGM（game_bgm.mp3 をループ再生）
+  function startMusic(){ resume(); bgm.muted = muted; const p = bgm.play(); if(p && p.catch) p.catch(()=>{}); }
+  function stopMusic(){ bgm.pause(); }
+
+  function toggleMute(){ muted=!muted; localStorage.setItem('horseRunMuted', muted?'1':'0');
+    if(master) master.gain.value = muted?0:0.9; bgm.muted = muted; return muted; }
+  function isMuted(){ return muted; }
+  return { resume, sfx, startMusic, stopMusic, toggleMute, isMuted };
+})();
+
+// ==== ハプティクス（スマホ振動） ====
+// 対応端末（主にAndroid Chrome）でのみ振動。iOS Safari/PCは自動的に無視される。
+function vibe(pattern){
+  if(navigator.vibrate){ try{ navigator.vibrate(pattern); }catch(e){} }
+}
+
+// ---- virtual resolution ----
+// Match the background aspect ratio (2172x724 = 3.0:1)
+const VW = 810, VH = 270;
+let scale = 1, ox = 0, oy = 0;
+function resize(){
+  const w = window.innerWidth, h = window.innerHeight;
+  scale = Math.min(w/VW, h/VH);
+  cv.width = Math.round(w * devicePixelRatio);
+  cv.height = Math.round(h * devicePixelRatio);
+  cv.style.width = w+'px'; cv.style.height = h+'px';
+  ox = (w - VW*scale)/2; oy = (h - VH*scale)/2;
+}
+window.addEventListener('resize', resize); resize();
+
+// 画面上の地面ライン（馬が走る高さ）。ゲームロジックの基準位置。
+const GROUND_Y = Math.round(VH * 0.75);
+
+// 背景画像内の「手前の草地ストリップ上端」の高さ割合（0〜1）。
+// この線を画面の地面ライン(GROUND_Y)に合わせる。馬が浮く/沈む場合に調整する
+// （値を上げると背景が下にずれて馬が沈み、下げると馬が浮く）。
+const BG_GRASS_FRAC = 0.925;
+// 背景の拡大率。1.0で画面高さにちょうど収まる。大きいほど拡大（引き寄せ）。
+// この画像は土の帯が薄いため、3.0未満だと画面下端に隙間が出る点に注意。
+const BG_ZOOM = 3.1;
+
+// 背景スクロール速度（プレイヤーの進行速度に対する比率）。
+// 1.0 で一致。小さいほど背景がゆっくり流れる。プレイヤーの速度感は
+// 障害物・アイテムの接近速度（= speed）で表現するため、背景は意図的に遅くする。
+const BG_SCROLL = 0.25;
+
+// ---- game state ----
+let state = 'menu';
+let lives, distance, speed, frame, worldX;
+let player, obstacles, items, particles;
+let invincibleT;   // cake invincibility timer (frames)
+let coffeeDist;    // coffee distance remaining (meters)
+let spawnTimer, itemTimer;
+let hurtFlash;
+let hurtInvincT;   // 被弾後の無敵時間（連続ダメージ防止・i-frame）
+let shakeT;        // 画面シェイク残量（フレーム）
+let popups;        // 取得/被弾などのフローティング表示
+let hintT;         // 操作ヒントの表示残量（フレーム）
+let shownStage;    // 表示済みステージ番号（バナー検出用）
+let stageBannerT;  // 「STAGE N」バナーの残量（フレーム）
+let readyT;        // 開始猶予のカウントダウン残量（フレーム）
+let goT;           // 「GO!」表示残量（フレーム）
+let jumpBufferT;   // ジャンプ先行入力の受付残量（フレーム）
+let lastKnockFrame;// 弾き飛ばし音のスロットル用（最後に鳴らしたフレーム）
+let nearMissCount; // ニアミス回数（結果表示用）
+let noHitDist;     // 無傷で走った連続距離（被弾でリセット）
+let bestNoHitRun;  // このランの最長ノーダメ距離
+let nextNoHitPraise; // 次にノーダメ称賛を出す距離
+let awardedDiscount; // このランで獲得済みの最高割引しきい値(m)
+let discountFlashT, discountFlashYen; // 割引獲得フラッシュ
+let bestFlashShown;// 自己ベスト更新中バナーを出したか
+let dying, deathT; // 死亡演出（スローモー）
+let bannerText, bannerColor, bannerT; // 汎用の中央バナー（ノーダメ称賛・ベスト更新中など）
+let paused = false;
+// ハイスコア(m)。距離スケールを1/10化したため、旧キーの値は÷10して新キーへ移行する。
+const BEST_KEY = 'horseRunBestV2';
+let best = (function(){
+  const v2 = localStorage.getItem(BEST_KEY);
+  if(v2 != null) return +v2;
+  const old = localStorage.getItem('horseRunBest');     // 旧スケール
+  const migrated = old != null ? Math.round(+old/10) : 0;
+  localStorage.setItem(BEST_KEY, migrated);
+  return migrated;
+})();
+let reduceShake = localStorage.getItem('horseRunReduceShake')==='1'; // 画面揺れ軽減
+
+// 現在ステージ（0始まり）。600mごとに上昇し難易度を段階的に強化する。
+function stageOf(){ return Math.floor(distance / 600); }
+
+function reset(){
+  lives = 3;
+  distance = 0;
+  worldX = 0;
+  speed = 5;
+  frame = 0;
+  invincibleT = 0;
+  coffeeDist = 0;
+  hurtFlash = 0;
+  hurtInvincT = 0;
+  shakeT = 0;
+  popups = [];
+  hintT = 210;       // 約3.5秒だけ操作ヒントを表示
+  shownStage = 0;
+  stageBannerT = 0;
+  readyT = 90;       // 開始から約1.5秒は敵を出さない猶予（3・2・1・GO）
+  goT = 0;
+  jumpBufferT = 0;
+  lastKnockFrame = -99;
+  nearMissCount = 0;
+  noHitDist = 0;
+  bestNoHitRun = 0;
+  nextNoHitPraise = 300;
+  awardedDiscount = 0;
+  discountFlashT = 0; discountFlashYen = 0;
+  bestFlashShown = false;
+  dying = false; deathT = 0;
+  bannerT = 0; bannerText = ''; bannerColor = '#f5c542';
+  paused = false;
+  spawnTimer = 60;
+  itemTimer = 260;
+  obstacles = [];
+  items = [];
+  particles = [];
+  player = {
+    x: 150, y: GROUND_Y, vy: 0,
+    w: 54, h: 50,
+    onGround: true, crouch: false,
+    legPhase: 0
+  };
+}
+
+// ---- input ----
+let pointerDown = false, crouchHeld = false;
+function vpoint(clientX, clientY){
+  return { x:(clientX-ox)/scale, y:(clientY-oy)/scale };
+}
+function press(clientY, p){
+  if(state !== 'play' || paused) return;
+  // bottom third -> crouch, else jump
+  if(p.y > VH*0.62){
+    crouchHeld = true;
+  } else {
+    jump();
+  }
+}
+function jump(){
+  if(state!=='play' || paused) return;
+  if(player.onGround) doJump();
+  else jumpBufferT = 8;   // 空中入力は8フレーム記憶（着地直前タップを拾う＝先行入力）
+}
+function doJump(){
+  player.vy = -15.2;
+  player.onGround = false;
+  jumpBufferT = 0;
+  for(let i=0;i<6;i++) spawnDust(player.x, GROUND_Y);
+  Sound.sfx.jump();
+}
+function release(){ crouchHeld = false; }
+
+function onDown(e){
+  e.preventDefault();
+  const t = e.touches ? e.touches[0] : e;
+  const p = vpoint(t.clientX, t.clientY);
+  pointerDown = true;
+  press(t.clientY, p);
+}
+function onUp(e){ e.preventDefault(); pointerDown=false; release(); }
+function onMove(e){
+  if(!pointerDown) return;
+  const t = e.touches ? e.touches[0] : e;
+  const p = vpoint(t.clientX, t.clientY);
+  crouchHeld = (p.y > VH*0.62);
+}
+cv.addEventListener('mousedown', onDown);
+cv.addEventListener('mouseup', onUp);
+cv.addEventListener('mousemove', onMove);
+cv.addEventListener('touchstart', onDown, {passive:false});
+cv.addEventListener('touchend', onUp, {passive:false});
+cv.addEventListener('touchmove', onMove, {passive:false});
+window.addEventListener('keydown', e=>{
+  if(e.code==='Space'||e.code==='ArrowUp'){ e.preventDefault(); jump(); }
+  if(e.code==='ArrowDown') crouchHeld = true;
+});
+window.addEventListener('keyup', e=>{ if(e.code==='ArrowDown') crouchHeld=false; });
+
+// ---- spawning ----
+// 障害物の「波」を生成（A:コンボ）。ステージが上がるほど連続数が増える。
+// 戻り値は生成した個数（次の出現間隔の計算に使う）。
+function spawnWave(){
+  const stage = stageOf();
+  const comboMax = 1 + Math.min(stage, 2);     // 1〜3連
+  let count = 1;
+  for(let k=1; k<comboMax; k++){ if(Math.random() < 0.30 + stage*0.05) count++; }
+  // フレーム換算で一定の反応時間を確保（速度が上がっても間隔が詰まりすぎない）
+  const gap = speed * 22;
+  for(let i=0; i<count; i++) spawnOne(VW + 40 + i*gap, stage);
+  return count;
+}
+// 1個の障害物を生成。ステージで出現種類を解禁（D）し、蛇の追い速度も強化（B）。
+function spawnOne(x, stage){
+  const pool = ['snake','rock','ufo'];   // UFOはステージ1から出現
+  if(stage >= 1) pool.push('bird');
+  // ステージ3〜：急降下UFO＋上下移動する個体（UFO/鳥）を追加
+  if(stage >= 2) pool.push('diveufo','waveufo','wavebird');
+  const t = pool[Math.floor(Math.random()*pool.length)];
+  const o = { type:t, x, passed:false };
+  if(t==='snake'){ o.w=36; o.h=24; o.y=GROUND_Y-o.h; o.extraSpeed=2.4 + stage*0.5; }
+  else if(t==='rock'){ o.w=36; o.h=31; o.y=GROUND_Y-o.h; o.extraSpeed=0; }
+  else if(t==='ufo'){ o.w=50; o.h=27; o.y=GROUND_Y-72; o.extraSpeed=0; o.bob=Math.random()*Math.PI*2; }
+  else if(t==='bird'){ o.w=40; o.h=22; o.y=GROUND_Y-53; o.extraSpeed=1.6 + stage*0.4; o.bob=Math.random()*Math.PI*2; } // 低空・しゃがみ回避
+  else if(t==='diveufo'){ // 高所から急降下し、しゃがみのタイミングをシビアにする
+    o.w=50; o.h=27; o.y=GROUND_Y-95; o.extraSpeed=0; o.bob=0;
+    o.vy=0.6; o.targetY=GROUND_Y-58;   // しゃがみで回避できる高さで降下を止める
+  }
+  else if(t==='waveufo'){ // 大きく上下するUFO（上端=ジャンプ不可・下端=接地でしゃがみ不可）
+    o.w=50; o.h=27; o.extraSpeed=0;
+    o.amp=(GROUND_Y-25)/2;          // 上端は地面から15px(ジャンプ頂点17pxより上)
+    o.cy=(GROUND_Y+15)/2 - o.h;     // 下端は接地(下端y=GROUND_Y)
+    o.phase=Math.random()*Math.PI*2; o.y=o.cy;
+  }
+  else if(t==='wavebird'){ // 大きく上下する鳥（上端=ジャンプ不可・下端=接地でしゃがみ不可）
+    o.w=40; o.h=22; o.extraSpeed=1.6 + stage*0.4;
+    o.amp=(GROUND_Y-15)/2;
+    o.cy=(GROUND_Y+15)/2 - o.h;
+    o.phase=Math.random()*Math.PI*2; o.y=o.cy;
+  }
+  obstacles.push(o);
+}
+function spawnItem(){
+  const stage = stageOf();
+  // C:後半ほど回復(パフェ)が出にくくなる
+  const parfaitChance = Math.max(0.1, 0.3 - stage*0.05);
+  const r = Math.random();
+  const type = r<0.4 ? 'cake' : r<0.4+parfaitChance ? 'parfait' : 'coffee';
+  const high = Math.random()<0.5;
+  items.push({ type, x:VW+40, y: high ? GROUND_Y-110 : GROUND_Y-46, w:34, h:34, bob:Math.random()*6 });
+}
+function spawnDust(x,y){
+  particles.push({x:x+Math.random()*30-15, y:y-Math.random()*8, vx:-2-Math.random()*2,
+    vy:-Math.random()*2, life:18+Math.random()*10, c:'#e6c48f'});
+}
+function spawnSpark(x,y,c){
+  for(let i=0;i<10;i++) particles.push({x,y, vx:(Math.random()-0.5)*6, vy:(Math.random()-0.5)*6,
+    life:20+Math.random()*12, c});
+}
+// 炎パーティクル（コーヒー中に馬へまとわせる）。後方へ流れて上昇しながら消える。
+function spawnFire(x,y,n){
+  const cols=['#fff2a0','#ffd23b','#ff8c2a','#ff4d2a'];
+  for(let i=0;i<(n||3);i++) particles.push({
+    x:x+(Math.random()*26-13), y:y+(Math.random()*26-10),
+    vx:-3-Math.random()*4,           // 後方(左)へ尾を引く
+    vy:-0.4-Math.random()*1.4,       // ゆらぎながら上昇
+    g:-0.03,                         // 炎は上る（軽い上昇加速）
+    life:14+Math.random()*14, size:5+Math.random()*5,
+    c:cols[Math.floor(Math.random()*cols.length)], fire:true
+  });
+}
+// プレイヤー付近に浮かび上がる小さなテキスト（取得効果・被弾など）
+function addPopup(text,x,y,color,size){
+  popups.push({text, x, y, vy:-0.6, life:60, max:60, color:color||'#fff', size:size||16, center:false});
+}
+// 画面中央寄りに一瞬出る称賛バナー（ノーダメ・ベスト更新中など）
+function addBanner(text,color){ bannerText=text; bannerColor=color||'#f5c542'; bannerT=80; }
+// 死亡演出（スローモー）を開始
+function startDying(){
+  dying=true; deathT=42; hurtFlash=24; shakeT=reduceShake?0:22;
+  spawnSpark(player.x+player.w/2, player.y-30, '#ff5a4a');
+  vibe([0,90,50,140]); // 死亡の強めの振動
+}
+
+// ---- collision ----
+function hit(a,b){
+  return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
+}
+function playerBox(){
+  const ph = player.crouch ? player.h*0.55 : player.h;
+  return { x:player.x+10, y:player.y-ph, w:player.w-22, h:ph };
+}
+
+// ---- update ----
+function update(){
+  frame++;
+
+  // 死亡演出（スローモー）：世界をゆっくり動かしてから結果へ
+  if(dying){
+    deathT--;
+    for(const o of obstacles){
+      if(o.knocked){ o.x+=o.vx*0.25; o.y+=o.vy*0.25; o.vy+=0.5*0.25; o.spin+=o.va*0.25; }
+      else o.x -= (speed+(o.extraSpeed||0))*0.18;
+    }
+    for(const p of particles){ p.x+=p.vx*0.3; p.y+=p.vy*0.3; p.vy+=(p.g==null?0.15:p.g)*0.3; p.life-=0.5; }
+    particles = particles.filter(p=>p.life>0);
+    if(shakeT>0) shakeT--;
+    if(deathT<=0) gameOver();
+    return;
+  }
+
+  // difficulty ramps with distance
+  speed = 5 + Math.min(distance/600, 7);
+  // 走破距離の伸びを従来の1/10に。距離が緩やかになることで、これに連動する
+  // 敵スピード(= speed)とステージ(distance/600)の上昇も約1/10ずつ緩やかになる。
+  distance += speed * 0.06;
+  worldX += speed * BG_SCROLL; // 背景は意図的にゆっくり流す（speedとは独立）
+
+  // ノーダメ連続距離（称賛バナー）
+  noHitDist += speed * 0.06;
+  if(noHitDist >= nextNoHitPraise){ addBanner('ノーダメ '+Math.floor(noHitDist)+'m!', '#7ad0a0'); nextNoHitPraise += 300; }
+
+  // 割引しきい値の通過を検出 → ゲージのフラッシュ＋獲得音
+  const reached = discountFor(distance);
+  if(reached && reached.m > awardedDiscount){
+    awardedDiscount = reached.m; discountFlashT = 100; discountFlashYen = reached.yen; Sound.sfx.coin();
+  }
+  // 自己ベスト更新中（走行中に一度だけ）
+  if(!bestFlashShown && best>0 && distance > best){ bestFlashShown = true; addBanner('自己ベスト更新中！', '#f5c542'); }
+
+  // crouch
+  player.crouch = crouchHeld && player.onGround;
+
+  // gravity / coffee auto-run (still affected by gravity but ignores hits)
+  player.vy += 0.85;
+  player.y += player.vy;
+  if(player.y >= GROUND_Y){ player.y = GROUND_Y; player.vy=0; player.onGround=true; }
+  else player.onGround=false;
+
+  player.legPhase += speed*0.05;
+
+  // ジャンプ先行入力：着地した瞬間にバッファがあれば発動
+  if(jumpBufferT>0){
+    if(player.onGround) doJump();   // doJump内でjumpBufferT=0
+    else jumpBufferT--;
+  }
+
+  // timers
+  if(readyT>0){ readyT--; if(readyT===0){ goT=28; spawnTimer=20; } } // 開始猶予→GO
+  else if(goT>0) goT--;
+  if(invincibleT>0) invincibleT--;
+  if(coffeeDist>0) coffeeDist -= speed*0.06; // 距離スケールに合わせて1/10（200m=ステージ約1/3を維持）
+  if(hurtFlash>0) hurtFlash--;
+  if(hurtInvincT>0) hurtInvincT--;
+  if(shakeT>0) shakeT--;
+  if(hintT>0) hintT--;
+  if(discountFlashT>0) discountFlashT--;
+  if(bannerT>0) bannerT--;
+
+  // ステージ更新の検出 → 「STAGE N」バナー表示（B）
+  const st = stageOf();
+  if(st > shownStage){ shownStage = st; stageBannerT = 110; }
+  if(stageBannerT>0) stageBannerT--;
+
+  // spawn obstacles（開始猶予中は出さない。コーヒー中は無敵なので接触＝なぎ倒し）
+  spawnTimer--;
+  if(spawnTimer<=0 && readyT<=0){
+    const n = spawnWave();
+    // 出現間隔はステージで短縮（B）。コーヒー中も通常と同じ密度（増やさない）
+    const base = Math.max(34, 92 - distance/55 - st*4);
+    spawnTimer = base + (n-1)*22 + Math.random()*45;
+  }
+  // コーヒー中：馬に炎をまとわせる（毎フレーム発生）
+  if(coffeeDist>0){
+    spawnFire(player.x+12 + Math.random()*46, player.y-18 - Math.random()*42, 2);
+  }
+  itemTimer--;
+  // C:後半ほどアイテム出現間隔が広がる（回復に頼れない）
+  if(itemTimer<=0){ spawnItem(); itemTimer = 320 + st*110 + Math.random()*260; }
+
+  // 被弾後の無敵(i-frame)も含めて無敵判定する（連続ダメージ防止＝公平性）
+  const invincible = invincibleT>0 || coffeeDist>0 || hurtInvincT>0;
+
+  // move obstacles
+  for(const o of obstacles){
+    // 弾き飛ばし中：回転しながら前方・上へ吹っ飛ぶ（重力で落下）
+    if(o.knocked){
+      o.x += o.vx; o.y += o.vy; o.vy += 0.5; o.spin += o.va;
+      continue;
+    }
+    o.x -= speed + (o.extraSpeed||0);
+    if(o.type==='ufo'){ o.bob+=0.12; }
+    else if(o.type==='bird'){ o.bob+=0.25; } // 羽ばたき
+    else if(o.type==='diveufo'){ o.y = Math.min(o.targetY, o.y + o.vy); o.vy += 0.04; } // 急降下
+    else if(o.type==='waveufo' || o.type==='wavebird'){ o.phase += 0.06; o.y = o.cy + Math.sin(o.phase)*o.amp; } // 上下移動（大きく揺動）
+    if(!o.passed && o.x+o.w < player.x){
+      o.passed=true;
+      // ニアミス判定：通過時の縦ギャップが小さければ「ギリギリ！」
+      if(!o.hitDone && !o.knocked && !invincible){
+        const pb=playerBox();
+        const gap = Math.max(o.y - (pb.y+pb.h), pb.y - (o.y+o.h));
+        if(gap < 16){
+          nearMissCount++;
+          addPopup('ギリギリ！', player.x+34, player.y-66, '#ffe27a', 15);
+          spawnSpark(player.x+player.w, player.y-24, '#ffffff');
+          vibe(10); // ニアミスの軽いチク
+
+        }
+      }
+    }
+    if(!o.hitDone && hit(playerBox(), o)){
+      if(invincible){
+        // 無敵中の接触：敵を弾き飛ばす（ダメージ無し）
+        o.knocked = true;
+        o.vx = 6 + Math.random()*3;            // 前方(右)へ
+        o.vy = -7 - Math.random()*3;           // 上へ
+        o.va = (Math.random()<0.5?-1:1)*0.3;   // 回転
+        o.spin = 0;
+        spawnSpark(o.x+o.w/2, o.y+o.h/2, '#ffe27a'); // 衝撃の火花
+        // 同時に多数を弾く時の音の重なりを抑制（最低5フレーム間隔）。振動も同じ間隔で
+        if(frame - lastKnockFrame >= 5){ Sound.sfx.knock(); vibe(12); lastKnockFrame = frame; }
+      } else {
+        o.hitDone = true;
+        lives--;
+        hurtFlash = 18;
+        hurtInvincT = 48;   // 約0.8秒の無敵＋点滅
+        shakeT = reduceShake ? 0 : 16; // 画面シェイク
+        Sound.sfx.hit();
+        vibe(55); // 被弾の振動
+        addPopup('-1', player.x+24, player.y-58, '#ff5a4a', 22);
+        spawnSpark(player.x+player.w/2, player.y-30, '#ff5a4a');
+        // ノーダメ連続をリセット
+        bestNoHitRun = Math.max(bestNoHitRun, noHitDist); noHitDist = 0; nextNoHitPraise = 300;
+        if(lives<=0){ startDying(); return; }
+      }
+    }
+  }
+  // 通常は左へ退場、弾き飛ばしは右/上へ飛ぶので各方向で画面外判定
+  obstacles = obstacles.filter(o=> o.x+o.w > -40 && o.x < VW+300 && o.y < VH+200 && o.y > -300);
+
+  // items
+  for(const it of items){
+    it.x -= speed;
+    it.bob += 0.1;
+    if(!it.taken && hit(playerBox(), {x:it.x,y:it.y,w:it.w,h:it.h})){
+      it.taken = true;
+      applyItem(it.type);
+      spawnSpark(it.x+it.w/2, it.y+it.h/2, '#fff2b0');
+    }
+  }
+  items = items.filter(it=> !it.taken && it.x+it.w > -20);
+
+  // particles（炎は p.g で上昇、その他は通常の重力）
+  for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy += (p.g==null ? 0.15 : p.g); p.life--; }
+  particles = particles.filter(p=>p.life>0);
+
+  // popups（フローティングテキスト）
+  for(const p of popups){ p.y+=p.vy; p.life--; }
+  popups = popups.filter(p=>p.life>0);
+}
+
+function applyItem(type){
+  Sound.sfx.pickup();
+  vibe(25); // 取得の軽い振動
+  const stage = stageOf();
+  const px=player.x+24, py=player.y-70;
+  if(type==='cake'){
+    // C:後半ほど無敵時間を短縮（5秒→最短2.5秒）
+    const dur = Math.max(150, 300 - stage*30);
+    invincibleT = Math.max(invincibleT, dur);
+    addPopup('無敵 '+Math.round(dur/60)+'秒!', px, py, '#ff6f9c', 18);
+  } else if(type==='parfait'){
+    if(lives<3){ lives++; addPopup('体力回復!', px, py, '#7ad0a0', 18); }
+    else addPopup('体力満タン', px, py, '#7ad0a0', 15);
+  } else if(type==='coffee'){
+    // C:後半ほど直進距離を短縮（200m→最短100m）
+    const cd = Math.max(100, 200 - stage*20);
+    coffeeDist = cd; player.y=GROUND_Y; player.vy=0; player.onGround=true;
+    addPopup('炎の直進 '+cd+'m!', px, py, '#ff8c2a', 18);
+    spawnFire(player.x+30, player.y-30, 24); // 着火バースト
+  }
+}
+
+function gameOver(){ state='over'; Sound.stopMusic(); Sound.sfx.over(); showOver(); }
+
+// ---- draw ----
+function draw(){
+  ctx.save();
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  // letterbox bg
+  ctx.fillStyle = '#1c1208';
+  ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.translate(ox, oy); ctx.scale(scale, scale);
+  // 被弾時の画面シェイク（残量に応じて揺れ幅が減衰。軽減設定中はOFF）
+  if(shakeT>0 && !reduceShake){ const m=(shakeT/16)*5; ctx.translate((Math.random()-0.5)*m,(Math.random()-0.5)*m); }
+
+  // ---- looping course background ----
+  // 背景を画面高さ基準に BG_ZOOM 倍で拡大し、画像の草地ライン(BG_GRASS_FRAC)を
+  // 画面の地面ライン(GROUND_Y)へ合わせて横方向にタイル描画する。
+  if(bgReady){
+    const bgScale = (VH / bgImg.height) * BG_ZOOM;
+    const tileW = bgImg.width * bgScale;
+    const drawH = bgImg.height * bgScale;
+    // 画像の草地ラインが GROUND_Y に来るよう縦位置を決める（拡大時は上の空が画面外へ）
+    const drawY = GROUND_Y - bgImg.height * BG_GRASS_FRAC * bgScale;
+    const off = worldX % tileW;
+    for(let x = -off; x < VW + tileW; x += tileW){
+      ctx.drawImage(bgImg, x, drawY, tileW, drawH);
+    }
+  } else {
+    // fallback sky/ground until image loads
+    const g = ctx.createLinearGradient(0,0,0,GROUND_Y);
+    g.addColorStop(0,'#9fd8ff'); g.addColorStop(1,'#d8f0c0');
+    ctx.fillStyle=g; ctx.fillRect(0,0,VW,GROUND_Y);
+    ctx.fillStyle='#caa05a'; ctx.fillRect(0,GROUND_Y,VW,VH-GROUND_Y);
+  }
+
+  // items
+  for(const it of items) drawItem(it);
+  // obstacles
+  for(const o of obstacles) drawObstacle(o);
+  // player
+  drawHorse();
+  // スピードライン（高速時のみ）
+  drawSpeedLines();
+  // particles（炎は加算合成で発光する円、それ以外は従来の四角）
+  for(const p of particles){
+    ctx.globalAlpha = Math.max(0,p.life/30);
+    ctx.fillStyle=p.c;
+    if(p.fire){
+      ctx.globalCompositeOperation='lighter';
+      const s=(p.size||4)*(p.life/30); // 消えるほど小さく
+      ctx.beginPath(); ctx.arc(p.x,p.y,Math.max(0.5,s/2),0,Math.PI*2); ctx.fill();
+      ctx.globalCompositeOperation='source-over';
+    } else {
+      ctx.fillRect(p.x,p.y,4,4);
+    }
+  }
+  ctx.globalAlpha=1;
+
+  // popups（フローティングテキスト）
+  drawPopups();
+  // 操作ヒント（開始直後だけ薄く表示）
+  if(state==='play' && hintT>0) drawHints();
+
+  // HUD
+  drawHUD();
+
+  // 「STAGE N」バナー（ステージ更新時に一瞬表示）
+  if(stageBannerT>0){
+    const a = Math.min(1, stageBannerT/30);
+    ctx.save(); ctx.globalAlpha=a; ctx.textAlign='center';
+    ctx.font='bold 40px sans-serif';
+    ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillText('STAGE '+(shownStage+1), VW/2+2, VH*0.42+2);
+    ctx.fillStyle='#f5c542'; ctx.fillText('STAGE '+(shownStage+1), VW/2, VH*0.42);
+    ctx.globalAlpha=1; ctx.textAlign='left'; ctx.restore();
+  }
+
+  // 称賛バナー（ノーダメ・自己ベスト更新中など。STAGEバナーより下に表示）
+  if(bannerT>0){
+    const a = Math.min(1, bannerT/24);
+    ctx.save(); ctx.globalAlpha=a; ctx.textAlign='center';
+    ctx.font='bold 26px sans-serif';
+    ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillText(bannerText, VW/2+2, VH*0.60+2);
+    ctx.fillStyle=bannerColor; ctx.fillText(bannerText, VW/2, VH*0.60);
+    ctx.globalAlpha=1; ctx.textAlign='left'; ctx.restore();
+  }
+
+  // 開始カウントダウン（3・2・1 → GO!）
+  if(readyT>0 || goT>0){
+    ctx.save(); ctx.textAlign='center';
+    let txt, a;
+    if(readyT>0){ txt = String(Math.ceil(readyT/30)); a = Math.min(1, (readyT%30)/12 + 0.3); }
+    else { txt = 'GO!'; a = Math.min(1, goT/14); }
+    ctx.globalAlpha = a;
+    ctx.font='bold 56px sans-serif';
+    ctx.fillStyle='rgba(0,0,0,.45)'; ctx.fillText(txt, VW/2+2, VH*0.46+2);
+    ctx.fillStyle = (txt==='GO!') ? '#7ad0a0' : '#f5c542'; ctx.fillText(txt, VW/2, VH*0.46);
+    ctx.globalAlpha=1; ctx.textAlign='left'; ctx.restore();
+  }
+
+  // hurt flash
+  if(hurtFlash>0){ ctx.fillStyle='rgba(255,60,40,'+(hurtFlash/40)+')'; ctx.fillRect(0,0,VW,GROUND_Y); }
+
+  // 死亡演出：徐々に暗転（スローモー中）
+  if(dying){ ctx.fillStyle='rgba(10,6,2,'+(0.5*(1-deathT/42))+')'; ctx.fillRect(0,0,VW,VH); }
+
+  // 一時停止表示
+  if(paused){
+    ctx.fillStyle='rgba(28,18,8,.55)'; ctx.fillRect(0,0,VW,VH);
+    ctx.fillStyle='#fff'; ctx.textAlign='center';
+    ctx.font='bold 34px sans-serif'; ctx.fillText('一時停止', VW/2, VH/2-4);
+    ctx.font='bold 15px sans-serif'; ctx.fillText('▶ ボタンで再開', VW/2, VH/2+24);
+    ctx.textAlign='left';
+  }
+
+  ctx.restore();
+}
+
+// 高速時に流れる横方向のスピードライン
+function drawSpeedLines(){
+  const t = Math.max(0, (speed-7)/5); // speed 7→0, 12→1
+  if(t<=0) return;
+  ctx.save();
+  ctx.strokeStyle='#ffffff'; ctx.lineWidth=1.5;
+  for(let i=0;i<7;i++){
+    const seed=i*97;
+    const y=(seed*1.7)%VH;
+    const spd=12+(seed%5)*4;
+    const x=VW - ((frame*spd + seed*30) % (VW+160));
+    const len=30+(seed%4)*20;
+    ctx.globalAlpha=0.10*t;
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+len,y); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// フローティングテキスト描画
+function drawPopups(){
+  ctx.save(); ctx.textAlign='center';
+  for(const p of popups){
+    const a = Math.min(1, p.life/Math.min(20,p.max));        // 終盤フェード
+    const grow = p.center ? (1 + (1-p.life/p.max)*0.15) : 1;  // トーストは少し拡大
+    ctx.globalAlpha = a;
+    ctx.font = 'bold '+Math.round(p.size*grow)+'px sans-serif';
+    ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.fillText(p.text, p.x+2, p.y+2);
+    ctx.fillStyle = p.color;          ctx.fillText(p.text, p.x, p.y);
+  }
+  ctx.globalAlpha=1; ctx.textAlign='left';
+  ctx.restore();
+}
+
+// 開始直後の操作ヒント（フェードアウト）
+function drawHints(){
+  const a = Math.min(1, hintT/45) * 0.85; // 残り0.75秒で消える
+  ctx.save(); ctx.globalAlpha=a; ctx.textAlign='center';
+  ctx.font='bold 17px sans-serif';
+  ctx.fillStyle='rgba(0,0,0,.4)';
+  ctx.fillText('▲ タップでジャンプ', VW/2+1, VH*0.30+1);
+  ctx.fillText('▼ 押し続けてしゃがむ', VW/2+1, VH*0.86+1);
+  ctx.fillStyle='#fff';
+  ctx.fillText('▲ タップでジャンプ', VW/2, VH*0.30);
+  ctx.fillText('▼ 押し続けてしゃがむ', VW/2, VH*0.86);
+  ctx.globalAlpha=1; ctx.textAlign='left';
+  ctx.restore();
+}
+
+function drawHorse(){
+  const coffee = coffeeDist>0;
+  // 無敵(ケーキ)中・被弾後の無敵中は点滅させる
+  const blink = (invincibleT>0 || hurtInvincT>0) && Math.floor(frame/4)%2===0;
+  ctx.save();
+  ctx.translate(player.x, player.y);
+  const squash = player.crouch ? 0.62 : 1;
+  ctx.scale(1, squash);
+  ctx.translate(0, player.crouch ? 0 : 0);
+
+  if(blink) ctx.globalAlpha = 0.45;
+  if(coffee){ ctx.shadowColor='#ff7a2a'; ctx.shadowBlur=22 + Math.sin(frame*0.5)*8; } // 炎のゆらぐ発光
+
+  if(horseReady){
+    // ---- 馬スプライト（horse.png） ----
+    // 足元を原点(y=0)に合わせ、右向きの画像をそのまま描画。
+    // 走行アニメは上下の微小なバウンドで表現する。
+    ctx.imageSmoothingEnabled = false;
+    const dw = 102, dh = 76;          // 表示サイズ（引き気味に縮小）
+    const ox = -21;                    // 左端オフセット（騎手が当たり判定の上に来るよう調整）
+    const bob = player.onGround ? Math.abs(Math.sin(player.legPhase))*2 : 0; // 走行バウンド
+    // 接地走行中は読み込み済みフレームを順送りしてアニメ表示。
+    // 空中（ジャンプ中）は1コマ目で固定。legPhase は speed に比例して進むため、
+    // スピードが上がるほどコマ送りも速くなる。3.2 の値を下げると速く、上げると遅くなる。
+    const loaded = horseFrames.filter(f=> f.complete && f.naturalWidth>0);
+    let frameImg = horseImg;
+    if(player.onGround && loaded.length>1){
+      frameImg = loaded[Math.floor(player.legPhase/3.2) % loaded.length];
+    } else if(loaded.length){
+      frameImg = loaded[0];
+    }
+    ctx.drawImage(frameImg, ox, 4 - dh - bob, dw, dh);
+    ctx.restore();
+    return;
+  }
+
+  const legY = player.onGround ? Math.sin(player.legPhase)*5 : 8;
+
+  // ---- body (brown horse) ----
+  // legs
+  ctx.fillStyle='#5e3a1e';
+  ctx.fillRect(8, -16, 9, 18+legY);
+  ctx.fillRect(48, -16, 9, 18-legY);
+  ctx.fillStyle='#4a2d16';
+  ctx.fillRect(20, -16, 9, 18-legY);
+  ctx.fillRect(36, -16, 9, 18+legY);
+  // body
+  ctx.fillStyle='#8a5126';
+  roundRect(2, -46, 62, 34, 12); ctx.fill();
+  // hindquarter
+  ctx.fillStyle='#7a4620';
+  ctx.beginPath(); ctx.arc(12,-30,18,0,Math.PI*2); ctx.fill();
+  // neck + head (facing right)
+  ctx.fillStyle='#8a5126';
+  ctx.beginPath();
+  ctx.moveTo(52,-44); ctx.lineTo(70,-66); ctx.lineTo(84,-58);
+  ctx.lineTo(80,-40); ctx.lineTo(60,-30); ctx.closePath(); ctx.fill();
+  // muzzle
+  ctx.fillStyle='#9c6233';
+  roundRect(76, -60, 16, 14, 5); ctx.fill();
+  // eye
+  ctx.fillStyle='#1b1209'; ctx.fillRect(78,-58,4,4);
+  // ear
+  ctx.fillStyle='#7a4620';
+  ctx.beginPath(); ctx.moveTo(66,-64); ctx.lineTo(70,-76); ctx.lineTo(74,-64); ctx.closePath(); ctx.fill();
+  // mane
+  ctx.fillStyle='#3a2410';
+  ctx.beginPath(); ctx.moveTo(54,-46); ctx.lineTo(66,-66); ctx.lineTo(60,-66); ctx.lineTo(50,-44); ctx.closePath(); ctx.fill();
+  // tail (flowing)
+  ctx.fillStyle='#3a2410';
+  const tw = Math.sin(frame*0.2)*4;
+  ctx.beginPath();
+  ctx.moveTo(2,-40); ctx.quadraticCurveTo(-16,-30+tw, -14,-6); 
+  ctx.quadraticCurveTo(-6,-22, 2,-24); ctx.closePath(); ctx.fill();
+
+  // ---- jockey ----
+  ctx.fillStyle='#d6473b'; // body silks
+  roundRect(28,-66, 20, 18, 6); ctx.fill();
+  ctx.fillStyle='#f2d2b6'; // head
+  ctx.beginPath(); ctx.arc(44,-70,7,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#2a4a8a'; // helmet
+  ctx.beginPath(); ctx.arc(44,-72,8,Math.PI,0); ctx.fill();
+  ctx.fillRect(44,-73,12,3);
+  // arm forward
+  ctx.strokeStyle='#d6473b'; ctx.lineWidth=5; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(46,-58); ctx.lineTo(64,-52); ctx.stroke();
+
+  ctx.restore();
+}
+
+function drawObstacle(o){
+  ctx.save();
+  // 弾き飛ばし中は中心で回転させて描画（以降の各種描画にそのまま適用される）
+  if(o.knocked){
+    const cx=o.x+o.w/2, cy=o.y+o.h/2;
+    ctx.translate(cx, cy); ctx.rotate(o.spin); ctx.translate(-cx, -cy);
+  }
+  if(o.type==='snake'){
+    ctx.translate(o.x,o.y);
+    if(snakeReady){
+      // ---- 蛇スプライト（snake.png） ----
+      // 当たり判定(46x30)に合わせ、足元を地面ライン(y=o.h)に揃える。
+      ctx.imageSmoothingEnabled = false;
+      const dw = 42, dh = 36;
+      ctx.drawImage(snakeImg, (o.w-dw)/2, o.h-dh, dw, dh);
+      ctx.restore();
+      return;
+    }
+    const wig = Math.sin(frame*0.4)*4;
+    ctx.fillStyle='#4caf50';
+    roundRect(0,12,46,14,7); ctx.fill();
+    // head
+    ctx.beginPath(); ctx.arc(6,15+wig*0.2,9,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.fillRect(2,11,3,3);
+    ctx.fillStyle='#000'; ctx.fillRect(3,12,2,2);
+    // tongue
+    ctx.strokeStyle='#d6473b'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(-2,16); ctx.lineTo(-8,16+wig); ctx.stroke();
+    // belly spots
+    ctx.fillStyle='#3a8c40';
+    ctx.fillRect(18,13,5,5); ctx.fillRect(30,13,5,5);
+  } else if(o.type==='rock'){
+    ctx.translate(o.x,o.y);
+    if(rockReady){
+      // ---- 岩スプライト（rock.png） ----
+      // 当たり判定(36x31)に合わせ、足元を地面ライン(y=o.h)に揃える。
+      ctx.imageSmoothingEnabled = false;
+      const dw = 42, dh = 32;
+      ctx.drawImage(rockImg, (o.w-dw)/2, o.h-dh, dw, dh);
+      ctx.restore();
+      return;
+    }
+    ctx.scale(0.78,0.78); // ベクター図形(元46x40基準)を当たり判定(36x31)に合わせて縮小
+    ctx.fillStyle='#7a7a7a';
+    ctx.beginPath();
+    ctx.moveTo(2,40); ctx.lineTo(8,12); ctx.lineTo(24,4);
+    ctx.lineTo(40,14); ctx.lineTo(46,40); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#9a9a9a';
+    ctx.beginPath(); ctx.moveTo(8,12); ctx.lineTo(24,4); ctx.lineTo(26,20); ctx.lineTo(14,24); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#5e5e5e';
+    ctx.fillRect(28,24,8,4); ctx.fillRect(14,30,6,3);
+  } else if(o.type==='bird' || o.type==='wavebird'){
+    // ---- 鳥スプライト（bird.png）。左向きの画像をそのまま描画 ----
+    // 通常birdは羽ばたきの見た目bob、wavebirdは o.y 自体が上下するので追加bobなし
+    const by = o.type==='wavebird' ? o.y : o.y + Math.sin(o.bob)*4;
+    ctx.translate(o.x, by);
+    ctx.imageSmoothingEnabled = false;
+    const dw = 54, dh = 40; // 翼を含む見た目サイズ（当たり判定40x22の中心に配置）
+    if(birdImg.complete && birdImg.naturalWidth>0){
+      ctx.drawImage(birdImg, (o.w-dw)/2, (o.h-dh)/2, dw, dh);
+    } else {
+      ctx.fillStyle='#5a3a1e';
+      ctx.beginPath(); ctx.moveTo(0,o.h/2); ctx.lineTo(o.w/2,0); ctx.lineTo(o.w,o.h/2); ctx.lineTo(o.w/2,o.h); ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+    return;
+  } else { // ufo / diveufo / waveufo
+    // 通常ufoは浮遊bob、diveufo/waveufoは o.y 自体が動くので追加bobなし
+    const by = (o.type==='ufo') ? o.y + Math.sin(o.bob)*6 : o.y;
+    ctx.translate(o.x, by);
+    if(ufoReady){
+      // ---- UFOスプライト（ufo.png） ----
+      // 当たり判定(64x34)の中心に合わせて配置。上下浮遊は by で表現。
+      ctx.imageSmoothingEnabled = false;
+      const dw = 60, dh = 41;
+      ctx.drawImage(ufoImg, (o.w-dw)/2, (o.h-dh)/2, dw, dh);
+      ctx.restore();
+      return;
+    }
+    ctx.fillStyle='#9c6ff0';
+    ctx.beginPath(); ctx.ellipse(32,22,32,10,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#c7a8ff';
+    ctx.beginPath(); ctx.ellipse(32,16,16,10,0,Math.PI,0); ctx.fill();
+    // lights
+    const cols=['#ffe27a','#ff7ad0','#7adfff'];
+    for(let i=0;i<3;i++){ ctx.fillStyle=cols[(i+Math.floor(frame/6))%3];
+      ctx.beginPath(); ctx.arc(14+i*18,24,3,0,Math.PI*2); ctx.fill(); }
+    // beam
+    ctx.fillStyle='rgba(173,216,255,.25)';
+    ctx.beginPath(); ctx.moveTo(22,30); ctx.lineTo(42,30); ctx.lineTo(52,60); ctx.lineTo(12,60); ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawItem(it){
+  const by = it.y + Math.sin(frame*0.08+it.bob)*4;
+  ctx.save(); ctx.translate(it.x, by);
+  // glow
+  ctx.fillStyle='rgba(255,255,255,.25)';
+  ctx.beginPath(); ctx.arc(17,17,20,0,Math.PI*2); ctx.fill();
+  // ---- アイテムスプライト（cake/parfait/coffee.png） ----
+  const img = it.type==='cake' ? cakeImg : it.type==='parfait' ? parfaitImg : coffeeImg;
+  if(img.complete && img.naturalWidth>0){
+    ctx.imageSmoothingEnabled = false;
+    const s = ITEM_SIZE[it.type];
+    ctx.drawImage(img, 17 - s.w/2, 17 - s.h/2, s.w, s.h);
+    ctx.restore();
+    return;
+  }
+  if(it.type==='cake'){
+    ctx.fillStyle='#fff3e0'; roundRect(2,16,30,16,3); ctx.fill();
+    ctx.fillStyle='#ff6f9c'; roundRect(2,12,30,8,3); ctx.fill();
+    ctx.fillStyle='#d6473b'; ctx.beginPath(); ctx.arc(17,11,4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.fillRect(16,4,2,6);
+  } else if(it.type==='parfait'){
+    ctx.fillStyle='rgba(255,255,255,.6)';
+    ctx.beginPath(); ctx.moveTo(8,12); ctx.lineTo(26,12); ctx.lineTo(21,34); ctx.lineTo(13,34); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#7ad0a0'; ctx.fillRect(10,14,14,5);
+    ctx.fillStyle='#ff6f9c'; ctx.fillRect(11,20,12,5);
+    ctx.fillStyle='#f5c542'; ctx.beginPath(); ctx.arc(17,11,5,0,Math.PI*2); ctx.fill();
+  } else { // coffee
+    ctx.fillStyle='#fff'; roundRect(6,12,22,22,4); ctx.fill();
+    ctx.fillStyle='#6f4a2e'; roundRect(8,15,18,7,2); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.arc(30,20,6,-1,1.4); ctx.stroke();
+    // steam
+    ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(14,10); ctx.quadraticCurveTo(18,6,14,2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function roundRect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function drawHUD(){
+  // hearts
+  for(let i=0;i<3;i++){
+    const hx=20+i*38, hy=22;
+    const filled = i < lives;
+    drawHeart(hx,hy, filled);
+  }
+  // distance（影付きで視認性を上げる）
+  ctx.textAlign='right';
+  const dtxt = Math.floor(distance)+' m';
+  ctx.font='bold 30px sans-serif';
+  ctx.fillStyle='rgba(0,0,0,.4)'; ctx.fillText(dtxt, VW-18+2, 36+2);
+  ctx.fillStyle='#fff';           ctx.fillText(dtxt, VW-18, 36);
+  // best
+  ctx.font='bold 14px sans-serif';
+  const btxt = 'BEST '+Math.floor(Math.max(best,distance))+' m';
+  ctx.fillStyle='rgba(0,0,0,.4)'; ctx.fillText(btxt, VW-18+1, 55+1);
+  ctx.fillStyle='#f5c542'; ctx.fillText(btxt, VW-18, 55);
+  // stage（現在ステージ）
+  ctx.font='bold 13px sans-serif';
+  const stxt = 'STAGE '+(stageOf()+1);
+  ctx.fillStyle='rgba(0,0,0,.4)'; ctx.fillText(stxt, VW-18+1, 72+1);
+  ctx.fillStyle='#fff'; ctx.fillText(stxt, VW-18, 72);
+  ctx.textAlign='left';
+  // status badges
+  let bx=20, by=58;
+  if(invincibleT>0){
+    drawBadge(bx,by,'#ff6f9c','無敵 '+Math.ceil(invincibleT/60)+'s'); by+=30;
+  }
+  if(coffeeDist>0){
+    drawBadge(bx,by,'#6f4a2e','直進 '+Math.ceil(coffeeDist)+'m');
+  }
+
+  // ---- 割引ゲージ（次の割引までの進捗・上部中央） ----
+  const cur = discountFor(distance), nt = nextTier(distance);
+  const gw=210, gh=10, gx=VW/2-gw/2, gy=16;
+  ctx.fillStyle='rgba(0,0,0,.45)'; roundRect(gx-2,gy-2,gw+4,gh+4,7); ctx.fill();
+  let frac, label;
+  if(nt){ const prev = cur ? cur.m : 0;
+    frac = Math.max(0, Math.min(1,(distance-prev)/(nt.m-prev)));
+    label = '次の割引まで あと '+Math.max(0,Math.ceil(nt.m-distance))+'m（'+nt.yen+'円）';
+  } else { frac=1; label='全割引 達成！🎟️'; }
+  const glow = discountFlashT>0 && Math.floor(frame/4)%2===0;
+  ctx.fillStyle = glow ? '#ffffff' : '#f5c542';
+  roundRect(gx, gy, Math.max(2,gw*frac), gh, 5); ctx.fill();
+  ctx.textAlign='center'; ctx.font='bold 12px sans-serif';
+  ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillText(label, VW/2+1, gy+gh+16);
+  ctx.fillStyle='#ffe7c2'; ctx.fillText(label, VW/2, gy+gh+15);
+  if(discountFlashT>0){
+    ctx.font='bold 18px sans-serif';
+    ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillText('🎟️ '+discountFlashYen+'円割引 GET!', VW/2+1, gy-8);
+    ctx.fillStyle='#ffd75e'; ctx.fillText('🎟️ '+discountFlashYen+'円割引 GET!', VW/2, gy-9);
+  }
+  ctx.textAlign='left';
+}
+function drawBadge(x,y,c,txt){
+  ctx.fillStyle=c; roundRect(x,y,118,24,8); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.font='bold 14px sans-serif';
+  ctx.fillText(txt, x+10, y+17);
+}
+function drawHeart(x,y,filled){
+  ctx.save(); ctx.translate(x,y);
+  // ---- ハート画像（filled=heart.png / 空=heart_gray.png） ----
+  // ベクターのハート中心(約13,10)に合わせて配置。未読込時は下のベクター描画にフォールバック。
+  const himg = filled ? heartImg : heartGrayImg;
+  if(himg.complete && himg.naturalWidth>0){
+    ctx.imageSmoothingEnabled = false;
+    const w=24, h=22;
+    ctx.drawImage(himg, 13 - w/2, 10 - h/2, w, h);
+    ctx.restore();
+    return;
+  }
+  ctx.fillStyle = filled ? '#d6473b' : 'rgba(58,36,16,.35)';
+  ctx.beginPath();
+  ctx.moveTo(13,6);
+  ctx.bezierCurveTo(13,2,7,1,7,7);
+  ctx.bezierCurveTo(7,11,13,15,13,19);
+  ctx.bezierCurveTo(13,15,19,11,19,7);
+  ctx.bezierCurveTo(19,1,13,2,13,6);
+  ctx.fill();
+  if(filled){ ctx.fillStyle='rgba(255,255,255,.5)'; ctx.fillRect(9,5,2,2); }
+  ctx.restore();
+}
+
+// ---- loop（固定タイムステップ：どのリフレッシュレートでも常に60fps相当でupdate） ----
+const STEP = 1000/60;       // 1論理フレームの時間(ms)
+let lastTime = 0, accumulator = 0;
+function loop(now){
+  requestAnimationFrame(loop);
+  if(!lastTime){ lastTime = now; }
+  let dt = now - lastTime; lastTime = now;
+  if(dt > 250) dt = 250;    // タブ復帰などの巨大dtはクランプ
+  if(state==='play' && !paused){
+    accumulator += dt;
+    let steps = 0;
+    // 経過時間ぶんだけupdateを回す（高Hz=間引き、低Hz=複数回で追従）
+    while(accumulator >= STEP && steps < 5 && state==='play' && !paused){
+      update(); accumulator -= STEP; steps++;
+    }
+    if(steps >= 5) accumulator = 0; // 追いつけない時は端数を捨てる
+  } else {
+    accumulator = 0;
+  }
+  if(state!=='menu'){ draw(); }
+}
+
+// ---- overlays / buttons ----
+const muteBtn = document.getElementById('muteBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const shakeBtn = document.getElementById('shakeBtn');
+const bestVal = document.getElementById('bestVal');
+bestVal.textContent = Math.floor(best);
+muteBtn.textContent = Sound.isMuted() ? '🔇' : '🔊';
+shakeBtn.textContent = reduceShake ? '🚫' : '💥';   // 💥=揺れON / 🚫=軽減
+
+// ==== 割引リワード設定 ====
+// ↓ ここをご自身のGoogleフォームのURLに置き換えてください
+const SURVEY_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfWgJg750u9QLZJ4ftve2trylOYKZK_GX0MH28Xs93kFVTtgg/viewform?usp=header';
+// 走破距離(m)ごとの割引（降順）。金額を変えたい場合はここを編集。
+const DISCOUNT_TIERS = [
+  { m:5000, yen:2000 },
+  { m:3000, yen:150 },
+  { m:1800, yen:100 },
+  { m:1200, yen:50 },
+];
+function discountFor(dist){ for(const t of DISCOUNT_TIERS){ if(dist >= t.m) return t; } return null; }
+function nextTier(dist){
+  let best=null;
+  for(const t of DISCOUNT_TIERS){ if(dist < t.m && (!best || t.m < best.m)) best = t; }
+  return best;
+}
+
+function showOver(){
+  const dist = Math.floor(distance);
+  const prevBest = best;
+  const isNew = dist > best;
+  if(isNew){ best = dist; localStorage.setItem(BEST_KEY, best); bestVal.textContent = best; }
+  pauseBtn.classList.add('hidden');
+  overlay.classList.remove('hidden');
+  // テクニック統計
+  const noHit = Math.floor(Math.max(bestNoHitRun, noHitDist));
+  // ベスト近接（更新できなかったが惜しい時）
+  const gap = prevBest - dist;
+  const nearBestHTML = (!isNew && prevBest>0 && gap <= Math.max(150, prevBest*0.1))
+    ? `<div class="near-best">あと <b>${gap}m</b> でベスト！</div>` : '';
+  // 割引リワード（このランの走破距離で判定）
+  const tier = discountFor(dist);
+  const nt = nextTier(dist);
+  let discountHTML;
+  if(tier){
+    discountHTML = `
+      <div class="discount">
+        <div class="dc-amount">🎟️ ${tier.yen}円割引 獲得！</div>
+        ${nt ? `<div class="dc-next">次は ${nt.m}m で ${nt.yen}円割引</div>` : ''}
+        <a class="btn survey" href="${SURVEY_URL}" target="_blank" rel="noopener" onclick="event.stopPropagation()">アンケートに回答して受け取る</a>
+      </div>`;
+  } else {
+    discountHTML = `
+      <div class="discount none">
+        あと <b>${nt.m - dist}m</b> で ${nt.yen}円割引！
+        <br><span class="dc-sub">割引はアンケート回答で受け取れます</span>
+      </div>`;
+  }
+  overlay.innerHTML = `
+    <div class="panel">
+      <h1>ゲームオーバー</h1>
+      ${isNew ? '<div class="record">🎉 ベスト更新！</div>' : ''}
+      <div class="stat">走行距離 <b>${dist} m</b></div>
+      <div class="best">ベスト <b>${best} m</b></div>
+      ${nearBestHTML}
+      ${discountHTML}
+      <div class="run-stats">ニアミス ${nearMissCount}回 ・ 最長ノーダメ ${noHit}m</div>
+      <button class="btn" id="againBtn">もう一度</button>
+      <div class="hint-tap">タップ / スペース / Enter で再開</div>
+    </div>`;
+  // どこでもタップで即リトライ（ボタンのクリックもバブリングでここに届く）
+  overlay.onclick = startGame;
+  // 新記録なら祝福（紙吹雪＋ファンファーレ）
+  if(isNew){ Sound.sfx.fanfare(); spawnConfetti(); }
+}
+// 紙吹雪（新記録の祝福）。overlayに絶対配置で降らせ、数秒で自動削除。
+function spawnConfetti(){
+  const cols=['#ffd75e','#ff6f9c','#7ad0a0','#7adfff','#f5c542','#ffffff'];
+  for(let i=0;i<42;i++){
+    const c=document.createElement('div'); c.className='confetti';
+    c.style.left=(Math.random()*100)+'%';
+    c.style.background=cols[i%cols.length];
+    c.style.animationDelay=(Math.random()*0.35)+'s';
+    c.style.animationDuration=(1.6+Math.random()*1.3)+'s';
+    overlay.appendChild(c);
+    setTimeout(()=>c.remove(), 3400);
+  }
+}
+function isMobileDev(){ return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || navigator.maxTouchPoints>1; }
+function goLandscapeFS(){
+  if(!isMobileDev()) return;
+  // 親ページにCSS全画面化（横画面）を依頼（iOS含む全機種で有効）
+  try{ (window.parent && window.parent!==window ? window.parent : window).postMessage({type:'kounan-horse',action:'enlarge'},'*'); }catch(e){}
+  // Android等：本物の全画面＋横向きロック（iOSは非対応のため自動的に無視される）
+  try{
+    var el=document.documentElement, rq=el.requestFullscreen||el.webkitRequestFullscreen;
+    if(rq){ var p=rq.call(el); if(p&&p.then){ p.then(function(){ try{ if(screen.orientation&&screen.orientation.lock){ var q=screen.orientation.lock('landscape'); if(q&&q.catch) q.catch(function(){}); } }catch(e){} }); if(p.catch) p.catch(function(){}); } }
+  }catch(e){}
+}
+function startGame(){
+  overlay.onclick = null;   // メニュー等で誤発火しないよう解除
+  goLandscapeFS();
+  reset();
+  state='play';
+  overlay.classList.add('hidden');
+  pauseBtn.classList.remove('hidden');
+  pauseBtn.textContent = '⏸';
+  Sound.startMusic();
+}
+function togglePause(){
+  if(state!=='play') return;
+  paused = !paused;
+  pauseBtn.textContent = paused ? '▶' : '⏸';
+  if(paused) Sound.stopMusic(); else Sound.startMusic();
+}
+startBtn.onclick = startGame;
+muteBtn.onclick = ()=>{ const m = Sound.toggleMute(); muteBtn.textContent = m ? '🔇' : '🔊'; };
+pauseBtn.onclick = togglePause;
+shakeBtn.onclick = ()=>{
+  reduceShake = !reduceShake;
+  localStorage.setItem('horseRunReduceShake', reduceShake ? '1' : '0');
+  shakeBtn.textContent = reduceShake ? '🚫' : '💥';
+};
+// キーボード: P/Escで一時停止、ゲームオーバー中はSpace/Enterで再開
+window.addEventListener('keydown', e=>{
+  if((e.code==='KeyP'||e.code==='Escape') && state==='play'){ e.preventDefault(); togglePause(); }
+  if(state==='over' && (e.code==='Space'||e.code==='Enter')){ e.preventDefault(); startGame(); }
+});
+// 非アクティブ/タブ離脱で自動ポーズ（プレイ中のみ）
+function autoPause(){ if(state==='play' && !paused) togglePause(); }
+window.addEventListener('blur', autoPause);
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden) autoPause(); });
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

@@ -37,3 +37,7 @@ next-env.d.ts
 
 # vscode
 .vscode
+
+# ゲーム開発用ファイル（公開不要・public配下に置かれた仕様書や開発設定）
+public/game/**/.claude
+public/game/**/*-spec.md
