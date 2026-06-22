@@ -3,8 +3,8 @@ import ClientPage from './ClientPage';
 
 // 限定公開ページ。検索インデックスに載せず、URLを知っている人だけがアクセスできるようにする。
 export const metadata: Metadata = {
-    title: '馬スピードラン｜港南自動車サービス',
-    description: 'ジャンプとしゃがみで障害物をよけて、どこまで走れるかに挑戦！港南自動車サービスのミニゲーム「馬スピードラン」。',
+    title: '馬スピードラン',
+    description: 'ジャンプとしゃがみで障害物をよけて、どこまで走れるかに挑戦するミニゲーム「馬スピードラン」。',
     robots: {
         index: false,
         follow: false,
