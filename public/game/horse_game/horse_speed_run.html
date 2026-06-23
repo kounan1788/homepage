@@ -206,6 +206,10 @@ const horseFrames = ['horse.png','horse2.png','horse3.png','horse4.png'].map(src
 const horseImg = horseFrames[0];   // 1コマ目（フォールバック兼用）
 let horseReady = false;
 horseImg.onload = ()=>{ horseReady = true; };
+// しゃがみ時に使う専用画像
+const sitImg = new Image(); let sitReady = false;
+sitImg.onload = ()=>{ sitReady = true; };
+sitImg.src = 'horse_sitdown.png';
 
 const snakeImg = new Image(); let snakeReady = false;
 snakeImg.onload = ()=>{ snakeReady = true; };
@@ -943,12 +947,23 @@ function drawHorse(){
   const blink = (invincibleT>0 || hurtInvincT>0) && Math.floor(frame/4)%2===0;
   ctx.save();
   ctx.translate(player.x, player.y);
-  const squash = player.crouch ? 0.62 : 1;
+  // しゃがみ時は専用画像(horse_sitdown.png)を使うので縦の圧縮はしない（画像が未読込のときだけ従来の圧縮にフォールバック）
+  const squash = (player.crouch && !sitReady) ? 0.62 : 1;
   ctx.scale(1, squash);
-  ctx.translate(0, player.crouch ? 0 : 0);
 
   if(blink) ctx.globalAlpha = 0.45;
   if(coffee){ ctx.shadowColor='#ff7a2a'; ctx.shadowBlur=22 + Math.sin(frame*0.5)*8; } // 炎のゆらぐ発光
+
+  // しゃがみ中は専用のしゃがみ画像を表示
+  if(player.crouch && sitReady){
+    ctx.imageSmoothingEnabled = false;
+    const dw = 102;
+    const dh = dw * (sitImg.naturalHeight / sitImg.naturalWidth);   // 画像本来の縦横比を維持
+    const ox = -21;
+    ctx.drawImage(sitImg, ox, 4 - dh, dw, dh);   // 足元を地面に合わせる
+    ctx.restore();
+    return;
+  }
 
   if(horseReady){
     // ---- 馬スプライト（horse.png） ----
