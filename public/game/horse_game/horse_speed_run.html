@@ -132,6 +132,16 @@
     backdrop-filter:blur(2px);transition:transform .08s,background .15s;}
   #hudBtns button:active{transform:scale(.9);}
   #hudBtns button.hidden{display:none;}
+  /* スマホ用の操作ボタン（↑ジャンプ / ↓しゃがみ）。プレイ中・タッチ端末のみ表示 */
+  .touchctrl{position:fixed;bottom:18px;width:74px;height:74px;border-radius:50%;
+    background:rgba(255,255,255,.20);border:2px solid rgba(255,255,255,.55);color:#fff;
+    font-size:36px;font-weight:800;line-height:1;display:none;align-items:center;justify-content:center;
+    -webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:none;
+    box-shadow:0 4px 14px rgba(0,0,0,.35);backdrop-filter:blur(2px);}
+  .touchctrl:active{background:rgba(255,255,255,.42);transform:scale(.93);}
+  #btnJump{left:18px;}
+  #btnDuck{right:18px;}
+  @media (pointer:coarse){ #wrap.playing .touchctrl{display:flex;} }
 </style>
 </head>
 <body>
@@ -142,6 +152,8 @@
     <button id="shakeBtn" title="画面の揺れ">💥</button>
     <button id="pauseBtn" class="hidden" title="一時停止">⏸</button>
   </div>
+  <button id="btnJump" class="touchctrl" aria-label="ジャンプ">↑</button>
+  <button id="btnDuck" class="touchctrl" aria-label="しゃがむ">↓</button>
   <div id="overlay">
     <div class="panel">
       <img class="hero-horse" src="horse.png" alt="">
@@ -460,6 +472,21 @@ window.addEventListener('keydown', e=>{
   if(e.code==='ArrowDown') crouchHeld = true;
 });
 window.addEventListener('keyup', e=>{ if(e.code==='ArrowDown') crouchHeld=false; });
+// 画面上の操作ボタン（スマホ用）：↑ジャンプ / ↓しゃがみ
+(function(){
+  var bJ=document.getElementById('btnJump'), bD=document.getElementById('btnDuck');
+  function bind(el,onP,onR){
+    if(!el) return;
+    el.addEventListener('touchstart',function(e){ e.preventDefault(); onP(); },{passive:false});
+    el.addEventListener('touchend',function(e){ e.preventDefault(); if(onR) onR(); },{passive:false});
+    el.addEventListener('touchcancel',function(){ if(onR) onR(); });
+    el.addEventListener('mousedown',function(e){ e.preventDefault(); onP(); });
+    el.addEventListener('mouseup',function(){ if(onR) onR(); });
+    el.addEventListener('mouseleave',function(){ if(onR) onR(); });
+  }
+  bind(bJ, function(){ jump(); }, null);
+  bind(bD, function(){ crouchHeld=true; }, function(){ crouchHeld=false; });
+})();
 
 // ---- spawning ----
 // 障害物の「波」を生成（A:コンボ）。ステージが上がるほど連続数が増える。
@@ -745,7 +772,7 @@ function applyItem(type){
   }
 }
 
-function gameOver(){ state='over'; Sound.stopMusic(); Sound.sfx.over(); showOver(); }
+function gameOver(){ state='over'; document.getElementById('wrap').classList.remove('playing'); Sound.stopMusic(); Sound.sfx.over(); showOver(); }
 
 // ---- draw ----
 function draw(){
@@ -1350,6 +1377,7 @@ function startGame(){
   goLandscapeFS();
   reset();
   state='play';
+  document.getElementById('wrap').classList.add('playing');
   overlay.classList.add('hidden');
   pauseBtn.classList.remove('hidden');
   pauseBtn.textContent = '⏸';
