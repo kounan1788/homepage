@@ -44,6 +44,11 @@ export default function Page() {
         window.addEventListener('message', onMsg);
         return () => window.removeEventListener('message', onMsg);
     }, []);
+    // スマホでこのページを開いた時点で、自動的に全画面（CSS）表示にする
+    useEffect(() => {
+        const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || navigator.maxTouchPoints > 1;
+        if (mobile) setEnlarged(true);
+    }, []);
     // 拡大中は背面ページのスクロールを止める
     useEffect(() => {
         document.body.style.overflow = enlarged ? 'hidden' : '';

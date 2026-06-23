@@ -105,6 +105,22 @@
   .eff-dash{background:#ffce3a}
   .coinhud{position:absolute;top:10px;right:10px;z-index:4;font-size:.8rem;font-weight:800;color:#ffce3a;text-shadow:0 1px 3px rgba(0,0,0,.85);pointer-events:none}
   .result-coins{font-size:.85rem;font-weight:700;color:#ffce3a;margin-top:-4px}
+  /* スタート画面の説明（アイテム・障害物・操作） */
+  #startScreen{gap:11px;overflow:auto}
+  .start-lead{font-size:.84rem;color:var(--text-dim);line-height:1.6}
+  .how-move{display:flex;align-items:center;gap:10px;max-width:320px;text-align:left;
+    background:rgba(255,255,255,.05);border:1px solid var(--hairline);border-radius:12px;padding:9px 12px}
+  .how-move .how-arrows{flex:0 0 auto;font-weight:800;color:var(--amber);font-size:1.2rem;letter-spacing:.04em}
+  .how-move span:last-child{font-size:.7rem;color:var(--text-dim);line-height:1.45}
+  .how-move b{color:#fff}
+  .legend{width:100%;max-width:320px;text-align:left}
+  .legend-title{font-size:.62rem;letter-spacing:.12em;color:var(--amber);text-transform:uppercase;
+    border-bottom:1px solid var(--hairline);padding-bottom:4px;margin-bottom:7px}
+  .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px}
+  .lg-row{display:flex;align-items:center;gap:8px}
+  .lg-row img{width:32px;height:32px;object-fit:contain;flex:0 0 auto}
+  .lg-row span{font-size:.64rem;color:var(--text-dim);line-height:1.2}
+  .lg-row span b{display:block;color:#fff;font-size:.72rem;margin-bottom:1px}
 </style>
 </head>
 <body>
@@ -136,8 +152,27 @@
     <div class="loading" id="loading">読み込み中…</div>
     <div class="screen hidden" id="startScreen">
       <h2>よけて走れ！</h2>
-      <div class="ctrl-hint"><span>PC: <b>← →</b> キー</span><span>スマホ: <b>左右タップ</b></span></div>
-      <p>3車線を左右に動いて前方のガードレールをよけよう。走るほど障害物が増えてスピードアップ。<br>走った距離がそのまま割引に！</p>
+      <p class="start-lead">3車線の道を走るゲーム。走った距離がそのまま割引になります！</p>
+      <div class="how-move">
+        <span class="how-arrows">← →</span>
+        <span>スマホは<b>画面の左半分／右半分をタップ</b>、PCは<b>← →キー</b>で、車が左右の車線に移動します。前方から来る<b>ガードレール</b>や<b>対向車</b>をよけよう。</span>
+      </div>
+      <div class="legend">
+        <div class="legend-title">アイテム（取るとお得）</div>
+        <div class="legend-grid">
+          <div class="lg-row"><img id="lgCoin" alt=""><span><b>コイン</b>距離 +30m</span></div>
+          <div class="lg-row"><img id="lgKounan" alt=""><span><b>港南コイン</b>200m 無敵で突破</span></div>
+          <div class="lg-row"><img id="lgShield" alt=""><span><b>シールド</b>数秒間 無敵</span></div>
+          <div class="lg-row"><img id="lgSlow" alt=""><span><b>スロー</b>少しの間 減速</span></div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-title">よける障害物</div>
+        <div class="legend-grid">
+          <div class="lg-row"><img id="lgRail" alt=""><span><b>ガードレール</b>当たると終了</span></div>
+          <div class="lg-row"><img id="lgEnemy" alt=""><span><b>対向車</b>少し速い</span></div>
+        </div>
+      </div>
       <button class="big-btn" id="startBtn">スタート</button>
     </div>
     <div class="screen hidden" id="resultScreen">
@@ -229,6 +264,8 @@
   imgEnemy.onload=onload; imgCoin.onload=onload; imgShield.onload=onload; imgSlow.onload=onload; imgKounan.onload=onload;
   imgBg.src=IMG_BG; imgCar.src=IMG_CAR; imgRail.src=IMG_RAIL;
   imgEnemy.src=IMG_ENEMY; imgCoin.src=IMG_COIN; imgShield.src=IMG_SHIELD; imgSlow.src=IMG_SLOW; imgKounan.src=IMG_KOUNAN;
+  // スタート画面の説明アイコンに画像を割り当て（配信=assetsパス / Desktop=base64 を流用）
+  [['lgRail',IMG_RAIL],['lgEnemy',IMG_ENEMY],['lgCoin',IMG_COIN],['lgKounan',IMG_KOUNAN],['lgShield',IMG_SHIELD],['lgSlow',IMG_SLOW]].forEach(function(p){ var el=document.getElementById(p[0]); if(el) el.src=p[1]; });
 
   function resize(){
     const r=document.getElementById('stage').clientWidth;
