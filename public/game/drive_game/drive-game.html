@@ -79,9 +79,18 @@
   .mute-btn:active{transform:scale(.92)}
   .cta{display:flex;flex-direction:column;gap:8px;width:100%;max-width:300px}
   .cta-btn{display:block;text-align:center;text-decoration:none;border-radius:12px;padding:12px;font-weight:800;font-size:.92rem}
-  .cta-call{background:var(--amber);color:#1a1205}
-  .cta-line{background:#06c755;color:#fff}
-  .cta-sub{background:rgba(255,255,255,.08);color:var(--text);border:1px solid var(--hairline)}
+  .cta-review{position:relative;overflow:hidden;background:linear-gradient(135deg,#ffe07a,#f0a81a);color:#3a2410;
+    padding:15px 16px;border-radius:14px;box-shadow:0 6px 18px rgba(240,168,26,.5);
+    animation:ctaPulse 1.5s ease-in-out infinite;}
+  .cta-review .cta-review-main{display:block;font-size:1rem;font-weight:800;letter-spacing:.02em}
+  .cta-review .cta-review-note{display:block;font-size:.66rem;font-weight:700;color:#7a5510;margin-top:3px}
+  .cta-review::after{content:'';position:absolute;top:0;left:-65%;width:55%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.75),transparent);
+    transform:skewX(-20deg);animation:ctaShine 2.6s ease-in-out infinite;pointer-events:none}
+  .cta-review:active{transform:scale(.97)}
+  @keyframes ctaPulse{0%,100%{transform:scale(1);box-shadow:0 6px 18px rgba(240,168,26,.45)}
+    50%{transform:scale(1.04);box-shadow:0 12px 28px rgba(240,168,26,.8)}}
+  @keyframes ctaShine{0%{left:-65%}55%,100%{left:125%}}
   .cta-btn:active{transform:translateY(1px)}
   @keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,4px)}40%{transform:translate(5px,-5px)}60%{transform:translate(-4px,-3px)}80%{transform:translate(4px,4px)}}
   canvas.shake{animation:shake .38s}
@@ -142,9 +151,10 @@
         <div class="note" id="couponNote">このコードを来店時にご提示ください。<br>有効期限・適用条件は店頭規定に準じます。</div>
       </div>
       <div class="cta">
-        <a class="cta-btn cta-call" href="tel:076-268-1788">📞 電話で予約・相談</a>
-        <a class="cta-btn cta-line" href="https://lin.ee/CKQM0mE" target="_blank" rel="noopener">LINEで相談する</a>
-        <a class="cta-btn cta-sub" href="/shaken" target="_top">車検について見る</a>
+        <a class="cta-btn cta-review" href="https://g.page/r/CTnb2S2S2dEJEAE/review" target="_blank" rel="noopener">
+          <span class="cta-review-main">⭐ さらに口コミで10%OFF</span>
+          <span class="cta-review-note">※最大割引額 1,000円</span>
+        </a>
       </div>
       <button class="big-btn" id="retryBtn">もう一度</button>
     </div>
@@ -200,7 +210,7 @@
   function sfxDash(){ tone(500,0.08,'sawtooth',0.16); setTimeout(function(){tone(800,0.1,'sawtooth',0.16);},70); setTimeout(function(){tone(1200,0.14,'sawtooth',0.16);},150); }
   function updateMuteBtn(){ const b=$('muteBtn'); if(b) b.textContent= muted?'🔇':'🔊'; }
   if($('muteBtn')){ $('muteBtn').onclick=function(){ muted=!muted; localStorage.setItem('kounanMuted',muted?'1':'0'); updateMuteBtn(); if(bgm) bgm.muted=muted; if(!muted) initAudio(); }; updateMuteBtn(); }
-  document.querySelectorAll('.cta-btn').forEach(function(a){ a.addEventListener('click',function(){ var ty=a.className.indexOf('cta-call')>=0?'tel':(a.className.indexOf('cta-line')>=0?'line':'shaken'); track('cta_click',{type:ty}); }); });
+  document.querySelectorAll('.cta-btn').forEach(function(a){ a.addEventListener('click',function(){ var ty=a.className.indexOf('cta-call')>=0?'tel':(a.className.indexOf('cta-line')>=0?'line':(a.className.indexOf('cta-review')>=0?'review':'shaken')); track('cta_click',{type:ty}); }); });
   let W=400,H=560,laneW=0,roadLeft=0,roadRight=0;
   let best=parseFloat(localStorage.getItem('kounanBest')||'0');
   if(best>0) $('best').textContent=Math.floor(best)+'m';
