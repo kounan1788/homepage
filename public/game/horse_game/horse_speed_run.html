@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>馬スピードラン</title>
 <style>
@@ -509,22 +509,23 @@ function spawnOne(x, stage){
   if(stage >= 2) pool.push('diveufo','waveufo','wavebird');
   const t = pool[Math.floor(Math.random()*pool.length)];
   const o = { type:t, x, passed:false };
-  if(t==='snake'){ o.w=36; o.h=24; o.y=GROUND_Y-o.h; o.extraSpeed=2.4 + stage*0.5; }
-  else if(t==='rock'){ o.w=36; o.h=31; o.y=GROUND_Y-o.h; o.extraSpeed=0; }
-  else if(t==='ufo'){ o.w=50; o.h=27; o.y=GROUND_Y-72; o.extraSpeed=0; o.bob=Math.random()*Math.PI*2; }
-  else if(t==='bird'){ o.w=40; o.h=22; o.y=GROUND_Y-53; o.extraSpeed=1.6 + stage*0.4; o.bob=Math.random()*Math.PI*2; } // 低空・しゃがみ回避
+  // 障害物を見やすく約25%大きく。地面の敵は接地維持、しゃがみ回避の浮遊敵は下端の高さを維持して回避バランスを保持
+  if(t==='snake'){ o.w=46; o.h=30; o.y=GROUND_Y-o.h; o.extraSpeed=2.4 + stage*0.5; }
+  else if(t==='rock'){ o.w=46; o.h=39; o.y=GROUND_Y-o.h; o.extraSpeed=0; }
+  else if(t==='ufo'){ o.w=62; o.h=34; o.y=GROUND_Y-79; o.extraSpeed=0; o.bob=Math.random()*Math.PI*2; }       // 下端=GROUND_Y-45を維持
+  else if(t==='bird'){ o.w=50; o.h=28; o.y=GROUND_Y-59; o.extraSpeed=1.6 + stage*0.4; o.bob=Math.random()*Math.PI*2; } // 低空・下端=GROUND_Y-31を維持（しゃがみ回避）
   else if(t==='diveufo'){ // 高所から急降下し、しゃがみのタイミングをシビアにする
-    o.w=50; o.h=27; o.y=GROUND_Y-95; o.extraSpeed=0; o.bob=0;
-    o.vy=0.6; o.targetY=GROUND_Y-58;   // しゃがみで回避できる高さで降下を止める
+    o.w=62; o.h=34; o.y=GROUND_Y-100; o.extraSpeed=0; o.bob=0;
+    o.vy=0.6; o.targetY=GROUND_Y-65;   // 下端=GROUND_Y-31を維持（しゃがみで回避できる高さで降下を止める）
   }
   else if(t==='waveufo'){ // 大きく上下するUFO（上端=ジャンプ不可・下端=接地でしゃがみ不可）
-    o.w=50; o.h=27; o.extraSpeed=0;
+    o.w=62; o.h=34; o.extraSpeed=0;
     o.amp=(GROUND_Y-25)/2;          // 上端は地面から15px(ジャンプ頂点17pxより上)
-    o.cy=(GROUND_Y+15)/2 - o.h;     // 下端は接地(下端y=GROUND_Y)
+    o.cy=(GROUND_Y+15)/2 - o.h;     // 下端は接地(下端y=GROUND_Y)。cyはhから自動算出
     o.phase=Math.random()*Math.PI*2; o.y=o.cy;
   }
   else if(t==='wavebird'){ // 大きく上下する鳥（上端=ジャンプ不可・下端=接地でしゃがみ不可）
-    o.w=40; o.h=22; o.extraSpeed=1.6 + stage*0.4;
+    o.w=50; o.h=28; o.extraSpeed=1.6 + stage*0.4;
     o.amp=(GROUND_Y-15)/2;
     o.cy=(GROUND_Y+15)/2 - o.h;
     o.phase=Math.random()*Math.PI*2; o.y=o.cy;
