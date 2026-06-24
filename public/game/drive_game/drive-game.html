@@ -361,15 +361,55 @@
     const img = it.type==='coin'?imgCoin : it.type==='shield'?imgShield : it.type==='slow'?imgSlow : imgKounan;
     ctx.drawImage(img, x-s/2, y-s/2, s, s);
   }
+  // 港南コイン（突破ダッシュ）：赤い炎に包まれるエフェクト
   function drawDashRing(x,y){
-    const r=carW()*1.05;
-    ctx.save(); ctx.strokeStyle='rgba(255,206,58,'+(0.5+0.35*Math.sin(performance.now()/70))+')'; ctx.lineWidth=4;
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.restore();
+    const t=performance.now(), w=carW(), h=carH();
+    ctx.save(); ctx.translate(x,y);
+    ctx.globalCompositeOperation='lighter';   // 炎を加算合成で明るく
+    ctx.shadowColor='rgba(255,90,20,0.9)'; ctx.shadowBlur=18;
+    const n=14, baseR=w*0.62;
+    for(let i=0;i<n;i++){
+      const a=(i/n)*Math.PI*2;
+      const flick=0.55+0.4*Math.sin(t/70+i*1.7)+0.2*Math.sin(t/33+i*3.1);
+      const len=baseR+(h*0.55)*flick;
+      const bx=Math.cos(a)*baseR*0.7, by=Math.sin(a)*baseR*0.95;
+      const tx=Math.cos(a)*len, ty=Math.sin(a)*len*1.05;
+      const g=ctx.createLinearGradient(bx,by,tx,ty);
+      g.addColorStop(0,'rgba(255,225,90,0.9)');
+      g.addColorStop(0.5,'rgba(255,110,20,0.8)');
+      g.addColorStop(1,'rgba(220,30,10,0)');
+      ctx.fillStyle=g;
+      const wdt=w*0.17*flick, perp=a+Math.PI/2;
+      ctx.beginPath();
+      ctx.moveTo(bx+Math.cos(perp)*wdt, by+Math.sin(perp)*wdt);
+      ctx.lineTo(tx,ty);
+      ctx.lineTo(bx-Math.cos(perp)*wdt, by-Math.sin(perp)*wdt);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
   }
+  // 無敵（シールド）：結界（フォースフィールド）風エフェクト
   function drawShieldRing(x,y){
-    const r=carW()*0.95;
-    ctx.save(); ctx.strokeStyle='rgba(90,180,255,'+(0.45+0.3*Math.sin(performance.now()/90))+')'; ctx.lineWidth=3;
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.restore();
+    const t=performance.now(), r=carW()*1.15;
+    ctx.save(); ctx.translate(x,y);
+    // 半透明ドーム（縁が光る放射状グラデ）
+    const g=ctx.createRadialGradient(0,0,r*0.3,0,0,r);
+    g.addColorStop(0,'rgba(120,200,255,0.04)');
+    g.addColorStop(0.78,'rgba(120,200,255,0.10)');
+    g.addColorStop(1,'rgba(150,220,255,0.42)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill();
+    // 外周の光る輪（脈動）
+    ctx.lineWidth=2.5; ctx.strokeStyle='rgba(150,225,255,'+(0.55+0.35*Math.sin(t/120))+')';
+    ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.stroke();
+    // 六角形の結界フレーム（ゆっくり回転）
+    ctx.rotate(t/900); ctx.lineWidth=1.4; ctx.strokeStyle='rgba(180,235,255,0.5)';
+    ctx.beginPath();
+    for(let i=0;i<6;i++){ const a=i*Math.PI/3, px=Math.cos(a)*r*0.96, py=Math.sin(a)*r*0.96; if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); }
+    ctx.closePath(); ctx.stroke();
+    // 表面を走る光のハイライト
+    const ha=t/250; ctx.lineWidth=3; ctx.strokeStyle='rgba(220,245,255,0.85)';
+    ctx.beginPath(); ctx.arc(0,0,r,ha,ha+0.7); ctx.stroke();
+    ctx.restore();
   }
   function updateProgress(){
     const el=$('progFill'), lab=$('progLabel'); if(!el) return;
