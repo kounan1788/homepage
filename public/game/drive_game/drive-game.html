@@ -352,9 +352,12 @@
     ctx.drawImage(imgRail, x-w/2, y-h/2, w, h);
   }
   function drawObstacle(o){
-    const x=laneCenter(o.lane), y=o.y;
+    const x = o.knocked ? o.px : laneCenter(o.lane), y=o.y;
+    ctx.save();
+    if(o.knocked){ ctx.translate(x,y); ctx.rotate(o.rot); ctx.translate(-x,-y); }
     if(o.type==='enemy'){ const w=enemyW(),h=enemyH(); ctx.drawImage(imgEnemy, x-w/2, y-h/2, w, h); }
     else { const w=railW(),h=railH(); ctx.drawImage(imgRail, x-w/2, y-h/2, w, h); }
+    ctx.restore();
   }
   function drawItem(it){
     const x=laneCenter(it.lane), y=it.y, s=itemSize();
@@ -488,8 +491,11 @@
     itemTimer-=dt; if(itemTimer<=0){ spawnItem(); itemTimer=itemGap+Math.random()*2; }
 
     const playerY=H-carH()/2-16;
-    for(const o of obstacles) o.y += eff*dt*(o.vf||1);
-    obstacles=obstacles.filter(o=>o.y<H+railH());
+    for(const o of obstacles){
+      if(o.knocked){ o.px += o.vx*dt; o.y += o.vy*dt; o.vy += 700*dt; o.rot += o.vr*dt; }
+      else o.y += eff*dt*(o.vf||1);
+    }
+    obstacles=obstacles.filter(o=> o.knocked ? (o.px>-220 && o.px<W+220 && o.y<H+260 && o.y>-260) : o.y<H+railH());
     for(const it of items) it.y += eff*dt;
     items=items.filter(it=>it.y<H+itemSize());
 
@@ -507,10 +513,21 @@
     }
     // 衝突（無敵中はすり抜けて破壊）
     for(let i=obstacles.length-1;i>=0;i--){
-      const o=obstacles[i], ox=laneCenter(o.lane);
+      const o=obstacles[i];
+      if(o.knocked) continue;               // 弾き飛ばし中は当たり判定なし
+      const ox=laneCenter(o.lane);
       const rw=obW(o)*0.82, rh=obH(o)*0.55;
       if(Math.abs(ox-playerX)<(pw+rw)/2 && Math.abs(o.y-playerY)<(ph+rh)/2){
-        if(shieldTime>0||dashDist>0){ obstacles.splice(i,1); continue; }
+        if(shieldTime>0||dashDist>0){
+          // 無敵中：消さずに、回転しながら左右へ弾き飛ばす
+          const dir = ox < playerX ? -1 : (ox > playerX ? 1 : (Math.random()<0.5?-1:1));
+          o.knocked=true; o.px=ox;
+          o.vx = dir*(560+Math.random()*260);
+          o.vy = -(170+Math.random()*150);
+          o.rot = 0; o.vr = dir*(7+Math.random()*5);
+          tone(300,0.06,'square',0.11); tone(150,0.12,'sawtooth',0.10);
+          continue;
+        }
         return crash();
       }
     }
