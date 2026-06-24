@@ -284,11 +284,11 @@
   let obstacles=[], spawnTimer=0, spawnGap=START_SPAWN, last=0, bgScroll=0;
   let awarded={}, restTime=0, laneStarve=[0,0,0];   // 到達済みランク, 休憩残り秒数, 各車線の未出現度
   let items=[], itemTimer=0, itemGap=3.2, coins=0;  // アイテム（コイン・無敵・スロー）・取得コイン数
-  let shieldTime=0, slowTime=0, shakeTime=0, dashDist=0; // 効果の残り秒数・画面シェイク・港南コイン突破の残り距離
+  let shieldTime=0, slowTime=0, shakeTime=0, dashDist=0, graceT=0; // 効果の残り秒数・画面シェイク・港南コイン突破の残り距離・突破後の安全猶予
   const REST_SECONDS=5;                 // 休憩の長さ
 
   function laneCenter(i){ return roadLeft + laneW*i + laneW/2; }
-  function reset(){ dist=0;speed=BASE_SPEED;playerLane=1;obstacles=[];items=[];spawnTimer=0;spawnGap=START_SPAWN;itemTimer=itemGap;bgScroll=0;awarded={};restTime=0;laneStarve=[0,0,0];shieldTime=0;slowTime=0;shakeTime=0;dashDist=0;coins=0;playerX=targetX=laneCenter(playerLane); }
+  function reset(){ dist=0;speed=BASE_SPEED;playerLane=1;obstacles=[];items=[];spawnTimer=0;spawnGap=START_SPAWN;itemTimer=itemGap;bgScroll=0;awarded={};restTime=0;laneStarve=[0,0,0];shieldTime=0;slowTime=0;shakeTime=0;dashDist=0;graceT=0;coins=0;playerX=targetX=laneCenter(playerLane); }
 
   function spawn(){
     const count = dist>800 ? (Math.random()<0.5?2:1) : 1;
@@ -479,11 +479,12 @@
     spawnGap=Math.max(MIN_SPAWN, START_SPAWN - dist*0.0004);
     const gained = eff*dt*0.12;
     dist += gained;
-    if(dashDist>0) dashDist=Math.max(0, dashDist-gained);   // 進んだ分だけ突破残距離を消費
+    if(dashDist>0){ dashDist=Math.max(0, dashDist-gained); if(dashDist===0){ obstacles=[]; graceT=1.6; } }   // 突破残距離を消費。終了直後は障害物を一掃＋一時的に出現停止
     bgScroll += eff*dt;
 
+    if(graceT>0) graceT=Math.max(0, graceT-dt);   // 突破終了後の安全猶予
     playerX += (targetX-playerX)*(1-Math.exp(-dt*16));
-    spawnTimer-=dt; if(spawnTimer<=0){ spawn(); spawnTimer=spawnGap; }
+    spawnTimer-=dt; if(spawnTimer<=0){ if(graceT<=0) spawn(); spawnTimer=spawnGap; }
     itemTimer-=dt; if(itemTimer<=0){ spawnItem(); itemTimer=itemGap+Math.random()*2; }
 
     const playerY=H-carH()/2-16;
