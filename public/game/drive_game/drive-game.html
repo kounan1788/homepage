@@ -361,25 +361,24 @@
     const img = it.type==='coin'?imgCoin : it.type==='shield'?imgShield : it.type==='slow'?imgSlow : imgKounan;
     ctx.drawImage(img, x-s/2, y-s/2, s, s);
   }
-  // 港南コイン（突破ダッシュ）：赤い炎に包まれるエフェクト
+  // 港南コイン（突破ダッシュ）：控えめに揺らめく炎エフェクト
   function drawDashRing(x,y){
     const t=performance.now(), w=carW(), h=carH();
     ctx.save(); ctx.translate(x,y);
-    ctx.globalCompositeOperation='lighter';   // 炎を加算合成で明るく
-    ctx.shadowColor='rgba(255,90,20,0.9)'; ctx.shadowBlur=18;
-    const n=14, baseR=w*0.62;
+    ctx.shadowColor='rgba(255,100,30,0.5)'; ctx.shadowBlur=7;
+    const n=9, baseR=w*0.6;
     for(let i=0;i<n;i++){
       const a=(i/n)*Math.PI*2;
-      const flick=0.55+0.4*Math.sin(t/70+i*1.7)+0.2*Math.sin(t/33+i*3.1);
-      const len=baseR+(h*0.55)*flick;
+      const flick=0.5+0.3*Math.sin(t/95+i*1.7)+0.12*Math.sin(t/48+i*2.6);
+      const len=baseR+(h*0.3)*flick;
       const bx=Math.cos(a)*baseR*0.7, by=Math.sin(a)*baseR*0.95;
-      const tx=Math.cos(a)*len, ty=Math.sin(a)*len*1.05;
+      const tx=Math.cos(a)*len, ty=Math.sin(a)*len*1.03;
       const g=ctx.createLinearGradient(bx,by,tx,ty);
-      g.addColorStop(0,'rgba(255,225,90,0.9)');
-      g.addColorStop(0.5,'rgba(255,110,20,0.8)');
-      g.addColorStop(1,'rgba(220,30,10,0)');
+      g.addColorStop(0,'rgba(255,210,90,0.55)');
+      g.addColorStop(0.55,'rgba(255,110,25,0.42)');
+      g.addColorStop(1,'rgba(210,40,10,0)');
       ctx.fillStyle=g;
-      const wdt=w*0.17*flick, perp=a+Math.PI/2;
+      const wdt=w*0.12*flick, perp=a+Math.PI/2;
       ctx.beginPath();
       ctx.moveTo(bx+Math.cos(perp)*wdt, by+Math.sin(perp)*wdt);
       ctx.lineTo(tx,ty);
