@@ -44,11 +44,6 @@ export default function Page() {
             document.body.style.overflow = '';
         };
     }, [enlarged]);
-    // スマホでこのページを開いた時点で、自動的に全画面（CSS）＋横表示にする
-    useEffect(() => {
-        const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || navigator.maxTouchPoints > 1;
-        if (mobile) setEnlarged(true);
-    }, []);
     const exitEnlarge = () => {
         setEnlarged(false);
         try {
@@ -70,6 +65,18 @@ export default function Page() {
                     <p className="text-base md:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
                         ジャンプとしゃがみで障害物をよけて、どこまで走れるかに挑戦！アイテムを取りながら最長距離を目指そう。
                     </p>
+                </section>
+
+                {/* 横画面推奨の案内（タイトルとゲームの間に目立たせて配置） */}
+                <section className="container mx-auto px-4 mb-8">
+                    <div className="max-w-3xl mx-auto flex items-center justify-center gap-3 rounded-2xl bg-amber-400 text-amber-950 font-black px-5 py-4 shadow-lg ring-2 ring-amber-300">
+                        <svg className="w-7 h-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <rect x="4" y="2" width="10" height="16" rx="2" transform="rotate(15 9 10)" />
+                            <path d="M18 14a7 7 0 0 1-7 7" />
+                            <path d="M18 21l2-1-1-2" />
+                        </svg>
+                        <span className="text-base md:text-lg">横画面でのプレイを推奨しています</span>
+                    </div>
                 </section>
 
                 {/* ゲーム本体（iframe埋め込み・横長3:1） */}
