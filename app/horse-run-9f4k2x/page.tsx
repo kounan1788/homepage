@@ -3,8 +3,8 @@ import ClientPage from './ClientPage';
 
 // 限定公開ページ。検索インデックスに載せず、URLを知っている人だけがアクセスできるようにする。
 export const metadata: Metadata = {
-    title: '馬スピードラン',
-    description: 'ジャンプとしゃがみで障害物をよけて、どこまで走れるかに挑戦するミニゲーム「馬スピードラン」。',
+    title: 'ジョッキースピードラン',
+    description: 'ジャンプとしゃがみで障害物をよけて、どこまで走れるかに挑戦するミニゲーム「ジョッキースピードラン」。',
     robots: {
         index: false,
         follow: false,
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     appleWebApp: {
         capable: true,
         statusBarStyle: 'black-translucent',
-        title: '馬スピードラン',
+        title: 'ジョッキースピードラン',
     },
 };
 

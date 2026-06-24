@@ -60,7 +60,7 @@ export default function Page() {
                 {/* タイトル */}
                 <section className="container mx-auto px-4 mb-8 text-center">
                     <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-4 leading-tight">
-                        馬<span className="text-teal-700">スピードラン</span>
+                        ジョッキー<span className="text-teal-700">スピードラン</span>
                     </h1>
                     <p className="text-base md:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
                         ジャンプとしゃがみで障害物をよけて、どこまで走れるかに挑戦！アイテムを取りながら最長距離を目指そう。
@@ -93,7 +93,7 @@ export default function Page() {
                         )}
                         <iframe
                             src="/game/horse_game/horse_speed_run.html"
-                            title="馬スピードラン"
+                            title="ジョッキースピードラン"
                             className={enlarged ? 'border-0 bg-black' : 'w-full rounded-3xl shadow-2xl border border-slate-200 bg-slate-900'}
                             style={
                                 enlarged
