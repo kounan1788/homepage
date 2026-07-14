@@ -45,7 +45,8 @@ const jobListings = [
             '社員割引制度あり',
         ],
         workStyle: {
-            hours: '9:00〜18:00（休憩90分・18時00分完全帰宅）',
+            hours: '9:00〜18:00（休憩60分・18時00分完全帰宅）',
+            hoursSaturday: '9:00〜17:00（休憩60分・17時00分完全帰宅）',
             holidays: '日曜・祝日、第1・第2・第4土曜日(繁忙期により変動あり)',
             vacation: '年間休日105日以上、年次有給休暇、夏季・年末年始休暇、慶弔休暇',
         },
@@ -65,7 +66,7 @@ const jobListings = [
             '未経験者歓迎・ブランクOK',
         ],
         salary: {
-            base: '月給 180,000円〜250,000円',
+            base: '月給 170,000円〜',
             details: '※経験・能力を考慮の上、決定いたします',
             bonus: '賞与年2回（実績による）',
             raise: '昇給年1回',
@@ -78,8 +79,9 @@ const jobListings = [
             '社員割引制度あり',
         ],
         workStyle: {
-            hours: '8:30〜17:30（休憩60分）',
-            holidays: '日曜・祝日、第2・第4土曜日',
+            hours: '9:00〜18:00（休憩60分・18時00分完全帰宅）',
+            hoursSaturday: '9:00〜17:00（休憩60分・17時00分完全帰宅）',
+            holidays: '日曜・祝日、第1・第2・第4土曜日',
             vacation: '年間休日105日以上、有給休暇、夏季・年末年始休暇、慶弔休暇',
         },
     },
@@ -516,7 +518,10 @@ export default function RecruitPage() {
                                             <div className="pl-11 grid grid-cols-1 md:grid-cols-3 gap-4">
                                                 <div className="bg-white p-4 rounded-xl border border-slate-200">
                                                     <div className="text-xs text-slate-400 font-bold mb-1">勤務時間</div>
-                                                    <div className="text-slate-800 font-bold">{job.workStyle.hours}</div>
+                                                    <div className="text-slate-800 font-bold text-sm space-y-1">
+                                                        <div>平日：{job.workStyle.hours}</div>
+                                                        <div>土曜：{job.workStyle.hoursSaturday}</div>
+                                                    </div>
                                                 </div>
                                                 <div className="bg-white p-4 rounded-xl border border-slate-200">
                                                     <div className="text-xs text-slate-400 font-bold mb-1">定休日</div>
