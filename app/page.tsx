@@ -478,7 +478,7 @@ export default function Page() {
                         </h1>
 
                         <p className="text-lg md:text-2xl text-slate-200 mb-12 max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-medium">
-                            創業60年。私たちが守るのは、お客様の大切な移動の時間と笑顔です。<br className="hidden md:block" />
+                            創業70年。私たちが守るのは、お客様の大切な移動の時間と笑顔です。<br className="hidden md:block" />
                             最新の技術と真心で、お車のあらゆるニーズにお応えします。
                         </p>
 
@@ -919,7 +919,7 @@ export default function Page() {
                             金沢市で新車をお探しの方へ
                         </h3>
                         <p className="text-gray-600 leading-relaxed mb-4">
-                            港南自動車サービスは、石川県金沢市で創業60年以上、トヨタ・ホンダ・スズキ・ダイハツなど全メーカーの新車を取り扱う自動車販売店です。ご購入のほか、頭金なし・ボーナス払いなしの月々定額で新車に乗れる新車リース「ノレタ」もご用意。車検やオイル交換などの維持費もコミコミなので、初めて新車に乗る方にも安心です。
+                            港南自動車サービスは、石川県金沢市で創業70年、トヨタ・ホンダ・スズキ・ダイハツなど全メーカーの新車を取り扱う自動車販売店です。ご購入のほか、頭金なし・ボーナス払いなしの月々定額で新車に乗れる新車リース「ノレタ」もご用意。車検やオイル交換などの維持費もコミコミなので、初めて新車に乗る方にも安心です。
                         </p>
                         <p className="text-gray-600 leading-relaxed">
                             <Link href="/noreta" className="text-teal-700 font-bold hover:underline">

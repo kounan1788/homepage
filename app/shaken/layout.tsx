@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: '金沢市の車検｜最短90分スピード車検・創業60年の実績',
+    title: '金沢市の車検｜最短90分スピード車検・創業70年の実績',
     description:
         '石川県金沢市の車検なら港南自動車サービス。新車購入後の初回車検の方限定・最短90分の立会い車検、国家資格整備士による丁寧な対面診断。軽自動車65,040円〜。完全予約制で待ち時間なし。金沢市で車検をお探しの方はお気軽にご相談ください。',
     keywords: [
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: '金沢市の車検｜最短90分スピード車検【港南自動車サービス】',
         description:
-            '石川県金沢市の車検なら港南自動車サービス。創業60年以上の信頼と実績。最短90分立会い車検（新車購入後の初回車検限定）。',
+            '石川県金沢市の車検なら港南自動車サービス。創業70年の信頼と実績。最短90分立会い車検（新車購入後の初回車検限定）。',
         url: 'https://www.kounan-auto.jp/shaken',
         type: 'website',
         locale: 'ja_JP',

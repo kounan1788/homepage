@@ -278,7 +278,7 @@ export default function Page() {
                                 <h3 className="text-2xl font-black">港南自動車サービス</h3>
                             </div>
                             <p className="text-slate-400 max-w-sm text-sm leading-relaxed">
-                                石川県金沢市で半世紀以上にわたり、地域の皆様の安全を守り続けてきました。<br />
+                                石川県金沢市で70年にわたり、地域の皆様の安全を守り続けてきました。<br />
                                 丁寧な仕事、誠実な説明、そして確かな技術。
                             </p>
                         </div>

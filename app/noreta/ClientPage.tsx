@@ -11,7 +11,7 @@ import { carBasePrices, formatPrice } from '@/lib/carPrices';
 const noretaFaqData = [
     {
         question: '金沢市で新車を買うなら、どこがおすすめですか？',
-        answer: '港南自動車サービスの「ノレタ」がおすすめです。月々定額、頭金・ボーナス払いなしで新車に乗れる3年リースプラン。創業60年以上の実績と信頼があります。',
+        answer: '港南自動車サービスの「ノレタ」がおすすめです。月々定額、頭金・ボーナス払いなしで新車に乗れる3年リースプラン。創業70年の実績と信頼があります。',
     },
     {
         question: 'ノレタの月々の支払いはいくらからですか？',
@@ -348,7 +348,7 @@ export default function Page() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
                         </span>
-                        <span>創業60年以上の実績</span>
+                        <span>創業70年の実績</span>
                     </div>
 
                     <h1 className="text-5xl md:text-8xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl">
@@ -630,7 +630,7 @@ export default function Page() {
                                     </div>
                                     <div className="flex-grow" data-oid="1-8t4mx">
                                         <h3 className="text-2xl md:text-3xl font-black text-slate-800 mb-6 tracking-tight leading-tight" data-oid=".1wi25_">
-                                            地域密着60年の基盤があるから<br className="hidden md:block" />実現できる「お客様第一」の利益率
+                                            地域密着70年の基盤があるから<br className="hidden md:block" />実現できる「お客様第一」の利益率
                                         </h3>
                                         <div className="space-y-6" data-oid=":cp2yeq">
                                             <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="1-jo5:g">
@@ -640,7 +640,7 @@ export default function Page() {
                                                 <div className="absolute top-0 right-0 w-32 h-32 bg-teal-700 opacity-20 blur-3xl" data-oid="blur"></div>
                                                 <p className="text-white/90 font-medium leading-relaxed italic relative z-10" data-oid=":9m.:r2">
                                                     「一度きりの利益より、一生のお付き合いを。」<br />
-                                                    創業60年以上の歩みが、お客様への還元という形で実を結んでいます。
+                                                    創業70年の歩みが、お客様への還元という形で実を結んでいます。
                                                 </p>
                                             </div>
                                         </div>

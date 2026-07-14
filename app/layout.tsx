@@ -5,11 +5,11 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 export const metadata: Metadata = {
     metadataBase: new URL('https://www.kounan-auto.jp'),
     title: {
-        default: '港南自動車｜金沢市の車検・新車販売・カーリース【創業60年】',
+        default: '港南自動車｜金沢市の車検・新車販売・カーリース【創業70年】',
         template: '%s | 港南自動車サービス - 金沢市',
     },
     description:
-        '石川県金沢市の港南自動車サービスは創業60年以上の信頼と実績。車検・整備から新車・中古車販売、月々定額カーリース「ノレタ」まで対応。金沢市で車検をお探しなら港南自動車へ。全メーカー対応、最短90分立会い車検（新車購入後の初回車検限定）。',
+        '石川県金沢市の港南自動車サービスは創業70年の信頼と実績。車検・整備から新車・中古車販売、月々定額カーリース「ノレタ」まで対応。金沢市で車検をお探しなら港南自動車へ。全メーカー対応、最短90分立会い車検（新車購入後の初回車検限定）。',
     keywords: [
         '港南自動車',
         '港南自動車サービス',
@@ -51,9 +51,9 @@ export const metadata: Metadata = {
         },
     },
     openGraph: {
-        title: '港南自動車｜金沢市の車検・新車販売・カーリース【創業60年】',
+        title: '港南自動車｜金沢市の車検・新車販売・カーリース【創業70年】',
         description:
-            '石川県金沢市の港南自動車サービス。車検・整備から新車・中古車販売、月々定額カーリース「ノレタ」まで。創業60年以上の信頼と実績。',
+            '石川県金沢市の港南自動車サービス。車検・整備から新車・中古車販売、月々定額カーリース「ノレタ」まで。創業70年の信頼と実績。',
         url: 'https://www.kounan-auto.jp',
         type: 'website',
         locale: 'ja_JP',
@@ -69,9 +69,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: '港南自動車｜金沢市の車検・新車販売【創業60年】',
+        title: '港南自動車｜金沢市の車検・新車販売【創業70年】',
         description:
-            '石川県金沢市の港南自動車。車検・整備から新車販売まで。創業60年以上の信頼と実績。',
+            '石川県金沢市の港南自動車。車検・整備から新車販売まで。創業70年の信頼と実績。',
         images: ['/og-image.jpg'],
     },
     verification: {
@@ -131,8 +131,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             },
         ],
         description:
-            '石川県金沢市で創業60年以上の自動車整備工場。車検、一般整備、新車・中古車販売、カーリース「ノレタ」「ノリドク」を展開。金沢市の車検なら港南自動車へ。',
-        foundingDate: '1964',
+            '石川県金沢市で創業70年の自動車整備工場。車検、一般整備、新車・中古車販売、カーリース「ノレタ」「ノリドク」を展開。金沢市の車検なら港南自動車へ。',
+        foundingDate: '1956',
         slogan: '安心・快適なカーライフを',
         hasOfferCatalog: {
             '@type': 'OfferCatalog',

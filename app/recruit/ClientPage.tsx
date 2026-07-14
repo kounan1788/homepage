@@ -5,31 +5,34 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 // ============================================
-// ページ公開フラグ
-// true: 採用情報ページを表示
-// false: 「ページ準備中」を表示
+// 求人ごとの公開フラグ
+// 各求人の published を個別に切り替えて公開を制御する
+//   published: true  → その求人を公開（一覧に表示）
+//   published: false → その求人を非公開（一覧に表示しない）
+// 例）整備士だけ公開したい場合は mechanic を true、office を false にする
+// 両方 false の場合はページ全体が「準備中」表示になる
 // ============================================
-const IS_PAGE_READY = false;
 
 // 求人情報のデータ
 const jobListings = [
     {
         id: 'mechanic',
+        published: false, // 整備士の公開フラグ
         title: '自動車整備士',
-        subtitle: '未経験者歓迎・資格取得支援あり',
+        subtitle: '未経験スタート多数・資格取得は会社が全力サポート',
         icon: '🔧',
         highlight: '積極採用中',
-        description: 'お客様の大切なお車を安心・安全にお乗りいただけるよう、車検・点検・整備を担当していただきます。経験豊富な先輩スタッフが丁寧にサポートしますので、未経験の方も安心してご応募ください。',
+        description: '「クルマが好き」──その気持ちさえあれば大丈夫。お客様の大切なお車の車検・点検・整備をお任せします。最初はできることから、経験豊富な先輩が一つひとつ丁寧に教えるので、未経験からでも着実にプロの整備士へ成長できます。18時完全退社で残業はほとんどなく、資格取得も費用は会社が負担して全力でバックアップ。腰を据えて長く技術を磨ける環境です。',
         requirements: [
             '普通自動車運転免許（AT限定可）',
             '整備士資格不問（入社後の資格取得を支援）',
             '学歴不問・未経験者歓迎',
-            '10代〜50代まで幅広く活躍中',
+            '10代〜50代まで幅広く採用いたします！',
         ],
         salary: {
-            base: '月給 200,000円〜350,000円',
+            base: '月給 195,000円〜',
             details: '※経験・能力を考慮の上、決定いたします',
-            bonus: '賞与年2回（実績による）',
+            bonus: '賞与年2回',
             raise: '昇給年1回',
         },
         benefits: [
@@ -42,18 +45,19 @@ const jobListings = [
             '社員割引制度あり',
         ],
         workStyle: {
-            hours: '8:30〜17:30（休憩60分）',
-            holidays: '日曜・祝日、第2・第4土曜日',
-            vacation: '年間休日105日以上、有給休暇、夏季・年末年始休暇、慶弔休暇',
+            hours: '9:00〜18:00（休憩90分・18時00分完全帰宅）',
+            holidays: '日曜・祝日、第1・第2・第4土曜日(繁忙期により変動あり)',
+            vacation: '年間休日105日以上、年次有給休暇、夏季・年末年始休暇、慶弔休暇',
         },
     },
     {
         id: 'office',
+        published: false, // 事務・受付スタッフの公開フラグ
         title: '事務・受付スタッフ',
-        subtitle: 'お客様対応が好きな方歓迎',
+        subtitle: '未経験・ブランクOK／人と接するのが好きな方歓迎',
         icon: '💼',
         highlight: '募集中',
-        description: 'ご来店されたお客様の受付対応、電話応対、見積書・請求書の作成、データ入力などの事務業務全般をお任せします。明るい笑顔でお客様をお迎えしてください。',
+        description: 'ご来店されたお客様の受付・電話応対、見積書や請求書の作成、データ入力など、店舗を支える事務業務全般をお任せします。特別なスキルは必要ありません。大切なのは、明るい笑顔と「人と接するのが好き」という気持ち。分からないことはすぐに聞けるアットホームな職場なので、未経験の方もブランクのある方も安心してスタートできます。',
         requirements: [
             '高卒以上',
             '基本的なPC操作ができる方（Word・Excel）',
@@ -85,25 +89,30 @@ const jobListings = [
 const companyFeatures = [
     {
         icon: '🏢',
-        title: '創業60年以上の安定企業',
-        description: '石川県金沢市で長年地域に根ざした信頼と実績があります。安定した経営基盤のもとで、安心して長く働けます。',
+        title: '創業70年の安定企業',
+        description: '石川県金沢市の地で長年愛され続けてきた信頼と実績があります。車検・整備という景気に左右されにくい事業だからこそ、安定した基盤の中で腰を据えて長く働けます。',
     },
     {
         icon: '📚',
         title: '充実の教育・研修制度',
-        description: '先輩スタッフによるOJTはもちろん、資格取得支援制度も完備。未経験からプロの整備士へ成長できる環境です。',
+        description: '「先輩の背中を見て覚えろ」はありません。OJTで一つひとつ丁寧に指導し、資格取得の費用も会社が負担。未経験からプロの整備士へ、着実にステップアップできます。',
     },
     {
         icon: '🤝',
         title: 'アットホームな職場環境',
-        description: '少数精鋭のチームだからこそ、風通しの良い職場。困ったことがあれば気軽に相談できる雰囲気です。',
+        description: '少数精鋭のチームだからこそ、一人ひとりの顔が見える風通しの良さ。分からないことや困ったことはすぐに相談でき、あなたの意見も届きやすい職場です。',
     },
     {
         icon: '🚗',
         title: '全メーカー対応でスキルアップ',
-        description: '軽自動車から普通車まで、様々なメーカー・車種を取り扱うため、幅広い技術と知識が身につきます。',
+        description: '軽自動車から普通車まで、多彩なメーカー・車種を取り扱います。特定の車種に偏らないからこそ、どこへ行っても通用する幅広い技術と知識が自然と身につきます。',
     },
 ];
+
+// 公開中（published: true）の求人だけを抽出
+const visibleJobs = jobListings.filter((job) => job.published);
+// 公開中の求人が1件以上あればページを表示、0件なら「準備中」を表示
+const isPageReady = visibleJobs.length > 0;
 
 export default function RecruitPage() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -121,7 +130,7 @@ export default function RecruitPage() {
     // ============================================
     // ページ準備中の表示
     // ============================================
-    if (!IS_PAGE_READY) {
+    if (!isPageReady) {
         return (
             <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 flex flex-col">
                 {/* Header */}
@@ -400,7 +409,7 @@ export default function RecruitPage() {
                     </div>
 
                     <div className="space-y-8">
-                        {jobListings.map((job) => (
+                        {visibleJobs.map((job) => (
                             <div
                                 key={job.id}
                                 className="bg-white rounded-[2rem] shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300"
@@ -536,8 +545,9 @@ export default function RecruitPage() {
                         <div className="relative z-10 text-center max-w-2xl mx-auto">
                             <h2 className="text-3xl md:text-4xl font-black mb-6">ご応募・お問い合わせ</h2>
                             <p className="text-slate-300 mb-10 leading-relaxed">
-                                まずはお気軽にお問い合わせください。<br />
-                                職場見学も随時受け付けております。
+                                「まずは話を聞くだけ」「職場を見てみたい」だけでも大歓迎です。<br />
+                                応募を迷っている段階でも構いません。まずはお気軽にご連絡ください。<br />
+                                あなたからのご連絡を、スタッフ一同心よりお待ちしています。
                             </p>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
@@ -593,7 +603,7 @@ export default function RecruitPage() {
                                 </div>
                                 <div className="flex flex-col md:flex-row">
                                     <dt className="font-bold text-slate-600 md:w-40 mb-1 md:mb-0">創業</dt>
-                                    <dd className="text-slate-900">60年以上</dd>
+                                    <dd className="text-slate-900">70年</dd>
                                 </div>
                             </dl>
                         </div>
@@ -613,7 +623,7 @@ export default function RecruitPage() {
                                 <h3 className="text-2xl font-black">港南自動車サービス</h3>
                             </div>
                             <p className="text-slate-400 max-w-sm text-sm leading-relaxed">
-                                石川県金沢市で半世紀以上にわたり、地域の皆様の安全を守り続けてきました。<br />
+                                石川県金沢市で70年にわたり、地域の皆様の安全を守り続けてきました。<br />
                                 丁寧な仕事、誠実な説明、そして確かな技術。
                             </p>
                         </div>
