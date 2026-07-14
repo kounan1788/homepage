@@ -17,7 +17,7 @@ import Image from 'next/image';
 const jobListings = [
     {
         id: 'mechanic',
-        published: true, // 整備士の公開フラグ
+        published: false, // 整備士の公開フラグ
         title: '自動車整備士',
         subtitle: '未経験スタート多数・資格取得は会社が全力サポート',
         icon: '🔧',
@@ -53,7 +53,7 @@ const jobListings = [
     },
     {
         id: 'office',
-        published: true, // 事務・受付スタッフの公開フラグ
+        published: false, // 事務・受付スタッフの公開フラグ
         title: '事務・受付スタッフ',
         subtitle: '未経験・ブランクOK／人と接するのが好きな方歓迎',
         icon: '💼',
