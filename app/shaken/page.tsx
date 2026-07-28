@@ -2,8 +2,10 @@ import { Metadata } from 'next';
 import ClientPage from './ClientPage';
 
 export const metadata: Metadata = {
-    title: '車検 - 最短90分スピード車検｜港南自動車',
-    description: '石川県金沢市の港南自動車サービスで車検を。創業70年の実績、新車購入後の初回車検の方限定・最短90分の立会い車検。軽自動車65,040円〜。完全予約制・1日限定3台の丁寧なサービス。',
+    // 共通テンプレートを付けない完全なtitle（料金とスピードを先頭で訴求）
+    title: { absolute: '金沢市の車検 65,040円〜｜最短90分・港南自動車サービス' },
+    description:
+        '金沢市の車検が法定費用込み65,040円〜。新車購入後の初回車検限定・最短90分の立会い車検、完全予約制・1日3台。国家資格整備士が丁寧に対応。電話・LINEで予約できます。',
 };
 
 export default function Page() {

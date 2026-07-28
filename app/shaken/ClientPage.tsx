@@ -555,6 +555,30 @@ export default function ShakenPage() {
                         </article>
                     </div>
 
+                    {/* Same-Day Section（最短90分・当日完了の案内） */}
+                    <div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">車検は即日で終わる？</h2>
+                            <p className="text-slate-500">最短90分・その日のうちに完了する立会い車検をご用意しています。</p>
+                        </div>
+                        <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl border border-slate-200">
+                            <p className="text-slate-600 leading-relaxed mb-4">
+                                港南自動車サービスでは、<b className="text-slate-800">新車ご購入後はじめての車検の方限定</b>で、追加整備がない場合<b className="text-slate-800">最短90分・当日完了の「90分立会い車検」</b>を実施しています。完全予約制・1日限定3台。店内でお待ちいただく間に車検が終わり、その日のままお乗り帰りいただけます。
+                            </p>
+                            <p className="text-slate-600 leading-relaxed mb-6">
+                                2回目以降の車検のお客様も完全予約制で受け付けています。所要時間やお預かりの要否はお車の状態によって異なりますので、ご予約の際にご案内いたします。
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Link href="tel:076-268-1788" className="inline-flex items-center justify-center px-6 py-4 bg-teal-700 text-white rounded-xl font-bold hover:bg-teal-800 transition-colors shadow-md">
+                                    お電話で予約（076-268-1788）
+                                </Link>
+                                <Link href="https://lin.ee/CKQM0mE" className="inline-flex items-center justify-center px-6 py-4 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-colors shadow-md">
+                                    LINEで予約する
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Cost Breakdown Section（車検費用の内訳の解説） */}
                     <div>
                         <div className="text-center mb-16">
@@ -577,6 +601,40 @@ export default function ShakenPage() {
                                 ※潤滑剤・ウエス等のショートパーツ代として1,100円〜2,200円が加算されます。※交換部品代金の3%を上限として交換部品処理費を頂いております。※輸入車は基本診断費用・基本治療費用が各2,200円、フルタイム4WD車・ディーゼル車は総合検査費用が1,100円追加となります。※追加整備は別途お見積りいたします。
                             </p>
                         </div>
+                    </div>
+
+                    {/* Price Table Section（車種クラス別の車検料金表） */}
+                    <div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">金沢市の車検料金表</h2>
+                            <p className="text-slate-500">法定費用込みの総額表示です（2026年4月現在）。</p>
+                        </div>
+                        <div className="max-w-3xl mx-auto overflow-x-auto">
+                            <table className="w-full bg-white rounded-2xl border border-slate-200 overflow-hidden text-sm md:text-base">
+                                <thead>
+                                    <tr className="bg-slate-900 text-white">
+                                        <th className="py-4 px-4 text-left font-black">車種クラス</th>
+                                        <th className="py-4 px-4 text-left font-black">対象車種の例</th>
+                                        <th className="py-4 px-4 text-right font-black">車検総額（税込）</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
+                                    {Object.values(pricingData).map((d) => (
+                                        <tr key={d.name}>
+                                            <td className="py-4 px-4 font-bold text-slate-800">
+                                                {d.name}
+                                                <span className="block text-xs text-slate-400 font-medium">{d.weight}</span>
+                                            </td>
+                                            <td className="py-4 px-4 text-slate-500">{d.description}</td>
+                                            <td className="py-4 px-4 text-right font-black text-teal-700">{d.total.toLocaleString()}円〜</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <p className="max-w-3xl mx-auto text-xs text-slate-400 mt-4 leading-relaxed">
+                            ※重量税・自賠責保険・印紙代（法定費用）を含む、割引適用前の総額です。持込・引取割引や早期予約割引など各種割引の組み合わせで最大約20,000円お得になります。交換部品代・追加整備は別途お見積りです。
+                        </p>
                     </div>
 
                     {/* Flow Section */}
@@ -606,6 +664,25 @@ export default function ShakenPage() {
                                     </article>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Area Section（対応エリア・アクセス） */}
+                    <div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">対応エリア・アクセス</h2>
+                            <p className="text-slate-500">金沢市金石本町の整備工場です。</p>
+                        </div>
+                        <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 text-slate-600 leading-relaxed space-y-3">
+                            <p>
+                                店舗は<b className="text-slate-800">金沢市金石本町ハ14</b>。金石・大野・寺中など金沢市西部エリアをはじめ、<b className="text-slate-800">金沢市全域の車検</b>に対応しています。
+                            </p>
+                            <p>
+                                完全予約制のため待ち時間が少なく、<b className="text-slate-800">代車は無料</b>（全車保険完備）でご用意しています。ご自身でお持ち込み・お引き取りいただく場合は割引もございます。
+                            </p>
+                            <p className="text-sm text-slate-400">
+                                営業時間：平日 9:00〜18:00 ／ 土曜 9:00〜17:00（日祝定休）　TEL：076-268-1788
+                            </p>
                         </div>
                     </div>
 

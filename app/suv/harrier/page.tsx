@@ -11,9 +11,13 @@ const car: CarSeoInfo = {
 };
 
 const description =
-    'トヨタ ハリアーのカーリースなら港南自動車。月々定額、頭金なし・ボーナス払いなしで新車に乗れる！金沢市でハリアーに乗るならノレタにお任せください。';
+    'ハリアーに月々56,000円・頭金0円・ボーナス払い0円で乗れる3年カーリース「ノレタ」。車検・オイル交換もコミコミ。金沢市の港南自動車サービス。';
 
-export const metadata: Metadata = buildCarMetadata(car, description);
+export const metadata: Metadata = buildCarMetadata(
+    car,
+    description,
+    'ハリアー 月々56,000円リース｜金沢の港南自動車サービス',
+);
 
 export default function Page() {
     return (

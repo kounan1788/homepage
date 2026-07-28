@@ -19,11 +19,13 @@ const BASE_URL = 'https://www.kounan-auto.jp';
 
 /**
  * 車種ページの Metadata（title / description / canonical / OGP）を生成します。
+ * customTitle を指定すると、共通テンプレート（| 港南自動車サービス - 金沢市）を付けない
+ * 完全なtitleとしてそのまま使用します（リース訴求titleなど個別最適化用）。
  */
-export function buildCarMetadata(car: CarSeoInfo, description: string): Metadata {
-    const title = `${car.name} - ノレタ｜港南自動車`;
+export function buildCarMetadata(car: CarSeoInfo, description: string, customTitle?: string): Metadata {
+    const title = customTitle ?? `${car.name} - ノレタ｜港南自動車`;
     return {
-        title,
+        title: customTitle ? { absolute: customTitle } : title,
         description,
         alternates: {
             canonical: car.path,

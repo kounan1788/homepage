@@ -269,6 +269,33 @@ export default function Page() {
                     ))}
                 </div>
 
+                {/* リース内容の明記（ノレタ/ノリドクへの内部リンク） */}
+                <div className="mt-12 bg-white rounded-3xl p-6 md:p-8 shadow-lg">
+                    <h2 className="text-xl md:text-2xl font-black text-slate-800 mb-4">
+                        スペーシアギアのカーリース内容（新車リース「ノレタ」）
+                    </h2>
+                    <ul className="text-slate-600 text-sm md:text-base leading-relaxed space-y-2 mb-6">
+                        <li>・月額料金：月々{basePrice.toLocaleString()}円〜（税込）。ボディカラー・オプションの選択で変わります。</li>
+                        <li>・契約年数：3年。頭金0円・ボーナス払い0円の月々定額です。</li>
+                        <li>・含まれるもの：車検費用・オイル交換・故障修理までまるごとコミコミ。急な出費の心配がありません。</li>
+                        <li>・3年後：新しい車への「乗り換え」／同じ車の「継続利用」／「返却」から選べます。</li>
+                    </ul>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        <Link
+                            href="/noreta"
+                            className="inline-flex items-center justify-center px-6 py-3 bg-teal-700 text-white font-bold rounded-xl hover:bg-teal-800 transition-colors shadow-md"
+                        >
+                            新車リース「ノレタ」の詳細を見る
+                        </Link>
+                        <Link
+                            href="/noridoku"
+                            className="inline-flex items-center justify-center px-6 py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-colors border border-slate-200"
+                        >
+                            法人向けリース「ノリドク」はこちら
+                        </Link>
+                    </div>
+                </div>
+
                 {/* Company Info */}
                 <div className="mt-8 text-center text-sm text-slate-500">
                     <p className="font-semibold">株式会社港南自動車サービス</p>
