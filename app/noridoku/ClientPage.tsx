@@ -14,7 +14,7 @@ const noridokuFaqData = [
     },
     {
         question: 'ノリドクの金利はどれくらいですか？',
-        answer: '業界最安水準の1.9%〜でご提供しています。一般的なディーラーローン（3〜5%）と比較して大幅にコストを削減できます。',
+        answer: '業界最安水準の2.5%〜でご提供しています。一般的なディーラーローン（4〜8%）と比較して大幅にコストを削減できます。',
     },
     {
         question: '途中解約はできますか？',
@@ -72,7 +72,7 @@ export default function NoridokuPage() {
     const [selectedVehicleType, setSelectedVehicleType] = useState<number>(4);
     const [customYears, setCustomYears] = useState<number | null>(null);
     const [depreciationMethod, setDepreciationMethod] = useState<'straight' | 'declining'>('straight');
-    const [interestRateA, setInterestRateA] = useState<number>(1.9);
+    const [interestRateA, setInterestRateA] = useState<number>(2.5);
     const [interestRateB, setInterestRateB] = useState<number>(3.5);
     const [leasePeriod, setLeasePeriod] = useState<number>(5);
 
@@ -431,7 +431,7 @@ export default function NoridokuPage() {
 
                             <div className="max-w-3xl mx-auto text-center text-white/90 space-y-3">
                                 <p className="text-lg">事業に営業車は付き物。</p>
-                                <p>その営業車を、<span className="font-bold text-white">金利1.9%〜</span>と財務提案で「負担」から「経営の力」へ。</p>
+                                <p>その営業車を、<span className="font-bold text-white">金利2.5%〜</span>と財務提案で「負担」から「経営の力」へ。</p>
                                 <p><span className="font-bold text-white">解約金ゼロ</span>の自由さが、変化の多い御社の挑戦を支えます。</p>
                                 <p>コストとリスクを抑え、経営者様に一番近くて寄り添います。</p>
                             </div>
@@ -466,7 +466,7 @@ export default function NoridokuPage() {
                             </div>
                             <h2 className="text-2xl md:text-4xl font-black text-blue-600 mb-4 leading-relaxed">
                                 「コスト削減」は、利益の創出です。<br />
-                                <span className="text-slate-900">業界常識を覆す金利1.9%〜で、現預金を最大限に守る調達を。</span>
+                                <span className="text-slate-900">業界常識を覆す金利2.5%〜で、現預金を最大限に守る調達を。</span>
                             </h2>
                         </div>
 
@@ -484,17 +484,9 @@ export default function NoridokuPage() {
 
                             <div className="bg-white rounded-3xl p-8 md:p-10 shadow-lg border border-slate-100 space-y-4 text-slate-600 leading-relaxed">
                                 <p>ビジネスにおいて、調達コストの抑制は利益率に直結します。</p>
-                                <p>本サービスでは、<span className="font-bold text-slate-900">業界最安水準となる金利「1.9%〜」</span>を実現しました。一般的なディーラーローンやリース金利（通常3%〜5%程度）と比較してください。長期的な支払い総額において、その差は歴然です。</p>
+                                <p>本サービスでは、<span className="font-bold text-slate-900">業界最安水準となる金利「2.5%〜」</span>を実現しました。一般的なディーラーローンやリース金利（通常4%〜8%程度）と比較してください。長期的な支払い総額において、その差は歴然です。</p>
                                 <p>低金利で調達することで、手元のキャッシュフローを圧迫せず、浮いた資金を新たな事業投資や人材採用へと回すことが可能になります。</p>
                                 <p className="font-bold text-slate-900">「車にお金をかけすぎない」。これも一つの立派な経営戦略です。</p>
-                                <div className="bg-blue-50 rounded-xl p-6 mt-6">
-                                    <p className="text-sm text-blue-800">
-                                        ※リース金利や与信枠は審査によって変動いたします。<br />
-                                        ・リース金利1.9%・与信枠1,000万円〜無制限（会社規模と車両台数によります）<br />
-                                        ・リース金利2.3%・与信枠500万円<br />
-                                        のどちらかとなりますのでご了承くださいませ。
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>
