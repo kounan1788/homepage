@@ -1,6 +1,12 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
+
+// ブラウザUI（アドレスバー等）の色をページ地色に合わせる
+export const viewport: Viewport = {
+    themeColor: '#ffffff',
+    colorScheme: 'light',
+};
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://www.kounan-auto.jp'),
@@ -177,8 +183,29 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     };
 
     return (
-        <html lang="ja" data-oid="fn6nn3g">
-            <body className="" data-oid="wjvghu5">
+        <html lang="ja" className="scroll-smooth" data-oid="fn6nn3g">
+            <head>
+                {/* 本文・見出し: Zen Kaku Gothic New / 数値・ラベル: IBM Plex Mono
+                    取得できない環境では tailwind.config.ts のフォールバック（ヒラギノ角ゴ等）で表示される */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                {/* App Router のルートレイアウトなので全ページに適用される。
+                    next/font はビルド時に和文サブセットの取得が必要になり、
+                    ネットワークが無い環境でビルドが落ちるため採用していない。 */}
+                {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+                <link
+                    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+                    rel="stylesheet"
+                />
+            </head>
+            <body className="bg-white font-sans text-gray-900 antialiased" data-oid="wjvghu5">
+                {/* Tabキーの最初の到達先。ヘッダーを読み飛ばして本文へ移動できる */}
+                <a
+                    href="#main"
+                    className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-teal-700 focus:px-5 focus:py-3 focus:text-sm focus:font-bold focus:text-white"
+                >
+                    本文へスキップ
+                </a>
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}

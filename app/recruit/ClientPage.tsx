@@ -121,6 +121,19 @@ export default function RecruitPage() {
     const [activeJob, setActiveJob] = useState<string | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
 
+    // Escapeキーでメニューを閉じ、開閉ボタンにフォーカスを戻す
+    useEffect(() => {
+        if (!menuOpen) return;
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== 'Escape') return;
+            setMenuOpen(false);
+            document.getElementById('menu-toggle')?.focus();
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [menuOpen]);
+
+
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
@@ -134,34 +147,36 @@ export default function RecruitPage() {
     // ============================================
     if (!isPageReady) {
         return (
-            <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 flex flex-col">
+            <div className="min-h-dvh bg-neutral-50 font-sans text-slate-900 flex flex-col">
                 {/* Header */}
-                <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+                <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
                     <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
-                        <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-[1.02]">
+                        <Link href="/" className="flex items-center space-x-2 transition-transform">
                             <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                         </Link>
-                        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                            <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
-                            <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
-                            <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
-                            <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
-                            <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
-                            <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
-                            <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
+                        <nav className="hidden xl:flex items-center gap-7 whitespace-nowrap text-[15px]">
+                            <Link href="/shaken" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">車検</Link>
+                            <Link href="/#services" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">サービス内容</Link>
+                            <Link href="/#cases" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">取扱車種</Link>
+                            <Link href="/#company" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">会社情報</Link>
+                            <Link href="/recruit" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">採用情報</Link>
+                            <Link href="/#contact" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">お問い合わせ</Link>
+                            <Link href="/noreta" className="flex h-11 items-center rounded-full bg-teal-700 px-5 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97]">
                                 ノレタ詳細
                             </Link>
-                            <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                            <Link href="/noridoku" className="flex h-11 items-center rounded-full border border-blue-600 px-5 font-bold text-blue-600 transition-[background-color,color,transform] duration-200 hover:bg-blue-600 hover:text-white active:scale-[0.97]">
                                 ノリドク詳細
                             </Link>
                         </nav>
                         <button
-                            className="md:hidden p-2 rounded-xl bg-teal-700 text-white transition-all duration-300"
+                            className="xl:hidden flex size-11 items-center justify-center rounded border border-gray-300 text-gray-900 transition-colors"
+                            id="menu-toggle"
+                            aria-controls="mobile-menu"
                             onClick={toggleMenu}
                             aria-expanded={menuOpen}
                         aria-label="メニューを開く"
                         >
-                            <svg
+                            <svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
                                 height="24"
@@ -171,7 +186,7 @@ export default function RecruitPage() {
                                 strokeWidth="2.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+                                className={`transition-transform duration-200 ${menuOpen ? 'rotate-90' : ''}`}
                             >
                                 {menuOpen ? (
                                     <path d="M18 6L6 18M6 6l12 12" />
@@ -185,14 +200,15 @@ export default function RecruitPage() {
 
                 {/* Mobile menu */}
                 <div
-                    className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] md:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                    id="mobile-menu"
+                    className={`fixed inset-0 overscroll-contain bg-gray-900 z-50 xl:hidden transition-opacity duration-200 flex flex-col items-center justify-center space-y-7 px-6 ${menuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
                 >
                     <button
                         onClick={() => setMenuOpen(false)}
                         className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                     aria-label="メニューを閉じる"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                     </button>
                     {[
                         { name: '車検', href: '/shaken' },
@@ -205,7 +221,7 @@ export default function RecruitPage() {
                         <Link
                             key={i}
                             href={item.href}
-                            className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
+                            className="text-xl font-bold text-white hover:text-teal-300 transition-colors"
                             onClick={() => setMenuOpen(false)}
                         >
                             {item.name}
@@ -213,14 +229,14 @@ export default function RecruitPage() {
                     ))}
                     <Link
                         href="/noreta"
-                        className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                        className="flex h-14 w-full max-w-xs items-center justify-center rounded bg-teal-700 font-bold text-white"
                         onClick={() => setMenuOpen(false)}
                     >
                         ノレタ詳細
                     </Link>
                     <Link
                         href="/noridoku"
-                        className="px-10 py-4 bg-blue-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                        className="flex h-14 w-full max-w-xs items-center justify-center rounded border border-white/50 font-bold text-white"
                         onClick={() => setMenuOpen(false)}
                     >
                         ノリドク詳細
@@ -229,14 +245,14 @@ export default function RecruitPage() {
 
 
                 {/* Coming Soon Content */}
-                <main className="flex-1 flex items-center justify-center pt-20">
+                <main id="main" tabIndex={-1} className="flex-1 flex items-center justify-center pt-20">
                     <div className="text-center px-6">
-                        <div className="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                            <svg className="w-12 h-12 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div className="size-24 bg-teal-100 rounded flex items-center justify-center mx-auto mb-8">
+                            <svg aria-hidden="true" className="size-12 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
+                        <h1 className="text-[30px] md:text-[40px] font-bold text-gray-900 mb-4 leading-[1.35]">
                             ページ準備中
                         </h1>
                         <p className="text-lg text-slate-500 mb-8 max-w-md mx-auto">
@@ -247,7 +263,7 @@ export default function RecruitPage() {
                             href="/"
                             className="inline-flex items-center px-8 py-4 bg-teal-700 text-white font-bold rounded-xl hover:bg-teal-800 transition-colors shadow-lg"
                         >
-                            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg aria-hidden="true" className="size-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
                             トップページへ戻る
@@ -256,7 +272,7 @@ export default function RecruitPage() {
                 </main>
 
                 {/* Simple Footer */}
-                <footer className="py-8 text-center text-slate-400 text-sm">
+                <footer className="py-8 text-center text-white/60 text-sm">
                     <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
                 </footer>
             </div>
@@ -265,34 +281,36 @@ export default function RecruitPage() {
 
 
     return (
-        <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 pb-20 overflow-x-hidden">
+        <div className="min-h-dvh bg-neutral-50 font-sans text-slate-900 pb-20 overflow-x-hidden">
             {/* Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+            <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
                 <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
-                    <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-[1.02]">
+                    <Link href="/" className="flex items-center space-x-2 transition-transform">
                         <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
-                    <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                        <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
-                        <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
-                        <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
-                        <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
-                        <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
-                        <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
-                        <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
+                    <nav className="hidden xl:flex items-center gap-7 whitespace-nowrap text-[15px]">
+                        <Link href="/shaken" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">車検</Link>
+                        <Link href="/#services" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">サービス内容</Link>
+                        <Link href="/#cases" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">取扱車種</Link>
+                        <Link href="/#company" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">会社情報</Link>
+                        <Link href="/recruit" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">採用情報</Link>
+                        <Link href="/#contact" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">お問い合わせ</Link>
+                        <Link href="/noreta" className="flex h-11 items-center rounded-full bg-teal-700 px-5 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97]">
                             ノレタ詳細
                         </Link>
-                        <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                        <Link href="/noridoku" className="flex h-11 items-center rounded-full border border-blue-600 px-5 font-bold text-blue-600 transition-[background-color,color,transform] duration-200 hover:bg-blue-600 hover:text-white active:scale-[0.97]">
                             ノリドク詳細
                         </Link>
                     </nav>
                     <button
-                        className="md:hidden p-2 rounded-xl bg-teal-700 text-white transition-all duration-300"
+                        className="xl:hidden flex size-11 items-center justify-center rounded border border-gray-300 text-gray-900 transition-colors"
+                        id="menu-toggle"
+                        aria-controls="mobile-menu"
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
                     aria-label="メニューを開く"
                     >
-                        <svg
+                        <svg aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
                             height="24"
@@ -302,7 +320,7 @@ export default function RecruitPage() {
                             strokeWidth="2.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+                            className={`transition-transform duration-200 ${menuOpen ? 'rotate-90' : ''}`}
                         >
                             {menuOpen ? (
                                 <path d="M18 6L6 18M6 6l12 12" />
@@ -316,14 +334,15 @@ export default function RecruitPage() {
 
             {/* Mobile menu */}
             <div
-                className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] md:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                id="mobile-menu"
+                className={`fixed inset-0 overscroll-contain bg-gray-900 z-50 xl:hidden transition-opacity duration-200 flex flex-col items-center justify-center space-y-7 px-6 ${menuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
             >
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                 aria-label="メニューを閉じる"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
                 {[
                     { name: '車検', href: '/shaken' },
@@ -336,7 +355,7 @@ export default function RecruitPage() {
                     <Link
                         key={i}
                         href={item.href}
-                        className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
+                        className="text-xl font-bold text-white hover:text-teal-300 transition-colors"
                         onClick={() => setMenuOpen(false)}
                     >
                         {item.name}
@@ -344,14 +363,14 @@ export default function RecruitPage() {
                 ))}
                 <Link
                     href="/noreta"
-                    className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                    className="flex h-14 w-full max-w-xs items-center justify-center rounded bg-teal-700 font-bold text-white"
                     onClick={() => setMenuOpen(false)}
                 >
                     ノレタ詳細
                 </Link>
                 <Link
                     href="/noridoku"
-                    className="px-10 py-4 bg-blue-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                    className="flex h-14 w-full max-w-xs items-center justify-center rounded border border-white/50 font-bold text-white"
                     onClick={() => setMenuOpen(false)}
                 >
                     ノリドク詳細
@@ -361,12 +380,12 @@ export default function RecruitPage() {
             <main className="pt-24 md:pt-32">
                 {/* Hero Section */}
                 <section className="container mx-auto px-4 mb-16 relative">
-                    <div className={`transition-all duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-teal-100 text-teal-800 text-xs md:text-sm font-bold mb-6">
-                            <span className="flex h-2 w-2 rounded-full bg-teal-500 mr-2 animate-pulse"></span>
+                    <div className={`transition-ui duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                        <div className="inline-flex items-center px-4 py-1.5 rounded bg-teal-100 text-teal-800 text-xs md:text-sm font-bold mb-6">
+                            <span className="flex size-2 bg-teal-700 mr-2"></span>
                             RECRUIT - 採用情報
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+                        <h1 className="text-[32px] md:text-[48px] font-bold tracking-ja text-gray-900 mb-6 leading-[1.35]">
                             <span className="text-teal-700">あなたの力</span>を、<br />
                             地域のカーライフに。
                         </h1>
@@ -378,26 +397,26 @@ export default function RecruitPage() {
                     </div>
 
                     {/* Decorative Background Element */}
-                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-teal-100 rounded-full blur-3xl opacity-40 z-[-1]"></div>
+                    <div className="absolute -top-24 -right-24 size-96 bg-teal-100 rounded hidden opacity-40 z-0"></div>
                 </section>
 
                 {/* Company Features Section */}
                 <section className="container mx-auto px-4 mb-24">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">港南自動車で働く魅力</h2>
+                        <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-4">港南自動車で働く魅力</h2>
                         <p className="text-slate-500">私たちが大切にしていること</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {companyFeatures.map((feature, idx) => (
                             <div
                                 key={idx}
-                                className="bg-white p-8 rounded-3xl border border-slate-200 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
+                                className="bg-white p-8 rounded-3xl border border-slate-200 hover:shadow-xl transition-ui duration-200"
                             >
-                                <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                                <div className="size-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">
                                     {feature.icon}
                                 </div>
-                                <h3 className="text-lg font-black mb-3 text-slate-900">{feature.title}</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">{feature.description}</p>
+                                <h3 className="text-lg font-bold mb-3 text-slate-900">{feature.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
                             </div>
                         ))}
                     </div>
@@ -406,7 +425,7 @@ export default function RecruitPage() {
                 {/* Job Listings Section */}
                 <section className="container mx-auto px-4 mb-24">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">募集職種</h2>
+                        <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-4">募集職種</h2>
                         <p className="text-slate-500">あなたに合ったポジションを見つけてください</p>
                     </div>
 
@@ -414,20 +433,20 @@ export default function RecruitPage() {
                         {visibleJobs.map((job) => (
                             <div
                                 key={job.id}
-                                className="bg-white rounded-[2rem] shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300"
+                                className="bg-white rounded shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-ui duration-200"
                             >
                                 {/* Job Header */}
-                                <div className="bg-gradient-to-r from-teal-700 to-teal-500 p-6 md:p-8">
+                                <div className="bg-teal-800 p-6 md:p-8">
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-4xl">
+                                            <div className="size-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-4xl">
                                                 {job.icon}
                                             </div>
                                             <div>
-                                                <div className="inline-flex items-center px-3 py-1 rounded-full bg-yellow-400 text-yellow-900 text-xs font-black mb-2">
+                                                <div className="inline-flex items-center px-3 py-1 rounded bg-teal-700 text-white text-xs font-bold mb-2">
                                                     {job.highlight}
                                                 </div>
-                                                <h3 className="text-2xl md:text-3xl font-black text-white">{job.title}</h3>
+                                                <h3 className="text-2xl md:text-3xl font-bold text-white">{job.title}</h3>
                                                 <p className="text-teal-100 text-sm">{job.subtitle}</p>
                                             </div>
                                         </div>
@@ -436,8 +455,8 @@ export default function RecruitPage() {
                                             className="flex items-center justify-center bg-white text-teal-800 font-bold px-6 py-3 rounded-xl hover:bg-teal-50 transition-colors shadow-lg"
                                         >
                                             {activeJob === job.id ? '閉じる' : '詳細を見る'}
-                                            <svg
-                                                className={`w-5 h-5 ml-2 transition-transform ${activeJob === job.id ? 'rotate-180' : ''}`}
+                                            <svg aria-hidden="true"
+                                                className={`size-5 ml-2 transition-transform ${activeJob === job.id ? 'rotate-180' : ''}`}
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -449,12 +468,12 @@ export default function RecruitPage() {
                                 </div>
 
                                 {/* Job Details (Expandable) */}
-                                <div className={`transition-all duration-500 overflow-hidden ${activeJob === job.id ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                <div className={`transition-ui duration-500 overflow-hidden ${activeJob === job.id ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                                     <div className="p-6 md:p-10 space-y-8">
                                         {/* Description */}
                                         <div>
-                                            <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">📝</span>
+                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
+                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">📝</span>
                                                 仕事内容
                                             </h4>
                                             <p className="text-slate-600 leading-relaxed pl-11">{job.description}</p>
@@ -462,14 +481,14 @@ export default function RecruitPage() {
 
                                         {/* Requirements */}
                                         <div>
-                                            <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">✅</span>
+                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
+                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">✅</span>
                                                 応募資格
                                             </h4>
                                             <ul className="space-y-2 pl-11">
                                                 {job.requirements.map((req, idx) => (
                                                     <li key={idx} className="flex items-start text-slate-600">
-                                                        <svg className="w-5 h-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                        <svg aria-hidden="true" className="size-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                         </svg>
                                                         {req}
@@ -480,13 +499,13 @@ export default function RecruitPage() {
 
                                         {/* Salary */}
                                         <div className="bg-slate-50 rounded-2xl p-6">
-                                            <h4 className="text-lg font-black text-slate-900 mb-4 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">💰</span>
+                                            <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center">
+                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">💰</span>
                                                 給与・待遇
                                             </h4>
                                             <div className="pl-11 space-y-3">
-                                                <div className="text-2xl font-black text-teal-700">{job.salary.base}</div>
-                                                <p className="text-slate-500 text-sm">{job.salary.details}</p>
+                                                <div className="text-2xl font-bold text-teal-700">{job.salary.base}</div>
+                                                <p className="text-slate-600 text-sm">{job.salary.details}</p>
                                                 <div className="flex flex-wrap gap-3 pt-2">
                                                     <span className="px-4 py-2 bg-white rounded-lg text-sm font-bold text-slate-700 shadow-sm">{job.salary.bonus}</span>
                                                     <span className="px-4 py-2 bg-white rounded-lg text-sm font-bold text-slate-700 shadow-sm">{job.salary.raise}</span>
@@ -496,8 +515,8 @@ export default function RecruitPage() {
 
                                         {/* Benefits */}
                                         <div>
-                                            <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🎁</span>
+                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
+                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🎁</span>
                                                 福利厚生
                                             </h4>
                                             <div className="pl-11 flex flex-wrap gap-2">
@@ -511,24 +530,24 @@ export default function RecruitPage() {
 
                                         {/* Work Style */}
                                         <div>
-                                            <h4 className="text-lg font-black text-slate-900 mb-3 flex items-center">
-                                                <span className="w-8 h-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🕐</span>
+                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
+                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🕐</span>
                                                 勤務条件
                                             </h4>
                                             <div className="pl-11 grid grid-cols-1 md:grid-cols-3 gap-4">
                                                 <div className="bg-white p-4 rounded-xl border border-slate-200">
-                                                    <div className="text-xs text-slate-400 font-bold mb-1">勤務時間</div>
+                                                    <div className="text-xs text-slate-500 font-bold mb-1">勤務時間</div>
                                                     <div className="text-slate-800 font-bold text-sm space-y-1">
                                                         <div>平日：{job.workStyle.hours}</div>
                                                         <div>土曜：{job.workStyle.hoursSaturday}</div>
                                                     </div>
                                                 </div>
                                                 <div className="bg-white p-4 rounded-xl border border-slate-200">
-                                                    <div className="text-xs text-slate-400 font-bold mb-1">定休日</div>
+                                                    <div className="text-xs text-slate-500 font-bold mb-1">定休日</div>
                                                     <div className="text-slate-800 font-bold">{job.workStyle.holidays}</div>
                                                 </div>
                                                 <div className="bg-white p-4 rounded-xl border border-slate-200">
-                                                    <div className="text-xs text-slate-400 font-bold mb-1">休暇</div>
+                                                    <div className="text-xs text-slate-500 font-bold mb-1">休暇</div>
                                                     <div className="text-slate-800 font-bold text-sm">{job.workStyle.vacation}</div>
                                                 </div>
                                             </div>
@@ -542,13 +561,13 @@ export default function RecruitPage() {
 
                 {/* Application Section */}
                 <section className="container mx-auto px-4 mb-24">
-                    <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-10 md:p-16 text-white relative overflow-hidden">
+                    <div className="bg-gray-900 rounded p-10 md:p-16 text-white relative overflow-hidden">
                         {/* Decorative elements */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl"></div>
-                        <div className="absolute bottom-0 left-0 w-48 h-48 bg-teal-700/10 rounded-full blur-2xl"></div>
+                        <div className="absolute top-0 right-0 size-64 bg-teal-500/10 rounded hidden"></div>
+                        <div className="absolute bottom-0 left-0 size-48 bg-teal-700/10 rounded hidden"></div>
 
                         <div className="relative z-10 text-center max-w-2xl mx-auto">
-                            <h2 className="text-3xl md:text-4xl font-black mb-6">ご応募・お問い合わせ</h2>
+                            <h2 className="text-[26px] md:text-[32px] font-bold mb-6">ご応募・お問い合わせ</h2>
                             <p className="text-slate-300 mb-10 leading-relaxed">
                                 「まずは話を聞くだけ」「職場を見てみたい」だけでも大歓迎です。<br />
                                 応募を迷っている段階でも構いません。まずはお気軽にご連絡ください。<br />
@@ -558,25 +577,25 @@ export default function RecruitPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                                 <Link
                                     href="tel:076-268-1788"
-                                    className="flex items-center justify-center bg-white text-slate-900 font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl"
+                                    className="flex items-center justify-center bg-white text-slate-900 font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl"
                                 >
-                                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg aria-hidden="true" className="size-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
                                     </svg>
                                     076-268-1788
                                 </Link>
                                 <Link
                                     href="/#contact"
-                                    className="flex items-center justify-center bg-teal-700 text-white font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl hover:bg-teal-500"
+                                    className="flex items-center justify-center bg-teal-700 text-white font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl hover:bg-teal-500"
                                 >
-                                    <svg className="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg aria-hidden="true" className="size-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                     メールで問い合わせ
                                 </Link>
                             </div>
 
-                            <div className="text-slate-400 text-sm">
+                            <div className="text-white/60 text-sm">
                                 <p>採用担当：人事部</p>
                                 <p>受付時間：平日 9:00〜17:30</p>
                             </div>
@@ -587,7 +606,7 @@ export default function RecruitPage() {
                 {/* Company Info Section */}
                 <section className="container mx-auto px-4">
                     <div className="bg-white rounded-3xl border border-slate-200 p-8 md:p-12">
-                        <h2 className="text-2xl font-black text-slate-900 mb-8 text-center">会社概要</h2>
+                        <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">会社概要</h2>
                         <div className="max-w-2xl mx-auto">
                             <dl className="space-y-4">
                                 <div className="flex flex-col md:flex-row border-b border-slate-100 pb-4">
@@ -617,31 +636,35 @@ export default function RecruitPage() {
             </main>
 
             {/* Footer */}
-            <footer className="mt-40 bg-slate-950 text-white pt-24 pb-12">
+            <footer className="mt-24 bg-gray-900 text-white pt-16 pb-10">
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
                         <div>
                             <div className="flex items-center space-x-3 mb-8">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                                    <span className="text-slate-950 font-black text-[10px]">KONAN</span>
-                                </div>
-                                <h3 className="text-2xl font-black">港南自動車サービス</h3>
+                                <Image
+                                    src="/logo.png"
+                                    alt="株式会社港南自動車サービス"
+                                    width={280}
+                                    height={70}
+                                    className="h-9 w-auto object-contain brightness-0 invert"
+                                />
+                                <h3 className="sr-only">港南自動車サービス</h3>
                             </div>
-                            <p className="text-slate-400 max-w-sm text-sm leading-relaxed">
+                            <p className="text-white/70 max-w-sm text-sm leading-loose">
                                 石川県金沢市で70年にわたり、地域の皆様の安全を守り続けてきました。<br />
                                 丁寧な仕事、誠実な説明、そして確かな技術。
                             </p>
                         </div>
                         <div className="space-y-4">
-                            <div className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Contact Information</div>
+                            <div className="u-label mb-6 block text-gray-500">Contact Information</div>
                             <div className="text-xl font-bold">石川県金沢市金石本町ハ14</div>
                             <div className="flex flex-col space-y-2">
-                                <Link href="tel:076-268-1788" className="text-3xl font-black text-teal-400 hover:text-white transition-colors">076-268-1788</Link>
-                                <span className="text-slate-500 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00</span>
+                                <Link href="tel:076-268-1788" className="u-num text-3xl font-medium text-teal-300 hover:text-white transition-colors">076-268-1788</Link>
+                                <span className="text-white/60 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00</span>
                             </div>
                         </div>
                     </div>
-                    <div className="pt-12 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs gap-6">
+                    <div className="pt-10 border-t border-white/15 flex flex-col md:flex-row justify-between items-center text-white/50 text-xs gap-6">
                         <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
                         <div className="flex space-x-8">
                             <Link href="/" className="hover:text-white transition-colors">ホーム</Link>

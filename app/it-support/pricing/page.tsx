@@ -8,6 +8,18 @@ export default function PricingPage() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
+    // Escapeキーでメニューを閉じ、開閉ボタンにフォーカスを戻す
+    useEffect(() => {
+        if (!menuOpen) return;
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== 'Escape') return;
+            setMenuOpen(false);
+            document.getElementById('menu-toggle')?.focus();
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [menuOpen]);
+
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
@@ -22,27 +34,27 @@ export default function PricingPage() {
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-teal-100 pb-20">
+        <div className="min-h-dvh bg-slate-50 text-slate-800 font-sans selection:bg-teal-100 pb-20">
             {/* Header (Simplified & Consistent) */}
             <header
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-3' : 'bg-slate-900/90 backdrop-blur-sm py-4'}`}
+                className={`fixed top-0 left-0 right-0 z-40 transition-ui duration-500 ${scrolled ? 'bg-white/95 backdrop-blur border-b border-gray-200 py-3' : 'bg-gray-950/80 border-b border-white/20 py-4'}`}
             >
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <Link href="/it-support" className="flex items-center group">
-                        <div className={`relative transition-all duration-500 h-8 md:h-10`}>
+                        <div className={`relative transition-ui duration-500 h-8 md:h-10`}>
                             <Image
                                 src="/logo.png"
                                 alt="港南自動車サービス株式会社｜IT・Webサポート"
                                 width={240}
                                 height={60}
-                                className={`h-full w-auto object-contain transition-all duration-500 ${!scrolled && 'brightness-0 invert'}`}
+                                className={`h-full w-auto object-contain transition-ui duration-500 ${!scrolled && 'brightness-0 invert'}`}
                                 priority
                             />
                         </div>
                     </Link>
 
                     <nav
-                        className={`hidden lg:flex items-center space-x-8 transition-colors duration-500 ${scrolled ? 'text-slate-700' : 'text-white'}`}
+                        className={`hidden xl:flex items-center gap-5 whitespace-nowrap transition-colors duration-500 ${scrolled ? 'text-slate-700' : 'text-white'}`}
                     >
                         <Link
                             href="/it-support"
@@ -70,17 +82,21 @@ export default function PricingPage() {
                         </a>
                         <a
                             href="/it-support#contact"
-                            className={`px-6 py-2.5 rounded-full font-bold transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${scrolled ? 'bg-teal-700 text-white hover:bg-teal-800' : 'bg-teal-500 text-white hover:bg-teal-400'}`}
+                            className={`px-6 py-2.5 rounded-full font-bold transition-ui duration-200 shadow-lg  ${scrolled ? 'bg-teal-700 text-white hover:bg-teal-800' : 'bg-teal-500 text-white hover:bg-teal-400'}`}
                         >
                             無料相談
                         </a>
                     </nav>
 
                     <button
-                        className={`lg:hidden p-2 rounded-xl transition-all duration-300 ${scrolled ? 'bg-teal-700 text-white' : 'bg-white/20 text-white backdrop-blur-sm'}`}
+                        className={`xl:hidden flex size-11 items-center justify-center rounded border transition-colors ${scrolled ? 'bg-teal-700 text-white' : 'bg-white/20 text-white backdrop-blur-sm'}`}
+                        id="menu-toggle"
+                        aria-controls="mobile-menu"
                         onClick={toggleMenu}
+                    aria-expanded={menuOpen}
+                    aria-label="メニューを開く"
                     >
-                        <svg
+                        <svg aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
                             height="24"
@@ -101,13 +117,14 @@ export default function PricingPage() {
 
             {/* Mobile Menu */}
             <div
-                className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] lg:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                id="mobile-menu"
+                className={`fixed inset-0 overscroll-contain bg-gray-900 z-50 xl:hidden transition-opacity duration-200 flex flex-col items-center justify-center space-y-7 px-6 ${menuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
             >
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                 >
-                    <svg
+                    <svg aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         width="32"
                         height="32"
@@ -151,7 +168,7 @@ export default function PricingPage() {
                 </a>
                 <Link
                     href="/it-support#contact"
-                    className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl mt-4"
+                    className="flex h-14 w-full max-w-xs items-center justify-center rounded bg-teal-700 font-bold text-white mt-4"
                     onClick={() => setMenuOpen(false)}
                 >
                     無料相談を開く
@@ -159,18 +176,18 @@ export default function PricingPage() {
             </div>
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-24 overflow-hidden bg-slate-900">
+            <section id="main" tabIndex={-1} className="relative pt-32 pb-24 overflow-hidden bg-slate-900">
                 <div className="absolute inset-0 z-0 opacity-30">
-                    <div className="absolute inset-0 bg-gradient-to-br from-teal-900/80 via-slate-900 to-blue-900/80 z-10"></div>
+                    <div className="absolute inset-0 bg-gray-950/75 z-10"></div>
                 </div>
                 <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] z-0"></div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="opacity-100">
-                        <span className="text-teal-400 font-bold tracking-widest text-sm mb-4 block">
+                        <span className="u-label mb-4 block text-teal-300">
                             PRICING PLANS
                         </span>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight drop-shadow-md">
+                        <h1 className="text-[32px] md:text-[48px] font-bold text-white mb-6 leading-[1.35] tracking-ja">
                             料金のご案内
                         </h1>
                         <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium">
@@ -185,10 +202,10 @@ export default function PricingPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="opacity-100">
                         <div className="text-center mb-16">
-                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">
+                            <span className="u-chip mb-3">
                                 MONTHLY SUPPORT
                             </span>
-                            <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6">
+                            <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-6">
                                 会社のスタッフ様向け「月額IT支援サポート」
                             </h2>
                             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
@@ -200,30 +217,30 @@ export default function PricingPage() {
 
                         <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
                             {/* 梅プラン */}
-                            <div className="bg-white rounded-[2rem] p-8 shadow-md border border-slate-200 relative flex flex-col">
+                            <div className="bg-white rounded p-8 shadow-md border border-slate-200 relative flex flex-col">
                                 <div className="mb-6 border-b border-slate-100 pb-6">
                                     <div className="text-slate-500 font-bold mb-1">
                                         ライト / IT駆け込み寺
                                     </div>
-                                    <h3 className="text-3xl font-black text-slate-800 mb-4">
+                                    <h3 className="text-3xl font-bold text-slate-800 mb-4">
                                         梅プラン
                                     </h3>
                                     <div className="flex items-baseline text-slate-800">
-                                        <span className="text-4xl font-black">
+                                        <span className="text-4xl font-bold">
                                             ¥20,000
                                         </span>
                                         <span className="text-slate-500 ml-2 font-medium">
                                             / 月
                                         </span>
                                     </div>
-                                    <div className="text-xs text-slate-400 mt-2">
+                                    <div className="text-xs text-slate-500 mt-2">
                                         ※料金は税別目安です
                                     </div>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-grow">
                                     <li className="flex text-slate-600">
-                                        <svg
-                                            className="w-5 h-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -245,8 +262,8 @@ export default function PricingPage() {
                                         </div>
                                     </li>
                                     <li className="flex text-slate-600">
-                                        <svg
-                                            className="w-5 h-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -272,31 +289,31 @@ export default function PricingPage() {
                             </div>
 
                             {/* 竹プラン (Recommended) */}
-                            <div className="bg-white rounded-[2rem] p-8 shadow-2xl border-2 border-teal-500 relative flex flex-col z-10">
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-teal-500 to-emerald-400 text-white font-black text-sm px-6 py-2 rounded-full shadow-lg whitespace-nowrap">
+                            <div className="bg-white rounded p-8 shadow-2xl border border-teal-500 relative flex flex-col z-10">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-700 text-white font-bold text-sm px-6 py-2 rounded shadow-lg whitespace-nowrap">
                                     一番おすすめ！
                                 </div>
                                 <div className="mb-6 border-b border-slate-100 pb-6">
                                     <div className="text-teal-700 font-bold mb-1">スタンダード</div>
-                                    <h3 className="text-3xl font-black text-slate-800 mb-4">
+                                    <h3 className="text-3xl font-bold text-slate-800 mb-4">
                                         竹プラン
                                     </h3>
                                     <div className="flex items-baseline text-slate-800">
-                                        <span className="text-5xl font-black">
+                                        <span className="text-5xl font-bold">
                                             ¥50,000
                                         </span>
                                         <span className="text-slate-500 ml-2 font-medium">
                                             / 月
                                         </span>
                                     </div>
-                                    <div className="text-xs text-slate-400 mt-2">
+                                    <div className="text-xs text-slate-500 mt-2">
                                         ※料金は税別目安です
                                     </div>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-grow">
                                     <li className="flex text-slate-800 font-medium">
-                                        <svg
-                                            className="w-5 h-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -318,8 +335,8 @@ export default function PricingPage() {
                                         </div>
                                     </li>
                                     <li className="flex text-slate-800 font-medium">
-                                        <svg
-                                            className="w-5 h-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -341,8 +358,8 @@ export default function PricingPage() {
                                         </div>
                                     </li>
                                     <li className="flex text-slate-600 opacity-60">
-                                        <svg
-                                            className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-slate-500 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -366,30 +383,30 @@ export default function PricingPage() {
                             </div>
 
                             {/* 松プラン */}
-                            <div className="bg-slate-800 rounded-[2rem] p-8 shadow-xl border border-slate-700 relative flex flex-col text-white">
+                            <div className="bg-slate-800 rounded p-8 shadow-xl border border-slate-700 relative flex flex-col text-white">
                                 <div className="mb-6 border-b border-slate-700 pb-6">
-                                    <div className="text-slate-400 font-bold mb-1">
+                                    <div className="text-slate-500 font-bold mb-1">
                                         プレミアム / まるごとIT顧問
                                     </div>
-                                    <h3 className="text-3xl font-black text-white mb-4">
+                                    <h3 className="text-3xl font-bold text-white mb-4">
                                         松プラン
                                     </h3>
                                     <div className="flex items-baseline text-white">
-                                        <span className="text-4xl font-black">
+                                        <span className="text-4xl font-bold">
                                             ¥80,000
                                         </span>
-                                        <span className="text-slate-400 ml-2 font-medium">
+                                        <span className="text-slate-500 ml-2 font-medium">
                                             / 月
                                         </span>
                                     </div>
-                                    <div className="text-xs text-slate-400 mt-2">
+                                    <div className="text-xs text-slate-500 mt-2">
                                         ※料金は税別目安です
                                     </div>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-grow">
                                     <li className="flex text-slate-300">
-                                        <svg
-                                            className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -406,8 +423,8 @@ export default function PricingPage() {
                                         </span>
                                     </li>
                                     <li className="flex text-slate-300">
-                                        <svg
-                                            className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -429,8 +446,8 @@ export default function PricingPage() {
                                         </div>
                                     </li>
                                     <li className="flex text-slate-300">
-                                        <svg
-                                            className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5"
+                                        <svg aria-hidden="true"
+                                            className="size-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -467,10 +484,10 @@ export default function PricingPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="opacity-100">
                         <div className="text-center mb-16">
-                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">
+                            <span className="u-chip mb-3">
                                 COURSES
                             </span>
-                            <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6">
+                            <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-6">
                                 対面特化型 AI講座 料金
                             </h2>
                             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
@@ -505,7 +522,7 @@ export default function PricingPage() {
                                                     （1名追加ごと）
                                                 </span>
                                             </th>
-                                            <th className="p-4 md:p-6 font-bold text-slate-800 bg-orange-50/50 w-1/4 text-center border-l border-orange-100">
+                                            <th className="p-4 md:p-6 font-bold text-slate-800 bg-teal-50 w-1/4 text-center border-l border-teal-100">
                                                 例：3名グループ受講時の
                                                 <br />
                                                 お得額目安
@@ -531,11 +548,11 @@ export default function PricingPage() {
                                                 +5,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
-                                            <td className="p-4 md:p-6 text-center text-sm font-bold bg-orange-50/30 border-l border-orange-100">
+                                            <td className="p-4 md:p-6 text-center text-sm font-bold bg-teal-50/60 border-l border-teal-100">
                                                 <div className="text-slate-600">
                                                     1人あたり約 6,700円
                                                 </div>
-                                                <div className="text-orange-600 mt-1">
+                                                <div className="text-teal-700 mt-1">
                                                     （1名あたり 約3,300円お得！）
                                                 </div>
                                             </td>
@@ -558,11 +575,11 @@ export default function PricingPage() {
                                                 +10,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
-                                            <td className="p-4 md:p-6 text-center text-sm font-bold bg-orange-50/30 border-l border-orange-100">
+                                            <td className="p-4 md:p-6 text-center text-sm font-bold bg-teal-50/60 border-l border-teal-100">
                                                 <div className="text-slate-600">
                                                     1人あたり約 13,300円
                                                 </div>
-                                                <div className="text-orange-600 mt-1">
+                                                <div className="text-teal-700 mt-1">
                                                     （1名あたり 約6,700円お得！）
                                                 </div>
                                             </td>
@@ -585,11 +602,11 @@ export default function PricingPage() {
                                                 +10,000
                                                 <span className="text-sm font-normal">円</span>
                                             </td>
-                                            <td className="p-4 md:p-6 text-center text-sm font-bold bg-orange-50/30 border-l border-orange-100">
+                                            <td className="p-4 md:p-6 text-center text-sm font-bold bg-teal-50/60 border-l border-teal-100">
                                                 <div className="text-slate-600">
                                                     1人あたり約 13,300円
                                                 </div>
-                                                <div className="text-orange-600 mt-1">
+                                                <div className="text-teal-700 mt-1">
                                                     （1名あたり 約6,700円お得！）
                                                 </div>
                                             </td>
@@ -610,10 +627,10 @@ export default function PricingPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="opacity-100">
                         <div className="text-center mb-16">
-                            <span className="text-teal-700 font-bold tracking-widest text-sm mb-2 block">
+                            <span className="u-chip mb-3">
                                 WEBSITE CREATION
                             </span>
-                            <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-6">
+                            <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-6">
                                 ホームページ制作 料金
                             </h2>
                             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
@@ -624,13 +641,13 @@ export default function PricingPage() {
                         {/* 制作プランカード */}
                         <div className="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch mb-16">
                             {/* テンプレートプラン */}
-                            <div className="bg-white rounded-[2rem] p-8 shadow-md border border-slate-200 flex flex-col relative overflow-hidden text-center">
+                            <div className="bg-white rounded p-8 shadow-md border border-slate-200 flex flex-col relative overflow-hidden text-center">
                                 <div className="mb-6 border-b border-slate-100 pb-6 flex-grow">
-                                    <h3 className="text-2xl font-black text-slate-800 mb-4">
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-4">
                                         テンプレートから作成
                                     </h3>
                                     <div className="flex items-baseline justify-center text-slate-800">
-                                        <span className="text-5xl font-black">¥50,000</span>
+                                        <span className="text-5xl font-bold">¥50,000</span>
                                     </div>
                                     <p className="text-slate-500 mt-4 text-sm leading-relaxed">
                                         ご用意したデザインテンプレートをベースに、スピーディかつ低コストで構築します。
@@ -639,13 +656,13 @@ export default function PricingPage() {
                             </div>
 
                             {/* オリジナルプラン */}
-                            <div className="bg-slate-800 rounded-[2rem] p-8 shadow-xl border border-slate-700 flex flex-col relative overflow-hidden text-white text-center">
+                            <div className="bg-slate-800 rounded p-8 shadow-xl border border-slate-700 flex flex-col relative overflow-hidden text-white text-center">
                                 <div className="mb-6 border-b border-slate-700 pb-6 flex-grow">
-                                    <h3 className="text-2xl font-black text-white mb-4">
+                                    <h3 className="text-2xl font-bold text-white mb-4">
                                         オリジナル
                                     </h3>
                                     <div className="flex items-baseline justify-center text-white">
-                                        <span className="text-5xl font-black">¥80,000<span className="text-xl">〜</span></span>
+                                        <span className="text-5xl font-bold">¥80,000<span className="text-xl">〜</span></span>
                                     </div>
                                     <p className="text-slate-300 mt-4 text-sm leading-relaxed">
                                         貴社の独自性やブランドカラーを反映したオリジナルデザインを作成します。
@@ -657,7 +674,7 @@ export default function PricingPage() {
                         {/* 料金に含まれる内容＆オプション */}
                         <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
                             {/* 基本パッケージ */}
-                            <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-200 height-full">
+                            <div className="bg-white rounded p-8 shadow-sm border border-slate-200 height-full">
                                 <h4 className="text-xl font-bold text-slate-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
                                     ＜料金に含まれている内容＞
                                 </h4>
@@ -670,7 +687,7 @@ export default function PricingPage() {
                                         '修正回数5回まで無料（それ以降1回2,000円）'
                                     ].map((item, idx) => (
                                         <li key={idx} className="flex text-slate-600 items-start">
-                                            <svg className="w-5 h-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg aria-hidden="true" className="size-5 text-teal-500 mr-3 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                             </svg>
                                             <span className="text-sm font-medium leading-relaxed">{item}</span>
@@ -680,7 +697,7 @@ export default function PricingPage() {
                             </div>
 
                             {/* 追加オプション */}
-                            <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-200 height-full">
+                            <div className="bg-white rounded p-8 shadow-sm border border-slate-200 height-full">
                                 <h4 className="text-xl font-bold text-slate-800 mb-6 border-b-2 border-teal-500 pb-2 inline-block">
                                     ＜追加オプション＞
                                 </h4>
@@ -704,10 +721,10 @@ export default function PricingPage() {
                         {/* 保守プラン */}
                         <div className="max-w-5xl mx-auto mt-20">
                             <div className="text-center mb-10">
-                                <span className="inline-block py-1 px-3 rounded-full bg-teal-100 text-teal-800 text-sm font-bold tracking-widest mb-3">
+                                <span className="inline-block py-1 px-3 rounded bg-teal-100 text-teal-800 text-sm font-bold tracking-widest mb-3">
                                     MAINTENANCE
                                 </span>
-                                <h4 className="text-3xl font-black text-slate-800">
+                                <h4 className="text-3xl font-bold text-slate-800">
                                     保守プラン
                                 </h4>
                                 <p className="text-slate-500 mt-4">ウェブサイト公開後の運用・管理もサポートいたします。</p>
@@ -715,17 +732,17 @@ export default function PricingPage() {
                             
                             <div className="grid md:grid-cols-2 gap-8 items-stretch">
                                 {/* 自分でやっちゃうプラン */}
-                                <div className="bg-white border text-center border-slate-200 rounded-[2rem] p-8 md:p-10 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 shadow-sm flex flex-col relative group">
-                                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-slate-200 transition-colors">
-                                        <svg className="w-8 h-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="bg-white border text-center border-slate-200 rounded p-8 md:p-10 hover:shadow-xl transition-ui duration-200 shadow-sm flex flex-col relative group">
+                                    <div className="size-16 bg-slate-100 rounded flex items-center justify-center mx-auto mb-6 group-hover:bg-slate-200 transition-colors">
+                                        <svg aria-hidden="true" className="size-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
                                     </div>
-                                    <h5 className="text-2xl font-black text-slate-800 mb-2">
+                                    <h5 className="text-2xl font-bold text-slate-800 mb-2">
                                         自分でやっちゃうプラン
                                     </h5>
                                     <div className="flex items-baseline justify-center text-slate-800 mb-6">
-                                        <span className="text-4xl font-black">¥0</span>
+                                        <span className="text-4xl font-bold">¥0</span>
                                         <span className="text-sm font-medium ml-1 text-slate-500">/月</span>
                                     </div>
                                     <p className="text-base text-slate-600 leading-relaxed flex-grow border-t border-slate-100 pt-6">
@@ -734,29 +751,29 @@ export default function PricingPage() {
                                 </div>
                                 
                                 {/* 港南おまかせプラン */}
-                                <div className="bg-gradient-to-br from-teal-50 to-white text-center border-2 border-teal-500 rounded-[2rem] p-8 md:p-10 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 shadow-md relative flex flex-col z-10">
+                                <div className="bg-teal-50 text-center border border-teal-500 rounded p-8 md:p-10 hover:shadow-2xl transition-ui duration-200 shadow-md relative flex flex-col z-10">
                                     {/* 装飾 */}
-                                    <div className="absolute inset-0 rounded-[2rem] overflow-hidden -z-10 pointer-events-none">
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500 rounded-bl-[100px] opacity-10"></div>
+                                    <div className="absolute inset-0 rounded overflow-hidden -z-10 pointer-events-none">
+                                        <div className="absolute top-0 right-0 size-32 bg-teal-500 rounded-bl-[100px] opacity-10"></div>
                                     </div>
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-500 text-white font-black text-sm px-6 py-2 rounded-full shadow-lg whitespace-nowrap">
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-500 text-white font-bold text-sm px-6 py-2 rounded shadow-lg whitespace-nowrap">
                                         安心・手間いらず！
                                     </div>
 
-                                    <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6 mt-2">
-                                        <svg className="w-8 h-8 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div className="size-16 bg-teal-100 rounded flex items-center justify-center mx-auto mb-6 mt-2">
+                                        <svg aria-hidden="true" className="size-8 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                         </svg>
                                     </div>
-                                    <h5 className="text-2xl font-black text-teal-900 mb-2">
+                                    <h5 className="text-2xl font-bold text-teal-900 mb-2">
                                         港南おまかせプラン
                                     </h5>
                                     <div className="flex flex-col items-center justify-center mb-6">
                                         <div className="text-teal-800 font-bold flex items-baseline">
-                                            <span className="text-4xl font-black">¥20,000<span className="text-2xl font-bold">〜</span></span>
+                                            <span className="text-4xl font-bold">¥20,000<span className="text-2xl font-bold">〜</span></span>
                                             <span className="text-sm font-medium ml-1">/月</span>
                                         </div>
-                                        <span className="text-xs text-teal-700 mt-2 font-medium bg-teal-100/50 py-1 px-3 rounded-full">
+                                        <span className="text-xs text-teal-700 mt-2 font-medium bg-teal-100/50 py-1 px-3 rounded">
                                             ※任せたい内容によるため要相談
                                         </span>
                                     </div>
@@ -769,10 +786,10 @@ export default function PricingPage() {
                                     </p>
 
                                     {/* 注意書き */}
-                                    <div className="bg-white/90 p-5 rounded-2xl text-sm border border-orange-200 text-left shadow-sm relative">
-                                        <div className="absolute top-0 left-0 w-1 h-full bg-orange-400 rounded-l-2xl"></div>
-                                        <div className="text-orange-800 leading-relaxed flex items-start font-bold">
-                                            <svg className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div className="bg-white/90 p-5 rounded-2xl text-sm border border-teal-200 text-left shadow-sm relative">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-teal-700 rounded-l-2xl"></div>
+                                        <div className="text-teal-800 leading-relaxed flex items-start font-bold">
+                                            <svg aria-hidden="true" className="size-5 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                             </svg>
                                             <span>ただ途中からプランを変更した場合は、ドメイン代とサーバー代はお客様負担になります。</span>
@@ -794,9 +811,9 @@ export default function PricingPage() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="opacity-100">
                         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 bg-black/40 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
-                            <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-[0_0_30px_rgba(250,204,21,0.4)]">
-                                <svg
-                                    className="w-8 h-8 text-white relative z-10"
+                            <div className="size-16 bg-gray-900 rounded flex items-center justify-center flex-shrink-0">
+                                <svg aria-hidden="true"
+                                    className="size-8 text-white relative z-10"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -810,13 +827,13 @@ export default function PricingPage() {
                                 </svg>
                             </div>
                             <div className="relative z-10">
-                                <h3 className="text-2xl font-black text-white mb-3">
+                                <h3 className="text-2xl font-bold text-white mb-3">
                                     【特別優待】セットでのご利用がお得です
                                 </h3>
                                 <p className="text-slate-300 mb-4 leading-relaxed">
                                     中級講座以上のグループ受講をしていただいた企業様は、
                                     <br className="hidden md:block" />
-                                    <span className="text-yellow-400 font-bold border-b border-yellow-400">
+                                    <span className="text-teal-300 font-bold border-b border-teal-300">
                                         月額IT支援プラン（竹・松）の初月料金を無料
                                     </span>
                                     とさせていただきます。
@@ -829,12 +846,12 @@ export default function PricingPage() {
                         <div className="mt-16 text-center relative z-10">
                             <a
                                 href="/it-support#contact"
-                                className="inline-flex items-center justify-center px-10 py-5 bg-teal-700 text-white rounded-2xl font-black text-xl shadow-[0_0_40px_rgba(20,184,166,0.3)] hover:shadow-[0_0_60px_rgba(20,184,166,0.5)] hover:bg-teal-500 hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto group"
+                                className="inline-flex items-center justify-center px-10 py-5 bg-teal-700 text-white rounded-2xl font-bold text-xl hover: hover:bg-teal-500 transition-ui duration-200 w-full sm:w-auto group"
                             >
                                 料金・プランについて無料相談する
-                                <svg
+                                <svg aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 ml-2 transform group-hover:translate-x-2 transition-transform"
+                                    className="size-6 ml-2 transform group-hover:translate-x-2 transition-transform"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -847,7 +864,7 @@ export default function PricingPage() {
                                     />
                                 </svg>
                             </a>
-                            <p className="mt-6 text-sm text-slate-400">
+                            <p className="mt-6 text-sm text-slate-500">
                                 貴社の状況に合わせた最適なプランをカスタマイズしてご提案いたします
                             </p>
                         </div>
@@ -863,7 +880,7 @@ export default function PricingPage() {
                             <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="brightness-0 invert opacity-50 hover:opacity-100 transition-opacity" />
                         </Link>
                     </div>
-                    <div className="text-slate-500 text-sm mb-6 flex flex-col md:flex-row justify-center items-center gap-4">
+                    <div className="text-white/60 text-sm mb-6 flex flex-col md:flex-row justify-center items-center gap-4">
                         <span>〒920-0336 石川県金沢市金石本町ハ14番地</span>
                         <span className="hidden md:inline">|</span>
                         <span>TEL: 076-268-1788</span>

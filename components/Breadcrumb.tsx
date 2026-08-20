@@ -40,8 +40,8 @@ export default function Breadcrumb({ items, includeSchema = true }: BreadcrumbPr
                     {items.map((item, index) => (
                         <li key={index} className="flex items-center">
                             {index > 0 && (
-                                <svg
-                                    className="w-4 h-4 mx-2 text-slate-300"
+                                <svg aria-hidden="true"
+                                    className="size-4 mx-2 text-slate-300"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -55,11 +55,11 @@ export default function Breadcrumb({ items, includeSchema = true }: BreadcrumbPr
                                 </svg>
                             )}
                             {index === items.length - 1 ? (
-                                <span className="text-slate-700 font-medium">{item.name}</span>
+                                <span className="font-medium text-gray-900">{item.name}</span>
                             ) : (
                                 <Link
                                     href={item.href}
-                                    className="hover:text-teal-700 transition-colors"
+                                    className="transition-colors hover:text-teal-700"
                                 >
                                     {item.name}
                                 </Link>

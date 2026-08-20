@@ -2,114 +2,190 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@layer base {
+    :root {
+        /* 基本色（HSL）。値は tailwind.config.ts のトークンと対応している */
+        --background: 0 0% 100%;
+        --foreground: 172 13% 12%; /* 墨 #1B2322 */
+        --card: 0 0% 100%;
+        --card-foreground: 172 13% 12%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 172 13% 12%;
+        --primary: 183 76% 23%; /* 港南ティール #0E6469 */
+        --primary-foreground: 0 0% 100%;
+        --secondary: 168 11% 94%;
+        --secondary-foreground: 172 13% 12%;
+        --muted: 150 12% 97%;
+        --muted-foreground: 171 6% 45%;
+        --accent: 168 11% 94%;
+        --accent-foreground: 172 13% 12%;
+        --destructive: 356 71% 44%; /* 朱 #C0202A */
+        --destructive-foreground: 0 0% 100%;
+        --border: 170 10% 88%; /* 罫 #DDE3E2 */
+        --input: 170 10% 88%;
+        --ring: 183 76% 23%;
+        --chart-1: 183 76% 23%;
+        --chart-2: 184 64% 33%;
+        --chart-3: 210 65% 33%;
+        --chart-4: 356 71% 44%;
+        --chart-5: 171 6% 45%;
+        --radius: 3px;
+    }
+
+    * {
+        @apply border-border;
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        /* スクロールバーやフォーム部品の既定色をライトに固定する */
+        color-scheme: light;
+    }
+
+    body {
+        /* ダブルタップの拡大待ち（約300ms）をなくす */
+        touch-action: manipulation;
+        /* タップ時のハイライトをブランド色に */
+        -webkit-tap-highlight-color: rgb(14 100 105 / 0.12);
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        /* 和文本文は行間を広く、字間をわずかに開けたほうが読みやすく誠実に見える */
+        line-height: 1.9;
+        letter-spacing: 0.02em;
+        font-feature-settings: 'palt' 0;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* 見出しは丸ゴシック（Zen Maru Gothic）。ロゴの角の丸い字形に合わせている。
+       詰め組み（palt）で密度を上げ、balance で改行位置を整える */
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: theme('fontFamily.display');
+        font-feature-settings: 'palt' 1;
+        line-height: 1.45;
+        letter-spacing: 0.02em;
+        text-wrap: balance;
+    }
+
+    p,
+    li,
+    dd {
+        text-wrap: pretty;
+    }
+
+    /* キーボード操作時のフォーカスを必ず視認できるようにする */
+    :focus-visible {
+        outline: 2px solid hsl(var(--ring));
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
+    ::selection {
+        background-color: #d6e9e9;
+        color: #0a4044;
+    }
+
+    /* 固定ヘッダーの下にアンカー先が潜り込まないようにする */
+    [id] {
+        scroll-margin-top: 5.5rem;
+    }
+
+    /* details/summary の既定マーカーを消す（FAQで独自アイコンを使うため） */
+    summary::-webkit-details-marker {
+        display: none;
+    }
+    summary {
+        list-style: none;
+    }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@layer components {
+    /* ── 記録票（点検票）レイアウトの基本部品 ───────────────── */
+
+    /* 欄名ラベル：等幅で「記入欄の見出し」を表す。開きすぎない字間にして硬さを抜く */
+    .u-label {
+        @apply font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-teal-700;
+    }
+
+    /* まるいチップ：セクション名や補足の見出しに使う小さなピル */
+    .u-chip {
+        @apply inline-flex items-center gap-1.5 rounded-full bg-mint-100 px-3.5 py-1.5
+               font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-teal-800;
+    }
+
+    /* センターライン：ロゴの赤いスウッシュ（＝道）に由来する、丸い破線の区切り */
+    .u-road {
+        height: 5px;
+        border: 0;
+        background-image: radial-gradient(
+            circle at 2.5px 2.5px,
+            theme('colors.mint.300') 2.5px,
+            transparent 2.5px
+        );
+        background-size: 18px 5px;
+        background-repeat: repeat-x;
+    }
+
+    /* 数値表記：桁を揃えるため等幅＋タブラー数字 */
+    .u-num {
+        @apply font-mono tabular-nums;
+        font-variant-numeric: tabular-nums;
+    }
+
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
-}
+/* ── モーション ────────────────────────────────────────────
+   演出は「読み込み時に一度だけ」を原則とし、常時動くものは置かない。
+   イージングは既定の ease-out のみを使う（独自カーブは使わない） */
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-@keyframes slow-zoom {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
-}
-
-@keyframes scroll-line {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(200%); }
+@keyframes rule-draw {
+    0% {
+        transform: scaleX(0);
+    }
+    100% {
+        transform: scaleX(1);
+    }
 }
 
 @keyframes fade-in-up {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.animate-slow-zoom {
-  animation: slow-zoom 20s ease-out forwards;
-}
-
-.animate-scroll-line {
-  animation: scroll-line 2.5s cubic-bezier(0.15, 0, 0.5, 1) infinite;
+.animate-rule-draw {
+    transform-origin: left center;
+    animation: rule-draw 0.6s ease-out forwards;
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 1s ease-out forwards;
+    animation: fade-in-up 0.5s ease-out forwards;
+}
+
+/* 動きを減らす設定を尊重する */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

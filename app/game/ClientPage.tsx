@@ -30,6 +30,18 @@ const steps = [
 
 export default function Page() {
     const [menuOpen, setMenuOpen] = useState(false);
+
+    // Escapeキーでメニューを閉じ、開閉ボタンにフォーカスを戻す
+    useEffect(() => {
+        if (!menuOpen) return;
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== 'Escape') return;
+            setMenuOpen(false);
+            document.getElementById('menu-toggle')?.focus();
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [menuOpen]);
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
     // iOS Safari は全画面APIが使えないため、ゲーム(iframe)からの通知でiframeを画面いっぱいに広げる
@@ -58,34 +70,36 @@ export default function Page() {
     }, [enlarged]);
 
     return (
-        <div className="min-h-screen bg-neutral-50 font-sans text-slate-900">
+        <div className="min-h-dvh bg-neutral-50 font-sans text-slate-900">
             {/* Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+            <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
                 <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
-                    <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-[1.02]">
+                    <Link href="/" className="flex items-center space-x-2 transition-transform">
                         <Image src="/logo.png" alt="港南自動車サービス｜石川県金沢市の車検・自動車整備" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
-                    <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                        <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
-                        <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
-                        <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
-                        <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
-                        <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
-                        <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
-                        <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
+                    <nav className="hidden xl:flex items-center gap-7 whitespace-nowrap text-[15px]">
+                        <Link href="/shaken" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">車検</Link>
+                        <Link href="/#services" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">サービス内容</Link>
+                        <Link href="/#cases" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">取扱車種</Link>
+                        <Link href="/#company" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">会社情報</Link>
+                        <Link href="/recruit" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">採用情報</Link>
+                        <Link href="/#contact" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">お問い合わせ</Link>
+                        <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-[background-color,transform] duration-200 active:scale-[0.97]">
                             ノレタ詳細
                         </Link>
-                        <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                        <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-[background-color,transform] duration-200 active:scale-[0.97]">
                             ノリドク詳細
                         </Link>
                     </nav>
                     <button
-                        className="md:hidden p-2 rounded-xl bg-teal-700 text-white transition-all duration-300"
+                        className="xl:hidden flex size-11 items-center justify-center rounded border border-gray-300 text-gray-900 transition-colors"
+                        id="menu-toggle"
+                        aria-controls="mobile-menu"
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
                         aria-label="メニューを開く"
                     >
-                        <svg
+                        <svg aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
                             height="24"
@@ -95,7 +109,7 @@ export default function Page() {
                             strokeWidth="2.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+                            className={`transition-transform duration-200 ${menuOpen ? 'rotate-90' : ''}`}
                         >
                             {menuOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M3 12h18M3 6h18M3 18h18" />}
                         </svg>
@@ -105,14 +119,15 @@ export default function Page() {
 
             {/* Mobile menu */}
             <div
-                className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] md:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                id="mobile-menu"
+                className={`fixed inset-0 overscroll-contain bg-gray-900 z-50 xl:hidden transition-opacity duration-200 flex flex-col items-center justify-center space-y-7 px-6 ${menuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
             >
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                     aria-label="メニューを閉じる"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
                 {[
                     { name: '車検', href: '/shaken' },
@@ -125,21 +140,21 @@ export default function Page() {
                     <Link
                         key={i}
                         href={item.href}
-                        className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
+                        className="text-xl font-bold text-white hover:text-teal-300 transition-colors"
                         onClick={() => setMenuOpen(false)}
                     >
                         {item.name}
                     </Link>
                 ))}
-                <Link href="/noreta" className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl" onClick={() => setMenuOpen(false)}>
+                <Link href="/noreta" className="px-10 py-4 bg-teal-500 text-white rounded font-bold text-xl shadow-2xl" onClick={() => setMenuOpen(false)}>
                     ノレタ詳細
                 </Link>
-                <Link href="/noridoku" className="px-10 py-4 bg-blue-500 text-white rounded-full font-bold text-xl shadow-2xl" onClick={() => setMenuOpen(false)}>
+                <Link href="/noridoku" className="px-10 py-4 bg-blue-500 text-white rounded font-bold text-xl shadow-2xl" onClick={() => setMenuOpen(false)}>
                     ノリドク詳細
                 </Link>
             </div>
 
-            <main className="pt-24 md:pt-32">
+            <main id="main" tabIndex={-1} className="pt-24 md:pt-32">
                 {/* パンくずリスト */}
                 <Breadcrumb
                     items={[
@@ -150,11 +165,11 @@ export default function Page() {
 
                 {/* Hero */}
                 <section className="container mx-auto px-4 mb-12 text-center">
-                    <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-xs md:text-sm font-bold mb-6">
-                        <span className="flex h-2 w-2 rounded-full bg-amber-500 mr-2 animate-pulse"></span>
+                    <div className="inline-flex items-center px-4 py-1.5 rounded bg-teal-50 text-teal-800 text-xs md:text-sm font-bold mb-6">
+                        <span className="flex size-2 bg-teal-700 mr-2"></span>
                         遊んで割引GET・無料ミニゲーム
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-ja text-slate-900 mb-6 leading-tight">
                         港南<span className="text-teal-700">ドライブ</span>チャレンジ
                     </h1>
                     <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
@@ -164,11 +179,11 @@ export default function Page() {
 
                 {/* ゲーム本体（iframe埋め込み） */}
                 <section className="container mx-auto px-4 mb-24">
-                    <div className={enlarged ? 'fixed inset-0 z-[9999] bg-slate-950' : 'max-w-[460px] mx-auto'}>
+                    <div className={enlarged ? 'fixed inset-0 z-50 bg-slate-950' : 'max-w-[460px] mx-auto'}>
                         {enlarged && (
                             <button
                                 onClick={() => setEnlarged(false)}
-                                className="fixed top-3 right-3 z-[10000] px-4 py-2 rounded-full bg-white/90 text-slate-900 font-bold text-sm shadow-lg"
+                                className="fixed top-3 right-3 z-50 px-4 py-2 rounded bg-white/90 text-slate-900 font-bold text-sm shadow-lg"
                                 aria-label="拡大表示を閉じる"
                             >
                                 ✕ 閉じる
@@ -188,7 +203,7 @@ export default function Page() {
                             allowFullScreen
                         />
                     </div>
-                    <p className="text-center text-slate-400 text-xs mt-4">
+                    <p className="text-center text-slate-500 text-xs mt-4">
                         ※ うまく表示されない場合は<a href="/game/drive_game/drive-game.html" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-bold hover:underline">こちら（別ウィンドウ）</a>からお楽しみください。
                     </p>
                 </section>
@@ -198,15 +213,15 @@ export default function Page() {
                     {/* 操作方法 */}
                     <div>
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">操作はカンタン</h2>
+                            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">操作はカンタン</h2>
                             <p className="text-slate-500">左右に動かしてよけるだけ。むずかしい操作はありません。</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
                             {controls.map((c, idx) => (
                                 <article key={idx} className="bg-white p-8 rounded-2xl border border-slate-200">
-                                    <div className="text-teal-700 font-black text-sm tracking-widest uppercase mb-3">{c.device}</div>
-                                    <p className="text-xl font-black text-slate-900 mb-2">{c.op}</p>
-                                    <p className="text-slate-500 text-sm">{c.desc}</p>
+                                    <div className="text-teal-700 font-bold text-sm tracking-widest uppercase mb-3">{c.device}</div>
+                                    <p className="text-xl font-bold text-slate-900 mb-2">{c.op}</p>
+                                    <p className="text-slate-600 text-sm">{c.desc}</p>
                                 </article>
                             ))}
                         </div>
@@ -215,17 +230,17 @@ export default function Page() {
                     {/* 遊び方の流れ */}
                     <div>
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">遊び方</h2>
+                            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">遊び方</h2>
                             <p className="text-slate-500">スタートから割引GETまでの流れ。</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
                             {steps.map((item, idx) => (
                                 <article key={idx} className="bg-white p-6 rounded-2xl border border-slate-200">
-                                    <div className="w-12 h-12 bg-teal-700 text-white rounded-full flex items-center justify-center text-xs font-black mb-6 shadow-lg shadow-teal-200">
+                                    <div className="size-12 bg-teal-700 text-white rounded flex items-center justify-center text-xs font-bold mb-6 shadow-lg shadow-teal-200">
                                         {item.step}
                                     </div>
-                                    <h3 className="text-lg font-black mb-2">{item.title}</h3>
-                                    <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                                    <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                                    <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
                                 </article>
                             ))}
                         </div>
@@ -234,19 +249,19 @@ export default function Page() {
                     {/* 割引ランク */}
                     <div>
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">走った距離で割引GET</h2>
+                            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">走った距離で割引GET</h2>
                             <p className="text-slate-500">走破距離に応じて、4段階の割引コードが発行されます。</p>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
                             {tiers.map((t, idx) => (
                                 <article key={idx} className="bg-white p-8 rounded-2xl border border-slate-200 text-center">
-                                    <div className="text-slate-400 font-black text-xs tracking-widest uppercase mb-3">{t.rank}</div>
-                                    <p className="text-slate-900 font-black text-lg mb-1">{t.dist}</p>
-                                    <p className="text-2xl font-black text-teal-700">{t.amount}</p>
+                                    <div className="text-slate-500 font-bold text-xs tracking-widest uppercase mb-3">{t.rank}</div>
+                                    <p className="text-slate-900 font-bold text-lg mb-1">{t.dist}</p>
+                                    <p className="text-2xl font-bold text-teal-700">{t.amount}</p>
                                 </article>
                             ))}
                         </div>
-                        <p className="text-center text-slate-400 text-xs mt-8 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-center text-slate-500 text-xs mt-8 max-w-2xl mx-auto leading-relaxed">
                             ※ 割引コードの内容・ご利用方法・有効期限については、店舗スタッフまでお問い合わせください。割引はゲーム内演出であり、ご利用条件は変更となる場合があります。
                         </p>
                     </div>
@@ -255,10 +270,10 @@ export default function Page() {
                     <div className="text-center">
                         <p className="text-slate-600 mb-6 font-bold">車検・新車・カーリースのご相談もお気軽にどうぞ。</p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link href="tel:076-268-1788" className="inline-flex items-center justify-center px-8 py-4 bg-teal-700 text-white rounded-xl hover:bg-teal-800 transition-all font-bold shadow-lg">
+                            <Link href="tel:076-268-1788" className="inline-flex items-center justify-center px-8 py-4 bg-teal-700 text-white rounded-xl hover:bg-teal-800 transition-ui font-bold shadow-lg">
                                 お電話で相談（076-268-1788）
                             </Link>
-                            <Link href="/shaken" className="inline-flex items-center justify-center px-8 py-4 bg-slate-200 text-slate-800 rounded-xl hover:bg-slate-300 transition-all font-bold">
+                            <Link href="/shaken" className="inline-flex items-center justify-center px-8 py-4 bg-slate-200 text-slate-800 rounded-xl hover:bg-slate-300 transition-ui font-bold">
                                 車検について見る
                             </Link>
                         </div>
@@ -272,26 +287,30 @@ export default function Page() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
                         <div>
                             <div className="flex items-center space-x-3 mb-8">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                                    <span className="text-slate-950 font-black text-[10px]">KONAN</span>
-                                </div>
-                                <h3 className="text-2xl font-black">港南自動車サービス</h3>
+                                <Image
+                                    src="/logo.png"
+                                    alt="株式会社港南自動車サービス"
+                                    width={280}
+                                    height={70}
+                                    className="h-9 w-auto object-contain brightness-0 invert"
+                                />
+                                <h3 className="sr-only">港南自動車サービス</h3>
                             </div>
-                            <p className="text-slate-400 max-w-sm text-sm leading-relaxed">
+                            <p className="text-white/70 max-w-sm text-sm leading-loose">
                                 石川県金沢市で70年にわたり、地域の皆様の安全を守り続けてきました。<br />
                                 丁寧な仕事、誠実な説明、そして確かな技術。
                             </p>
                         </div>
                         <div className="space-y-4">
-                            <div className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Contact Information</div>
+                            <div className="text-white/50 text-xs font-bold uppercase tracking-widest mb-6">Contact Information</div>
                             <address className="text-xl font-bold not-italic">石川県金沢市金石本町ハ14</address>
                             <div className="flex flex-col space-y-2">
-                                <Link href="tel:076-268-1788" className="text-3xl font-black text-teal-400 hover:text-white transition-colors">076-268-1788</Link>
-                                <span className="text-slate-500 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00 / 日祝定休</span>
+                                <Link href="tel:076-268-1788" className="text-3xl font-bold text-teal-400 hover:text-white transition-colors">076-268-1788</Link>
+                                <span className="text-white/60 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00 / 日祝定休</span>
                             </div>
                         </div>
                     </div>
-                    <div className="pt-12 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs gap-6">
+                    <div className="pt-10 border-t border-white/15 flex flex-col md:flex-row justify-between items-center text-white/50 text-xs gap-6">
                         <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
                         <nav className="flex space-x-8">
                             <Link href="/" className="hover:text-white transition-colors">ホーム</Link>

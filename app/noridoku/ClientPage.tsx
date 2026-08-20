@@ -62,6 +62,19 @@ export default function NoridokuPage() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
+    // Escapeキーでメニューを閉じ、開閉ボタンにフォーカスを戻す
+    useEffect(() => {
+        if (!menuOpen) return;
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== 'Escape') return;
+            setMenuOpen(false);
+            document.getElementById('menu-toggle')?.focus();
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [menuOpen]);
+
+
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
@@ -164,33 +177,35 @@ export default function NoridokuPage() {
     // ============================================
     if (!IS_PAGE_READY) {
         return (
-            <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 flex flex-col">
-                <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+            <div className="min-h-dvh bg-neutral-50 font-sans text-slate-900 flex flex-col">
+                <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
                     <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
-                        <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-[1.02]">
+                        <Link href="/" className="flex items-center space-x-2 transition-transform">
                             <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                         </Link>
-                        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                            <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
-                            <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
-                            <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
-                            <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
-                            <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
-                            <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
-                            <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
+                        <nav className="hidden xl:flex items-center gap-7 whitespace-nowrap text-[15px]">
+                            <Link href="/shaken" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">車検</Link>
+                            <Link href="/#services" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">サービス内容</Link>
+                            <Link href="/#cases" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">取扱車種</Link>
+                            <Link href="/#company" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">会社情報</Link>
+                            <Link href="/recruit" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">採用情報</Link>
+                            <Link href="/#contact" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">お問い合わせ</Link>
+                            <Link href="/noreta" className="flex h-11 items-center rounded-full bg-teal-700 px-5 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97]">
                                 ノレタ詳細
                             </Link>
-                            <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                            <Link href="/noridoku" className="flex h-11 items-center rounded-full border border-blue-600 px-5 font-bold text-blue-600 transition-[background-color,color,transform] duration-200 hover:bg-blue-600 hover:text-white active:scale-[0.97]">
                                 ノリドク詳細
                             </Link>
                         </nav>
                         <button
-                            className="md:hidden p-2 rounded-xl bg-blue-600 text-white transition-all duration-300"
+                            className="xl:hidden flex size-11 items-center justify-center rounded border border-gray-300 text-gray-900 transition-colors"
+                            id="menu-toggle"
+                            aria-controls="mobile-menu"
                             onClick={toggleMenu}
                             aria-expanded={menuOpen}
                         aria-label="メニューを開く"
                         >
-                            <svg
+                            <svg aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
                                 height="24"
@@ -200,7 +215,7 @@ export default function NoridokuPage() {
                                 strokeWidth="2.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+                                className={`transition-transform duration-200 ${menuOpen ? 'rotate-90' : ''}`}
                             >
                                 {menuOpen ? (
                                     <path d="M18 6L6 18M6 6l12 12" />
@@ -214,14 +229,15 @@ export default function NoridokuPage() {
 
                 {/* Mobile menu */}
                 <div
-                    className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] md:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                    id="mobile-menu"
+                    className={`fixed inset-0 overscroll-contain bg-gray-900 z-50 xl:hidden transition-opacity duration-200 flex flex-col items-center justify-center space-y-7 px-6 ${menuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
                 >
                     <button
                         onClick={() => setMenuOpen(false)}
                         className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                     aria-label="メニューを閉じる"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                     </button>
                     {[
                         { name: '車検', href: '/shaken' },
@@ -234,7 +250,7 @@ export default function NoridokuPage() {
                         <Link
                             key={i}
                             href={item.href}
-                            className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
+                            className="text-xl font-bold text-white hover:text-teal-300 transition-colors"
                             onClick={() => setMenuOpen(false)}
                         >
                             {item.name}
@@ -242,40 +258,40 @@ export default function NoridokuPage() {
                     ))}
                     <Link
                         href="/noreta"
-                        className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                        className="flex h-14 w-full max-w-xs items-center justify-center rounded bg-teal-700 font-bold text-white"
                         onClick={() => setMenuOpen(false)}
                     >
                         ノレタ詳細
                     </Link>
                     <Link
                         href="/noridoku"
-                        className="px-10 py-4 bg-blue-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                        className="flex h-14 w-full max-w-xs items-center justify-center rounded border border-white/50 font-bold text-white"
                         onClick={() => setMenuOpen(false)}
                     >
                         ノリドク詳細
                     </Link>
                 </div>
 
-                <main className="flex-1 flex items-center justify-center pt-20">
+                <main id="main" tabIndex={-1} className="flex-1 flex items-center justify-center pt-20">
                     <div className="text-center px-6">
-                        <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                            <svg className="w-12 h-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div className="size-24 bg-blue-100 rounded flex items-center justify-center mx-auto mb-8">
+                            <svg aria-hidden="true" className="size-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">ページ準備中</h1>
+                        <h1 className="text-[30px] md:text-[40px] font-bold text-gray-900 mb-4 leading-[1.35]">ページ準備中</h1>
                         <p className="text-lg text-slate-500 mb-8 max-w-md mx-auto">
                             ノリドクページは現在準備中です。<br />公開までしばらくお待ちください。
                         </p>
                         <Link href="/" className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg">
-                            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg aria-hidden="true" className="size-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
                             トップページへ戻る
                         </Link>
                     </div>
                 </main>
-                <footer className="py-8 text-center text-slate-400 text-sm">
+                <footer className="py-8 text-center text-white/60 text-sm">
                     <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
                 </footer>
             </div>
@@ -297,39 +313,41 @@ export default function NoridokuPage() {
     };
 
     return (
-        <div className="min-h-screen bg-neutral-50 font-sans text-slate-900 overflow-x-hidden">
+        <div className="min-h-dvh bg-neutral-50 font-sans text-slate-900 overflow-x-hidden">
             {/* FAQ構造化データ（AIクローラーにも見えるよう静的HTMLに含める） */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
             {/* Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+            <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
                 <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
-                    <Link href="/" className="flex items-center space-x-2 transition-transform hover:scale-[1.02]">
+                    <Link href="/" className="flex items-center space-x-2 transition-transform">
                         <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
                     </Link>
-                    <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-                        <Link href="/shaken" className="text-slate-600 hover:text-teal-700 transition-colors">車検</Link>
-                        <Link href="/#services" className="text-slate-600 hover:text-teal-700 transition-colors">サービス内容</Link>
-                        <Link href="/#cases" className="text-slate-600 hover:text-teal-700 transition-colors">取扱車種</Link>
-                        <Link href="/#company" className="text-slate-600 hover:text-teal-700 transition-colors">会社情報</Link>
-                        <Link href="/recruit" className="text-slate-600 hover:text-teal-700 transition-colors">採用情報</Link>
-                        <Link href="/#contact" className="text-slate-600 hover:text-teal-700 transition-colors">お問い合わせ</Link>
-                        <Link href="/noreta" className="text-white bg-teal-700 px-5 py-2.5 rounded-full hover:bg-teal-800 transition-all shadow-md hover:shadow-lg">
+                    <nav className="hidden xl:flex items-center gap-7 whitespace-nowrap text-[15px]">
+                        <Link href="/shaken" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">車検</Link>
+                        <Link href="/#services" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">サービス内容</Link>
+                        <Link href="/#cases" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">取扱車種</Link>
+                        <Link href="/#company" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">会社情報</Link>
+                        <Link href="/recruit" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">採用情報</Link>
+                        <Link href="/#contact" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">お問い合わせ</Link>
+                        <Link href="/noreta" className="flex h-11 items-center rounded-full bg-teal-700 px-5 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97]">
                             ノレタ詳細
                         </Link>
-                        <Link href="/noridoku" className="text-white bg-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                        <Link href="/noridoku" className="flex h-11 items-center rounded-full border border-blue-600 px-5 font-bold text-blue-600 transition-[background-color,color,transform] duration-200 hover:bg-blue-600 hover:text-white active:scale-[0.97]">
                             ノリドク詳細
                         </Link>
                     </nav>
                     <button
-                        className="md:hidden p-2 rounded-xl bg-blue-600 text-white transition-all duration-300"
+                        className="xl:hidden flex size-11 items-center justify-center rounded border border-gray-300 text-gray-900 transition-colors"
+                        id="menu-toggle"
+                        aria-controls="mobile-menu"
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
                     aria-label="メニューを開く"
                     >
-                        <svg
+                        <svg aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
                             height="24"
@@ -339,7 +357,7 @@ export default function NoridokuPage() {
                             strokeWidth="2.5"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+                            className={`transition-transform duration-200 ${menuOpen ? 'rotate-90' : ''}`}
                         >
                             {menuOpen ? (
                                 <path d="M18 6L6 18M6 6l12 12" />
@@ -353,14 +371,15 @@ export default function NoridokuPage() {
 
             {/* Mobile menu */}
             <div
-                className={`fixed inset-0 bg-slate-900/95 backdrop-blur-xl z-[60] md:hidden transition-all duration-500 flex flex-col items-center justify-center space-y-8 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                id="mobile-menu"
+                className={`fixed inset-0 overscroll-contain bg-gray-900 z-50 xl:hidden transition-opacity duration-200 flex flex-col items-center justify-center space-y-7 px-6 ${menuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
             >
                 <button
                     onClick={() => setMenuOpen(false)}
                     className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
                 aria-label="メニューを閉じる"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
                 {[
                     { name: '車検', href: '/shaken' },
@@ -373,7 +392,7 @@ export default function NoridokuPage() {
                     <Link
                         key={i}
                         href={item.href}
-                        className="text-2xl font-bold text-white hover:text-teal-400 transition-colors"
+                        className="text-xl font-bold text-white hover:text-teal-300 transition-colors"
                         onClick={() => setMenuOpen(false)}
                     >
                         {item.name}
@@ -381,14 +400,14 @@ export default function NoridokuPage() {
                 ))}
                 <Link
                     href="/noreta"
-                    className="px-10 py-4 bg-teal-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                    className="flex h-14 w-full max-w-xs items-center justify-center rounded bg-teal-700 font-bold text-white"
                     onClick={() => setMenuOpen(false)}
                 >
                     ノレタ詳細
                 </Link>
                 <Link
                     href="/noridoku"
-                    className="px-10 py-4 bg-blue-500 text-white rounded-full font-bold text-xl shadow-2xl"
+                    className="flex h-14 w-full max-w-xs items-center justify-center rounded border border-white/50 font-bold text-white"
                     onClick={() => setMenuOpen(false)}
                 >
                     ノリドク詳細
@@ -404,18 +423,18 @@ export default function NoridokuPage() {
                     ]}
                 />
                 {/* Hero Section */}
-                <section className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-sky-400 py-20 md:py-32 overflow-hidden">
+                <section className="relative bg-blue-700 py-20 md:py-32 overflow-hidden">
                     {/* Decorative geometric shapes */}
                     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                        <div className="absolute -top-20 -left-20 w-96 h-96 bg-white/10 rotate-45 transform"></div>
-                        <div className="absolute top-1/2 -right-20 w-64 h-64 bg-white/10 rotate-12 transform"></div>
-                        <div className="absolute -bottom-10 left-1/4 w-48 h-48 bg-white/5 rotate-45 transform"></div>
+                        <div className="absolute -top-20 -left-20 size-96 bg-white/10 rotate-45 transform"></div>
+                        <div className="absolute top-1/2 -right-20 size-64 bg-white/10 rotate-12 transform"></div>
+                        <div className="absolute -bottom-10 left-1/4 size-48 bg-white/5 rotate-45 transform"></div>
                     </div>
 
                     <div className="container mx-auto px-4 relative z-10">
-                        <div className={`transition-all duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                        <div className={`transition-ui duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                             <div className="text-center mb-8">
-                                <span className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-bold rounded-full mb-6">
+                                <span className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-bold rounded mb-6">
                                     個人事業主・法人限定リース
                                 </span>
                                 <p className="text-white/90 text-lg md:text-xl mb-4">
@@ -424,7 +443,7 @@ export default function NoridokuPage() {
                                 <p className="text-white text-xl md:text-2xl font-bold mb-6">
                                     財務を最適化するなら
                                 </p>
-                                <h1 className="text-6xl md:text-9xl font-black text-white mb-8 tracking-tight drop-shadow-lg">
+                                <h1 className="text-[40px] md:text-[64px] font-bold text-white mb-8 tracking-ja leading-[1.3]">
                                     ノリドク
                                 </h1>
                             </div>
@@ -437,10 +456,10 @@ export default function NoridokuPage() {
                             </div>
 
                             <div className="flex justify-center mt-12">
-                                <a href="#contact" className="group px-10 py-5 bg-white text-blue-600 rounded-2xl font-black text-lg shadow-2xl hover:shadow-white/30 hover:scale-105 transition-all duration-300">
+                                <a href="#contact" className="group px-10 py-5 bg-white text-blue-600 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-white/30 transition-ui duration-200">
                                     <span className="flex items-center">
                                         お問い合わせ・ご相談
-                                        <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg aria-hidden="true" className="size-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
                                     </span>
@@ -451,7 +470,7 @@ export default function NoridokuPage() {
 
                     {/* Wave decoration */}
                     <div className="absolute -bottom-1 left-0 w-full">
-                        <svg viewBox="0 0 1440 120" className="w-full h-auto">
+                        <svg aria-hidden="true" viewBox="0 0 1440 120" className="w-full h-auto">
                             <path fill="#fafafa" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
                         </svg>
                     </div>
@@ -461,10 +480,10 @@ export default function NoridokuPage() {
                 <section className="py-20 md:py-32 bg-neutral-50">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full text-2xl font-black mb-6">
+                            <div className="inline-flex items-center justify-center size-16 bg-blue-100 text-blue-600 rounded text-2xl font-bold mb-6">
                                 01
                             </div>
-                            <h2 className="text-2xl md:text-4xl font-black text-blue-600 mb-4 leading-relaxed">
+                            <h2 className="text-[24px] md:text-[30px] font-bold text-blue-700 mb-4 leading-snug">
                                 「コスト削減」は、利益の創出です。<br />
                                 <span className="text-slate-900">業界常識を覆す金利2.5%〜で、現預金を最大限に守る調達を。</span>
                             </h2>
@@ -472,7 +491,7 @@ export default function NoridokuPage() {
 
                         <div className="max-w-4xl mx-auto">
                             <div className="flex justify-center mb-10">
-                                <div className="w-64 h-64 relative">
+                                <div className="size-64 relative">
                                     <Image
                                         src="/images/noridoku_hero.png"
                                         alt="ビジネスでのコスト削減イメージ"
@@ -496,10 +515,10 @@ export default function NoridokuPage() {
                 <section className="py-20 md:py-32 bg-white">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full text-2xl font-black mb-6">
+                            <div className="inline-flex items-center justify-center size-16 bg-blue-100 text-blue-600 rounded text-2xl font-bold mb-6">
                                 02
                             </div>
-                            <h2 className="text-2xl md:text-4xl font-black text-blue-600 mb-4 leading-relaxed">
+                            <h2 className="text-[24px] md:text-[30px] font-bold text-blue-700 mb-4 leading-snug">
                                 ただ車を借りるのではなく、「財務戦略」として導入する。<br />
                                 <span className="text-slate-900">御社のBS/PLを最適化する、専属の車両財務コンサルタント。</span>
                             </h2>
@@ -507,7 +526,7 @@ export default function NoridokuPage() {
 
                         <div className="max-w-4xl mx-auto">
                             <div className="flex justify-center mb-10">
-                                <div className="w-64 h-64 relative">
+                                <div className="size-64 relative">
                                     <Image
                                         src="/images/noridoku_consultation.png"
                                         alt="財務コンサルティングイメージ"
@@ -525,8 +544,8 @@ export default function NoridokuPage() {
 
                             {/* Comparison Table */}
                             <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
-                                <div className="bg-gradient-to-r from-blue-600 to-blue-500 py-4 px-6">
-                                    <h3 className="text-xl font-black text-white text-center">現金・ローン購入と「ノリドク」（リース）の違い</h3>
+                                <div className="bg-blue-700 py-4 px-6">
+                                    <h3 className="text-xl font-bold text-white text-center">現金・ローン購入と「ノリドク」（リース）の違い</h3>
                                 </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
@@ -565,24 +584,24 @@ export default function NoridokuPage() {
 
                             {/* Why Choose Noridoku */}
                             <div className="mt-12 bg-slate-50 rounded-3xl p-8 md:p-10 border border-slate-100">
-                                <h4 className="text-xl font-black text-slate-900 mb-6">なぜ「ノリドク」が選ばれるのか？</h4>
+                                <h4 className="text-xl font-bold text-slate-900 mb-6">なぜ「ノリドク」が選ばれるのか？</h4>
                                 <div className="space-y-6 text-slate-600">
                                     <div className="flex items-start">
-                                        <span className="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold mr-4">1</span>
+                                        <span className="flex-shrink-0 size-8 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-sm font-bold mr-4">1</span>
                                         <div>
                                             <p className="font-bold text-slate-900 mb-1">経費の平準化で、利益予測を確実に</p>
                                             <p className="text-sm">現金購入では車検月や納税月に支出が跳ね上がりますが、リースなら毎月決まった額が経費になるだけ。コストが「一定の線」になるため、月次の利益管理が極めてシンプルになり、中長期的な事業計画が立てやすくなります。</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start">
-                                        <span className="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold mr-4">2</span>
+                                        <span className="flex-shrink-0 size-8 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-sm font-bold mr-4">2</span>
                                         <div>
                                             <p className="font-bold text-slate-900 mb-1">管理コストをゼロへ</p>
                                             <p className="text-sm">自動車税の納付、任意保険の更新、車検の支払い……。バラバラに発生する事務作業は、経営者の貴重な時間を奪います。「ノリドク」はこれらを一本化。経理は「月1回の振込を確認するだけ」になります。</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start">
-                                        <span className="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold mr-4">3</span>
+                                        <span className="flex-shrink-0 size-8 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-sm font-bold mr-4">3</span>
                                         <div>
                                             <p className="font-bold text-slate-900 mb-1">銀行融資を有利に（オフバランス化）</p>
                                             <p className="text-sm">車両を「資産」として持つと、貸借対照表上の負債も増え、自己資本比率に影響します。リースなら資産に計上されないため、財務体質をきれいに保ち、いざという時の銀行融資枠を温存できます。</p>
@@ -602,10 +621,10 @@ export default function NoridokuPage() {
                 <section className="py-20 md:py-32 bg-neutral-50">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full text-2xl font-black mb-6">
+                            <div className="inline-flex items-center justify-center size-16 bg-blue-100 text-blue-600 rounded text-2xl font-bold mb-6">
                                 03
                             </div>
-                            <h2 className="text-2xl md:text-4xl font-black text-blue-600 mb-4 leading-relaxed">
+                            <h2 className="text-[24px] md:text-[30px] font-bold text-blue-700 mb-4 leading-snug">
                                 ビジネスの変化に、契約が足かせになってはいけない。<br />
                                 <span className="text-slate-900">「違約金ゼロ」がもたらす、攻めと守りの経営スピード。</span>
                             </h2>
@@ -613,7 +632,7 @@ export default function NoridokuPage() {
 
                         <div className="max-w-4xl mx-auto">
                             <div className="flex justify-center mb-10">
-                                <div className="w-64 h-64 relative">
+                                <div className="size-64 relative">
                                     <Image
                                         src="/images/noridoku_cost.png"
                                         alt="違約金ゼロのイメージ"
@@ -653,22 +672,22 @@ export default function NoridokuPage() {
                 </section>
 
                 {/* Simulator Section */}
-                <section id="simulator" className="py-20 md:py-32 bg-gradient-to-br from-blue-50 to-sky-50">
+                <section id="simulator" className="py-20 md:py-32 bg-blue-50">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full text-2xl mb-6">
-                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                            <div className="inline-flex items-center justify-center size-16 bg-blue-600 text-white rounded text-2xl mb-6">
+                                <svg aria-hidden="true" className="size-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                             </div>
-                            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">財務シミュレーター</h2>
+                            <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-4">財務シミュレーター</h2>
                             <p className="text-slate-500">減価償却・リース比較・金利比較を計算できます</p>
-                            <p className="text-xs text-slate-400 mt-2">※計算結果は参考値です。実際の税務計算とは異なる場合があります。</p>
+                            <p className="text-xs text-slate-500 mt-2">※計算結果は参考値です。実際の税務計算とは異なる場合があります。</p>
                         </div>
 
                         <div className="max-w-4xl mx-auto">
                             {/* Tabs */}
                             <div className="flex flex-wrap justify-center gap-2 mb-8">
                                 {[{ id: 'depreciation', label: '減価償却' }, { id: 'compare', label: '購入vsリース' }, { id: 'interest', label: '金利比較' }].map(tab => (
-                                    <button key={tab.id} onClick={() => setActiveTab(tab.id as typeof activeTab)} className={`px-6 py-3 rounded-xl font-bold transition-all ${activeTab === tab.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-slate-100'}`}>{tab.label}</button>
+                                    <button key={tab.id} onClick={() => setActiveTab(tab.id as typeof activeTab)} className={`px-6 py-3 rounded-xl font-bold transition-ui ${activeTab === tab.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-slate-100'}`}>{tab.label}</button>
                                 ))}
                             </div>
 
@@ -676,20 +695,20 @@ export default function NoridokuPage() {
                             <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200 mb-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-2">車両金額（万円）</label>
-                                        <input type="number" value={vehiclePrice} onChange={e => setVehiclePrice(Number(e.target.value) || 0)} className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 text-lg font-bold" min="0" />
+                                        <label htmlFor="nd-vehicle-price" className="block text-sm font-bold text-slate-700 mb-2">車両金額（万円）</label>
+                                        <input id="nd-vehicle-price" type="number" inputMode="decimal" value={vehiclePrice} onChange={e => setVehiclePrice(Number(e.target.value) || 0)} className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 text-lg font-bold" min="0" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-bold text-slate-700 mb-2">車種区分（耐用年数）</label>
-                                        <select value={customYears ? 'custom' : selectedVehicleType} onChange={e => { if (e.target.value === 'custom') { setCustomYears(6); } else { setCustomYears(null); setSelectedVehicleType(Number(e.target.value)); } }} className="w-full px-4 py-3 border border-slate-300 rounded-xl">
+                                        <label htmlFor="nd-vehicle-type" className="block text-sm font-bold text-slate-700 mb-2">車種区分（耐用年数）</label>
+                                        <select id="nd-vehicle-type" value={customYears ? 'custom' : selectedVehicleType} onChange={e => { if (e.target.value === 'custom') { setCustomYears(6); } else { setCustomYears(null); setSelectedVehicleType(Number(e.target.value)); } }} className="w-full px-4 py-3 border border-slate-300 rounded-xl">
                                             {VEHICLE_TYPES.map((v, i) => (<option key={i} value={v.years}>{v.name}（{v.years}年）</option>))}
                                             <option value="custom">カスタム入力</option>
                                         </select>
                                     </div>
                                     {customYears !== null && (
                                         <div>
-                                            <label className="block text-sm font-bold text-slate-700 mb-2">カスタム耐用年数</label>
-                                            <input type="number" value={customYears} onChange={e => setCustomYears(Math.max(1, Math.min(10, Number(e.target.value))))} className="w-full px-4 py-3 border border-slate-300 rounded-xl" min="1" max="10" />
+                                            <label htmlFor="nd-custom-years" className="block text-sm font-bold text-slate-700 mb-2">カスタム耐用年数</label>
+                                            <input id="nd-custom-years" type="number" inputMode="decimal" value={customYears} onChange={e => setCustomYears(Math.max(1, Math.min(10, Number(e.target.value))))} className="w-full px-4 py-3 border border-slate-300 rounded-xl" min="1" max="10" />
                                         </div>
                                     )}
                                 </div>
@@ -702,19 +721,19 @@ export default function NoridokuPage() {
                                         <button onClick={() => setDepreciationMethod('straight')} className={`px-4 py-2 rounded-lg font-bold ${depreciationMethod === 'straight' ? 'bg-blue-600 text-white' : 'bg-slate-100'}`}>定額法</button>
                                         <button onClick={() => setDepreciationMethod('declining')} className={`px-4 py-2 rounded-lg font-bold ${depreciationMethod === 'declining' ? 'bg-blue-600 text-white' : 'bg-slate-100'}`}>定率法</button>
                                     </div>
-                                    <h4 className="font-bold text-slate-900 mb-4">年度別 減価償却費</h4>
+                                    <h3 className="font-bold text-slate-900 mb-4">年度別 減価償却費</h3>
                                     <div className="space-y-3">
                                         {depreciationData.map(d => (
                                             <div key={d.year} className="flex items-center gap-4">
                                                 <span className="w-16 text-sm font-bold text-slate-600">{d.year}年目</span>
-                                                <div className="flex-1 bg-slate-100 rounded-full h-8"><div className="bg-blue-500 h-full rounded-full" style={{ width: `${(d.depreciation / maxDepreciation) * 100}%` }}></div></div>
+                                                <div className="flex-1 bg-slate-100 rounded h-8"><div className="bg-blue-500 h-full rounded" style={{ width: `${(d.depreciation / maxDepreciation) * 100}%` }}></div></div>
                                                 <span className="w-28 text-right text-sm font-bold text-blue-600">{(d.depreciation / 10000).toFixed(1)}万円</span>
                                             </div>
                                         ))}
                                     </div>
                                     <div className="mt-6 pt-6 border-t grid grid-cols-2 gap-4 text-center">
-                                        <div className="bg-slate-50 rounded-xl p-4"><p className="text-xs text-slate-500">取得価額</p><p className="text-xl font-black">{vehiclePrice}万円</p></div>
-                                        <div className="bg-blue-50 rounded-xl p-4"><p className="text-xs text-slate-500">耐用年数</p><p className="text-xl font-black text-blue-600">{usefulLife}年</p></div>
+                                        <div className="bg-slate-50 rounded-xl p-4"><p className="text-xs text-slate-500">取得価額</p><p className="text-xl font-bold">{vehiclePrice}万円</p></div>
+                                        <div className="bg-blue-50 rounded-xl p-4"><p className="text-xs text-slate-500">耐用年数</p><p className="text-xl font-bold text-blue-600">{usefulLife}年</p></div>
                                     </div>
                                 </div>
                             )}
@@ -727,12 +746,12 @@ export default function NoridokuPage() {
                                         {depreciationData.map(d => (
                                             <div key={d.year} className="grid grid-cols-[60px_1fr_1fr] gap-4 items-center">
                                                 <span className="text-sm font-bold">{d.year}年目</span>
-                                                <div><div className="bg-slate-200 rounded-full h-6"><div className="bg-slate-500 h-full rounded-full" style={{ width: `${(d.depreciation / Math.max(d.depreciation, leaseAnnual)) * 100}%` }}></div></div><p className="text-xs text-slate-500 mt-1">償却: {(d.depreciation / 10000).toFixed(1)}万</p></div>
-                                                <div><div className="bg-blue-100 rounded-full h-6"><div className="bg-blue-500 h-full rounded-full" style={{ width: `${(leaseAnnual / Math.max(d.depreciation, leaseAnnual)) * 100}%` }}></div></div><p className="text-xs text-blue-600 mt-1">リース: {(leaseAnnual / 10000).toFixed(1)}万</p></div>
+                                                <div><div className="bg-slate-200 rounded h-6"><div className="bg-slate-500 h-full rounded" style={{ width: `${(d.depreciation / Math.max(d.depreciation, leaseAnnual)) * 100}%` }}></div></div><p className="text-xs text-slate-500 mt-1">償却: {(d.depreciation / 10000).toFixed(1)}万</p></div>
+                                                <div><div className="bg-blue-100 rounded h-6"><div className="bg-blue-500 h-full rounded" style={{ width: `${(leaseAnnual / Math.max(d.depreciation, leaseAnnual)) * 100}%` }}></div></div><p className="text-xs text-blue-600 mt-1">リース: {(leaseAnnual / 10000).toFixed(1)}万</p></div>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="mt-6 bg-blue-50 rounded-xl p-4 text-center"><p className="text-blue-800">リースなら毎月<span className="font-black text-xl mx-1">{(leaseMonthly / 10000).toFixed(2)}万円</span>が経費計上可能</p></div>
+                                    <div className="mt-6 bg-blue-50 rounded-xl p-4 text-center"><p className="text-blue-800">リースなら毎月<span className="font-bold text-xl mx-1">{(leaseMonthly / 10000).toFixed(2)}万円</span>が経費計上可能</p></div>
                                 </div>
                             )}
 
@@ -740,15 +759,15 @@ export default function NoridokuPage() {
                             {activeTab === 'interest' && (
                                 <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                                        <div><label className="block text-sm font-bold mb-2">期間（年）</label><input type="number" value={leasePeriod} onChange={e => setLeasePeriod(Math.max(1, Math.min(10, Number(e.target.value))))} className="w-full px-4 py-3 border rounded-xl" /></div>
-                                        <div><label className="block text-sm font-bold mb-2">金利A（%）</label><input type="number" step="0.1" value={interestRateA} onChange={e => setInterestRateA(Number(e.target.value))} className="w-full px-4 py-3 border rounded-xl" /></div>
-                                        <div><label className="block text-sm font-bold mb-2">金利B（%）</label><input type="number" step="0.1" value={interestRateB} onChange={e => setInterestRateB(Number(e.target.value))} className="w-full px-4 py-3 border rounded-xl" /></div>
+                                        <div><label htmlFor="nd-lease-period" className="block text-sm font-bold mb-2">期間（年）</label><input id="nd-lease-period" type="number" inputMode="decimal" value={leasePeriod} onChange={e => setLeasePeriod(Math.max(1, Math.min(10, Number(e.target.value))))} className="w-full px-4 py-3 border rounded-xl" /></div>
+                                        <div><label htmlFor="nd-rate-a" className="block text-sm font-bold mb-2">金利A（%）</label><input id="nd-rate-a" type="number" inputMode="decimal" step="0.1" value={interestRateA} onChange={e => setInterestRateA(Number(e.target.value))} className="w-full px-4 py-3 border rounded-xl" /></div>
+                                        <div><label htmlFor="nd-rate-b" className="block text-sm font-bold mb-2">金利B（%）</label><input id="nd-rate-b" type="number" inputMode="decimal" step="0.1" value={interestRateB} onChange={e => setInterestRateB(Number(e.target.value))} className="w-full px-4 py-3 border rounded-xl" /></div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-6">
-                                        <div className="bg-blue-50 rounded-xl p-6 text-center border-2 border-blue-200"><p className="text-sm text-blue-600 font-bold mb-2">金利A（{interestRateA}%）</p><p className="text-3xl font-black text-blue-700">{(interestA.total / 10000).toFixed(1)}万円</p><p className="text-xs text-slate-500 mt-2">金利: {(interestA.interest / 10000).toFixed(1)}万円</p></div>
-                                        <div className="bg-slate-100 rounded-xl p-6 text-center border-2 border-slate-300"><p className="text-sm font-bold mb-2">金利B（{interestRateB}%）</p><p className="text-3xl font-black">{(interestB.total / 10000).toFixed(1)}万円</p><p className="text-xs text-slate-500 mt-2">金利: {(interestB.interest / 10000).toFixed(1)}万円</p></div>
+                                        <div className="bg-blue-50 rounded-xl p-6 text-center border border-blue-200"><p className="text-sm text-blue-600 font-bold mb-2">金利A（{interestRateA}%）</p><p className="text-3xl font-bold text-blue-700">{(interestA.total / 10000).toFixed(1)}万円</p><p className="text-xs text-slate-500 mt-2">金利: {(interestA.interest / 10000).toFixed(1)}万円</p></div>
+                                        <div className="bg-slate-100 rounded-xl p-6 text-center border border-slate-300"><p className="text-sm font-bold mb-2">金利B（{interestRateB}%）</p><p className="text-3xl font-bold">{(interestB.total / 10000).toFixed(1)}万円</p><p className="text-xs text-slate-500 mt-2">金利: {(interestB.interest / 10000).toFixed(1)}万円</p></div>
                                     </div>
-                                    <div className="mt-6 bg-green-50 rounded-xl p-4 text-center border border-green-200"><p className="text-green-800">金利差による節約額: <span className="font-black text-2xl text-green-600">{((interestB.interest - interestA.interest) / 10000).toFixed(1)}万円</span></p></div>
+                                    <div className="mt-6 bg-teal-50 rounded p-4 text-center border border-teal-200"><p className="text-green-800">金利差による節約額: <span className="font-bold text-2xl text-green-600">{((interestB.interest - interestA.interest) / 10000).toFixed(1)}万円</span></p></div>
                                 </div>
                             )}
                         </div>
@@ -759,10 +778,10 @@ export default function NoridokuPage() {
                 <section className="py-24 bg-white">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <div className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-black tracking-widest uppercase mb-4">
+                            <div className="u-label mb-4 block text-blue-600">
                                 FAQ
                             </div>
-                            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">
+                            <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-6">
                                 よくある質問
                             </h2>
                             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
@@ -772,7 +791,7 @@ export default function NoridokuPage() {
                         <div className="max-w-3xl mx-auto space-y-6">
                             {noridokuFaqData.map((item, idx) => (
                                 <article key={idx} className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                                    <h3 className="text-lg font-black text-slate-800 mb-4 flex items-start">
+                                    <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-start">
                                         <span className="text-blue-600 mr-3">Q.</span>
                                         {item.question}
                                     </h3>
@@ -788,10 +807,10 @@ export default function NoridokuPage() {
 
                 {/* Contact Section */}
 
-                <section id="contact" className="py-20 md:py-32 bg-gradient-to-br from-slate-900 to-slate-800">
+                <section id="contact" className="py-20 md:py-32 bg-gray-900">
                     <div className="container mx-auto px-4">
                         <div className="max-w-3xl mx-auto text-center">
-                            <h2 className="text-3xl md:text-4xl font-black text-white mb-6">お問い合わせ・ご相談</h2>
+                            <h2 className="text-[26px] md:text-[32px] font-bold text-white mb-6">お問い合わせ・ご相談</h2>
                             <p className="text-slate-300 mb-10 leading-relaxed">
                                 ノリドクについてのご質問やお見積りなど、<br />
                                 お気軽にお問い合わせください。
@@ -800,25 +819,25 @@ export default function NoridokuPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                                 <Link
                                     href="tel:076-268-1788"
-                                    className="flex items-center justify-center bg-white text-slate-900 font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl"
+                                    className="flex items-center justify-center bg-white text-slate-900 font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl"
                                 >
-                                    <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg aria-hidden="true" className="size-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
                                     </svg>
                                     076-268-1788
                                 </Link>
                                 <Link
                                     href="/#contact"
-                                    className="flex items-center justify-center bg-blue-600 text-white font-black px-8 py-5 rounded-2xl transition-transform hover:scale-[1.03] active:scale-95 shadow-xl hover:bg-blue-500"
+                                    className="flex items-center justify-center bg-blue-600 text-white font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl hover:bg-blue-500"
                                 >
-                                    <svg className="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg aria-hidden="true" className="size-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                     メールで問い合わせ
                                 </Link>
                             </div>
 
-                            <div className="text-slate-400 text-sm space-y-1">
+                            <div className="text-white/60 text-sm space-y-1">
                                 <p>営業時間：平日 9:00〜18:00 / 土曜 9:00〜17:00（日祝定休）</p>
                                 <p>定休日：日曜・祝日、第2・4土曜日</p>
                             </div>
@@ -831,16 +850,16 @@ export default function NoridokuPage() {
                     <div className="container mx-auto px-4">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                             <div className="flex items-center space-x-4">
-                                <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2">
+                                <div className="size-16 bg-white rounded-lg flex items-center justify-center p-2">
                                     <Image src="/logo.png" alt="港南自動車サービス" width={60} height={30} className="object-contain" />
                                 </div>
                                 <div>
-                                    <p className="text-lg font-black">（株）港南自動車サービス</p>
-                                    <p className="text-sm text-slate-400">石川県金沢市金石本町ハ14番地</p>
+                                    <p className="text-lg font-bold">（株）港南自動車サービス</p>
+                                    <p className="text-sm text-slate-500">石川県金沢市金石本町ハ14番地</p>
                                 </div>
                             </div>
                             <div className="text-center md:text-right">
-                                <Link href="tel:076-268-1788" className="text-3xl md:text-4xl font-black text-blue-400 hover:text-white transition-colors">
+                                <Link href="tel:076-268-1788" className="text-3xl md:text-4xl font-bold text-blue-400 hover:text-white transition-colors">
                                     TEL 076-268-1788
                                 </Link>
                             </div>
@@ -850,9 +869,9 @@ export default function NoridokuPage() {
             </main>
 
             {/* Footer */}
-            <footer className="bg-slate-950 text-white py-8 border-t border-slate-800">
+            <footer className="bg-gray-900 text-white py-8 border-t border-white/15">
                 <div className="container mx-auto px-4">
-                    <div className="flex flex-col md:flex-row justify-between items-center text-slate-500 text-xs gap-4">
+                    <div className="flex flex-col md:flex-row justify-between items-center text-white/50 text-xs gap-4">
                         <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
                         <div className="flex space-x-6">
                             <Link href="/" className="hover:text-white transition-colors">ホーム</Link>

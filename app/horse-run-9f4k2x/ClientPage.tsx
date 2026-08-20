@@ -55,7 +55,7 @@ export default function Page() {
     };
 
     return (
-        <div className="min-h-screen bg-neutral-50 font-sans text-slate-900">
+        <div className="min-h-dvh bg-neutral-50 font-sans text-slate-900">
             <main className="pt-10 pb-20">
                 {/* タイトル */}
                 <section className="container mx-auto px-4 mb-8 text-center">
@@ -70,7 +70,7 @@ export default function Page() {
                 {/* 横画面推奨の案内（タイトルとゲームの間に目立たせて配置） */}
                 <section className="container mx-auto px-4 mb-8">
                     <div className="max-w-3xl mx-auto flex items-center justify-center gap-3 rounded-2xl bg-amber-400 text-amber-950 font-black px-5 py-4 shadow-lg ring-2 ring-amber-300">
-                        <svg className="w-7 h-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <svg className="size-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <rect x="4" y="2" width="10" height="16" rx="2" transform="rotate(15 9 10)" />
                             <path d="M18 14a7 7 0 0 1-7 7" />
                             <path d="M18 21l2-1-1-2" />
@@ -81,11 +81,11 @@ export default function Page() {
 
                 {/* ゲーム本体（iframe埋め込み・横長3:1） */}
                 <section className="container mx-auto px-4 mb-16">
-                    <div className={enlarged ? 'fixed inset-0 z-[9999] bg-black' : 'max-w-3xl mx-auto'}>
+                    <div className={enlarged ? 'fixed inset-0 z-50 bg-black' : 'max-w-3xl mx-auto'}>
                         {enlarged && (
                             <button
                                 onClick={exitEnlarge}
-                                className="fixed top-3 right-3 z-[10000] px-4 py-2 rounded-full bg-white/90 text-slate-900 font-bold text-sm shadow-lg"
+                                className="fixed top-3 right-3 z-50 px-4 py-2 rounded-full bg-white/90 text-slate-900 font-bold text-sm shadow-lg"
                                 aria-label="全画面を閉じる"
                             >
                                 ✕ 閉じる

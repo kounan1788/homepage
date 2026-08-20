@@ -83,13 +83,13 @@ export default function Page() {
     }, [options]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+        <div className="min-h-dvh bg-gray-50">
             {/* Hero Header */}
-            <div className="bg-gradient-to-r from-slate-800 to-slate-900 text-white py-8 px-4 md:px-8">
+            <div className="bg-gray-900 text-white py-8 px-4 md:px-8">
                 <div className="max-w-5xl mx-auto">
                     {/* パンくずリスト（構造化データは page.tsx 側で出力済み） */}
                     <nav aria-label="パンくずリスト" className="mb-3">
-                        <ol className="flex flex-wrap items-center text-xs text-slate-400">
+                        <ol className="flex flex-wrap items-center text-xs text-slate-500">
                             <li><Link href="/" className="hover:text-white transition-colors">ホーム</Link></li>
                             <li className="mx-2">›</li>
                             <li><Link href="/noreta" className="hover:text-white transition-colors">カーリース ノレタ</Link></li>
@@ -97,7 +97,7 @@ export default function Page() {
                             <li className="text-slate-200">トヨタ ノア</li>
                         </ol>
                     </nav>                    <Link href="/noreta" className="inline-flex items-center text-slate-300 hover:text-white transition-colors mb-4 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                         ノレタ一覧に戻る
@@ -105,25 +105,25 @@ export default function Page() {
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
-                                <span className="bg-teal-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                                <span className="bg-teal-700 text-white text-xs font-bold px-3 py-1 rounded">
                                     NoReTa
                                 </span>
-                                <span className="text-slate-400 text-sm">
+                                <span className="text-slate-500 text-sm">
                                     月々定額・頭金なしで新車に乗れるカーリース
                                 </span>
                             </div>
-                            <h1 className="text-3xl md:text-5xl font-black tracking-tight">
+                            <h1 className="text-3xl md:text-5xl font-bold tracking-ja">
                                 トヨタ ノア
                             </h1>
                         </div>
                         <div className="flex flex-wrap gap-3">
-                            <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
+                            <span className="border border-white/25 px-4 py-2 rounded text-sm">
                                 グレード: S-Z GAS
                             </span>
-                            <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
+                            <span className="border border-white/25 px-4 py-2 rounded text-sm">
                                 搭乗人数: 7人
                             </span>
-                            <span className="bg-white/10 backdrop-blur px-4 py-2 rounded-xl text-sm font-medium">
+                            <span className="border border-white/25 px-4 py-2 rounded text-sm">
                                 排気量: 2,000cc
                             </span>
                         </div>
@@ -149,7 +149,7 @@ export default function Page() {
                         {/* Color Selection - Large Swatches */}
                         <div className="bg-white rounded-3xl p-6 shadow-xl">
                             <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                                <span className="w-1 h-6 bg-teal-500 rounded-full mr-3"></span>
+                                <span className="w-1 h-5 bg-teal-700 mr-3"></span>
                                 ボディカラー
                             </h2>
                             <div className="flex flex-wrap gap-4 justify-center">
@@ -157,11 +157,11 @@ export default function Page() {
                                     <button
                                         key={color.name}
                                         onClick={() => setSelectedColor(color.name)}
-                                        className={`group flex flex-col items-center transition-all duration-300 ${selectedColor === color.name ? 'scale-105' : 'hover:scale-105'
+                                        className={`group flex flex-col items-center transition-ui duration-200 ${selectedColor === color.name ? '' : ''
                                             }`}
                                     >
-                                        <div className={`relative w-16 h-16 md:w-20 md:h-20 rounded-full transition-all duration-300 ${selectedColor === color.name
-                                            ? 'ring-4 ring-teal-500 ring-offset-4'
+                                        <div className={`relative size-16 md:size-20 rounded-full transition-ui duration-200 ${selectedColor === color.name
+                                            ? 'ring-2 ring-teal-700 ring-offset-2'
                                             : 'ring-2 ring-slate-200 hover:ring-slate-300'
                                             }`}>
                                             <div
@@ -176,7 +176,7 @@ export default function Page() {
                                             }`}>
                                             {color.name}
                                         </span>
-                                        <span className={`text-xs mt-1 ${selectedColor === color.name ? 'text-teal-500' : 'text-slate-400'
+                                        <span className={`text-xs mt-1 ${selectedColor === color.name ? 'text-teal-500' : 'text-slate-500'
                                             }`}>
                                             {color.price > 0 ? `+${color.price.toLocaleString()}円/月` : '標準'}
                                         </span>
@@ -191,7 +191,7 @@ export default function Page() {
                         {Object.entries(optionsByCategory).map(([category, categoryOptions]) => (
                             <div key={category} className="bg-white rounded-3xl p-6 shadow-xl">
                                 <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                                    <span className="w-1 h-6 bg-teal-500 rounded-full mr-3"></span>
+                                    <span className="w-1 h-5 bg-teal-700 mr-3"></span>
                                     {category}
                                 </h2>
                                 <div className="space-y-3">
@@ -203,16 +203,16 @@ export default function Page() {
                                             <button
                                                 key={option.name}
                                                 onClick={() => toggleOption(option.name)}
-                                                className={`w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all duration-300 text-left ${isChecked
-                                                    ? 'border-teal-500 bg-teal-50 shadow-md'
-                                                    : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+                                                className={`w-full flex items-center gap-4 p-4 rounded border transition-colors duration-200 text-left ${isChecked
+                                                    ? 'border-teal-700 bg-teal-50'
+                                                    : 'border-gray-200 bg-white hover:border-gray-400'
                                                     }`}
                                             >
-                                                <div className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-all ${isChecked
-                                                    ? 'bg-teal-500 text-white'
+                                                <div className={`flex-shrink-0 size-6 rounded-lg flex items-center justify-center transition-ui ${isChecked
+                                                    ? 'bg-teal-700 text-white'
                                                     : 'bg-slate-100 text-transparent'
                                                     }`}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                                     </svg>
                                                 </div>
@@ -239,14 +239,14 @@ export default function Page() {
                         ))}
 
                         {/* Price Summary Card */}
-                        <div className="bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-3xl p-8 shadow-2xl">
+                        <div className="bg-gray-900 text-white rounded-3xl p-8 shadow-2xl">
                             <div className="text-center">
-                                <p className="text-slate-400 text-sm mb-2">月々のお支払い</p>
-                                <div className="text-5xl md:text-6xl font-black mb-2">
-                                    <span className="text-teal-400">{calculateTotalPrice().toLocaleString()}</span>
+                                <p className="text-slate-500 text-sm mb-2">月々のお支払い</p>
+                                <div className="text-5xl md:text-6xl font-bold mb-2">
+                                    <span className="text-teal-300">{calculateTotalPrice().toLocaleString()}</span>
                                     <span className="text-2xl ml-1">円</span>
                                 </div>
-                                <p className="text-slate-400 text-sm">税込・頭金なし・ボーナス払いなし</p>
+                                <p className="text-slate-500 text-sm">税込・頭金なし・ボーナス払いなし</p>
                             </div>
                         </div>
                     </div>
@@ -262,8 +262,8 @@ export default function Page() {
                         { label: '1年間', value: '傷保証', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
                     ].map((feature, i) => (
                         <div key={i} className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-shadow text-center">
-                            <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="size-12 bg-teal-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-6 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={feature.icon} />
                                 </svg>
                             </div>
@@ -282,7 +282,7 @@ export default function Page() {
             </div>
 
             {/* Fixed Bottom Price Bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-slate-200 shadow-2xl z-50 p-4">
+            <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-gray-200 z-40 pb-[env(safe-area-inset-bottom)] p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
                 <div className="max-w-5xl mx-auto flex items-center justify-between">
                     <div className="hidden sm:block">
                         <p className="font-bold text-slate-800">トヨタ ノア</p>
@@ -291,13 +291,13 @@ export default function Page() {
                     <div className="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-between sm:justify-end">
                         <div className="text-right">
                             <p className="text-xs text-slate-500">月々のお支払い</p>
-                            <p className="text-2xl md:text-3xl font-black text-teal-700">
+                            <p className="text-2xl md:text-3xl font-bold text-teal-700">
                                 {calculateTotalPrice().toLocaleString()}<span className="text-sm ml-1">円</span>
                             </p>
                         </div>
                         <Link
                             href="/#contact"
-                            className="bg-gradient-to-r from-teal-500 to-teal-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl hover:from-teal-700 hover:to-teal-800 transition-all whitespace-nowrap"
+                            className="bg-teal-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl hover:bg-teal-600 transition-ui whitespace-nowrap"
                         >
                             お問い合わせ
                         </Link>
