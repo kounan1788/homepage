@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
+import { readUrlParam, writeUrlParams } from '@/lib/urlState';
+import { buildContactUrl } from '@/lib/contactHandoff';
 
 // ノリドク FAQ データ
 const noridokuFaqData = [
@@ -92,6 +94,33 @@ export default function NoridokuPage() {
     useEffect(() => {
         setIsLoaded(true);
     }, []);
+
+    // ── 表示中のタブをURLに反映する（例: /noridoku?tab=interest） ──
+    // マウント後にURLを読んで復元する（静的HTMLは既定値のままなので不一致は起きない）
+    useEffect(() => {
+        const tab = readUrlParam('tab');
+        if (tab === 'depreciation' || tab === 'compare' || tab === 'interest') {
+            setActiveTab(tab);
+        }
+    }, []);
+
+    // タブが変わったらURLを書き換える。初回はURLからの復元を上書きしないよう飛ばす
+    const skipFirstUrlWrite = useRef(true);
+    useEffect(() => {
+        if (skipFirstUrlWrite.current) {
+            skipFirstUrlWrite.current = false;
+            return;
+        }
+        // 既定値（減価償却）のときはURLに出さない
+        writeUrlParams({ tab: activeTab === 'depreciation' ? null : activeTab });
+    }, [activeTab]);
+
+    // 法人リースの相談は、ジャンルを選んだ状態でフォームを開く
+    // （docs/blueprints/ux-lease-application.md）
+    const noridokuContactUrl = buildContactUrl({
+        category: "ノリドク（法人向けリース）",
+        lines: ["ご相談内容: 法人・個人事業主向けカーリースについて"],
+    });
 
     const usefulLife = customYears || selectedVehicleType;
     const priceInYen = vehiclePrice * 10000;
@@ -456,7 +485,7 @@ export default function NoridokuPage() {
                             </div>
 
                             <div className="flex justify-center mt-12">
-                                <a href="#contact" className="group px-10 py-5 bg-white text-blue-600 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-white/30 transition-ui duration-200">
+                                <a href={noridokuContactUrl} className="group px-10 py-5 bg-white text-blue-600 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-white/30 transition-ui duration-200">
                                     <span className="flex items-center">
                                         お問い合わせ・ご相談
                                         <svg aria-hidden="true" className="size-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">

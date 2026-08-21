@@ -6,6 +6,21 @@ import Image from 'next/image';
 import Script from 'next/script';
 import { sendEmail } from '@/app/actions/sendEmail';
 import MobileActionBar from '@/components/MobileActionBar';
+import {
+    readContactHandoff,
+    handoffToMessage,
+    type ContactHandoff,
+} from '@/lib/contactHandoff';
+
+// Instagramのアカウント名。表示とリンクで同じ値を使う
+const INSTAGRAM_HANDLE = 'kounanj_kanazawa';
+
+// Instagramのプロフィール埋め込み（https://www.instagram.com/<user>/embed/）は
+// Instagram側で提供が終了し、現在はエラーページが返るため使用していない。
+// 実際のフィードを表示したい場合は、Googleクチコミで既に使っている Elfsight で
+// Instagram Feed ウィジェットを作成し、そのIDをここに設定する。
+// 空文字のあいだはアカウントへの導線だけを表示する。
+const INSTAGRAM_WIDGET_ID = '';
 
 // 祝日・特別休業日の名称（カレンダーに表示する）
 const JAPANESE_HOLIDAYS: Record<string, string> = {
@@ -149,10 +164,16 @@ export default function Page() {
         name: '',
         email: '',
         category: '',
+        phone: '',
         preferredDate: '',
         preferredTime: '',
+        company: '',
+        jobTitle: '',
         message: '',
     });
+
+    // 他ページ（車検見積り・車種構成・採用）から引き継いだ内容
+    const [handoff, setHandoff] = useState<ContactHandoff | null>(null);
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -181,6 +202,19 @@ export default function Page() {
     });
 
     const [scrolled, setScrolled] = useState(false);
+
+    // 他ページから引き継いだ内容をフォームの初期値にする。
+    // 静的HTMLは空のままなので、マウント後に読んで反映する（ハイドレーション不一致を避ける）
+    useEffect(() => {
+        const received = readContactHandoff();
+        if (!received) return;
+        setHandoff(received);
+        setFormData((prev) => ({
+            ...prev,
+            category: received.category,
+            message: handoffToMessage(received),
+        }));
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -236,10 +270,14 @@ export default function Page() {
                     name: '',
                     email: '',
                     category: '',
+                    phone: '',
                     preferredDate: '',
                     preferredTime: '',
+                    company: '',
+                    jobTitle: '',
                     message: '',
                 });
+                setHandoff(null);
             } else {
                 setSubmitStatus({
                     type: 'error',
@@ -626,29 +664,6 @@ export default function Page() {
                     </div>
                 </div>
 
-                {/* 指標帯：確認できる数値だけを並べる */}
-                <div className="relative z-20 border-t border-white/20 bg-gray-950/50 backdrop-blur-sm">
-                    <div className="container">
-                        <dl className="grid grid-cols-2 divide-x divide-y divide-white/15 md:grid-cols-4 md:divide-y-0">
-                            {[
-                                { term: '創業', value: '1956', unit: '年' },
-                                { term: '車検 総額', value: '65,040', unit: '円〜' },
-                                { term: 'ノレタ 月々', value: '27,000', unit: '円〜' },
-                                { term: '取扱メーカー', value: '全', unit: 'メーカー' },
-                            ].map((item) => (
-                                <div key={item.term} className="px-4 py-5 md:px-6">
-                                    <dt className="text-[11px] text-white/75">{item.term}</dt>
-                                    <dd className="mt-1.5 flex items-baseline gap-1 text-white">
-                                        <span className="u-num text-2xl font-medium md:text-[28px]">
-                                            {item.value}
-                                        </span>
-                                        <span className="text-xs text-white/80">{item.unit}</span>
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </div>
-                </div>
             </section>
 
             {/* Services Section */}
@@ -1107,41 +1122,45 @@ export default function Page() {
                         </p>
                     </header>
 
-                    <div className="mx-auto mt-12 max-w-3xl rounded-2xl border border-gray-200 bg-white p-3 md:p-6">
-                        {/* スクロールでセクションが近づくまでiframeを生成せず初期表示を軽くする（高さ分は確保してCLSを防ぐ） */}
-                        {visibleSections.instagram ? (
-                            <iframe
-                                src="https://www.instagram.com/kounanj1788/embed/"
-                                width="100%"
-                                height="600"
-                                frameBorder="0"
-                                scrolling="yes"
-                                allowTransparency={true}
-                                loading="lazy"
-                                className="w-full"
-                                title="Kounan Auto Instagram Feed"
-                            ></iframe>
-                        ) : (
-                            <div
-                                role="status"
-                                className="flex w-full items-center justify-center bg-gray-50 text-sm text-gray-500"
-                                style={{ height: 600 }}
-                            >
-                                Instagramを読み込み中…
-                            </div>
-                        )}
+                    <div className="mx-auto mt-12 max-w-3xl rounded-2xl border border-gray-200 bg-white p-6 md:p-8">
+                        {/* ウィジェットIDが設定されているときだけフィードを描画する。
+                            セクションが画面に近づくまで生成せず、初期表示を軽くする */}
+                        {INSTAGRAM_WIDGET_ID &&
+                            (visibleSections.instagram ? (
+                                <>
+                                    <div
+                                        className={`elfsight-app-${INSTAGRAM_WIDGET_ID}`}
+                                        data-elfsight-app-lazy
+                                    ></div>
+                                    <Script
+                                        src="https://static.elfsight.com/platform/platform.js"
+                                        strategy="lazyOnload"
+                                        data-use-service-core
+                                    />
+                                </>
+                            ) : (
+                                <div
+                                    role="status"
+                                    className="flex w-full items-center justify-center rounded-xl bg-gray-50 text-sm text-gray-500"
+                                    style={{ height: 600 }}
+                                >
+                                    Instagramを読み込み中…
+                                </div>
+                            ))}
 
                         <a
-                            href="https://www.instagram.com/kounanj1788"
+                            href={`https://www.instagram.com/${INSTAGRAM_HANDLE}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group mt-4 flex h-14 items-center justify-between gap-6 rounded-xl border border-gray-300 px-6 text-[15px] font-bold text-gray-900 transition-colors hover:border-teal-700 hover:text-teal-700"
+                            className={`group flex h-14 items-center justify-between gap-6 rounded-xl border border-gray-300 px-6 text-[15px] font-bold text-gray-900 transition-colors hover:border-teal-700 hover:text-teal-700 ${
+                                INSTAGRAM_WIDGET_ID ? 'mt-4' : ''
+                            }`}
                         >
                             <span className="flex items-center gap-3">
                                 <svg aria-hidden="true" className="size-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                                 </svg>
-                                <span className="u-num">@kounanj1788</span>
+                                <span className="u-num">@{INSTAGRAM_HANDLE}</span>
                                 をフォローする
                             </span>
                             <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
@@ -1377,6 +1396,22 @@ export default function Page() {
                                 メールフォーム
                             </h3>
                             <form onSubmit={handleSubmit} className="mt-8 space-y-7">
+                                {/* 他ページから引き継いだ内容。何が渡ってきたかを送信前に確認できるようにする。
+                                    引き継ぐ行が無いときは空の枠を出さない */}
+                                {handoff && handoff.lines.length > 0 && (
+                                    <div className="rounded-xl border border-mint-200 bg-mint-50 p-5">
+                                        <p className="text-sm font-bold text-teal-800">入力済みの内容</p>
+                                        <ul className="mt-3 space-y-1 text-sm text-gray-700">
+                                            {handoff.lines.map((line, index) => (
+                                                <li key={`${index}-${line}`}>{line}</li>
+                                            ))}
+                                        </ul>
+                                        <p className="mt-3 text-xs text-gray-600">
+                                            下のお問い合わせ内容に転記しています。修正して送信できます。
+                                        </p>
+                                    </div>
+                                )}
+
                                 <div className="space-y-2">
                                     <label
                                         className="flex items-center gap-2 text-sm font-bold text-gray-900"
@@ -1452,9 +1487,95 @@ export default function Page() {
                                         </option>
                                         <option value="リース全般">リース全般</option>
                                         <option value="自動車保険">自動車保険</option>
+                                        <option value="採用・応募">採用・応募</option>
                                         <option value="その他">その他</option>
                                     </select>
                                 </div>
+
+                                {/* 電話番号（任意）。折り返しが電話のほうが早い相談が多いため */}
+                                <div className="space-y-2">
+                                    <label
+                                        className="flex items-center gap-2 text-sm font-bold text-gray-900"
+                                        htmlFor="phone"
+                                    >
+                                        電話番号
+                                        <span className="u-chip bg-gray-100 py-1 text-gray-600">任意</span>
+                                    </label>
+                                    <input
+                                        className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3.5 text-[15px] text-gray-900 transition-colors placeholder:text-gray-400 focus:border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                                        id="phone"
+                                        name="phone"
+                                        type="tel"
+                                        autoComplete="tel"
+                                        inputMode="tel"
+                                        spellCheck={false}
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                        aria-describedby="phone-help"
+                                        placeholder="090-1234-5678…"
+                                    />
+                                    <p id="phone-help" className="text-xs text-gray-500">
+                                        ご記入いただくとお電話で折り返せます。メールのみをご希望の場合は空欄で構いません。
+                                    </p>
+                                </div>
+
+                                {/* ノリドク（法人リース）を選んだときだけ会社情報を尋ねる */}
+                                {formData.category === 'ノリドク（法人向けリース）' && (
+                                    <div className="space-y-2">
+                                        <label
+                                            className="flex items-center gap-2 text-sm font-bold text-gray-900"
+                                            htmlFor="contact-company"
+                                        >
+                                            会社名・屋号
+                                            <span className="u-chip bg-red-50 py-1 text-red-700">必須</span>
+                                        </label>
+                                        <input
+                                            className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3.5 text-[15px] text-gray-900 transition-colors placeholder:text-gray-400 focus:border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                                            id="contact-company"
+                                            name="company"
+                                            type="text"
+                                            autoComplete="organization"
+                                            value={formData.company}
+                                            onChange={handleInputChange}
+                                            required
+                                            placeholder="株式会社〇〇…"
+                                        />
+                                    </div>
+                                )}
+
+                                {/* 採用・応募を選んだときだけ希望職種を尋ねる */}
+                                {formData.category === '採用・応募' && (
+                                    <div className="space-y-2">
+                                        <label
+                                            className="flex items-center gap-2 text-sm font-bold text-gray-900"
+                                            htmlFor="jobTitle"
+                                        >
+                                            ご希望の内容
+                                            <span className="u-chip bg-red-50 py-1 text-red-700">必須</span>
+                                        </label>
+                                        <select
+                                            className="w-full cursor-pointer appearance-none rounded-xl border border-gray-300 bg-white px-4 py-3.5 text-[15px] text-gray-900 transition-colors focus:border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-700"
+                                            id="jobTitle"
+                                            name="jobTitle"
+                                            value={formData.jobTitle}
+                                            onChange={handleInputChange}
+                                            required
+                                        >
+                                            <option value="" disabled>
+                                                選択してください
+                                            </option>
+                                            <option value="自動車整備士に応募">
+                                                自動車整備士に応募したい
+                                            </option>
+                                            <option value="見学・話を聞きたい">
+                                                まず職場を見たい・話を聞きたい
+                                            </option>
+                                        </select>
+                                        <p className="text-xs text-gray-500">
+                                            応募を迷っている段階でも構いません。履歴書は後日で結構です。
+                                        </p>
+                                    </div>
+                                )}
 
                                 {/* 車検・点検などの希望日時（任意） */}
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

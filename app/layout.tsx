@@ -166,7 +166,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 },
             ],
         },
-        sameAs: ['https://www.instagram.com/kounan_auto/'],
+        sameAs: ['https://www.instagram.com/kounanj_kanazawa/'],
     };
 
     // WebSite 構造化データ

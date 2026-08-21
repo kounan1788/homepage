@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { buildContactUrl } from '@/lib/contactHandoff';
 
 // ============================================
 // 求人ごとの公開フラグ
@@ -133,6 +134,16 @@ export default function RecruitPage() {
         return () => document.removeEventListener('keydown', onKeyDown);
     }, [menuOpen]);
 
+
+    // 応募と見学で入口を分ける（docs/blueprints/ux-recruit-application.md）
+    const applyUrl = buildContactUrl({
+        category: "採用・応募",
+        lines: ["ご希望の内容: 自動車整備士に応募したい"],
+    });
+    const visitUrl = buildContactUrl({
+        category: "採用・応募",
+        lines: ["ご希望の内容: まず職場を見たい・話を聞きたい"],
+    });
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -574,24 +585,38 @@ export default function RecruitPage() {
                                 あなたからのご連絡を、スタッフ一同心よりお待ちしています。
                             </p>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                            {/* 応募と見学で入口を分ける。迷っている段階の人を応募の重さで引き返させない
+                                （docs/blueprints/ux-recruit-application.md） */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <Link
-                                    href="tel:076-268-1788"
-                                    className="flex items-center justify-center bg-white text-slate-900 font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl"
+                                    href={applyUrl}
+                                    className="flex flex-col items-center justify-center rounded-2xl bg-teal-700 px-8 py-5 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.98]"
                                 >
-                                    <svg aria-hidden="true" className="size-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
-                                    </svg>
-                                    076-268-1788
+                                    整備士に応募する
+                                    <span className="mt-1 text-xs font-normal text-teal-100">
+                                        履歴書は後日で構いません
+                                    </span>
                                 </Link>
                                 <Link
-                                    href="/#contact"
-                                    className="flex items-center justify-center bg-teal-700 text-white font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl hover:bg-teal-500"
+                                    href={visitUrl}
+                                    className="flex flex-col items-center justify-center rounded-2xl border border-white/40 px-8 py-5 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-white/10 active:scale-[0.98]"
                                 >
-                                    <svg aria-hidden="true" className="size-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    まず話を聞いてみる
+                                    <span className="mt-1 text-xs font-normal text-slate-300">
+                                        職場見学だけでも歓迎です
+                                    </span>
+                                </Link>
+                            </div>
+
+                            <div className="mb-8">
+                                <Link
+                                    href="tel:076-268-1788"
+                                    className="inline-flex items-center justify-center rounded-2xl bg-white px-8 py-4 font-bold text-slate-900 transition-transform duration-200 active:scale-[0.98]"
+                                >
+                                    <svg aria-hidden="true" className="size-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
                                     </svg>
-                                    メールで問い合わせ
+                                    電話で相談する（076-268-1788）
                                 </Link>
                             </div>
 

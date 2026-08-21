@@ -1,11 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
 import { carBasePrices, formatPrice } from '@/lib/carPrices';
+import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 
 // ノレタ FAQ データ
 const noretaFaqData = [
@@ -57,6 +58,26 @@ export default function Page() {
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    // ── 選択中のカテゴリをURLに反映する（例: /noreta?category=KCAR） ──
+    // マウント後にURLを読んで復元する（静的HTMLは既定値のままなので不一致は起きない）
+    useEffect(() => {
+        const category = readUrlParam('category');
+        if (category === 'SUV' || category === 'MINIVAN' || category === 'KCAR') {
+            setActiveCategory(category);
+        }
+    }, []);
+
+    // カテゴリが変わったらURLを書き換える。初回はURLからの復元を上書きしないよう飛ばす
+    const skipFirstUrlWrite = useRef(true);
+    useEffect(() => {
+        if (skipFirstUrlWrite.current) {
+            skipFirstUrlWrite.current = false;
+            return;
+        }
+        // 既定値（SUV）のときはURLに出さない
+        writeUrlParams({ category: activeCategory === 'SUV' ? null : activeCategory });
+    }, [activeCategory]);
 
     useEffect(() => {
         const handleScroll = () => {

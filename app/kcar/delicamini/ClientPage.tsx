@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { carBasePrices } from '@/lib/carPrices';
+import { buildContactUrl } from '@/lib/contactHandoff';
 
 interface ColorOption {
     name: string;
@@ -59,6 +60,25 @@ export default function Page() {
 
         return Math.round(total);
     };
+
+    // 選んだ構成を持ったまま相談へ進むためのURL（docs/blueprints/ux-lease-application.md）
+    const contactUrl = (() => {
+        const paidOptions = selectedOptions.filter((name) => {
+            const opt = options.find((o) => o.name === name);
+            return opt && !opt.isDefault;
+        });
+        return buildContactUrl({
+            category: 'ノレタ',
+            lines: [
+                '車種: ミツビシ デリカミニ（T Premium・2WD・660cc）',
+                `ボディカラー: ${selectedColor}`,
+                paidOptions.length > 0
+                    ? `追加オプション: ${paidOptions.join('・')}`
+                    : '追加オプション: なし（標準装備のみ）',
+                `月々のお支払い（概算）: ${calculateTotalPrice().toLocaleString()}円`,
+            ],
+        });
+    })();
 
     const toggleOption = (optionName: string) => {
         if (selectedOptions.includes(optionName)) {
@@ -249,9 +269,12 @@ export default function Page() {
                                 <div className="text-5xl font-bold mb-4">
                                     ¥{calculateTotalPrice().toLocaleString()}
                                 </div>
-                                <button className="w-full bg-white text-teal-700 font-bold py-4 px-8 rounded-2xl hover:bg-teal-50 transition-colors shadow-lg">
+                                <Link
+                                    href={contactUrl}
+                                    className="block w-full rounded-2xl bg-white px-8 py-4 text-center font-bold text-teal-700 transition-[background-color,transform] duration-200 hover:bg-mint-50 active:scale-[0.98]"
+                                >
                                     お問い合わせはコチラ
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -296,9 +319,12 @@ export default function Page() {
                                 ¥{calculateTotalPrice().toLocaleString()}
                             </div>
                         </div>
-                        <button className="bg-teal-700 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-lg">
+                        <Link
+                            href={contactUrl}
+                            className="rounded-xl bg-teal-700 px-6 py-3 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.98]"
+                        >
                             お問い合わせ
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

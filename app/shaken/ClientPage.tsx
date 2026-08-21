@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
+import { readUrlParam, writeUrlParams } from '@/lib/urlState';
+import { buildContactUrl, handoffToShareText } from '@/lib/contactHandoff';
 
 // 車種タイプの定義
 type CarType = 'light' | 'small' | 'medium' | 'regular';
@@ -178,6 +180,42 @@ export default function ShakenPage() {
         setIsLoaded(true);
     }, []);
 
+    // ── 見積り条件をURLに反映する（共有・ブックマーク・再読み込みで復元できるように） ──
+    // 例: /shaken?type=regular&discounts=1,3,5
+    // マウント後にURLを読んで復元する（静的HTMLは既定値のままなので不一致は起きない）
+    useEffect(() => {
+        const type = readUrlParam('type');
+        if (type && type in pricingData) {
+            setSelectedCarType(type as CarType);
+        }
+
+        const discounts = readUrlParam('discounts');
+        if (discounts) {
+            const validIds = discounts
+                .split(',')
+                .map((v) => Number(v))
+                .filter((id) => discountOptions.some((opt) => opt.id === id));
+            if (validIds.length > 0) setSelectedDiscounts(validIds);
+        }
+    }, []);
+
+    // 条件が変わったらURLを書き換える。初回はURLからの復元を上書きしないよう飛ばす
+    const skipFirstUrlWrite = useRef(true);
+    useEffect(() => {
+        if (skipFirstUrlWrite.current) {
+            skipFirstUrlWrite.current = false;
+            return;
+        }
+        writeUrlParams({
+            // 既定値（軽自動車・割引なし）のときはURLに出さない
+            type: selectedCarType === 'light' ? null : selectedCarType,
+            discounts:
+                selectedDiscounts.length > 0
+                    ? [...selectedDiscounts].sort((a, b) => a - b).join(',')
+                    : null,
+        });
+    }, [selectedCarType, selectedDiscounts]);
+
     const carData = useMemo(() => pricingData[selectedCarType], [selectedCarType]);
 
     const totalDiscount = useMemo(() => {
@@ -190,6 +228,45 @@ export default function ShakenPage() {
     const finalTotal = useMemo(() => {
         return Math.max(0, carData.total - totalDiscount);
     }, [carData, totalDiscount]);
+
+    // ── 見積り条件を相談へ引き継ぐための組み立て（docs/blueprints/ux-estimate-handoff.md） ──
+    const [lineCopied, setLineCopied] = useState(false);
+
+    // 条件が変わったらコピー済み表示を戻す
+    useEffect(() => {
+        setLineCopied(false);
+    }, [selectedCarType, selectedDiscounts]);
+
+    const estimateLines = useMemo(() => {
+        const names = selectedDiscounts
+            .map((id) => discountOptions.find((opt) => opt.id === id)?.name)
+            .filter(Boolean) as string[];
+        return [
+            `車種クラス: ${carData.name}（${carData.weight}）`,
+            `車検総額の概算: ${finalTotal.toLocaleString()}円`,
+            names.length > 0
+                ? `適用した割引: ${names.join('・')}（−${totalDiscount.toLocaleString()}円）`
+                : '適用した割引: なし',
+        ];
+    }, [carData, finalTotal, selectedDiscounts, totalDiscount]);
+
+    const estimateContactUrl = useMemo(
+        () => buildContactUrl({ category: '車検', lines: estimateLines }),
+        [estimateLines]
+    );
+
+    // LINEは本文を渡せないため、条件をコピーしてからトーク画面を開く
+    const handleLineHandoff = async () => {
+        const text = handoffToShareText({ category: '車検', lines: estimateLines });
+        try {
+            await navigator.clipboard.writeText(text);
+            setLineCopied(true);
+        } catch {
+            // クリップボードが使えない環境でも遷移自体は妨げない
+        }
+        window.open('https://lin.ee/CKQM0mE', '_blank', 'noopener,noreferrer');
+    };
+
 
     const handleDiscountToggle = (id: number) => {
         setSelectedDiscounts(prev =>
@@ -531,16 +608,49 @@ export default function ShakenPage() {
                                                     </div>
                                                 )}
                                             </div>
-
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <Link href="tel:076-268-1788" className="flex items-center justify-center bg-white text-slate-900 font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl">
-                                                    <svg aria-hidden="true" className="size-5 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" /></svg>
-                                                    お電話で予約
-                                                </Link>
-                                                <Link href="https://lin.ee/CKQM0mE" className="flex items-center justify-center bg-green-500 text-white font-bold px-8 py-5 rounded-2xl transition-transform active:scale-95 shadow-xl">
-                                                    <svg aria-hidden="true" className="size-5 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" /></svg>
-                                                    LINEで予約
-                                                </Link>
+                                            {/* 見積り条件を持ったまま相談へ進む導線
+                                                （docs/blueprints/ux-estimate-handoff.md） */}
+                                            <div className="rounded-2xl border border-white/15 bg-white/5 p-5">
+                                                <p className="text-sm font-bold text-white">この条件のまま相談する</p>
+                                                <ul className="mt-3 space-y-1 text-xs text-slate-300">
+                                                    {estimateLines.map((line, index) => (
+                                                        <li key={`${index}-${line}`}>{line}</li>
+                                                    ))}
+                                                </ul>
+                                                <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
+                                                    <Link
+                                                        href={estimateContactUrl}
+                                                        className="flex items-center justify-center rounded-xl bg-teal-600 px-4 py-4 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-500 active:scale-[0.98]"
+                                                    >
+                                                        メールで相談
+                                                    </Link>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleLineHandoff}
+                                                        className="flex items-center justify-center rounded-xl bg-[#06C755] px-4 py-4 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-[#05b04c] active:scale-[0.98]"
+                                                    >
+                                                        LINEで相談
+                                                    </button>
+                                                    <Link
+                                                        href="tel:076-268-1788"
+                                                        className="flex items-center justify-center rounded-xl bg-white px-4 py-4 font-bold text-slate-900 transition-[background-color,transform] duration-200 hover:bg-slate-100 active:scale-[0.98]"
+                                                    >
+                                                        電話で相談
+                                                    </Link>
+                                                </div>
+                                                {/* コピー完了は読み上げにも届くよう status で知らせる */}
+                                                <p
+                                                    role="status"
+                                                    aria-live="polite"
+                                                    className="mt-4 text-xs text-teal-300"
+                                                >
+                                                    {lineCopied
+                                                        ? '条件をコピーしました。LINEのトーク画面に貼り付けてお送りください。'
+                                                        : ''}
+                                                </p>
+                                                <p className="mt-2 text-xs text-slate-400">
+                                                    メール・LINEは選んだ条件を引き継ぎます。お電話の場合は、上に表示されている車種と割引をそのままお伝えください。金額は概算で、追加整備があると変わります。
+                                                </p>
                                             </div>
                                         </div>
                                     </div>

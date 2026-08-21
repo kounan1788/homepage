@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { carBasePrices } from '@/lib/carPrices';
+import { buildContactUrl } from '@/lib/contactHandoff';
 
 interface ColorOption {
     name: string;
@@ -59,6 +60,25 @@ export default function Page() {
 
         return Math.round(total);
     };
+
+    // 選んだ構成を持ったまま相談へ進むためのURL（docs/blueprints/ux-lease-application.md）
+    const contactUrl = (() => {
+        const paidOptions = selectedOptions.filter((name) => {
+            const opt = options.find((o) => o.name === name);
+            return opt && !opt.isDefault;
+        });
+        return buildContactUrl({
+            category: 'ノレタ',
+            lines: [
+                '車種: トヨタ RAV4（Adventure OFFROAD package Ⅱ・4WD・2,000cc）',
+                `ボディカラー: ${selectedColor}`,
+                paidOptions.length > 0
+                    ? `追加オプション: ${paidOptions.join('・')}`
+                    : '追加オプション: なし（標準装備のみ）',
+                `月々のお支払い（概算）: ${calculateTotalPrice().toLocaleString()}円`,
+            ],
+        });
+    })();
 
     const toggleOption = (optionName: string) => {
         if (selectedOptions.includes(optionName)) {
@@ -296,7 +316,7 @@ export default function Page() {
                             </p>
                         </div>
                         <Link
-                            href="/#contact"
+                            href={contactUrl}
                             className="bg-teal-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl hover:bg-teal-600 transition-ui whitespace-nowrap"
                         >
                             お問い合わせ
