@@ -280,7 +280,7 @@ export default function Page() {
                 </div>
 
                 {/* Features Grid */}
-                <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
                         { icon: '💰', label: '頭金', value: '無し' },
                         { icon: '🎁', label: 'ボーナス', value: '無し' },

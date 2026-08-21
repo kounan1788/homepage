@@ -281,12 +281,11 @@ export default function Page() {
                 </div>
 
                 {/* Features Grid */}
-                <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
                         { icon: '💰', label: '頭金', value: '無し' },
                         { icon: '🎁', label: 'ボーナス', value: '無し' },
                         { icon: '🔧', label: '車検', value: '不要' },
-                        { icon: '⚡', label: 'オイルメンテ', value: '港南負担' },
                         { icon: '🛡️', label: '1年間', value: '傷保証' },
                     ].map((feature, index) => (
                         <div key={index} className="bg-white rounded-2xl p-4 shadow-lg text-center hover:shadow-xl transition-shadow">
