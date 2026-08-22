@@ -11,7 +11,7 @@ const car: CarSeoInfo = {
 };
 
 const description =
-    'ダイハツ タントカスタムのカーリースなら港南自動車。月々定額、頭金なし・ボーナス払いなしで新車に乗れる！金沢市でタントカスタムに乗るならノレタにお任せください。';
+    'ダイハツ タントカスタムのカーローンなら港南自動車。月々定額、頭金なし・ボーナス払いなしで新車に乗れる！金沢市でタントカスタムに乗るならノレタにお任せください。';
 
 export const metadata: Metadata = buildCarMetadata(car, description);
 

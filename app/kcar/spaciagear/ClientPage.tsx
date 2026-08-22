@@ -114,7 +114,7 @@ export default function Page() {
                         <ol className="flex flex-wrap items-center text-xs text-slate-500">
                             <li><Link href="/" className="hover:text-white transition-colors">ホーム</Link></li>
                             <li className="mx-2">›</li>
-                            <li><Link href="/noreta" className="hover:text-white transition-colors">カーリース ノレタ</Link></li>
+                            <li><Link href="/noreta" className="hover:text-white transition-colors">カーローン ノレタ</Link></li>
                             <li className="mx-2">›</li>
                             <li className="text-slate-200">スズキ スペーシアギア</li>
                         </ol>
@@ -131,7 +131,7 @@ export default function Page() {
                                     NoReTa
                                 </span>
                                 <span className="text-slate-500 text-sm">
-                                    月々定額・頭金なしで新車に乗れるカーリース
+                                    月々定額・頭金なしで新車に乗れるカーローン
                                 </span>
                             </div>
                             <h1 className="text-3xl md:text-5xl font-bold tracking-ja">
@@ -291,23 +291,23 @@ export default function Page() {
                     ))}
                 </div>
 
-                {/* リース内容の明記（ノレタ/ノリドクへの内部リンク） */}
+                {/* カーローン内容の明記（ノレタ/ノリドクへの内部リンク） */}
                 <div className="mt-12 bg-white rounded-3xl p-6 md:p-8 shadow-lg">
                     <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-4">
-                        スペーシアギアのカーリース内容（新車リース「ノレタ」）
+                        スペーシアギアのカーローン内容（新車カーローン「ノレタ」）
                     </h2>
                     <ul className="text-slate-600 text-sm md:text-base leading-relaxed space-y-2 mb-6">
                         <li>・月額料金：月々{basePrice.toLocaleString()}円〜（税込）。ボディカラー・オプションの選択で変わります。</li>
                         <li>・契約年数：3年。頭金0円・ボーナス払い0円の月々定額です。</li>
                         <li>・含まれるもの：車検費用・オイル交換・故障修理までまるごとコミコミ。急な出費の心配がありません。</li>
-                        <li>・3年後：新しい車への「乗り換え」／同じ車の「継続利用」／「返却」から選べます。</li>
+                        <li>・3年後：新しい車への「乗り換え」／同じ車の「継続利用」／「売却（下取り）」から選べます。</li>
                     </ul>
                     <div className="flex flex-col sm:flex-row gap-3">
                         <Link
                             href="/noreta"
                             className="inline-flex items-center justify-center px-6 py-3 bg-teal-700 text-white font-bold rounded-xl hover:bg-teal-800 transition-colors shadow-md"
                         >
-                            新車リース「ノレタ」の詳細を見る
+                            新車カーローン「ノレタ」の詳細を見る
                         </Link>
                         <Link
                             href="/noridoku"

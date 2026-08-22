@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: '金沢市で新車に乗るなら「ノレタ」｜月々定額・頭金なしの新車リース',
+    title: '金沢市で新車に乗るなら「ノレタ」｜月々定額・頭金なしの新車カーローン',
     description:
-        '金沢市で新車をお探しなら港南自動車の「ノレタ」。月々定額、頭金・ボーナス払いなしで新車に乗れる3年リースプラン。軽自動車27,000円〜、SUV35,000円〜。車検・メンテナンスもコミコミで安心。石川県金沢市の方はお気軽にご相談ください。',
+        '金沢市で新車をお探しなら港南自動車の「ノレタ」。月々定額、頭金・ボーナス払いなしで新車に乗れる3年のカーローン。軽自動車27,000円〜、SUV35,000円〜。車検・メンテナンスもコミコミで安心。石川県金沢市の方はお気軽にご相談ください。',
     keywords: [
         '金沢市 新車',
         '新車リース 金沢',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
                 url: '/og-image.jpg',
                 width: 1200,
                 height: 630,
-                alt: '金沢市の新車リース「ノレタ」港南自動車サービス',
+                alt: '金沢市の新車カーローン「ノレタ」港南自動車サービス',
             },
         ],
     },
@@ -45,7 +45,7 @@ export default function NoretaLayout({ children }: { children: React.ReactNode }
         '@type': 'BreadcrumbList',
         itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://www.kounan-auto.jp' },
-            { '@type': 'ListItem', position: 2, name: '新車リース「ノレタ」' },
+            { '@type': 'ListItem', position: 2, name: '新車カーローン「ノレタ」' },
         ],
     };
 

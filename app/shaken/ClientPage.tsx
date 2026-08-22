@@ -870,7 +870,7 @@ export default function ShakenPage() {
                         <nav className="flex space-x-8">
                             <Link href="/" className="hover:text-white transition-colors">ホーム</Link>
                             <Link href="/shaken" className="hover:text-white transition-colors">車検について</Link>
-                            <Link href="/noreta" className="hover:text-white transition-colors">個人リース「ノレタ」</Link>
+                            <Link href="/noreta" className="hover:text-white transition-colors">個人ローン「ノレタ」</Link>
                         </nav>
                     </div>
                 </div>

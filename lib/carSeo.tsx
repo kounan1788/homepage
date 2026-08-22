@@ -20,7 +20,7 @@ const BASE_URL = 'https://www.kounan-auto.jp';
 /**
  * 車種ページの Metadata（title / description / canonical / OGP）を生成します。
  * customTitle を指定すると、共通テンプレート（| 港南自動車サービス - 金沢市）を付けない
- * 完全なtitleとしてそのまま使用します（リース訴求titleなど個別最適化用）。
+ * 完全なtitleとしてそのまま使用します（ローン訴求titleなど個別最適化用）。
  */
 export function buildCarMetadata(car: CarSeoInfo, description: string, customTitle?: string): Metadata {
     const title = customTitle ?? `${car.name} - ノレタ｜港南自動車`;
@@ -42,7 +42,7 @@ export function buildCarMetadata(car: CarSeoInfo, description: string, customTit
                     url: car.image,
                     width: 1200,
                     height: 630,
-                    alt: `${car.name}｜カーリース ノレタ（港南自動車サービス）`,
+                    alt: `${car.name}｜カーローン ノレタ（港南自動車サービス）`,
                 },
             ],
         },
@@ -55,14 +55,14 @@ export function buildCarMetadata(car: CarSeoInfo, description: string, customTit
 export function CarJsonLd({ car, description }: { car: CarSeoInfo; description: string }) {
     const basePrice = carBasePrices[car.path];
 
-    // Service + Offer 構造化データ（月額リース価格）
-    // ※通販商品ではなく「カーリースというサービス」のため Service を使用。
+    // Service + Offer 構造化データ（月々のお支払い額）
+    // ※通販商品ではなく「カーローンというサービス」のため Service を使用。
     //   Product にするとレビュー・送料・返品ポリシー等（通販向け）の警告対象になるため避けている。
     const serviceSchema = {
         '@context': 'https://schema.org',
         '@type': 'Service',
-        serviceType: 'カーリース（ノレタ）',
-        name: `${car.name} カーリース「ノレタ」`,
+        serviceType: 'カーローン（ノレタ）',
+        name: `${car.name} カーローン「ノレタ」`,
         image: `${BASE_URL}${car.image}`,
         description,
         brand: {
@@ -113,7 +113,7 @@ export function CarJsonLd({ car, description }: { car: CarSeoInfo; description: 
             {
                 '@type': 'ListItem',
                 position: 2,
-                name: 'カーリース ノレタ',
+                name: 'カーローン ノレタ',
                 item: `${BASE_URL}/noreta`,
             },
             {

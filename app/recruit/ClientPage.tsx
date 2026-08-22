@@ -648,7 +648,7 @@ export default function RecruitPage() {
                                 </div>
                                 <div className="flex flex-col md:flex-row border-b border-slate-100 pb-4">
                                     <dt className="font-bold text-slate-600 md:w-40 mb-1 md:mb-0">事業内容</dt>
-                                    <dd className="text-slate-900">自動車整備・車検、新車・中古車販売、カーリース「ノレタ」</dd>
+                                    <dd className="text-slate-900">自動車整備・車検、新車・中古車販売、カーローン「ノレタ」</dd>
                                 </div>
                                 <div className="flex flex-col md:flex-row">
                                     <dt className="font-bold text-slate-600 md:w-40 mb-1 md:mb-0">創業</dt>
@@ -694,7 +694,7 @@ export default function RecruitPage() {
                         <div className="flex space-x-8">
                             <Link href="/" className="hover:text-white transition-colors">ホーム</Link>
                             <Link href="/shaken" className="hover:text-white transition-colors">車検について</Link>
-                            <Link href="/noreta" className="hover:text-white transition-colors">個人リース「ノレタ」</Link>
+                            <Link href="/noreta" className="hover:text-white transition-colors">個人ローン「ノレタ」</Link>
                             <Link href="/recruit" className="hover:text-white transition-colors text-teal-400">採用情報</Link>
                         </div>
                     </div>

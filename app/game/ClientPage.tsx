@@ -268,7 +268,7 @@ export default function Page() {
 
                     {/* CTA */}
                     <div className="text-center">
-                        <p className="text-slate-600 mb-6 font-bold">車検・新車・カーリースのご相談もお気軽にどうぞ。</p>
+                        <p className="text-slate-600 mb-6 font-bold">車検・新車・カーローンのご相談もお気軽にどうぞ。</p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link href="tel:076-268-1788" className="inline-flex items-center justify-center px-8 py-4 bg-teal-700 text-white rounded-xl hover:bg-teal-800 transition-ui font-bold shadow-lg">
                                 お電話で相談（076-268-1788）
@@ -315,7 +315,7 @@ export default function Page() {
                         <nav className="flex space-x-8">
                             <Link href="/" className="hover:text-white transition-colors">ホーム</Link>
                             <Link href="/shaken" className="hover:text-white transition-colors">車検について</Link>
-                            <Link href="/noreta" className="hover:text-white transition-colors">個人リース「ノレタ」</Link>
+                            <Link href="/noreta" className="hover:text-white transition-colors">個人ローン「ノレタ」</Link>
                         </nav>
                     </div>
                 </div>

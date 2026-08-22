@@ -12,16 +12,6 @@ import {
     type ContactHandoff,
 } from '@/lib/contactHandoff';
 
-// Instagramのアカウント名。表示とリンクで同じ値を使う
-const INSTAGRAM_HANDLE = 'kounanj_kanazawa';
-
-// Instagramのプロフィール埋め込み（https://www.instagram.com/<user>/embed/）は
-// Instagram側で提供が終了し、現在はエラーページが返るため使用していない。
-// 実際のフィードを表示したい場合は、Googleクチコミで既に使っている Elfsight で
-// Instagram Feed ウィジェットを作成し、そのIDをここに設定する。
-// 空文字のあいだはアカウントへの導線だけを表示する。
-const INSTAGRAM_WIDGET_ID = '';
-
 // 祝日・特別休業日の名称（カレンダーに表示する）
 const JAPANESE_HOLIDAYS: Record<string, string> = {
     '2026-04-29': '昭和の日',
@@ -132,8 +122,8 @@ const topFaqData = [
         answer: '法定費用込みの総額で、軽自動車65,040円〜、普通乗用車100,040円〜です。持込・引取割引や早期予約割引など各種割引制度の組み合わせで、最大約20,000円お得になります。',
     },
     {
-        question: 'カーリース「ノレタ」とはどんなサービスですか？',
-        answer: '月々定額・頭金なし・ボーナス払いなしで新車に乗れる3年リースプランです。車検費用・オイル交換・故障修理もすべてコミコミ。3年後は「乗り換え」「継続利用」「返却」から選べます。',
+        question: 'カーローン「ノレタ」とはどんなサービスですか？',
+        answer: '月々定額・頭金なし・ボーナス払いなしで新車に乗れる3年のカーローンです。車検費用・オイル交換・故障修理もすべてコミコミ。3年後は「乗り換え」「継続利用」「売却（下取り）」から選べます。',
     },
     {
         question: '法人向けのカーリースはありますか？',
@@ -155,7 +145,6 @@ export default function Page() {
         services: false,
         cases: false,
         company: false,
-        instagram: false,
         reviews: false,
         contact: false,
     });
@@ -228,7 +217,6 @@ export default function Page() {
                 services: scrollPosition > windowHeight * 0.1,
                 cases: scrollPosition > windowHeight * 0.5,
                 company: scrollPosition > windowHeight * 0.7,
-                instagram: scrollPosition > windowHeight * 0.8,
                 reviews: scrollPosition > windowHeight * 0.85,
                 contact: scrollPosition > windowHeight * 0.9,
             });
@@ -241,7 +229,7 @@ export default function Page() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const fadeIn = (section: 'hero' | 'services' | 'cases' | 'company' | 'instagram' | 'reviews' | 'contact') => {
+    const fadeIn = (section: 'hero' | 'services' | 'cases' | 'company' | 'reviews' | 'contact') => {
         return visibleSections[section] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4';
     };
 
@@ -637,7 +625,7 @@ export default function Page() {
                             className="animate-fade-in-up mt-7 max-w-xl text-[15px] leading-loose text-white/85 opacity-0 md:text-base"
                             style={{ animationDelay: '0.3s' }}
                         >
-                            車検・整備から新車販売、月々定額のカーリースまで。
+                            車検・整備から新車販売、月々定額のカーローンまで。
                             <br className="hidden md:block" />
                             金沢・金石の町で70年、同じ場所でお客様のお車をお預かりしています。
                         </p>
@@ -678,7 +666,7 @@ export default function Page() {
                             <span className="u-chip">Services</span>
                         </div>
                         <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
-                            車検・整備、新車と中古車の販売、個人向け・法人向けのカーリース。お車に関わることは一通りお引き受けします。
+                            車検・整備、新車と中古車の販売、個人向けカーローンと法人向けカーリース。お車に関わることは一通りお引き受けします。
                         </p>
                     </header>
 
@@ -686,13 +674,13 @@ export default function Page() {
                         {/* ノレタ - 主力サービス */}
                         <div className="flex flex-col bg-teal-900 p-8 md:p-10 lg:col-span-7">
                             <div className="flex items-baseline justify-between gap-4 border-b border-white/20 pb-4">
-                                <span className="u-label text-teal-200">月々定額カーリース</span>
+                                <span className="u-label text-teal-200">月々定額カーローン</span>
                                 <span className="text-[11px] text-white/60">個人のお客様向け</span>
                             </div>
 
                             <h3 className="mt-7 text-3xl font-bold text-white">ノレタ</h3>
                             <p className="mt-4 max-w-lg text-[15px] leading-loose text-white/80">
-                                車検も、オイル交換も、故障修理も月々の定額に含まれます。急な出費に備えなくてよいので、家計の見通しが立ちます。3年後は「乗り換え」「継続」「返却」からお選びいただけます。
+                                車検も、オイル交換も、故障修理も月々の定額に含まれます。急な出費に備えなくてよいので、家計の見通しが立ちます。3年後は「乗り換え」「継続」「売却（下取り）」からお選びいただけます。
                             </p>
 
                             <dl className="mt-8 border-t border-white/15">
@@ -787,14 +775,14 @@ export default function Page() {
                     <div className="mt-12 max-w-3xl rounded-2xl border-l-4 border-mint-400 bg-mint-50 p-7 md:p-9">
                         <h3 className="text-lg font-bold text-gray-900">金沢市で新車をお探しの方へ</h3>
                         <p className="mt-4 text-[15px] leading-loose text-gray-600">
-                            港南自動車サービスは、石川県金沢市で創業70年、トヨタ・ホンダ・スズキ・ダイハツなど全メーカーの新車を取り扱う自動車販売店です。ご購入のほか、頭金なし・ボーナス払いなしの月々定額で新車に乗れる新車リース「ノレタ」もご用意。車検やオイル交換などの維持費もコミコミなので、初めて新車に乗る方にも安心です。
+                            港南自動車サービスは、石川県金沢市で創業70年、トヨタ・ホンダ・スズキ・ダイハツなど全メーカーの新車を取り扱う自動車販売店です。ご購入のほか、頭金なし・ボーナス払いなしの月々定額で新車に乗れる新車カーローン「ノレタ」もご用意。車検やオイル交換などの維持費もコミコミなので、初めて新車に乗る方にも安心です。
                         </p>
                         <p className="mt-4 text-[15px] leading-loose text-gray-600">
                             <Link
                                 href="/noreta"
                                 className="font-bold text-teal-700 underline underline-offset-4 hover:text-teal-500"
                             >
-                                金沢市の新車リース「ノレタ」の料金・取扱車種はこちら
+                                金沢市の新車カーローン「ノレタ」の料金・取扱車種はこちら
                             </Link>
                             。ご予算に合わせた一台のご提案は
                             <a
@@ -919,7 +907,7 @@ export default function Page() {
                                 株式会社港南自動車サービス
                             </h3>
                             <p className="mt-2 text-sm text-gray-500">
-                                自動車整備・車両販売・カーリース
+                                自動車整備・車両販売・カーローン・カーリース
                             </p>
 
                             <dl className="mt-8 border-t border-gray-200">
@@ -1106,69 +1094,6 @@ export default function Page() {
                 </div>
             </section>
 
-            {/* Instagram Section */}
-            <section id="instagram" className="border-t border-gray-200 bg-white py-20 md:py-28">
-                <div className="container">
-                    <header>
-                        <hr className="u-road" aria-hidden="true" />
-                        <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-                            <h2 className="text-[26px] font-bold leading-tight text-gray-900 md:text-[32px]">
-                                最近の様子
-                            </h2>
-                            <span className="u-chip">Instagram</span>
-                        </div>
-                        <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
-                            入庫した車、店舗の日常、キャンペーンのお知らせを投稿しています。
-                        </p>
-                    </header>
-
-                    <div className="mx-auto mt-12 max-w-3xl rounded-2xl border border-gray-200 bg-white p-6 md:p-8">
-                        {/* ウィジェットIDが設定されているときだけフィードを描画する。
-                            セクションが画面に近づくまで生成せず、初期表示を軽くする */}
-                        {INSTAGRAM_WIDGET_ID &&
-                            (visibleSections.instagram ? (
-                                <>
-                                    <div
-                                        className={`elfsight-app-${INSTAGRAM_WIDGET_ID}`}
-                                        data-elfsight-app-lazy
-                                    ></div>
-                                    <Script
-                                        src="https://static.elfsight.com/platform/platform.js"
-                                        strategy="lazyOnload"
-                                        data-use-service-core
-                                    />
-                                </>
-                            ) : (
-                                <div
-                                    role="status"
-                                    className="flex w-full items-center justify-center rounded-xl bg-gray-50 text-sm text-gray-500"
-                                    style={{ height: 600 }}
-                                >
-                                    Instagramを読み込み中…
-                                </div>
-                            ))}
-
-                        <a
-                            href={`https://www.instagram.com/${INSTAGRAM_HANDLE}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`group flex h-14 items-center justify-between gap-6 rounded-xl border border-gray-300 px-6 text-[15px] font-bold text-gray-900 transition-colors hover:border-teal-700 hover:text-teal-700 ${
-                                INSTAGRAM_WIDGET_ID ? 'mt-4' : ''
-                            }`}
-                        >
-                            <span className="flex items-center gap-3">
-                                <svg aria-hidden="true" className="size-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                                </svg>
-                                <span className="u-num">@{INSTAGRAM_HANDLE}</span>
-                                をフォローする
-                            </span>
-                            <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
-                        </a>
-                    </div>
-                </div>
-            </section>
-
             {/* Google Reviews Section */}
             <section
                 id="reviews"
@@ -1225,7 +1150,7 @@ export default function Page() {
                                 港南ドライブチャレンジ
                             </h2>
                             <p className="mt-4 max-w-xl text-[15px] leading-loose text-white/80">
-                                ガードレールをよけて走るだけ。走った距離に応じて、車検やリースに使える割引コードがもらえます。PC・スマホどちらでも遊べます。
+                                ガードレールをよけて走るだけ。走った距離に応じて、車検やお車のご契約に使える割引コードがもらえます。PC・スマホどちらでも遊べます。
                             </p>
                         </div>
                         <div className="flex items-center justify-between gap-4 border-t border-gray-200 bg-white p-8 md:col-span-4 md:border-l md:border-t-0 md:p-10">
@@ -1272,7 +1197,7 @@ export default function Page() {
                             <span className="u-chip">FAQ</span>
                         </div>
                         <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
-                            車検・カーリースについて、お客様からよくいただくご質問にお答えします。
+                            車検・カーローン・カーリースについて、お客様からよくいただくご質問にお答えします。
                         </p>
                     </header>
 
@@ -1485,7 +1410,7 @@ export default function Page() {
                                         <option value="ノリドク（法人向けリース）">
                                             ノリドク（法人向けリース）
                                         </option>
-                                        <option value="リース全般">リース全般</option>
+                                        <option value="ローン・リース全般">ローン・リース全般</option>
                                         <option value="自動車保険">自動車保険</option>
                                         <option value="採用・応募">採用・応募</option>
                                         <option value="その他">その他</option>
@@ -1750,7 +1675,7 @@ export default function Page() {
                                             href="/noreta"
                                             className="transition-colors hover:text-teal-300"
                                         >
-                                            ノレタ（個人向けリース）
+                                            ノレタ（個人向けローン）
                                         </a>
                                     </li>
                                     <li>

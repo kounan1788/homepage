@@ -11,7 +11,7 @@ const car: CarSeoInfo = {
 };
 
 const description =
-    '三菱 デリカミニのカーリースなら港南自動車。月々定額、頭金なし・ボーナス払いなしで新車に乗れる！金沢市でデリカミニに乗るならノレタにお任せください。';
+    '三菱 デリカミニのカーローンなら港南自動車。月々定額、頭金なし・ボーナス払いなしで新車に乗れる！金沢市でデリカミニに乗るならノレタにお任せください。';
 
 export const metadata: Metadata = buildCarMetadata(car, description);
 

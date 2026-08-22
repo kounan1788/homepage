@@ -111,7 +111,7 @@ export default function Page() {
                         <ol className="flex flex-wrap items-center text-xs text-slate-500">
                             <li><Link href="/" className="hover:text-white transition-colors">ホーム</Link></li>
                             <li className="mx-2">›</li>
-                            <li><Link href="/noreta" className="hover:text-white transition-colors">カーリース ノレタ</Link></li>
+                            <li><Link href="/noreta" className="hover:text-white transition-colors">カーローン ノレタ</Link></li>
                             <li className="mx-2">›</li>
                             <li className="text-slate-200">トヨタ ヤリスクロス</li>
                         </ol>
@@ -128,7 +128,7 @@ export default function Page() {
                                     NoReTa
                                 </span>
                                 <span className="text-slate-500 text-sm">
-                                    月々定額・頭金なしで新車に乗れるカーリース
+                                    月々定額・頭金なしで新車に乗れるカーローン
                                 </span>
                             </div>
                             <h1 className="text-3xl md:text-5xl font-bold tracking-ja">

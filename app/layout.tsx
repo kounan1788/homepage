@@ -11,11 +11,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
     metadataBase: new URL('https://www.kounan-auto.jp'),
     title: {
-        default: '金沢の新車販売・車検・月々定額カーリース｜港南自動車サービス',
+        default: '金沢の新車販売・車検・月々定額カーローン｜港南自動車サービス',
         template: '%s | 港南自動車サービス - 金沢市',
     },
     description:
-        '金沢で新車をお探しなら港南自動車サービス。頭金0円・月々27,000円〜の定額カーリース「ノレタ」で新車に乗れます。車検・整備、新車・中古車販売まで創業70年の実績。',
+        '金沢で新車をお探しなら港南自動車サービス。頭金0円・月々27,000円〜の定額カーローン「ノレタ」で新車に乗れます。車検・整備、新車・中古車販売まで創業70年の実績。',
     keywords: [
         '港南自動車',
         '港南自動車サービス',
@@ -57,9 +57,9 @@ export const metadata: Metadata = {
         },
     },
     openGraph: {
-        title: '金沢の新車販売・車検・月々定額カーリース｜港南自動車サービス',
+        title: '金沢の新車販売・車検・月々定額カーローン｜港南自動車サービス',
         description:
-            '金沢で新車をお探しなら港南自動車サービス。頭金0円・月々27,000円〜の定額カーリース「ノレタ」。車検・整備から新車・中古車販売まで創業70年の実績。',
+            '金沢で新車をお探しなら港南自動車サービス。頭金0円・月々27,000円〜の定額カーローン「ノレタ」。車検・整備から新車・中古車販売まで創業70年の実績。',
         url: 'https://www.kounan-auto.jp',
         type: 'website',
         locale: 'ja_JP',
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: '金沢の新車販売・車検・カーリース｜港南自動車サービス',
+        title: '金沢の新車販売・車検・カーローン｜港南自動車サービス',
         description:
             '頭金0円・月々27,000円〜で新車に乗れる「ノレタ」。車検・整備から新車販売まで創業70年。',
         images: ['/og-image.jpg'],
@@ -137,7 +137,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             },
         ],
         description:
-            '石川県金沢市で創業70年の自動車整備工場。車検、一般整備、新車・中古車販売、カーリース「ノレタ」「ノリドク」を展開。金沢市の車検なら港南自動車へ。',
+            '石川県金沢市で創業70年の自動車整備工場。車検、一般整備、新車・中古車販売、カーローン「ノレタ」「ノリドク」を展開。金沢市の車検なら港南自動車へ。',
         foundingDate: '1956',
         slogan: '安心・快適なカーライフを',
         hasOfferCatalog: {
@@ -158,7 +158,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 },
                 {
                     '@type': 'Offer',
-                    itemOffered: { '@type': 'Service', name: 'カーリース「ノレタ」' },
+                    itemOffered: { '@type': 'Service', name: 'カーローン「ノレタ」' },
                 },
                 {
                     '@type': 'Offer',
@@ -177,7 +177,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         url: 'https://www.kounan-auto.jp',
         name: '株式会社港南自動車サービス',
         alternateName: ['港南自動車', '港南自動車サービス', '湖南自動車', '河南自動車'],
-        description: '石川県金沢市の車検・新車販売・カーリース',
+        description: '石川県金沢市の車検・新車販売・カーローン・カーリース',
         publisher: { '@id': 'https://www.kounan-auto.jp/#organization' },
         inLanguage: 'ja',
     };
