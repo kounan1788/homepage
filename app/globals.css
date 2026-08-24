@@ -137,6 +137,20 @@
         font-variant-numeric: tabular-nums;
     }
 
+    /* 下線リンクのタップ領域を 44px まで広げる。
+       擬似要素で当たり判定だけを上下に伸ばすので、下線の位置は文字の直下のまま動かない */
+    .u-tap {
+        @apply relative;
+    }
+    .u-tap::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -10px;
+        bottom: -10px;
+    }
+
 }
 
 @layer utilities {

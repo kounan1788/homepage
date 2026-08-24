@@ -212,14 +212,16 @@ export default function Page() {
 
             setScrolled(scrollPosition > 50);
 
-            setVisibleSections({
+            // 一度表示したセクションは戻さない。
+            // 上にスクロールし直したときに見出しや口コミが消えてしまうため
+            setVisibleSections((prev) => ({
                 hero: true,
-                services: scrollPosition > windowHeight * 0.1,
-                cases: scrollPosition > windowHeight * 0.5,
-                company: scrollPosition > windowHeight * 0.7,
-                reviews: scrollPosition > windowHeight * 0.85,
-                contact: scrollPosition > windowHeight * 0.9,
-            });
+                services: prev.services || scrollPosition > windowHeight * 0.1,
+                cases: prev.cases || scrollPosition > windowHeight * 0.5,
+                company: prev.company || scrollPosition > windowHeight * 0.7,
+                reviews: prev.reviews || scrollPosition > windowHeight * 0.85,
+                contact: prev.contact || scrollPosition > windowHeight * 0.9,
+            }));
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -752,7 +754,7 @@ export default function Page() {
                                     {s.internal ? (
                                         <Link
                                             href={s.href}
-                                            className="group mt-6 inline-flex items-center gap-2 self-start border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
+                                            className="group u-tap mt-6 inline-flex items-center gap-2 self-start border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
                                         >
                                             {s.cta}
                                             <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
@@ -760,7 +762,7 @@ export default function Page() {
                                     ) : (
                                         <a
                                             href={s.href}
-                                            className="group mt-6 inline-flex items-center gap-2 self-start border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
+                                            className="group u-tap mt-6 inline-flex items-center gap-2 self-start border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
                                         >
                                             {s.cta}
                                             <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
@@ -863,7 +865,7 @@ export default function Page() {
                                     </p>
                                     <a
                                         href="#contact"
-                                        className="group/link mt-6 inline-flex items-center gap-2 border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
+                                        className="group/link u-tap mt-6 inline-flex items-center gap-2 border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
                                     >
                                         この車種について相談する
                                         <ArrowRight className="transition-transform duration-200 group-hover/link:translate-x-1" />

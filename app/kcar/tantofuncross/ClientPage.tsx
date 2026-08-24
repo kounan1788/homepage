@@ -110,7 +110,7 @@ export default function Page() {
                 <div className="max-w-5xl mx-auto">
                     {/* パンくずリスト（構造化データは page.tsx 側で出力済み） */}
                     <nav aria-label="パンくずリスト" className="mb-3">
-                        <ol className="flex flex-wrap items-center text-xs text-slate-500">
+                        <ol className="flex flex-wrap items-center text-xs text-slate-400">
                             <li><Link href="/" className="hover:text-white transition-colors">ホーム</Link></li>
                             <li className="mx-2">›</li>
                             <li><Link href="/noreta" className="hover:text-white transition-colors">カーローン ノレタ</Link></li>
@@ -129,7 +129,7 @@ export default function Page() {
                                 <span className="bg-teal-700 text-white text-xs font-bold px-3 py-1 rounded">
                                     NoReTa
                                 </span>
-                                <span className="text-slate-500 text-sm">
+                                <span className="text-slate-400 text-sm">
                                     月々定額・頭金なしで新車に乗れるカーローン
                                 </span>
                             </div>
