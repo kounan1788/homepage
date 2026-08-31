@@ -19,11 +19,10 @@ const jobListings = [
     {
         id: 'mechanic',
         published: true, // 整備士の公開フラグ
-        title: '自動車整備士',
+        title: 'ピットエンジニア-自動車整備士-',
         subtitle: '未経験スタート多数・資格取得は会社が全力サポート',
-        icon: '🔧',
         highlight: '積極採用中',
-        description: '「クルマが好き」──その気持ちさえあれば大丈夫。お客様の大切なお車の車検・点検・整備をお任せします。最初はできることから、経験豊富な先輩が一つひとつ丁寧に教えるので、未経験からでも着実にプロの整備士へ成長できます。18時完全退社で残業はほとんどなく、資格取得も費用は会社が負担して全力でバックアップ。腰を据えて長く技術を磨ける環境です。',
+        description: '「クルマが好き」──その気持ちさえあれば大丈夫。お客様の大切なお車の車検・点検・整備をお任せします。最初はできることから、経験豊富な先輩が一つひとつ丁寧に教えるので、未経験からでも着実にプロの整備士へ成長できます。国の指定工場としてリフト4基・検査ラインを備え、スキャンツールも完備。HV・EVまで扱えるので、これからの時代に通用する技術が身につきます。そして残業は完全ゼロ。繁忙期であっても、平日は18時・土曜は17時にきちんと帰れます。腰を据えて長く技術を磨ける環境です。',
         requirements: [
             '普通自動車運転免許（AT限定可）',
             '整備士資格不問（入社後の資格取得を支援）',
@@ -31,7 +30,8 @@ const jobListings = [
             '10代〜50代まで幅広く採用いたします！',
         ],
         salary: {
-            base: '月給 195,000円〜',
+            amount: '¥195,000',
+            per: '／月〜',
             details: '※経験・能力を考慮の上、決定いたします',
             bonus: '賞与年2回',
             raise: '昇給年1回',
@@ -39,17 +39,15 @@ const jobListings = [
         benefits: [
             '社会保険完備（雇用・労災・健康・厚生年金）',
             '資格取得支援制度（費用会社負担）',
-            '資格手当あり（2級：10,000円/月、検査員：20,000円/月）',
+            '資格手当あり（2級：5,000円/月、検査員：5,000円/月）',
             '通勤手当支給',
             '制服貸与',
             'マイカー通勤OK（無料駐車場完備）',
             '社員割引制度あり',
         ],
         workStyle: {
-            hours: '9:00〜18:00（休憩60分・18時00分完全帰宅）',
-            hoursSaturday: '9:00〜17:00（休憩60分・17時00分完全帰宅）',
             holidays: '日曜・祝日、第1・第2・第4土曜日(繁忙期により変動あり)',
-            vacation: '年間休日105日以上、年次有給休暇、夏季・年末年始休暇、慶弔休暇',
+            vacation: '年次有給休暇（確実に取得できます）、夏季・年末年始休暇、慶弔休暇',
         },
     },
     {
@@ -57,7 +55,6 @@ const jobListings = [
         published: false, // 事務・受付スタッフの公開フラグ
         title: '事務・受付スタッフ',
         subtitle: '未経験・ブランクOK／人と接するのが好きな方歓迎',
-        icon: '💼',
         highlight: '募集中',
         description: 'ご来店されたお客様の受付・電話応対、見積書や請求書の作成、データ入力など、店舗を支える事務業務全般をお任せします。特別なスキルは必要ありません。大切なのは、明るい笑顔と「人と接するのが好き」という気持ち。分からないことはすぐに聞けるアットホームな職場なので、未経験の方もブランクのある方も安心してスタートできます。',
         requirements: [
@@ -67,7 +64,8 @@ const jobListings = [
             '未経験者歓迎・ブランクOK',
         ],
         salary: {
-            base: '月給 170,000円〜',
+            amount: '¥170,000',
+            per: '／月〜',
             details: '※経験・能力を考慮の上、決定いたします',
             bonus: '賞与年2回（実績による）',
             raise: '昇給年1回',
@@ -80,35 +78,265 @@ const jobListings = [
             '社員割引制度あり',
         ],
         workStyle: {
-            hours: '9:00〜18:00（休憩60分・18時00分完全帰宅）',
-            hoursSaturday: '9:00〜17:00（休憩60分・17時00分完全帰宅）',
             holidays: '日曜・祝日、第1・第2・第4土曜日',
-            vacation: '年間休日105日以上、有給休暇、夏季・年末年始休暇、慶弔休暇',
+            vacation: '有給休暇（確実に取得できます）、夏季・年末年始休暇、慶弔休暇',
         },
     },
 ];
 
+// 役員メッセージの本文を構成するブロック
+//   p     … 通常の段落
+//   quote … 強調して見せたい一文（読み飛ばす人にも目に留まるように大きく表示）
+//   list  … 短い文を並べた箇条書き
+type MessageBlock =
+    | { type: 'p'; text: string }
+    | { type: 'quote'; text: string }
+    | { type: 'list'; items: string[] };
+
+// 役員メッセージ（ページ冒頭に表示）
+// 顔写真は public/images/recruit-message.jpg に配置する
+const executiveMessage = {
+    photo: '/images/recruit-message.jpg',
+    name: '藤田 大貴',
+    position: '取締役',
+    // 写真の横に大きく置くリード文
+    lead: '働く人が笑顔だからこそ、お客様も笑顔にできる会社でありたい。',
+    // 章ごとに区切って表示する。heading が空の章は見出しなしで本文から始まる
+    chapters: [
+        {
+            heading: '',
+            blocks: [
+                { type: 'p', text: '私は、従業員とお客様、その両方を笑顔にできる会社をつくりたいと思っています。' },
+                { type: 'p', text: 'お客様に喜んでいただくことは、もちろん私たちにとって一番大切なことです。でも、そのために働いている人が疲れ切っていたり、家族との時間を犠牲にしていたり、仕事を楽しめなくなってしまっていたら、私はそれを本当に良い会社だとは思いません。' },
+                { type: 'p', text: 'だから港南自動車では、' },
+                { type: 'quote', text: '「定時に帰れる整備士」を、当たり前にしたい。' },
+                { type: 'p', text: 'そう本気で考えています。' },
+                { type: 'p', text: 'この業界を知っている方ほど、「自動車整備の仕事で残業がないなんて本当？」と思われるかもしれません。' },
+                {
+                    type: 'list',
+                    items: [
+                        '繁忙期になれば夜遅くまで仕事をする。',
+                        '休みの日でも仕事のことを考える。',
+                        '整備士ならそれくらい当たり前。',
+                    ],
+                },
+                { type: 'p', text: '私自身も、そういう話をたくさん聞いてきました。でも、港南自動車ではそれを「当たり前」にしたくありません。' },
+                { type: 'p', text: '繁忙期であっても、絶対に残業はありません。平日は18時、土曜日は17時に仕事を終えて帰ります。' },
+                { type: 'p', text: 'これは単なる努力目標ではありません。会社として「時間になったら帰る」と決め、そのために仕事の量や予約、段取りを考える。それも経営の仕事だと思っています。' },
+                { type: 'p', text: '年間休日は110日。有給休暇もしっかり取ってもらいたいと考えています。' },
+                { type: 'p', text: 'なぜ、そこまで働く環境を大切にするのか。理由はとてもシンプルです。働く人自身の生活が充実していなければ、お客様を心から笑顔にする仕事はできないと思っているからです。' },
+                {
+                    type: 'list',
+                    items: [
+                        '家族と過ごす時間。',
+                        '友人と遊ぶ時間。',
+                        '趣味を楽しむ時間。',
+                        '自分自身を成長させる時間。',
+                    ],
+                },
+                { type: 'p', text: 'そうした時間があるからこそ、仕事にも前向きに向き合える。そして心に余裕があるからこそ、お客様の話を丁寧に聞いたり、安全に関わる整備にしっかり向き合ったりできる。' },
+                { type: 'p', text: 'だから私は、社員の働きやすさと、お客様へのサービスは別々のものではないと思っています。社員を大切にすることが、結果としてお客様を大切にすることにつながる。そんな会社をつくっていきたいです。' },
+            ] as MessageBlock[],
+        },
+        {
+            heading: '70年続いてきた会社だからこそ、これからは新しいことにも挑戦したい。',
+            blocks: [
+                { type: 'p', text: '港南自動車サービスは、1956年の創業から約70年、この金石の地で車検・整備・車両販売を続けてきました。長く続いてきた会社だからこそ、大切にしなければならないものがあります。' },
+                { type: 'p', text: '一方で、私は「昔からこうだから」という理由だけで、すべてをそのまま続ける必要はないとも思っています。' },
+                { type: 'p', text: '私自身、現在32歳です。自動車業界の会社経営者としては、比較的若い世代だと思います。だからこそ、' },
+                {
+                    type: 'list',
+                    items: [
+                        '「こんなことをやってみたい」',
+                        '「もっとこうした方が働きやすい」',
+                        '「こんなサービスがあったらお客様が喜ぶんじゃないか」',
+                        '「こういう工具や仕組みを導入したい」',
+                    ],
+                },
+                { type: 'p', text: 'そんな社員からのアイデアを、できる限り形にしていきたいと思っています。' },
+                { type: 'p', text: '年齢や社歴、役職は関係ありません。入社したばかりの人から出たアイデアであっても、良いと思えばやってみる。失敗したとしても、「じゃあ次はどうする？」と一緒に考えられる会社でありたい。' },
+                { type: 'quote', text: '経営者が全部を決めて社員がそれに従う会社ではなく、働いているみんなで港南自動車をつくっていける会社にしたい。' },
+                { type: 'p', text: 'そう思っています。' },
+            ] as MessageBlock[],
+        },
+        {
+            heading: '業界未経験でも、女性でも、大歓迎です。',
+            blocks: [
+                { type: 'p', text: '今回の採用では、自動車業界で長く働いてきた経験者だけを求めているわけではありません。むしろ私たちは、完全な業界未経験の方も、女性の方も、積極的に仲間になってほしいと思っています。' },
+                { type: 'p', text: '今まで自動車業界にいなかったからこそ、「なんでこのやり方なんだろう？」と気付けることがあります。これまで男性が多かった職場だからこそ、女性の視点から変えられることもあると思います。' },
+                { type: 'p', text: '違う業界で働いていた人だからこそ持っている考え方や経験も、港南自動車にとっては大きな財産です。' },
+                { type: 'p', text: '私たちは、「今の自動車業界に合う人」だけを集めたいわけではありません。いろいろな人に入ってきてもらうことで、港南自動車そのものを、もっと新しい会社に変えていきたい。そう考えています。' },
+                { type: 'p', text: 'もちろん、未経験であれば最初は分からないことばかりだと思います。' },
+                {
+                    type: 'list',
+                    items: [
+                        '工具の名前も分からない。',
+                        '車の構造も分からない。',
+                        '整備士として働いた経験もない。',
+                    ],
+                },
+                { type: 'p', text: 'それで構いません。先輩が横について、一つずつ仕事を覚えてもらいます。整備士資格の取得についても、費用を含め会社がしっかりサポートします。指定工場として働くための設備も環境も、会社が用意します。' },
+                { type: 'quote', text: '最初から完璧な人を探しているわけではありません。' },
+            ] as MessageBlock[],
+        },
+        {
+            heading: '私たちが探しているのは、「これから一緒に会社をつくってくれる人」です。',
+            blocks: [
+                {
+                    type: 'list',
+                    items: [
+                        '「クルマが好き」',
+                        '「機械を触ることが好き」',
+                        '「手に職をつけたい」',
+                        '「地元で長く働きたい」',
+                        '「今までとは違う仕事に挑戦してみたい」',
+                        '「せっかく働くなら、自分の意見も聞いてくれる会社がいい」',
+                    ],
+                },
+                { type: 'p', text: 'そんな気持ちが少しでもあれば、ぜひ一度、港南自動車に来てみてください。会社の雰囲気を見て、働いているスタッフと話をして、それから考えてもらって構いません。' },
+                { type: 'p', text: '私たちも、採用する人と会社がお互いに長く気持ちよく付き合っていけることを何より大切にしています。' },
+                { type: 'p', text: '創業70年。これまで港南自動車を支えてくださったお客様や地域の方々を、これからも大切にしていきます。でも同時に、これからの10年、20年に向けて、会社も変わっていかなければならないと思っています。' },
+                { type: 'p', text: 'その変化を、私一人で起こしたいわけではありません。これから入ってくる皆さんと一緒に、新しい港南自動車をつくりたい。' },
+                {
+                    type: 'list',
+                    items: [
+                        '働く人が笑顔になれる。',
+                        'その笑顔がお客様にも伝わる。',
+                        'そして、お客様から「港南自動車にお願いしてよかった」と言っていただける。',
+                    ],
+                },
+                { type: 'p', text: 'そんな会社を、本気でつくっていきたいと思っています。' },
+                { type: 'p', text: '経験や性別は問いません。あなたにまず持ってきてほしいのは、「ちょっとやってみたい」という気持ちです。その気持ちを、私たちは全力で応援します。' },
+                { type: 'quote', text: '一緒に、これからの港南自動車を作ってくれませんか。' },
+            ] as MessageBlock[],
+        },
+    ],
+};
+
 // 会社の魅力ポイント
+// 絵文字アイコンではなく実測値を先頭に置く。整備工場の点検記録票と同じ書式で
+// 条件を提示することで、広告文句ではなく「測った値」として読ませる
 const companyFeatures = [
     {
-        icon: '🏢',
+        figure: '0.0',
+        unit: 'h ／月',
+        label: '時間外労働',
+        title: '繁忙期も、残業完全ゼロ',
+        description: '「忙しい時期だけは仕方ない」がありません。平日は18時、土曜は17時に帰ります。年間休日は110日、有給も確実に取得できます。予定が立てられるから、家族との時間も勉強の時間も守れます。',
+    },
+    {
+        figure: '4+1',
+        unit: '基 ／ライン',
+        label: '整備設備',
+        title: '国の指定工場・充実の設備',
+        description: 'リフト4基と検査ライン1基を自社に備えた指定工場です。車検を工場内で完結できるため、検査員資格を実務の中で目指せます。スキャンツールも完備しています。',
+    },
+    {
+        figure: 'HV·EV',
+        unit: '整備対応',
+        label: '取扱範囲',
+        title: 'HV・EVまで扱える技術力',
+        description: '軽自動車から普通車まで全メーカーに対応し、ハイブリッド・EVの整備も手がけます。特定の車種に偏らず、これからの時代に通用する技術と知識が自然と身につきます。',
+    },
+    {
+        figure: '¥0',
+        unit: '自己負担',
+        label: '資格取得費用',
+        title: '資格取得は会社が全額負担',
+        description: '「先輩の背中を見て覚えろ」はありません。OJTで一つひとつ丁寧に指導し、資格取得の費用も会社が負担。取得後は資格手当（2級10,000円／検査員20,000円）で毎月の給与に反映されます。',
+    },
+    {
+        figure: '70',
+        unit: '年',
+        label: '創業',
         title: '創業70年の安定企業',
         description: '石川県金沢市の地で長年愛され続けてきた信頼と実績があります。車検・整備という景気に左右されにくい事業だからこそ、安定した基盤の中で腰を据えて長く働けます。',
     },
     {
-        icon: '📚',
-        title: '充実の教育・研修制度',
-        description: '「先輩の背中を見て覚えろ」はありません。OJTで一つひとつ丁寧に指導し、資格取得の費用も会社が負担。未経験からプロの整備士へ、着実にステップアップできます。',
+        figure: '3',
+        unit: '領域',
+        label: '事業',
+        title: '整備だけの会社ではありません',
+        description: '自社のカーローン「ノレタ」とリース「ノリドク」を運営し、新車・中古車の販売まで手がけています。整備の腕を磨きながら、クルマがお客様に届くまでの全体が見える。ここは他の整備工場にはない環境です。',
+    },
+];
+
+// 就業記録：このページ最大の主張である労働条件を、測定値の書式でまとめたもの
+// ヒーローでは highlight: true の3項目だけを帯で表示する
+//
+// 注意：font-mono（IBM Plex Mono）にかなの字形は無い。和文に当てると
+// システムの等幅フォントに落ちて字面が崩れるため、value（数字）だけを mono にし、
+// label と suffix（和文）は font-sans のまま扱う
+const workRecord = [
+    { label: '平日 退社時刻', value: '18:00', suffix: '', highlight: true },
+    { label: '土曜 退社時刻', value: '17:00', suffix: '', highlight: true },
+    { label: '時間外労働', value: '0.0', suffix: 'h／月', highlight: true },
+    { label: '年間休日', value: '110', suffix: '日' },
+    { label: '平日 実働', value: '7:30', suffix: '' },
+    { label: '土曜 実働', value: '6:30', suffix: '' },
+    { label: '休憩', value: '90', suffix: '分' },
+];
+
+// 役員メッセージの1章分を描画する
+function MessageChapter({ chapter }: { chapter: { heading: string; blocks: MessageBlock[] } }) {
+    return (
+        <div>
+            {chapter.heading && (
+                <h3 className="mt-14 pt-14 border-t border-slate-200 text-lg md:text-xl font-bold text-slate-900 leading-[1.7]">
+                    {chapter.heading}
+                </h3>
+            )}
+            <div className="mt-6 space-y-6">
+                {chapter.blocks.map((block, blockIdx) => {
+                    if (block.type === 'quote') {
+                        return (
+                            <p
+                                key={blockIdx}
+                                className="py-2 text-lg md:text-[22px] font-bold text-teal-800 leading-[1.8]"
+                            >
+                                {block.text}
+                            </p>
+                        );
+                    }
+                    if (block.type === 'list') {
+                        return (
+                            <ul
+                                key={blockIdx}
+                                className="border-l-2 border-teal-200 pl-5 space-y-2 text-slate-600 leading-[1.8]"
+                            >
+                                {block.items.map((item, itemIdx) => (
+                                    <li key={itemIdx}>{item}</li>
+                                ))}
+                            </ul>
+                        );
+                    }
+                    return (
+                        <p key={blockIdx} className="text-slate-600 leading-[2]">
+                            {block.text}
+                        </p>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
+
+// 選考フロー（応募のハードルを下げるため、所要期間まで明示する）
+const selectionSteps = [
+    {
+        step: '01',
+        title: 'ご応募・お問い合わせ',
+        description: 'フォームかお電話でご連絡ください。履歴書は後日で構いません。「まず話を聞きたい」「工場を見たい」だけでも大歓迎です。',
     },
     {
-        icon: '🤝',
-        title: 'アットホームな職場環境',
-        description: '少数精鋭のチームだからこそ、一人ひとりの顔が見える風通しの良さ。分からないことや困ったことはすぐに相談でき、あなたの意見も届きやすい職場です。',
+        step: '02',
+        title: '面接（1回のみ）',
+        description: '面接は1回だけです。何度も足を運んでいただくことはありません。工場もご案内しますので、働く場所を実際に見てから判断してください。',
     },
     {
-        icon: '🚗',
-        title: '全メーカー対応でスキルアップ',
-        description: '軽自動車から普通車まで、多彩なメーカー・車種を取り扱います。特定の車種に偏らないからこそ、どこへ行っても通用する幅広い技術と知識が自然と身につきます。',
+        step: '03',
+        title: '5営業日以内に結果をご連絡',
+        description: '合否は5営業日以内に必ずお伝えします。長くお待たせしません。在職中の方の応募も歓迎しており、入社日はご相談の上で決めます。',
     },
 ];
 
@@ -121,6 +349,8 @@ export default function RecruitPage() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [activeJob, setActiveJob] = useState<string | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
+    // 役員メッセージの2節目以降の開閉
+    const [messageOpen, setMessageOpen] = useState(false);
 
     // Escapeキーでメニューを閉じ、開閉ボタンにフォーカスを戻す
     useEffect(() => {
@@ -392,40 +622,158 @@ export default function RecruitPage() {
                 {/* Hero Section */}
                 <section className="container mx-auto px-4 mb-16 relative">
                     <div className={`transition-ui duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                        <div className="inline-flex items-center px-4 py-1.5 rounded bg-teal-100 text-teal-800 text-xs md:text-sm font-bold mb-6">
-                            <span className="flex size-2 bg-teal-700 mr-2"></span>
-                            RECRUIT - 採用情報
-                        </div>
+                        <p className="u-label mb-5">RECRUIT</p>
                         <h1 className="text-[32px] md:text-[48px] font-bold tracking-ja text-gray-900 mb-6 leading-[1.35]">
                             <span className="text-teal-700">あなたの力</span>を、<br />
                             地域のカーライフに。
                         </h1>
                         <p className="text-lg text-slate-500 max-w-2xl leading-relaxed">
                             港南自動車サービスでは、一緒に働く仲間を募集しています。
-                            未経験の方も大歓迎。経験豊富な先輩スタッフがしっかりサポートします。
+                            繁忙期でも残業は完全ゼロ、年間休日110日。未経験の方も大歓迎で、資格取得の費用は会社が負担します。
                             あなたも私たちと一緒に、地域のお客様の安心・安全なカーライフを支えませんか？
                         </p>
-                    </div>
 
-                    {/* Decorative Background Element */}
-                    <div className="absolute -top-24 -right-24 size-96 bg-teal-100 rounded hidden opacity-40 z-0"></div>
+                        {/* 就業記録の帯：このページ最大の主張を、広告文句ではなく測定値として最初に見せる */}
+                        <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-5 border-t border-rule pt-6 max-w-2xl">
+                            {workRecord
+                                .filter((row) => row.highlight)
+                                .map((row) => (
+                                    <div key={row.label}>
+                                        <dt className="text-[11px] tracking-[0.12em] text-slate-500 mb-1.5">
+                                            {row.label}
+                                        </dt>
+                                        <dd className="flex items-baseline gap-1.5">
+                                            <span className="u-num text-2xl md:text-[28px] font-medium text-teal-800 leading-none">
+                                                {row.value}
+                                            </span>
+                                            {row.suffix && (
+                                                <span className="text-xs text-slate-500">{row.suffix}</span>
+                                            )}
+                                        </dd>
+                                    </div>
+                                ))}
+                        </dl>
+                    </div>
+                </section>
+
+                {/* 役員メッセージ：抽象的な「アットホーム」に代えて、書き手の顔と考え方を最初に見せる */}
+                <section className="container mx-auto px-4 mb-24">
+                    {/* 長文のため、スマホでは余白を詰めて1行あたりの文字数を確保する */}
+                    <div className="bg-white rounded-3xl border border-slate-200 p-6 md:p-12">
+                        <div className="text-center mb-10">
+                            <p className="u-label mb-3">MESSAGE</p>
+                            <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900">役員からのメッセージ</h2>
+                        </div>
+
+                        {/* 導入：顔写真とリード文。本文が長いため、ここだけで誰の何の話かが伝わるようにする */}
+                        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 md:gap-12 items-center max-w-3xl mx-auto mb-14">
+                            <figure className="mx-auto md:mx-0 w-[180px] md:w-full">
+                                <Image
+                                    src={executiveMessage.photo}
+                                    alt={`${executiveMessage.position} ${executiveMessage.name}`}
+                                    width={440}
+                                    height={550}
+                                    className="w-full aspect-[4/5] object-cover rounded-2xl bg-slate-100"
+                                />
+                                <figcaption className="mt-4 text-center md:text-left">
+                                    <span className="block text-sm text-slate-500">{executiveMessage.position}</span>
+                                    <span className="block text-lg font-bold text-slate-900">{executiveMessage.name}</span>
+                                </figcaption>
+                            </figure>
+                            <p className="text-xl md:text-[26px] font-bold text-slate-900 leading-[1.7] text-center md:text-left">
+                                「{executiveMessage.lead}」
+                            </p>
+                        </div>
+
+                        {/* 本文：長文のため1行あたりの文字数を抑え、行間を広めに取る。
+                            1節目だけを常に見せ、2節目以降はボタンで開く。
+                            閉じている間は消さずに高さを詰めるだけなので、2節目の冒頭が
+                            半透明の膜ごしにうっすら見え、検索エンジンにも全文が読まれる */}
+                        <div className="max-w-[42rem] mx-auto">
+                            <MessageChapter chapter={executiveMessage.chapters[0]} />
+
+                            <div className="relative">
+                                <div
+                                    id="executive-message-rest"
+                                    className={messageOpen ? undefined : 'max-h-[280px] overflow-hidden'}
+                                >
+                                    {executiveMessage.chapters.slice(1).map((chapter, chapterIdx) => (
+                                        <MessageChapter key={chapterIdx} chapter={chapter} />
+                                    ))}
+
+                                    {messageOpen && (
+                                        <div className="mt-12 border-t border-rule pt-10 text-center">
+                                            <button
+                                                onClick={() => setMessageOpen(false)}
+                                                aria-expanded={true}
+                                                aria-controls="executive-message-rest"
+                                                className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-7 py-3.5 font-bold text-slate-600 transition-colors duration-200 hover:bg-slate-50"
+                                            >
+                                                メッセージを閉じる
+                                                <svg
+                                                    aria-hidden="true"
+                                                    className="size-5 rotate-180"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* 閉じている間だけ重ねる膜。下へいくほど白を強めて切れ目を隠し、
+                                    ボタン自体も半透明にして、奥の文字が透けて見えるようにする */}
+                                {!messageOpen && (
+                                    <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-b from-white/50 via-white/60 to-white/90 pb-3">
+                                        <button
+                                            onClick={() => setMessageOpen(true)}
+                                            aria-expanded={false}
+                                            aria-controls="executive-message-rest"
+                                            className="inline-flex items-center gap-2 rounded-full border border-teal-700 bg-white/50 px-7 py-3.5 font-bold text-teal-700 backdrop-blur-[1px] transition-colors duration-200 hover:bg-white/80"
+                                        >
+                                            メッセージを開く
+                                            <svg
+                                                aria-hidden="true"
+                                                className="size-5"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 {/* Company Features Section */}
                 <section className="container mx-auto px-4 mb-24">
                     <div className="text-center mb-12">
-                        <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-4">港南自動車で働く魅力</h2>
-                        <p className="text-slate-500">私たちが大切にしていること</p>
+                        <p className="u-label mb-3">WHY KOUNAN</p>
+                        <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900">港南自動車で働く魅力</h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {companyFeatures.map((feature, idx) => (
                             <div
                                 key={idx}
                                 className="bg-white p-8 rounded-3xl border border-slate-200 hover:shadow-xl transition-ui duration-200"
                             >
-                                <div className="size-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl mb-6">
-                                    {feature.icon}
-                                </div>
+                                {/* 絵文字の代わりに実測値を置く。整備工場の記録票の見え方に合わせる */}
+                                <p className="text-[11px] tracking-[0.12em] text-slate-500 mb-2">
+                                    {feature.label}
+                                </p>
+                                <p className="flex items-baseline gap-2 border-b border-rule pb-5 mb-5">
+                                    <span className="u-num text-[34px] font-medium leading-none text-teal-800">
+                                        {feature.figure}
+                                    </span>
+                                    <span className="text-xs text-slate-500">{feature.unit}</span>
+                                </p>
                                 <h3 className="text-lg font-bold mb-3 text-slate-900">{feature.title}</h3>
                                 <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
                             </div>
@@ -436,6 +784,7 @@ export default function RecruitPage() {
                 {/* Job Listings Section */}
                 <section className="container mx-auto px-4 mb-24">
                     <div className="text-center mb-12">
+                        <p className="u-label mb-3">POSITIONS</p>
                         <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-4">募集職種</h2>
                         <p className="text-slate-500">あなたに合ったポジションを見つけてください</p>
                     </div>
@@ -449,17 +798,12 @@ export default function RecruitPage() {
                                 {/* Job Header */}
                                 <div className="bg-teal-800 p-6 md:p-8">
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                        <div className="flex items-center gap-4">
-                                            <div className="size-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-4xl">
-                                                {job.icon}
+                                        <div>
+                                            <div className="inline-flex items-center rounded-full border border-white/30 px-3 py-1 text-[11px] tracking-[0.12em] text-teal-100 mb-3">
+                                                {job.highlight}
                                             </div>
-                                            <div>
-                                                <div className="inline-flex items-center px-3 py-1 rounded bg-teal-700 text-white text-xs font-bold mb-2">
-                                                    {job.highlight}
-                                                </div>
-                                                <h3 className="text-2xl md:text-3xl font-bold text-white">{job.title}</h3>
-                                                <p className="text-teal-100 text-sm">{job.subtitle}</p>
-                                            </div>
+                                            <h3 className="text-2xl md:text-3xl font-bold text-white">{job.title}</h3>
+                                            <p className="text-teal-100 text-sm mt-1">{job.subtitle}</p>
                                         </div>
                                         <button
                                             onClick={() => setActiveJob(activeJob === job.id ? null : job.id)}
@@ -483,20 +827,14 @@ export default function RecruitPage() {
                                     <div className="p-6 md:p-10 space-y-8">
                                         {/* Description */}
                                         <div>
-                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
-                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">📝</span>
-                                                仕事内容
-                                            </h4>
-                                            <p className="text-slate-600 leading-relaxed pl-11">{job.description}</p>
+                                            <h4 className="text-[11px] tracking-[0.12em] text-slate-500 mb-4 pb-2 border-b border-rule">仕事内容</h4>
+                                            <p className="text-slate-600 leading-relaxed">{job.description}</p>
                                         </div>
 
                                         {/* Requirements */}
                                         <div>
-                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
-                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">✅</span>
-                                                応募資格
-                                            </h4>
-                                            <ul className="space-y-2 pl-11">
+                                            <h4 className="text-[11px] tracking-[0.12em] text-slate-500 mb-4 pb-2 border-b border-rule">応募資格</h4>
+                                            <ul className="space-y-2">
                                                 {job.requirements.map((req, idx) => (
                                                     <li key={idx} className="flex items-start text-slate-600">
                                                         <svg aria-hidden="true" className="size-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -510,12 +848,14 @@ export default function RecruitPage() {
 
                                         {/* Salary */}
                                         <div className="bg-slate-50 rounded-2xl p-6">
-                                            <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center">
-                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">💰</span>
-                                                給与・待遇
-                                            </h4>
-                                            <div className="pl-11 space-y-3">
-                                                <div className="text-2xl font-bold text-teal-700">{job.salary.base}</div>
+                                            <h4 className="text-[11px] tracking-[0.12em] text-slate-500 mb-4 pb-2 border-b border-rule">給与・待遇</h4>
+                                            <div className="space-y-3">
+                                                <div className="u-num text-[28px] font-medium text-teal-800 leading-none">
+                                                    {job.salary.amount}
+                                                    <span className="ml-2 font-sans text-sm text-slate-500">
+                                                        {job.salary.per}
+                                                    </span>
+                                                </div>
                                                 <p className="text-slate-600 text-sm">{job.salary.details}</p>
                                                 <div className="flex flex-wrap gap-3 pt-2">
                                                     <span className="px-4 py-2 bg-white rounded-lg text-sm font-bold text-slate-700 shadow-sm">{job.salary.bonus}</span>
@@ -526,11 +866,8 @@ export default function RecruitPage() {
 
                                         {/* Benefits */}
                                         <div>
-                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
-                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🎁</span>
-                                                福利厚生
-                                            </h4>
-                                            <div className="pl-11 flex flex-wrap gap-2">
+                                            <h4 className="text-[11px] tracking-[0.12em] text-slate-500 mb-4 pb-2 border-b border-rule">福利厚生</h4>
+                                            <div className="flex flex-wrap gap-2">
                                                 {job.benefits.map((benefit, idx) => (
                                                     <span key={idx} className="px-3 py-1.5 bg-teal-50 text-teal-800 text-sm font-medium rounded-lg">
                                                         {benefit}
@@ -541,33 +878,78 @@ export default function RecruitPage() {
 
                                         {/* Work Style */}
                                         <div>
-                                            <h4 className="text-lg font-bold text-slate-900 mb-3 flex items-center">
-                                                <span className="size-8 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-sm mr-3">🕐</span>
-                                                勤務条件
-                                            </h4>
-                                            <div className="pl-11 grid grid-cols-1 md:grid-cols-3 gap-4">
-                                                <div className="bg-white p-4 rounded-xl border border-slate-200">
-                                                    <div className="text-xs text-slate-500 font-bold mb-1">勤務時間</div>
-                                                    <div className="text-slate-800 font-bold text-sm space-y-1">
-                                                        <div>平日：{job.workStyle.hours}</div>
-                                                        <div>土曜：{job.workStyle.hoursSaturday}</div>
+                                            <h4 className="text-[11px] tracking-[0.12em] text-slate-500 mb-4 pb-2 border-b border-rule">勤務条件</h4>
+                                            {/* 就業記録：測定値の書式で並べる。数字だけを mono にする */}
+                                            <dl className="bg-white rounded-2xl border border-slate-200 divide-y divide-rule">
+                                                {workRecord.map((row) => (
+                                                    <div
+                                                        key={row.label}
+                                                        className="flex items-baseline justify-between gap-4 px-5 py-3.5"
+                                                    >
+                                                        <dt className="text-[11px] tracking-[0.12em] text-slate-500 shrink-0">
+                                                            {row.label}
+                                                        </dt>
+                                                        <dd className="flex items-baseline gap-1.5">
+                                                            <span className="u-num text-lg font-medium text-teal-800 leading-none">
+                                                                {row.value}
+                                                            </span>
+                                                            {row.suffix && (
+                                                                <span className="text-xs text-slate-500">
+                                                                    {row.suffix}
+                                                                </span>
+                                                            )}
+                                                        </dd>
                                                     </div>
+                                                ))}
+                                                {/* 定休日はロゴの朱。tailwind.config.ts が朱の用途を
+                                                    「定休日・必須・注意」に限定しているため、その1つとして使う */}
+                                                <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-4 px-5 py-3.5">
+                                                    <dt className="text-[11px] tracking-[0.12em] text-slate-500 shrink-0">
+                                                        定休日
+                                                    </dt>
+                                                    <dd className="text-sm font-bold text-vermilion md:text-right">
+                                                        {job.workStyle.holidays}
+                                                    </dd>
                                                 </div>
-                                                <div className="bg-white p-4 rounded-xl border border-slate-200">
-                                                    <div className="text-xs text-slate-500 font-bold mb-1">定休日</div>
-                                                    <div className="text-slate-800 font-bold">{job.workStyle.holidays}</div>
+                                                <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-4 px-5 py-3.5">
+                                                    <dt className="text-[11px] tracking-[0.12em] text-slate-500 shrink-0">
+                                                        休暇
+                                                    </dt>
+                                                    <dd className="text-sm text-slate-800 md:text-right">
+                                                        {job.workStyle.vacation}
+                                                    </dd>
                                                 </div>
-                                                <div className="bg-white p-4 rounded-xl border border-slate-200">
-                                                    <div className="text-xs text-slate-500 font-bold mb-1">休暇</div>
-                                                    <div className="text-slate-800 font-bold text-sm">{job.workStyle.vacation}</div>
-                                                </div>
-                                            </div>
+                                            </dl>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
+                </section>
+
+                {/* 選考フロー：先が見えないことが応募をためらわせるため、回数と所要期間を先に示す */}
+                <section className="container mx-auto px-4 mb-24">
+                    <div className="text-center mb-12">
+                        <p className="u-label mb-3">PROCESS</p>
+                        <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-4">選考の流れ</h2>
+                        <p className="text-slate-500">面接は1回だけ。結果は5営業日以内にお伝えします</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {selectionSteps.map((item) => (
+                            <div key={item.step} className="bg-white p-8 rounded-3xl border border-slate-200">
+                                {/* 実際に順序のある工程なので番号を残す。番号は数字なので mono */}
+                                <span className="u-label block border-b border-rule pb-3 mb-5">
+                                    {item.step}
+                                </span>
+                                <h3 className="text-lg font-bold mb-3 text-slate-900">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="mt-8 text-center text-slate-600">
+                        在職中の方のご応募も歓迎しています。面接の日程は、ご都合に合わせて調整いたします。
+                    </p>
                 </section>
 
                 {/* Application Section */}
@@ -578,6 +960,7 @@ export default function RecruitPage() {
                         <div className="absolute bottom-0 left-0 size-48 bg-teal-700/10 rounded hidden"></div>
 
                         <div className="relative z-10 text-center max-w-2xl mx-auto">
+                            <p className="u-label text-teal-300 mb-3">CONTACT</p>
                             <h2 className="text-[26px] md:text-[32px] font-bold mb-6">ご応募・お問い合わせ</h2>
                             <p className="text-slate-300 mb-10 leading-relaxed">
                                 「まずは話を聞くだけ」「職場を見てみたい」だけでも大歓迎です。<br />
