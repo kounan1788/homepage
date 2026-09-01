@@ -1192,10 +1192,10 @@ export default function ShakenPage() {
                         <div className="relative mt-12">
                             {/* 工程をつなぐ道（ロゴのスウッシュに由来する破線） */}
                             <hr
-                                className="u-road absolute inset-x-0 top-6 hidden md:block"
+                                className="u-road absolute inset-x-0 top-6 hidden lg:block"
                                 aria-hidden="true"
                             />
-                            <ol className="relative grid grid-cols-1 gap-8 md:grid-cols-5">
+                            <ol className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
                                 {flowSteps.map((item) => (
                                     <li key={item.step}>
                                         <span className="u-num flex size-12 items-center justify-center rounded-full border border-teal-700 bg-white text-sm font-medium text-teal-700">
