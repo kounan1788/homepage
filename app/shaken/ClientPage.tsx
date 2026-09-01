@@ -1349,7 +1349,7 @@ export default function ShakenPage() {
                         <div className="grid gap-8 md:grid-cols-12 md:items-end">
                             <div className="md:col-span-7">
                                 <span className="u-label text-teal-200">Reservation</span>
-                                <h2 className="mt-4 text-[24px] font-bold leading-tight text-white md:text-[30px]">
+                                <h2 className="mt-4 text-[26px] font-bold leading-tight text-white md:text-[32px]">
                                     車検のご予約・お見積り
                                 </h2>
                                 <p className="mt-4 max-w-lg text-[15px] leading-loose text-white/80">
