@@ -443,7 +443,7 @@ export default function ShakenPage() {
             {/* Header */}
             <header className="fixed inset-x-0 top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur">
                 <div className="container flex h-16 items-center justify-between gap-6 md:h-20">
-                    <Link href="/" className="flex shrink-0 items-center">
+                    <Link href="/" className="flex shrink-0 items-center py-1">
                         <Image
                             src="/logo.png"
                             alt="港南自動車サービス｜石川県金沢市の車検・自動車整備"
@@ -481,7 +481,7 @@ export default function ShakenPage() {
                     <div className="hidden items-center gap-5 whitespace-nowrap xl:flex">
                         <a
                             href="tel:076-268-1788"
-                            className="flex flex-col leading-none text-gray-900 transition-colors hover:text-teal-700"
+                            className="flex flex-col justify-center py-1 leading-none text-gray-900 transition-colors hover:text-teal-700"
                         >
                             <span className="u-num text-lg font-medium tracking-wide">
                                 076-268-1788
