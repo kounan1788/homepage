@@ -1099,7 +1099,7 @@ export default function ShakenPage() {
                                 ))}
                             </dl>
 
-                            <p className="mt-6 max-w-2xl rounded-2xl border-l-4 border-mint-400 bg-mint-50 p-6 text-xs leading-loose text-gray-600 md:p-7">
+                            <p className="mt-6 max-w-xl rounded-2xl border-l-4 border-mint-400 bg-mint-50 p-6 text-xs leading-loose text-gray-600 md:p-7">
                                 ※潤滑剤・ウエス等のショートパーツ代として1,100円〜2,200円が加算されます。※交換部品代金の3%を上限として交換部品処理費を頂いております。※輸入車は基本診断費用・基本治療費用が各2,200円、フルタイム4WD車・ディーゼル車は総合検査費用が1,100円追加となります。※追加整備は別途お見積りいたします。
                             </p>
                         </div>
@@ -1167,7 +1167,7 @@ export default function ShakenPage() {
                             </table>
                         </div>
 
-                        <p className="mt-5 max-w-2xl text-xs leading-loose text-gray-500">
+                        <p className="mt-5 max-w-xl text-xs leading-loose text-gray-500">
                             ※重量税・自賠責保険・印紙代（法定費用）を含む、割引適用前の総額です。持込・引取割引や早期予約割引など各種割引の組み合わせで最大約20,000円お得になります。交換部品代・追加整備は別途お見積りです。
                         </p>
                     </div>
