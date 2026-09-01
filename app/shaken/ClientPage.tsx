@@ -1189,28 +1189,31 @@ export default function ShakenPage() {
                             </p>
                         </header>
 
-                        <div className="relative mt-12">
-                            {/* 工程をつなぐ道（ロゴのスウッシュに由来する破線） */}
-                            <hr
-                                className="u-road absolute inset-x-0 top-6 hidden lg:block"
-                                aria-hidden="true"
-                            />
-                            <ol className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
-                                {flowSteps.map((item) => (
-                                    <li key={item.step}>
-                                        <span className="u-num flex size-12 items-center justify-center rounded-full border border-teal-700 bg-white text-sm font-medium text-teal-700">
-                                            {item.step}
-                                        </span>
-                                        <h3 className="mt-5 text-lg font-bold text-gray-900">
+                        {/* 工程は縦に並べる。横5列だと和文が1行14字まで痩せて読めないため、
+                            工程をつなぐ道（ロゴのスウッシュに由来する破線）も縦に引く */}
+                        <ol className="relative mt-12 max-w-3xl">
+                            {flowSteps.map((item, index) => (
+                                <li key={item.step} className="relative flex gap-6 pb-10 last:pb-0">
+                                    {index < flowSteps.length - 1 && (
+                                        <span
+                                            className="absolute left-6 top-12 -ml-px h-[calc(100%-3rem)] border-l-2 border-dotted border-mint-300"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                    <span className="u-num relative flex size-12 shrink-0 items-center justify-center rounded-full border border-teal-700 bg-white text-sm font-medium text-teal-700">
+                                        {item.step}
+                                    </span>
+                                    <div className="pt-1.5">
+                                        <h3 className="text-lg font-bold text-gray-900">
                                             {item.title}
                                         </h3>
-                                        <p className="mt-3 text-sm leading-loose text-gray-600">
+                                        <p className="mt-3 text-[15px] leading-loose text-gray-600">
                                             {item.desc}
                                         </p>
-                                    </li>
-                                ))}
-                            </ol>
-                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
                     </div>
                 </section>
 
