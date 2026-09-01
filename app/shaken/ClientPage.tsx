@@ -463,7 +463,7 @@ export default function ShakenPage() {
                                 key={item.name}
                                 href={item.href}
                                 aria-current={item.href === '/shaken' ? 'page' : undefined}
-                                className={`group relative py-1.5 transition-colors hover:text-teal-700 ${
+                                className={`group relative py-3 transition-colors hover:text-teal-700 ${
                                     item.href === '/shaken' ? 'font-bold text-teal-700' : ''
                                 }`}
                             >
