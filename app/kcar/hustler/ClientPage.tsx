@@ -24,8 +24,12 @@ export default function Page() {
     const basePrice = carBasePrices['/kcar/hustler'];
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'オフブルーブラック2トーン', price: 0, colorCode: '#8db4c7' },
-        { name: 'ソフトベージュブラック2トーン', price: 0, colorCode: '#c4a882' },
+        { name: 'オフブルーメタリック', price: 0, colorCode: '#8db4c7' },
+        { name: 'シフォンアイボリーメタリック', price: 1650, colorCode: '#ece4d3' },
+        { name: 'スチームシルバーメタリック', price: 1650, colorCode: '#b6b9bb' },
+        { name: 'ウッドランドカーキメタリック ブラック2トーン', price: 1650, colorCode: '#7b7455' },
+        { name: 'デニムブルーメタリック ブラック2トーン', price: 2750, colorCode: '#4c6a8b' },
+        { name: 'ソフトベージュメタリック ブラック2トーン', price: 1650, colorCode: '#c4a882' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
