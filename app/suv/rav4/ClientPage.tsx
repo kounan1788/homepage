@@ -25,8 +25,8 @@ export default function Page() {
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'アティチュードブラックマイカ', price: 0, colorCode: '#000000' },
-        { name: 'プラチナホワイトパールマイカ', price: 950, colorCode: '#F5F5F5' },
-        { name: 'アバンギャルドブロンズメタリック', price: 950, colorCode: '#8B7355' },
+        { name: 'プラチナホワイトパールマイカ', price: 1500, colorCode: '#F5F5F5' },
+        { name: 'アバンギャルドブロンズメタリック', price: 1500, colorCode: '#8B7355' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
@@ -34,8 +34,8 @@ export default function Page() {
         { name: 'Toyota Safety Sense　緊急時操舵支援（アクティブ操舵機能付）＋フロントクロストラフィックアラート［FCTA］＋レーンチェンジアシスト［LCA］', price: 0, isDefault: true, category: '標準装備' },
         { name: 'パノラマムーンルーフ（チルト＆スライド電動［フロント側］/挟み込み防止機能付）', price: 0, isDefault: true, category: '標準装備' },
         { name: 'スペアタイヤ（応急用）　165/90D18ST', price: 0, isDefault: true, category: '標準装備' },
-        { name: '235/50R20タイヤ＆20×7 1/2Jアルミホイール（切削光輝＋ブラック塗装）＋センターオーナメント＋ホイールナット', price: 3500, category: 'タイヤ・ホイール' },
-        { name: 'スタッドレスタイヤ', price: 7000, category: 'タイヤ・ホイール' },
+        { name: '235/50R20タイヤ＆20×7 1/2Jアルミホイール（切削光輝＋ブラック塗装）＋センターオーナメント＋ホイールナット', price: 4500, category: 'タイヤ・ホイール' },
+        { name: 'スタッドレスタイヤ', price: 8000, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
