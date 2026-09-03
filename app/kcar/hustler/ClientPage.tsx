@@ -3,7 +3,8 @@
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { carBasePrices } from '@/lib/carPrices';
+import { carBasePrices, carLoanPrincipals } from '@/lib/carPrices';
+import BonusPaymentSimulator from '@/components/BonusPaymentSimulator';
 import { buildContactUrl } from '@/lib/contactHandoff';
 
 interface ColorOption {
@@ -207,6 +208,9 @@ export default function Page() {
                                 ))}
                             </div>
                         </div>
+
+                        {/* ボーナス払いシミュレーター */}
+                        <BonusPaymentSimulator principal={carLoanPrincipals['/kcar/hustler']} />
                     </div>
 
                     {/* Options Section - Card Style */}
