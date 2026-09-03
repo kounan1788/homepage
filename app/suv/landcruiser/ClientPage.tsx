@@ -25,16 +25,16 @@ export default function Page() {
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'ブラック', price: 0, colorCode: '#000000' },
-        { name: 'プラチナホワイトパールマイカ', price: 500, colorCode: '#FFFFFF' },
+        { name: 'プラチナホワイトパールマイカ', price: 1000, colorCode: '#FFFFFF' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット（ラグジュアリー）　7人乗り用', price: 0, isDefault: true, category: 'インテリア' },
-        { name: 'ヒッチメンバー', price: 2200, isDefault: false, category: 'エクステリア' },
-        { name: '丸目型Bi-Beam LEDヘッドランプ（オートレベリング機能付）＋LEDクリアランスランプ（おむかえ照明機能付）＆LEDデイタイムランニングランプ', price: 5200, isDefault: false, category: 'エクステリア' },
-        { name: 'デジタルキー', price: 1000, isDefault: false, category: 'ナビ・電装' },
-        { name: 'ZV ディーゼル変更', price: 7000, isDefault: false, category: 'グレード' },
-        { name: 'スタッドレスタイヤ', price: 8000, category: 'タイヤ・ホイール' },
+        { name: 'ヒッチメンバー', price: 2500, isDefault: false, category: 'エクステリア' },
+        { name: '丸目型Bi-Beam LEDヘッドランプ（オートレベリング機能付）＋LEDクリアランスランプ（おむかえ照明機能付）＆LEDデイタイムランニングランプ', price: 6200, isDefault: false, category: 'エクステリア' },
+        { name: 'デジタルキー', price: 1500, isDefault: false, category: 'ナビ・電装' },
+        { name: 'ZV ディーゼル変更', price: 8500, isDefault: false, category: 'グレード' },
+        { name: 'スタッドレスタイヤ', price: 9000, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);

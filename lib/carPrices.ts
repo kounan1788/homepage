@@ -15,7 +15,7 @@ export const carBasePrices: Record<string, number> = {
     '/suv/corollacross': 52000,
     '/suv/harrier': 56000,
     '/suv/rav4': 60000,
-    '/suv/landcruiser': 60000,
+    '/suv/landcruiser': 70000,
     '/suv/crown': 80500,
     '/suv/nx': 80000,
 
