@@ -25,10 +25,10 @@ export const carBasePrices: Record<string, number> = {
     '/minivan/alphard': 78000,
 
     // KCAR
-    '/kcar/nbox': 29000,
-    '/kcar/tantocustom': 32000,
-    '/kcar/tantofuncross': 34000,
-    '/kcar/delicamini': 34000,
+    '/kcar/nbox': 33000,
+    '/kcar/tantocustom': 36000,
+    '/kcar/tantofuncross': 37000,
+    '/kcar/delicamini': 39000,
     '/kcar/spacia': 28000,
     '/kcar/spaciagear': 29000,
     '/kcar/hustler': 27000,
