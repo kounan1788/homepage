@@ -8,8 +8,8 @@
 
 export const carBasePrices: Record<string, number> = {
     // SUV
-    '/suv/jimnysierra': 35000,
-    '/suv/yariscross': 42000,
+    '/suv/jimnysierra': 41000,
+    '/suv/yariscross': 47000,
     '/suv/xbee': 42000,
     '/suv/vezel': 49000,
     '/suv/corollacross': 52000,
