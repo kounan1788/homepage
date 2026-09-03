@@ -25,14 +25,14 @@ export default function Page() {
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'ブラックマイカメタリック', price: 0, colorCode: '#1a1a1a' },
-        { name: 'シャイニングホワイトパール', price: 800, colorCode: '#f8f8f8' },
+        { name: 'シャイニングホワイトパール', price: 1000, colorCode: '#f8f8f8' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         { name: 'スマートクルーズパック(全車速追従機能付ACC・スマートアシスト運転負荷軽減LKC・CTA・ETCユニット・ステアリングスイッチ)', price: 0, isDefault: true, category: '安全・運転支援' },
         { name: '9インチスマホ連携ディスプレイオーディオ(スマートパノラマパーキングパック付)', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 3000, category: 'タイヤ・ホイール' },
+        { name: 'スタッドレスタイヤ', price: 4000, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);

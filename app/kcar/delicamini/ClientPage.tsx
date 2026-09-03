@@ -34,10 +34,12 @@ export default function Page() {
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: '7インチフルセグナビ', price: 3900, isDefault: false, category: 'ナビ・電装' },
-        { name: 'アダプティブLEDヘッドライト', price: 2100, isDefault: false, category: 'エクステリア' },
-        { name: '純正9インチナビ', price: 7800, isDefault: false, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 3000, isDefault: false, category: 'タイヤ・ホイール' },
+        { name: '7インチフルセグナビ', price: 4800, isDefault: false, category: 'ナビ・電装' },
+        { name: 'アダプティブLEDヘッドライト', price: 2400, isDefault: false, category: 'エクステリア' },
+        { name: 'ルーフレール', price: 900, isDefault: false, category: 'エクステリア' },
+        { name: '純正9インチナビ', price: 8600, isDefault: false, category: 'ナビ・電装' },
+        { name: 'コネクトナビパッケージA(T Premium/G Premium用)', price: 12500, isDefault: false, category: 'ナビ・電装' },
+        { name: 'スタッドレスタイヤ', price: 4000, isDefault: false, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);

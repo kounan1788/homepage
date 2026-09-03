@@ -25,14 +25,14 @@ export default function Page() {
 
     const colors: ColorOption[] = useMemo(() => [
         { name: 'サンドベージュメタリック', price: 0, colorCode: '#c4a882' },
-        { name: 'シャイニングホワイトパール', price: 800, colorCode: '#f8f8f8' },
-        { name: 'ブラックマイカメタリック×サンドベージュメタリック', price: 1600, colorCode: '#1a1a1a' },
+        { name: 'シャイニングホワイトパール', price: 1000, colorCode: '#f8f8f8' },
+        { name: 'ブラックマイカメタリック×サンドベージュメタリック', price: 2000, colorCode: '#1a1a1a' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         { name: '9インチスマホ連携ディスプレイオーディオ(スマートパノラマパーキングパック付)', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 3000, category: 'タイヤ・ホイール' },
+        { name: 'スタッドレスタイヤ', price: 4000, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);

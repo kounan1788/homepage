@@ -31,10 +31,10 @@ export default function Page() {
     const options: VehicleOption[] = useMemo(() => [
         { name: 'フロアマット', price: 0, isDefault: true, category: 'インテリア' },
         { name: 'サイドバイザー', price: 0, isDefault: true, category: 'エクステリア' },
-        { name: '7インチフルセグナビ', price: 3500, isDefault: false, category: 'ナビ・電装' },
-        { name: '8インチフルセグナビ', price: 4200, isDefault: false, category: 'ナビ・電装' },
-        { name: 'バックアイカメラ付ディスプレイオーディオ・スズキコネクト対応通信機', price: 3600, isDefault: false, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 3000, isDefault: false, category: 'タイヤ・ホイール' },
+        { name: '7インチフルセグナビ', price: 4800, isDefault: false, category: 'ナビ・電装' },
+        { name: '8インチフルセグナビ', price: 5800, isDefault: false, category: 'ナビ・電装' },
+        { name: 'バックアイカメラ付ディスプレイオーディオ・スズキコネクト対応通信機', price: 4800, isDefault: false, category: 'ナビ・電装' },
+        { name: 'スタッドレスタイヤ', price: 4000, isDefault: false, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
