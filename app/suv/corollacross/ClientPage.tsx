@@ -24,22 +24,20 @@ export default function Page() {
     const basePrice = carBasePrices['/suv/corollacross'];
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'プラチナホワイトパールマイカ', price: 1000, colorCode: '#FFFFFF' },
+        { name: 'プラチナホワイトパールマイカ', price: 1500, colorCode: '#FFFFFF' },
         { name: 'ブラックマイカ', price: 0, colorCode: '#000000' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
-        { name: 'フロアマット（デラックスタイプ）', price: 0, isDefault: true, category: '標準装備' },
-        { name: 'パノラマルーフ（電動サンシェード＆挟み込み防止機能付）', price: 0, isDefault: true, category: '標準装備' },
-        { name: 'アダプティブハイビームシステム［AHS］', price: 0, isDefault: true, category: '標準装備' },
-        { name: 'ブラインドスポットモニター［BSM］＋安心降車アシスト［SEA］', price: 0, isDefault: true, category: '標準装備' },
-        { name: 'パノラミックビューモニター（床下透過表示機能付）', price: 0, isDefault: true, category: '標準装備' },
-        { name: 'スペアタイヤ（応急用 T155/70D17）', price: 400, category: 'オプション' },
-        { name: 'LEDリヤフォグランプ（右側のみ）+寒冷地仕様', price: 800, category: 'オプション' },
-        { name: 'ステアリングヒーター', price: 350, category: 'オプション' },
-        { name: 'デジタルキー', price: 1000, category: 'オプション' },
-        { name: 'ナノイーX', price: 350, category: 'オプション' },
-        { name: 'おくだけ充電(R)', price: 400, category: 'オプション' },
+        { name: 'フロアマット（デラックスタイプ）', price: 0, isDefault: true, category: 'インテリア' },
+        { name: 'ナノイーX', price: 600, category: 'インテリア' },
+        { name: '寒冷地仕様', price: 600, category: 'インテリア' },
+        { name: 'パノラマルーフ（電動サンシェード＆挟み込み防止機能付）', price: 0, isDefault: true, category: 'エクステリア' },
+        { name: 'アダプティブハイビームシステム［AHS］', price: 0, isDefault: true, category: 'セーフティ' },
+        { name: 'アクセサリーコンセント（AC100V・1500W/非常時給電システム付/デッキサイド左側1個）', price: 1500, category: 'ナビ・電装' },
+        { name: 'デジタルキー', price: 1500, category: 'ナビ・電装' },
+        { name: 'おくだけ充電(R)', price: 800, category: 'ナビ・電装' },
+        { name: 'スペアタイヤ（応急用 T155/70D17）', price: 800, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
