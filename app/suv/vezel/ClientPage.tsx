@@ -24,7 +24,7 @@ export default function Page() {
     const basePrice = carBasePrices['/suv/vezel'];
 
     const colors: ColorOption[] = useMemo(() => [
-        { name: 'プラチナホワイトパール', price: 1200, colorCode: '#FFFFFF' },
+        { name: 'プラチナホワイトパール', price: 1500, colorCode: '#FFFFFF' },
         { name: 'クリスタルブラック・パール', price: 0, colorCode: '#000000' },
     ], []);
 
@@ -33,7 +33,7 @@ export default function Page() {
         { name: 'Honda CONNECTディスプレー+ETC2.0車載器〈ナビゲーション連動〉〈車載通信機〉 〈スマートフォン用Bluetoothユニット〉', price: 0, isDefault: true, category: 'ナビ・電装' },
         { name: '後退出庫サポート', price: 0, isDefault: true, category: 'ナビ・電装' },
         { name: 'マルチビューカメラシステム＋プレミアムオーディオ', price: 0, isDefault: true, category: 'ナビ・電装' },
-        { name: 'スタッドレスタイヤ', price: 6050, category: 'タイヤ・ホイール' },
+        { name: 'スタッドレスタイヤ', price: 6500, category: 'タイヤ・ホイール' },
     ], []);
 
     const [selectedColor, setSelectedColor] = useState<string>(colors[0].name);
