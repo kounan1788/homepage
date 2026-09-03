@@ -227,7 +227,7 @@ export default function Page() {
             />
             {/* Header */}
             <header
-                className={`fixed top-0 left-0 right-0 z-40 transition-ui duration-500 ${isScrolled
+                className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-200 ${isScrolled
                     ? 'bg-white/95 backdrop-blur border-b border-gray-200 py-2'
                     : 'bg-gray-950/35 py-5'
                     }`}
@@ -238,13 +238,13 @@ export default function Page() {
                     data-oid="ogzl6xz"
                 >
                     <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
-                        <div className={`relative transition-ui duration-500 ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}>
+                        <div className={`relative ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}>
                             <Image
                                 src="/logo.png"
                                 alt="港南自動車サービス株式会社"
                                 width={280}
                                 height={70}
-                                className={`h-full w-auto object-contain transition-ui duration-500 ${!isScrolled && 'brightness-0 invert'}`}
+                                className={`h-full w-auto object-contain ${!isScrolled && 'brightness-0 invert'}`}
                                 priority
                             />
                         </div>
