@@ -67,8 +67,14 @@ const pricingData = {
     }
 };
 
-// 割引オプションの定義
-const discountOptions = [
+// 割引オプションの定義。
+// amount は一律の割引額。車種クラスで金額が変わる割引は車種ごとの額を持たせる
+const discountOptions: {
+    id: number;
+    name: string;
+    amount: number | Record<CarType, number>;
+    description: string;
+}[] = [
     { id: 1, name: '持込・引取割引', amount: 2200, description: 'ご自身でのお持ち込み・お引き取り' },
     { id: 2, name: '代車不要割引', amount: 1100, description: '代車を使用されない場合' },
     { id: 3, name: '早期予約割引', amount: 2200, description: '2ヶ月前までのご予約' },
@@ -76,8 +82,18 @@ const discountOptions = [
     { id: 5, name: '新車初回割引', amount: 3300, description: '当社ご購入車の初回車検' },
     { id: 6, name: '点検実施割引', amount: 2200, description: '12ヶ月点検を受けられた方' },
     { id: 7, name: 'プレミアムパス', amount: 2200, description: 'プレミアムカードをお持ちの方' },
-    { id: 8, name: '初入庫割引', amount: 2200, description: '初めてご利用のお客様' }
+    { id: 8, name: '初入庫割引', amount: 2200, description: '初めてご利用のお客様' },
+    {
+        id: 9,
+        name: '下廻り洗浄不要',
+        amount: { light: 3300, small: 4180, medium: 4180, regular: 4180 },
+        description: '下廻り洗浄をご希望されない場合'
+    }
 ];
+
+// 選択中の車種クラスに応じた割引額を返す
+const getDiscountAmount = (opt: (typeof discountOptions)[number], carType: CarType): number =>
+    typeof opt.amount === 'number' ? opt.amount : opt.amount[carType];
 
 // FAQ データ（構造化データ用）
 const faqData = [
@@ -91,7 +107,7 @@ const faqData = [
     },
     {
         question: '車検費用はいくらくらいかかりますか？',
-        answer: '軽自動車で約65,040円〜、普通乗用車で約100,040円〜となります。各種割引制度もご用意しており、最大で約20,000円以上お得になる場合もあります。'
+        answer: '軽自動車で約65,040円〜、普通乗用車で約100,040円〜となります。各種割引制度もご用意しており、最大で約24,000円お得になる場合もあります。'
     },
     {
         question: '代車を借りることはできますか？',
@@ -293,9 +309,9 @@ export default function ShakenPage() {
     const totalDiscount = useMemo(() => {
         return selectedDiscounts.reduce((sum, id) => {
             const discount = discountOptions.find(d => d.id === id);
-            return sum + (discount ? discount.amount : 0);
+            return sum + (discount ? getDiscountAmount(discount, selectedCarType) : 0);
         }, 0);
-    }, [selectedDiscounts]);
+    }, [selectedDiscounts, selectedCarType]);
 
     const finalTotal = useMemo(() => {
         return Math.max(0, carData.total - totalDiscount);
@@ -817,7 +833,7 @@ export default function ShakenPage() {
                                                         </span>
                                                     </span>
                                                     <span className="u-num shrink-0 text-sm font-medium text-teal-700">
-                                                        △{opt.amount.toLocaleString()}
+                                                        △{getDiscountAmount(opt, selectedCarType).toLocaleString()}
                                                     </span>
                                                 </label>
                                             );
@@ -869,7 +885,7 @@ export default function ShakenPage() {
                                                             {opt.name}
                                                         </dt>
                                                         <dd className="u-num shrink-0 text-[15px] font-medium text-teal-700">
-                                                            △{opt.amount.toLocaleString()}
+                                                            △{getDiscountAmount(opt, selectedCarType).toLocaleString()}
                                                         </dd>
                                                     </div>
                                                 ))}
@@ -1168,7 +1184,7 @@ export default function ShakenPage() {
                         </div>
 
                         <p className="mt-5 max-w-xl text-xs leading-loose text-gray-500">
-                            ※重量税・自賠責保険・印紙代（法定費用）を含む、割引適用前の総額です。持込・引取割引や早期予約割引など各種割引の組み合わせで最大約20,000円お得になります。交換部品代・追加整備は別途お見積りです。
+                            ※重量税・自賠責保険・印紙代（法定費用）を含む、割引適用前の総額です。持込・引取割引や早期予約割引など各種割引の組み合わせで最大約24,000円お得になります。交換部品代・追加整備は別途お見積りです。
                         </p>
                     </div>
                 </section>
