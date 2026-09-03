@@ -423,12 +423,16 @@ export default function Page() {
                         ))}
                     </div>
 
-                    {/* Car Grid */}
-                    <div
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
-                        data-oid="wnbbmkp"
-                    >
-                        {carData[activeCategory].map((car, index) => (
+                    {/* Car Grid
+                        非表示のカテゴリもDOMには残す。条件レンダリングにすると初期表示の
+                        SUV以外（軽自動車・ミニバン）の車種ページへのリンクが静的HTMLから
+                        消え、クローラーから到達できない孤立ページになるため。 */}
+                    {(['SUV', 'MINIVAN', 'KCAR'] as const).map((cat) => (
+                        <div
+                            key={cat}
+                            className={`${activeCategory === cat ? 'grid' : 'hidden'} grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10`}
+                        >
+                        {carData[cat].map((car, index) => (
                             <div
                                 key={index}
                                 className="group overflow-hidden rounded-2xl border border-rule bg-white transition-colors duration-200 hover:border-teal-700"
@@ -455,7 +459,8 @@ export default function Page() {
                                 </Link>
                             </div>
                         ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
                 {/* Why Noreta Section (安さの秘密) */}
                 <section className="py-32 bg-slate-50 relative overflow-hidden" data-oid="709fdsg">

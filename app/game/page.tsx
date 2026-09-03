@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { ogImage } from '@/lib/imageSize';
 import ClientPage from './ClientPage';
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
         type: 'website',
         locale: 'ja_JP',
         siteName: '株式会社港南自動車サービス',
+        images: ogImage('/og-image.jpg', '港南ドライブチャレンジ｜港南自動車サービスのミニゲーム'),
     },
 };
 

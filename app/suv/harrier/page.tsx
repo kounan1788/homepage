@@ -13,11 +13,7 @@ const car: CarSeoInfo = {
 const description =
     'ハリアーに月々56,000円・頭金0円・ボーナス払い0円で乗れる3年カーローン「ノレタ」。車検・オイル交換もコミコミ。金沢市の港南自動車サービス。';
 
-export const metadata: Metadata = buildCarMetadata(
-    car,
-    description,
-    'ハリアー 月々56,000円のカーローン｜金沢の港南自動車サービス',
-);
+export const metadata: Metadata = buildCarMetadata(car, description);
 
 export default function Page() {
     return (

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { sendEmail } from '@/app/actions/sendEmail';
+import Breadcrumb from '@/components/Breadcrumb';
 
 export default function ITSupportPage() {
     const [scrolled, setScrolled] = useState(false);
@@ -242,6 +243,14 @@ export default function ITSupportPage() {
                     </svg>
                 </div>
             </section>
+
+            {/* パンくずリスト（構造化データも同コンポーネントが出力する） */}
+            <Breadcrumb
+                items={[
+                    { name: 'ホーム', href: '/' },
+                    { name: 'IT支援', href: '/it-support' },
+                ]}
+            />
 
             {/* 2. 課題提起セクション */}
             <section id="problems" className="py-24 bg-slate-50">

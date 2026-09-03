@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/imageSize';
 
 export const metadata: Metadata = {
     title: '法人向けカーリース「ノリドク」｜月々定額で経費処理も簡単',
@@ -26,15 +27,8 @@ export const metadata: Metadata = {
         url: 'https://www.kounan-auto.jp/noridoku',
         type: 'website',
         locale: 'ja_JP',
-        siteName: '港南自動車サービス株式会社',
-        images: [
-            {
-                url: '/og-image.jpg',
-                width: 1200,
-                height: 630,
-                alt: '法人向けカーリース「ノリドク」港南自動車サービス',
-            },
-        ],
+        siteName: '株式会社港南自動車サービス',
+        images: ogImage('/og-image.jpg', '法人向けカーリース「ノリドク」港南自動車サービス'),
     },
 };
 

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { carBasePrices } from './carPrices';
+import { ogImage } from './imageSize';
 
 /**
  * 車種ページのSEO情報（メタデータ・構造化データの両方で使用）。
@@ -19,13 +20,15 @@ const BASE_URL = 'https://www.kounan-auto.jp';
 
 /**
  * 車種ページの Metadata（title / description / canonical / OGP）を生成します。
- * customTitle を指定すると、共通テンプレート（| 港南自動車サービス - 金沢市）を付けない
- * 完全なtitleとしてそのまま使用します（ローン訴求titleなど個別最適化用）。
+ *
+ * title は「車種名 + 月額 + カーローン + 地域」を前に置いた形で全車種そろえています。
+ * 共通テンプレート（| 港南自動車サービス - 金沢市）を付けると社名が二重になり、
+ * 検索結果で肝心のキーワードが切れてしまうため absolute で指定しています。
  */
-export function buildCarMetadata(car: CarSeoInfo, description: string, customTitle?: string): Metadata {
-    const title = customTitle ?? `${car.name} - ノレタ｜港南自動車`;
+export function buildCarMetadata(car: CarSeoInfo, description: string): Metadata {
+    const title = `${car.name} 月々${carBasePrices[car.path].toLocaleString()}円のカーローン｜金沢の港南自動車`;
     return {
-        title: customTitle ? { absolute: customTitle } : title,
+        title: { absolute: title },
         description,
         alternates: {
             canonical: car.path,
@@ -37,14 +40,7 @@ export function buildCarMetadata(car: CarSeoInfo, description: string, customTit
             type: 'website',
             locale: 'ja_JP',
             siteName: '株式会社港南自動車サービス',
-            images: [
-                {
-                    url: car.image,
-                    width: 1200,
-                    height: 630,
-                    alt: `${car.name}｜カーローン ノレタ（港南自動車サービス）`,
-                },
-            ],
+            images: ogImage(car.image, `${car.name}｜カーローン ノレタ（港南自動車サービス）`),
         },
     };
 }

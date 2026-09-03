@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/imageSize';
 
 export const metadata: Metadata = {
     title: '金沢市で新車に乗るなら「ノレタ」｜月々定額・頭金なしの新車カーローン',
@@ -26,15 +27,8 @@ export const metadata: Metadata = {
         url: 'https://www.kounan-auto.jp/noreta',
         type: 'website',
         locale: 'ja_JP',
-        siteName: '港南自動車サービス株式会社',
-        images: [
-            {
-                url: '/og-image.jpg',
-                width: 1200,
-                height: 630,
-                alt: '金沢市の新車カーローン「ノレタ」港南自動車サービス',
-            },
-        ],
+        siteName: '株式会社港南自動車サービス',
+        images: ogImage('/og-image.jpg', '金沢市の新車カーローン「ノレタ」港南自動車サービス'),
     },
 };
 

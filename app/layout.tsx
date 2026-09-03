@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { ogImage } from '@/lib/imageSize';
 import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -64,14 +65,7 @@ export const metadata: Metadata = {
         type: 'website',
         locale: 'ja_JP',
         siteName: '株式会社港南自動車サービス',
-        images: [
-            {
-                url: '/og-image.jpg',
-                width: 1200,
-                height: 630,
-                alt: '港南自動車サービス - 石川県金沢市の車検・自動車整備・新車販売',
-            },
-        ],
+        images: ogImage('/og-image.jpg', '港南自動車サービス - 石川県金沢市の車検・自動車整備・新車販売'),
     },
     twitter: {
         card: 'summary_large_image',

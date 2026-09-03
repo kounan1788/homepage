@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/imageSize';
 
 export const metadata: Metadata = {
     // 共通テンプレート（| 港南自動車サービス - 金沢市）を付けると社名が二重になるため absolute で指定
@@ -27,14 +28,7 @@ export const metadata: Metadata = {
         type: 'website',
         locale: 'ja_JP',
         siteName: '株式会社港南自動車サービス',
-        images: [
-            {
-                url: '/og-image.jpg',
-                width: 1200,
-                height: 630,
-                alt: '金沢のAI導入・ホームページ制作支援｜港南自動車サービス',
-            },
-        ],
+        images: ogImage('/og-image.jpg', '金沢のAI導入・ホームページ制作支援｜港南自動車サービス'),
     },
 };
 

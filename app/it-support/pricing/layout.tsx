@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ogImage } from '@/lib/imageSize';
 
 export const metadata: Metadata = {
     title: { absolute: 'IT支援の料金プラン｜AI講座・HP制作｜港南自動車サービス' },
@@ -23,14 +24,7 @@ export const metadata: Metadata = {
         type: 'website',
         locale: 'ja_JP',
         siteName: '株式会社港南自動車サービス',
-        images: [
-            {
-                url: '/og-image.jpg',
-                width: 1200,
-                height: 630,
-                alt: 'IT支援の料金プラン｜港南自動車サービス',
-            },
-        ],
+        images: ogImage('/og-image.jpg', 'IT支援の料金プラン｜港南自動車サービス'),
     },
 };
 

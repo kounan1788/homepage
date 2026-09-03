@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Breadcrumb from '@/components/Breadcrumb';
 
 export default function PricingPage() {
     const [scrolled, setScrolled] = useState(false);
@@ -196,6 +197,15 @@ export default function PricingPage() {
                     </div>
                 </div>
             </section>
+
+            {/* パンくずリスト（構造化データも同コンポーネントが出力する） */}
+            <Breadcrumb
+                items={[
+                    { name: 'ホーム', href: '/' },
+                    { name: 'IT支援', href: '/it-support' },
+                    { name: '料金プラン', href: '/it-support/pricing' },
+                ]}
+            />
 
             {/* 1. 月額IT支援サポート（松竹梅） */}
             <section id="monthly" className="py-24 relative overflow-hidden bg-slate-50">

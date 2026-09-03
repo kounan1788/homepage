@@ -102,10 +102,10 @@ export default function HouseMakerTemplate() {
                 <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-16 max-w-7xl mx-auto pt-20">
                     <div className="w-24 h-1 bg-indigo-500 mb-8"></div>
                     <div className="space-y-4 mb-8 text-white">
-                        <h2 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-snug tracking-tight">
+                        <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-snug tracking-tight">
                             <span className="block mb-2 text-indigo-200">The Homebuilder</span>
                             <span className="block">You Can Trust.</span>
-                        </h2>
+                        </h1>
                     </div>
                     <div className="space-y-2 text-slate-300 text-lg sm:text-lg md:text-xl md:whitespace-nowrap font-medium tracking-wide border-l-4 border-indigo-500 pl-6">
                         <p>地域でつくる、安心の注文住宅</p>
