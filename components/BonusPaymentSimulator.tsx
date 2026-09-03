@@ -28,57 +28,61 @@ export default function BonusPaymentSimulator({ principal }: BonusPaymentSimulat
     const interestReduction = calcInterestReduction(principal, bonusPerTime);
 
     return (
-        <div className="bg-white rounded-3xl p-6 shadow-xl">
-            <h2 className="text-xl font-bold text-slate-800 mb-2 flex items-center">
-                <span className="w-1 h-5 bg-teal-700 mr-3"></span>
-                ボーナス払い（年2回）
+        <section className="rounded-2xl border border-rule bg-white">
+            <h2 className="border-b border-rule px-5 py-3">
+                <span className="u-label">ボーナス払い（年2回）</span>
             </h2>
-            <p className="text-sm text-slate-500 mb-6">
-                月々のお支払いはそのままに、ボーナス月に上乗せすると分割手数料が軽くなります。
-            </p>
 
-            <label htmlFor="bonus-slider" className="block text-sm font-medium text-slate-600 mb-2">
-                ボーナス1回あたりの上乗せ額
-            </label>
-            <div className="text-3xl font-bold text-teal-700 mb-4 tabular-nums">
-                {bonusPerTime.toLocaleString()}
-                <span className="text-base font-medium text-slate-500 ml-1">円</span>
+            <div className="p-5">
+                <p className="mb-5 text-sm leading-relaxed text-gray-600">
+                    月々のお支払いはそのままに、ボーナス月に上乗せすると分割手数料が軽くなります。
+                </p>
+
+                <label htmlFor="bonus-slider" className="block text-xs text-gray-500">
+                    ボーナス1回あたりの上乗せ額
+                </label>
+                <div className={`u-num mb-3 mt-1 text-3xl font-bold ${bonusPerTime > 0 ? 'text-gray-800' : 'text-gray-400'}`}>
+                    {bonusPerTime.toLocaleString()}
+                    <span className="ml-1 font-sans text-base font-normal text-gray-500">円</span>
+                </div>
+
+                <input
+                    id="bonus-slider"
+                    type="range"
+                    min={0}
+                    max={MAX_BONUS}
+                    step={BONUS_STEP}
+                    value={bonusPerTime}
+                    onChange={(e) => setBonusPerTime(Number(e.target.value))}
+                    className="w-full cursor-pointer accent-teal-700"
+                    aria-describedby="bonus-result"
+                />
+                <div className="u-num mt-1 flex justify-between text-xs text-gray-500">
+                    <span>0</span>
+                    <span>{MAX_BONUS.toLocaleString()}</span>
+                </div>
+
+                <div
+                    id="bonus-result"
+                    aria-live="polite"
+                    className="mt-5 flex items-baseline justify-between gap-4 border-t border-rule pt-4"
+                >
+                    <span className="text-sm text-gray-700">分割手数料</span>
+                    {interestReduction > 0 ? (
+                        <span className="u-num text-2xl font-bold text-teal-700">
+                            −{interestReduction.toLocaleString()}
+                            <span className="ml-1 font-sans text-sm font-normal text-gray-600">円</span>
+                        </span>
+                    ) : (
+                        <span className="text-sm text-gray-500">上乗せなし</span>
+                    )}
+                </div>
+
+                <p className="mt-4 text-xs leading-relaxed text-gray-500">
+                    実質年率{(ANNUAL_INTEREST_RATE * 100).toFixed(1)}%・{LOAN_PAYMENTS}回払い・ボーナス
+                    {BONUS_COUNT}回で試算した概算です。実際のお支払い額は審査結果により異なります。
+                </p>
             </div>
-
-            <input
-                id="bonus-slider"
-                type="range"
-                min={0}
-                max={MAX_BONUS}
-                step={BONUS_STEP}
-                value={bonusPerTime}
-                onChange={(e) => setBonusPerTime(Number(e.target.value))}
-                className="w-full accent-teal-700 cursor-pointer"
-                aria-describedby="bonus-result"
-            />
-            <div className="flex justify-between text-xs text-slate-400 mt-1 mb-6">
-                <span>0円</span>
-                <span>{MAX_BONUS.toLocaleString()}円</span>
-            </div>
-
-            <div id="bonus-result" aria-live="polite" className="bg-teal-50 rounded p-4 text-center">
-                <div className="text-sm font-medium text-teal-900 mb-1">分割手数料</div>
-                {interestReduction > 0 ? (
-                    <div className="text-3xl font-bold text-teal-700 tabular-nums">
-                        −{interestReduction.toLocaleString()}
-                        <span className="text-base font-medium ml-1">円 おトク</span>
-                    </div>
-                ) : (
-                    <div className="text-lg font-medium text-slate-500">
-                        スライダーを動かすと軽減額が表示されます
-                    </div>
-                )}
-            </div>
-
-            <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                実質年率{(ANNUAL_INTEREST_RATE * 100).toFixed(1)}%・{LOAN_PAYMENTS}回払い・ボーナス
-                {BONUS_COUNT}回で試算した概算です。実際のお支払い額は審査結果により異なります。
-            </p>
-        </div>
+        </section>
     );
 }

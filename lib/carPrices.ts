@@ -58,29 +58,29 @@ export const BONUS_INTERVAL_MONTHS = 6;
  */
 export const carLoanPrincipals: Record<string, number> = {
     // SUV
-    '/suv/jimnysierra': 2150000, // JC・4WD
-    '/suv/yariscross': 2900000, // ハイブリッドZ・2WD
-    '/suv/xbee': 2200000, // HYBRID MZ・2WD
-    '/suv/vezel': 3300000, // e:HEV Z・2WD
-    '/suv/corollacross': 3300000, // ハイブリッド Z・2WD
-    '/suv/harrier': 4200000, // Z GAS・2WD
-    '/suv/rav4': 4300000, // Adventure OFFROAD package II・4WD
+    '/suv/jimnysierra': 2800000, // JC・4WD
+    '/suv/yariscross': 3500000, // ハイブリッドZ・2WD
+    '/suv/xbee': 2900000, // HYBRID MZ・2WD
+    '/suv/vezel': 3800000, // e:HEV Z・2WD
+    '/suv/corollacross': 4200000, // ハイブリッド Z・2WD
+    '/suv/harrier': 5700000, // Z GAS・2WD
+    '/suv/rav4': 5400000, // Adventure OFFROAD package II・4WD
     '/suv/landcruiser': 6350000, // VZ GAS・4WD
-    '/suv/crown': 6400000, // CROSSOVER RS・AWD
-    '/suv/nx': 6600000, // 350h Fスポーツ・2WD
+    '/suv/crown': 6700000, // CROSSOVER RS・AWD
+    '/suv/nx': 7400000, // 350h Fスポーツ・2WD
 
     // MINIVAN
-    '/minivan/noah': 3400000, // S-Z GAS・7人
-    '/minivan/voxy': 3400000, // S-Z GAS・7人
-    '/minivan/alphard': 5400000, // Z GAS・2WD
+    '/minivan/noah': 4900000, // S-Z GAS・7人
+    '/minivan/voxy': 5000000, // S-Z GAS・7人
+    '/minivan/alphard': 6500000, // Z GAS・2WD
 
     // KCAR
-    '/kcar/nbox': 2000000, // カスタム・2WD
-    '/kcar/tantocustom': 2050000, // カスタム RS・2WD
-    '/kcar/tantofuncross': 1950000, // ファンクロス・2WD
-    '/kcar/delicamini': 2300000, // T Premium・2WD
-    '/kcar/spacia': 1900000, // カスタム XS・2WD
-    '/kcar/spaciagear': 1950000, // ギア XZ・2WD
-    '/kcar/hustler': 1750000, // タフワイルド・2WD
-    '/kcar/jimny': 2050000, // XC AT・4WD
+    '/kcar/nbox': 2500000, // カスタム・2WD
+    '/kcar/tantocustom': 2400000, // カスタム RS・2WD
+    '/kcar/tantofuncross': 2100000, // ファンクロス・2WD
+    '/kcar/delicamini': 2900000, // T Premium・2WD
+    '/kcar/spacia': 2300000, // カスタム XS・2WD
+    '/kcar/spaciagear': 2300000, // ギア XZ・2WD
+    '/kcar/hustler': 2200000, // タフワイルド・2WD
+    '/kcar/jimny': 2500000, // XC AT・4WD
 };

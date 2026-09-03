@@ -5,13 +5,13 @@ import { buildCarMetadata, CarJsonLd, type CarSeoInfo } from '@/lib/carSeo';
 // 車種のSEO情報（メタデータと構造化データで共通利用）
 const car: CarSeoInfo = {
     path: '/suv/crown',
-    name: 'トヨタ クラウン クロスオーバー',
+    name: 'トヨタ クラウンスポーツ',
     brand: 'トヨタ',
     image: '/cars/crownsport.jpg',
 };
 
 const description =
-    'トヨタ クラウン クロスオーバーのカーローンなら港南自動車。月々定額、頭金なし・ボーナス払いなしで新車に乗れる！金沢市でクラウンに乗るならノレタにお任せください。';
+    'トヨタ クラウンスポーツのカーローンなら港南自動車。月々定額、頭金なし・ボーナス払いなしで新車に乗れる！金沢市でクラウンに乗るならノレタにお任せください。';
 
 export const metadata: Metadata = buildCarMetadata(car, description);
 

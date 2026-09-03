@@ -45,22 +45,27 @@ export default function Page() {
         options.filter((opt) => opt.isDefault).map((opt) => opt.name),
     );
 
-    const calculateTotalPrice = () => {
-        let total = basePrice;
+    const selectedColorOption = colors.find((color) => color.name === selectedColor);
 
-        const selectedColorOption = colors.find((color) => color.name === selectedColor);
-        if (selectedColorOption) {
-            total += selectedColorOption.price;
+    // 見積票の明細に並べる行（車両本体 → ボディカラー → 有料オプションの順）
+    const quoteLines = useMemo(() => {
+        const lines: { label: string; price: number }[] = [
+            { label: '車両本体', price: basePrice },
+        ];
+        if (selectedColorOption && selectedColorOption.price > 0) {
+            lines.push({ label: selectedColorOption.name, price: selectedColorOption.price });
         }
-
-        selectedOptions.forEach((optName) => {
-            const option = options.find((opt) => opt.name === optName);
-            if (option) {
-                total += option.price;
+        selectedOptions.forEach((name) => {
+            const option = options.find((opt) => opt.name === name);
+            if (option && option.price > 0) {
+                lines.push({ label: option.name, price: option.price });
             }
         });
+        return lines;
+    }, [basePrice, selectedColorOption, selectedOptions, options]);
 
-        return Math.round(total);
+    const calculateTotalPrice = () => {
+        return Math.round(quoteLines.reduce((sum, line) => sum + line.price, 0));
     };
 
     // 選んだ構成を持ったまま相談へ進むためのURL（docs/blueprints/ux-lease-application.md）
@@ -105,60 +110,50 @@ export default function Page() {
     }, [options]);
 
     return (
-        <div className="min-h-dvh bg-gray-50">
-            {/* Hero Header */}
-            <div className="bg-gray-900 text-white py-8 px-4 md:px-8">
-                <div className="max-w-5xl mx-auto">
+        <div className="min-h-dvh bg-paper">
+            {/* 票の表題 */}
+            <header className="bg-teal-900 text-white">
+                <div className="mx-auto max-w-5xl px-4 py-8 md:px-8">
                     {/* パンくずリスト（構造化データは page.tsx 側で出力済み） */}
-                    <nav aria-label="パンくずリスト" className="mb-3">
-                        <ol className="flex flex-wrap items-center text-xs text-slate-400">
+                    <nav aria-label="パンくずリスト" className="mb-4">
+                        <ol className="flex flex-wrap items-center text-xs text-teal-200">
                             <li><Link href="/" className="hover:text-white transition-colors">ホーム</Link></li>
-                            <li className="mx-2">›</li>
+                            <li className="mx-2 text-teal-400">›</li>
                             <li><Link href="/noreta" className="hover:text-white transition-colors">カーローン ノレタ</Link></li>
-                            <li className="mx-2">›</li>
-                            <li className="text-slate-200">レクサス NX</li>
+                            <li className="mx-2 text-teal-400">›</li>
+                            <li className="text-white">レクサス NX</li>
                         </ol>
-                    </nav>                    <Link href="/noreta" className="inline-flex items-center text-slate-300 hover:text-white transition-colors mb-4 group">
-                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                        ノレタ一覧に戻る
-                    </Link>
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                    </nav>
+
+                    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                         <div>
-                            <div className="flex items-center gap-3 mb-2">
-                                <span className="bg-teal-700 text-white text-xs font-bold px-3 py-1 rounded">
-                                    NoReTa
-                                </span>
-                                <span className="text-slate-400 text-sm">
-                                    月々定額・頭金なしで新車に乗れるカーローン
-                                </span>
-                            </div>
-                            <h1 className="text-3xl md:text-5xl font-bold tracking-ja">
+                            <span className="u-label text-mint-300">ノレタ お見積り</span>
+                            <h1 className="mt-2 text-3xl font-bold tracking-ja md:text-5xl">
                                 レクサス NX
                             </h1>
+                            <p className="mt-3 text-sm text-teal-100">
+                                350h Fスポーツ ／ 2WD ／ 2,500cc
+                            </p>
                         </div>
-                        <div className="flex flex-wrap gap-3">
-                            <span className="border border-white/25 px-4 py-2 rounded text-sm">
-                                グレード: 350h Fスポーツ
-                            </span>
-                            <span className="border border-white/25 px-4 py-2 rounded text-sm">
-                                駆動方式: 2WD
-                            </span>
-                            <span className="border border-white/25 px-4 py-2 rounded text-sm">
-                                排気量: 2,500cc
-                            </span>
-                        </div>
+
+                        <Link
+                            href="/noreta"
+                            className="group inline-flex items-center self-start text-sm text-teal-100 transition-colors hover:text-white md:self-auto"
+                        >
+                            <svg aria-hidden="true" className="mr-2 size-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                            ほかの車種を見る
+                        </Link>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            {/* Main Content */}
-            <div className="max-w-5xl mx-auto px-4 md:px-8 py-8 pb-32">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Car Image Section */}
+            <div className="mx-auto max-w-5xl px-4 pb-32 pt-8 md:px-8">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    {/* ── 左：車両・ボディカラー・ボーナス払い ── */}
                     <div className="space-y-6">
-                        <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white shadow-2xl">
+                        <div className="relative aspect-[3/2] overflow-hidden rounded-2xl border border-rule bg-white">
                             <Image
                                 src="/cars/nx.jpg"
                                 alt="レクサス NX"
@@ -168,162 +163,195 @@ export default function Page() {
                             />
                         </div>
 
-                        {/* Color Selection - Large Swatches */}
-                        <div className="bg-white rounded-3xl p-6 shadow-xl">
-                            <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                                <span className="w-1 h-5 bg-teal-700 mr-3"></span>
-                                ボディカラー
+                        {/* ボディカラー欄 */}
+                        <section className="rounded-2xl border border-rule bg-white">
+                            <h2 className="border-b border-rule px-5 py-3">
+                                <span className="u-label">ボディカラー</span>
                             </h2>
-                            <div className="flex flex-wrap gap-4 justify-center">
-                                {colors.map((color) => (
-                                    <button
-                                        key={color.name}
-                                        onClick={() => setSelectedColor(color.name)}
-                                        className={`group flex flex-col items-center transition-ui duration-200 ${selectedColor === color.name ? '' : ''
-                                            }`}
-                                    >
-                                        <div className={`relative size-16 md:size-20 rounded-full transition-ui duration-200 ${selectedColor === color.name
-                                            ? 'ring-2 ring-teal-700 ring-offset-2'
-                                            : 'ring-2 ring-slate-200 hover:ring-slate-300'
-                                            }`}>
-                                            <div
-                                                className="absolute inset-1 rounded-full shadow-inner"
-                                                style={{ backgroundColor: color.colorCode }}
-                                            ></div>
-                                            {color.colorCode === '#FFFFFF' && (
-                                                <div className="absolute inset-1 rounded-full border border-slate-200"></div>
-                                            )}
-                                        </div>
-                                        <span className={`mt-3 text-sm font-medium text-center leading-tight ${selectedColor === color.name ? 'text-teal-700' : 'text-slate-600'
-                                            }`}>
-                                            {color.name}
-                                        </span>
-                                        <span className={`text-xs mt-1 ${selectedColor === color.name ? 'text-teal-500' : 'text-slate-500'
-                                            }`}>
-                                            {color.price > 0 ? `+${color.price.toLocaleString()}円/月` : '標準'}
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+                            <ul className="divide-y divide-rule">
+                                {colors.map((color) => {
+                                    const isSelected = selectedColor === color.name;
+                                    return (
+                                        <li key={color.name}>
+                                            <button
+                                                onClick={() => setSelectedColor(color.name)}
+                                                aria-pressed={isSelected}
+                                                className={`flex w-full items-center gap-3 px-5 py-3 text-left transition-colors duration-150 ${isSelected ? 'bg-mint-50' : 'hover:bg-gray-50'
+                                                    }`}
+                                            >
+                                                <span
+                                                    className={`relative size-8 flex-shrink-0 rounded-full transition-ui duration-200 ${isSelected
+                                                        ? 'ring-2 ring-teal-700 ring-offset-2'
+                                                        : 'ring-1 ring-rule-strong'
+                                                        }`}
+                                                >
+                                                    <span
+                                                        className="absolute inset-[2px] rounded-full"
+                                                        style={{ backgroundColor: color.colorCode }}
+                                                    ></span>
+                                                </span>
+
+                                                <span className={`flex-1 text-sm leading-snug ${isSelected ? 'font-bold text-teal-800' : 'text-gray-800'}`}>
+                                                    {color.name}
+                                                </span>
+
+                                                <span className={`u-num text-sm ${color.price > 0 ? 'text-gray-800' : 'text-gray-500'}`}>
+                                                    {color.price > 0 ? `+${color.price.toLocaleString()}` : '±0'}
+                                                </span>
+                                            </button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </section>
 
                         {/* ボーナス払いシミュレーター */}
                         <BonusPaymentSimulator principal={carLoanPrincipals['/suv/nx']} />
                     </div>
 
-                    {/* Options Section - Card Style */}
+                    {/* ── 右：オプション・見積明細 ── */}
                     <div className="space-y-6">
-                        {Object.entries(optionsByCategory).map(([category, categoryOptions]) => (
-                            <div key={category} className="bg-white rounded-3xl p-6 shadow-xl">
-                                <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                                    <span className="w-1 h-5 bg-teal-700 mr-3"></span>
-                                    {category}
-                                </h2>
-                                <div className="space-y-3">
-                                    {categoryOptions.map((option) => {
-                                        const isChecked = selectedOptions.includes(option.name);
-                                        const isDefault = option.isDefault;
+                        {/* オプション：種類ごとに小見出しを挟んだ1枚の表 */}
+                        <section className="overflow-hidden rounded-2xl border border-rule bg-white">
+                            <h2 className="border-b border-rule px-5 py-3">
+                                <span className="u-label">オプション</span>
+                            </h2>
 
-                                        return (
-                                            <button
-                                                key={option.name}
-                                                onClick={() => toggleOption(option.name)}
-                                                className={`w-full flex items-center gap-4 p-4 rounded border transition-colors duration-200 text-left ${isChecked
-                                                    ? 'border-teal-700 bg-teal-50'
-                                                    : 'border-gray-200 bg-white hover:border-gray-400'
-                                                    }`}
-                                            >
-                                                <div className={`flex-shrink-0 size-6 rounded-lg flex items-center justify-center transition-ui ${isChecked
-                                                    ? 'bg-teal-700 text-white'
-                                                    : 'bg-slate-100 text-transparent'
-                                                    }`}>
-                                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                                    </svg>
-                                                </div>
-                                                <div className="flex-grow">
-                                                    <div className="flex items-center gap-2">
-                                                        <span className={`font-bold ${isChecked ? 'text-teal-800' : 'text-slate-700'}`}>
-                                                            {option.name}
+                            {Object.entries(optionsByCategory).map(([category, categoryOptions]) => (
+                                <div key={category}>
+                                    <h3 className="border-b border-rule bg-gray-50 px-5 py-1.5 text-xs text-gray-600">
+                                        {category}
+                                    </h3>
+                                    <ul className="divide-y divide-rule border-b border-rule last:border-b-0">
+                                        {categoryOptions.map((option) => {
+                                            const isChecked = selectedOptions.includes(option.name);
+
+                                            return (
+                                                <li key={option.name}>
+                                                    <button
+                                                        onClick={() => toggleOption(option.name)}
+                                                        aria-pressed={isChecked}
+                                                        className={`flex w-full items-center gap-3 px-5 py-3 text-left transition-colors duration-150 ${isChecked ? 'bg-mint-50' : 'hover:bg-gray-50'
+                                                            }`}
+                                                    >
+                                                        <span className={`flex size-5 flex-shrink-0 items-center justify-center rounded-sm border transition-ui ${isChecked
+                                                            ? 'border-teal-700 bg-teal-700 text-white'
+                                                            : 'border-rule-strong bg-white text-transparent'
+                                                            }`}>
+                                                            <svg aria-hidden="true" className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                            </svg>
                                                         </span>
-                                                        {isDefault && (
-                                                            <span className="text-xs font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded-full">
-                                                                標準装備
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className={`text-right font-bold ${isChecked ? 'text-teal-700' : 'text-slate-500'}`}>
-                                                    {option.price > 0 ? `+${option.price.toLocaleString()}円/月` : '無料'}
-                                                </div>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        ))}
 
-                        {/* Price Summary Card */}
-                        <div className="bg-gray-900 text-white rounded-3xl p-8 shadow-2xl">
-                            <div className="text-center">
-                                <p className="text-slate-500 text-sm mb-2">月々のお支払い</p>
-                                <div className="text-5xl md:text-6xl font-bold mb-2">
-                                    <span className="text-teal-300">{calculateTotalPrice().toLocaleString()}</span>
-                                    <span className="text-2xl ml-1">円</span>
+                                                        <span className="flex-1 text-sm leading-snug text-gray-800">
+                                                            {option.name}
+                                                            {option.isDefault && (
+                                                                <span className="ml-2 whitespace-nowrap text-xs text-gray-500">標準装備</span>
+                                                            )}
+                                                        </span>
+
+                                                        <span className={`u-num text-sm ${option.price > 0 ? 'text-gray-800' : 'text-gray-500'}`}>
+                                                            {option.price > 0 ? `+${option.price.toLocaleString()}` : '±0'}
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
                                 </div>
-                                <p className="text-slate-500 text-sm">税込・頭金なし・ボーナス払いなし</p>
+                            ))}
+                        </section>
+
+                        {/* 見積明細 */}
+                        <section className="overflow-hidden rounded-2xl border border-teal-700 bg-white shadow-lg">
+                            <h2 className="bg-teal-700 px-5 py-3">
+                                <span className="u-label text-mint-200">月々のお支払い</span>
+                            </h2>
+
+                            <dl className="divide-y divide-rule px-5">
+                                {quoteLines.map((line) => (
+                                    <div key={line.label} className="flex items-baseline justify-between gap-4 py-2.5">
+                                        <dt className="text-sm leading-snug text-gray-700">{line.label}</dt>
+                                        <dd className="u-num whitespace-nowrap text-sm text-gray-800">
+                                            {line.price.toLocaleString()}
+                                        </dd>
+                                    </div>
+                                ))}
+                            </dl>
+
+                            <div className="border-t-2 border-teal-700 px-5 py-4">
+                                <div className="flex items-baseline justify-between gap-4">
+                                    <span className="text-sm font-bold text-gray-800">合計</span>
+                                    <span className="u-num text-4xl font-bold text-teal-700">
+                                        {calculateTotalPrice().toLocaleString()}
+                                        <span className="ml-1 font-sans text-base font-normal text-gray-600">円/月</span>
+                                    </span>
+                                </div>
+                                <p className="mt-1 text-right text-xs text-gray-500">税込・頭金なし</p>
+
+                                <Link
+                                    href={contactUrl}
+                                    className="mt-5 block rounded-xl bg-teal-700 px-6 py-3.5 text-center font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.99]"
+                                >
+                                    この内容で相談する
+                                </Link>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
 
-                {/* Features Grid */}
-                <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {[
-                        { label: '頭金', value: '無し', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-                        { label: 'ボーナス', value: '無し', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-                        { label: '車検', value: '不要', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
-                        { label: '1年間', value: '傷保証', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
-                    ].map((feature, i) => (
-                        <div key={i} className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-shadow text-center">
-                            <div className="size-12 bg-teal-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-6 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={feature.icon} />
-                                </svg>
+                {/* 契約に含まれるもの */}
+                <section className="mt-10 rounded-2xl border border-rule bg-white">
+                    <h2 className="border-b border-rule px-5 py-3">
+                        <span className="u-label">すべての月額に含まれます</span>
+                    </h2>
+                    <dl className="grid grid-cols-2 sm:grid-cols-4">
+                        {[
+                            { label: '頭金', value: 'なし' },
+                            { label: 'ボーナス払い', value: '任意' },
+                            { label: '車検費用', value: '込み' },
+                            { label: '傷の保証', value: '1年間' },
+                        ].map((item, index) => (
+                            <div
+                                key={item.label}
+                                className={`px-5 py-4 ${index > 0 ? 'border-l border-rule' : ''} ${index >= 2 ? 'border-t border-rule sm:border-t-0' : ''} ${index === 2 ? 'border-l-0 sm:border-l' : ''}`}
+                            >
+                                <dt className="text-xs text-gray-500">{item.label}</dt>
+                                <dd className="mt-0.5 font-bold text-teal-700">{item.value}</dd>
                             </div>
-                            <p className="text-sm text-slate-500 mb-1">{feature.label}</p>
-                            <p className="text-lg font-bold text-teal-700">{feature.value}</p>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </dl>
+                </section>
 
-                {/* Company Info */}
-                <div className="mt-12 text-center text-sm text-slate-500 bg-white rounded-2xl p-6 shadow-lg">
-                    <p className="font-bold text-slate-700 mb-2">株式会社港南自動車サービス</p>
+                <hr className="u-road my-10 border-0" />
+
+                <div className="text-center text-sm leading-relaxed text-gray-500">
+                    <p className="font-bold text-gray-700">株式会社港南自動車サービス</p>
                     <p>〒920-0336 石川県金沢市金石本町ハ14番地</p>
-                    <p>TEL: 076-268-1788 / FAX: 076-268-3163</p>
+                    <p className="u-num">TEL 076-268-1788 ／ FAX 076-268-3163</p>
                 </div>
             </div>
 
-            {/* Fixed Bottom Price Bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-gray-200 z-40 pb-[env(safe-area-inset-bottom)] p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-                <div className="max-w-5xl mx-auto flex items-center justify-between">
-                    <div className="hidden sm:block">
-                        <p className="font-bold text-slate-800">レクサス NX</p>
-                        <p className="text-xs text-slate-500">350h Fスポーツ・2WD・2,500cc</p>
+            {/* 画面下に留まる合計 */}
+            <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-rule bg-white/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
+                <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
+                    <div className="hidden md:block">
+                        <div className="font-bold text-gray-800">レクサス NX</div>
+                        <div className="text-sm text-gray-500">350h Fスポーツ ／ 2WD ／ 2,500cc</div>
                     </div>
-                    <div className="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-between sm:justify-end">
+                    <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-end">
                         <div className="text-right">
-                            <p className="text-xs text-slate-500">月々のお支払い</p>
-                            <p className="text-2xl md:text-3xl font-bold text-teal-700">
-                                {calculateTotalPrice().toLocaleString()}<span className="text-sm ml-1">円</span>
-                            </p>
+                            <div className="text-xs text-gray-500">月々のお支払い</div>
+                            <div className="u-num text-2xl font-bold text-teal-700 md:text-3xl">
+                                {calculateTotalPrice().toLocaleString()}
+                                <span className="ml-1 font-sans text-sm font-normal text-gray-600">円</span>
+                            </div>
                         </div>
                         <Link
                             href={contactUrl}
-                            className="bg-teal-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:shadow-xl hover:bg-teal-600 transition-ui whitespace-nowrap"
+                            className="rounded-xl bg-teal-700 px-6 py-3 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.98]"
                         >
-                            お問い合わせ
+                            相談する
                         </Link>
                     </div>
                 </div>

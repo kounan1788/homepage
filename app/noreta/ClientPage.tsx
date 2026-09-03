@@ -120,7 +120,7 @@ export default function Page() {
                 image: '/cars/xbee.jpg',
                 route: '/suv/xbee',
             },
-            { name: 'VEZEL', price: formatPrice(carBasePrices['/suv/vezel']), image: '/cars/vezel.jpg', route: '/suv/vezel' },
+            { name: 'ヴェゼル', price: formatPrice(carBasePrices['/suv/vezel']), image: '/cars/vezel.jpg', route: '/suv/vezel' },
             {
                 name: 'カローラクロス',
                 price: formatPrice(carBasePrices['/suv/corollacross']),
@@ -156,7 +156,7 @@ export default function Page() {
         ],
 
         KCAR: [
-            { name: 'NBOX カスタム', price: formatPrice(carBasePrices['/kcar/nbox']), image: '/cars/nbox.jpg', route: '/kcar/nbox' },
+            { name: 'N-BOX カスタム', price: formatPrice(carBasePrices['/kcar/nbox']), image: '/cars/nbox.jpg', route: '/kcar/nbox' },
             {
                 name: 'タントカスタム',
                 price: formatPrice(carBasePrices['/kcar/tantocustom']),
@@ -368,70 +368,26 @@ export default function Page() {
             </div>
 
             {/* Hero Section */}
-            <section id="main" tabIndex={-1} className="relative h-dvh min-h-[700px] overflow-hidden flex items-center justify-center" data-oid="jrqex-7">
-                {/* Immersive Background */}
-                <div className="absolute inset-0 z-0">
+            <section id="main" tabIndex={-1} className="bg-teal-900 text-white">
+                {/* 写真には文字が焼き込まれているため、切り抜かず幅基準で全体を出す */}
+                <div className="mx-auto max-w-5xl px-4 pt-20 md:px-8">
                     <Image
                         src="/images/noreta-hero01.jpg"
-                        alt="ノレタ - 新しい車の乗り方"
-                        fill
-                        className="object-cover"
+                        alt="ノレタで乗れる車種"
+                        width={1920}
+                        height={1080}
+                        className="h-auto w-full rounded-2xl"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gray-950/60 z-10"></div>
                 </div>
 
-                <div className="container mx-auto px-6 relative z-20 text-center">
-                    <div className="inline-flex items-center space-x-2 bg-teal-500/20 backdrop-blur-md border border-teal-500/30 px-4 py-2 rounded text-teal-300 text-sm font-bold mb-8 tracking-widest uppercase">
-                        <span className="relative flex size-2">
-                            <span className="hidden"></span>
-                            <span className="relative inline-flex rounded-full size-2 bg-teal-500"></span>
-                        </span>
-                        <span>創業70年の実績</span>
-                    </div>
-
-                    <h1 className="text-[34px] md:text-[56px] font-bold text-white mb-6 leading-[1.35] tracking-ja">
-                        <span className="block text-[24px] md:text-[32px] mb-2 font-bold opacity-90">港南自動車サービスが提供する</span>
-                        <span className="text-teal-300">
-                            ノレタ
-                        </span>
-                    </h1>
-
-                    <p className="text-lg md:text-2xl text-slate-200 mb-12 max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-medium">
-                        新車に乗るなら、もっと気軽に。もっとお得に。<br />
-                        月々定額、頭金・ボーナス払いなしで憧れの一台を。
+                <div className="mx-auto max-w-5xl px-4 pb-16 pt-10 md:px-8">
+                    <h1 className="text-4xl font-bold tracking-ja md:text-5xl">ノレタ</h1>
+                    <p className="mt-4 max-w-xl text-lg leading-relaxed text-teal-100">
+                        新車を、買うのではなく毎月の暮らしの一部にする。
+                        金沢で70年、車を直してきた整備工場のカーローンです。
                     </p>
-
-                    <div className="flex flex-wrap justify-center gap-4 mb-12">
-                        {['頭金なし', 'ボーナス払いなし', '3年契約'].map((feature, i) => (
-                            <div
-                                key={i}
-                                className="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-2xl flex items-center shadow-xl"
-                            >
-                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-6 mr-3 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span className="text-lg font-bold text-white tracking-wider">{feature}</span>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                        <a
-                            href="#lineup"
-                            className="group relative px-10 py-5 bg-teal-700 text-white rounded-2xl font-bold text-lg shadow-2xl hover:bg-teal-500 transition-ui duration-200 overflow-hidden"
-                        >
-                            <span className="relative z-10 flex items-center">
-                                ラインナップを見る
-                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-6 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
                 </div>
-
-
             </section>
 
 
@@ -440,43 +396,31 @@ export default function Page() {
             <main id="lineup" className="relative bg-white pt-24 pb-32" data-oid="vgxn62n">
                 {/* Vehicle Lineup Section */}
                 <div className="container mx-auto px-6" data-oid="4ni0p50">
-                    <div className="text-center mb-20" data-oid="e3-q:y4">
-                        <div className="u-chip mb-4" data-oid=":pu:qf-">
-                            Vehicle Lineup
-                        </div>
-                        <h2
-                            className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-ja"
-                            data-oid="sy5_s6q"
-                        >
+                    <div className="mb-12 max-w-2xl">
+                        <h2 className="text-4xl font-bold tracking-ja text-gray-900 md:text-5xl">
                             ラインナップ
                         </h2>
-                        <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium" data-oid="t9gm.vc">
-                            お客様のニーズに合わせた多彩な車種を取り揃えております。<br />
-                            月々の定額設定で、憧れの新車をより身近に。
+                        <p className="mt-4 text-lg leading-relaxed text-gray-600">
+                            表示はすべて月々の総額です。どの車種も頭金なし・3年契約、
+                            ボーナス払いは使っても使わなくても構いません。
                         </p>
                     </div>
 
                     {/* Category Selector */}
-                    <div className="flex justify-center mb-16" data-oid="gp09t-h">
-                        <div
-                            className="inline-flex p-1.5 bg-slate-100 rounded-2xl shadow-inner"
-                            data-oid="v36fooq"
-                        >
-                            {(['SUV', 'MINIVAN', 'KCAR'] as const).map((cat) => (
-                                <button
-                                    key={cat}
-                                    className={`px-10 py-4 rounded-xl text-lg font-bold transition-ui duration-200 ${activeCategory === cat
-                                        ? 'bg-white text-teal-700 shadow-md scale-105'
-                                        : 'text-slate-500 hover:text-slate-700'
-                                        }`}
-                                    onClick={() => setActiveCategory(cat)}
-                                    aria-label={`${cat}カテゴリを表示`}
-                                    data-oid="0y2xs:-"
-                                >
-                                    {cat === 'KCAR' ? '軽自動車' : cat === 'MINIVAN' ? 'ミニバン' : cat}
-                                </button>
-                            ))}
-                        </div>
+                    <div className="mb-10 flex flex-wrap gap-2 border-b border-rule">
+                        {(['SUV', 'MINIVAN', 'KCAR'] as const).map((cat) => (
+                            <button
+                                key={cat}
+                                className={`-mb-px border-b-2 px-5 py-3 font-bold transition-colors duration-150 ${activeCategory === cat
+                                    ? 'border-teal-700 text-teal-700'
+                                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                                    }`}
+                                onClick={() => setActiveCategory(cat)}
+                                aria-label={`${cat}カテゴリを表示`}
+                            >
+                                {cat === 'KCAR' ? '軽自動車' : cat === 'MINIVAN' ? 'ミニバン' : cat}
+                            </button>
+                        ))}
                     </div>
 
                     {/* Car Grid */}
@@ -487,75 +431,26 @@ export default function Page() {
                         {carData[activeCategory].map((car, index) => (
                             <div
                                 key={index}
-                                className="group relative bg-white rounded shadow-xl hover:shadow-2xl transition-ui duration-200 overflow-hidden border border-slate-100 flex flex-col h-full"
-                                data-oid="50p0a1e"
+                                className="group overflow-hidden rounded-2xl border border-rule bg-white transition-colors duration-200 hover:border-teal-700"
                             >
-                                <Link href={car.route || '#'} className="flex flex-col h-full" data-oid="rsq6_45">
-                                    <div
-                                        className="relative w-full pt-[75%] overflow-hidden"
-                                        data-oid="jj074yg"
-                                    >
+                                <Link href={car.route || '#'} className="flex h-full flex-col">
+                                    {/* 写真ごとに縦横比が違う（1:1〜1.9:1）ため、切らずに全体を収める */}
+                                    <div className="relative w-full bg-white pt-[75%]">
                                         <Image
                                             src={car.image}
                                             alt={car.name}
                                             fill
-                                            className="object-cover absolute top-0 left-0 group-hover:scale-[1.04] transition-transform duration-200 ease-out"
-                                            data-oid=":-l:y6e"
+                                            className="absolute left-0 top-0 object-contain p-3"
                                         />
-                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200"></div>
-
                                     </div>
 
-                                    <div className="p-10 flex flex-col flex-grow" data-oid="85w1c.a">
-                                        <div className="flex items-baseline justify-between mb-4 gap-4" data-oid="price-header-wrap">
-                                            <h3 className="text-2xl font-bold text-slate-800 tracking-ja" data-oid="aqc_wkg">
-                                                {car.name}
-                                            </h3>
-                                            <div
-                                                className="bg-teal-50 text-teal-800 px-4 py-1.5 rounded-xl text-lg font-bold whitespace-nowrap"
-                                                data-oid="hsfw-i4"
-                                            >
-                                                <span className="text-xs font-bold mr-1 opacity-70">月々</span>
-                                                {car.price}
-                                            </div>
-                                        </div>
-                                        <div
-                                            className="flex flex-wrap gap-2 mb-8"
-                                            data-oid="1zq11i7"
-                                        >
-                                            {['頭金なし', 'ボーナスなし', '3年契約'].map((tag, i) => (
-                                                <span
-                                                    key={i}
-                                                    className="bg-teal-50 text-teal-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-teal-100"
-                                                    data-oid="zqj0wrh"
-                                                >
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        <div className="mt-auto border-t border-slate-50 pt-6 flex items-center justify-between" data-oid="hwnmccz">
-                                            <span
-                                                className="text-teal-700 text-sm font-bold flex items-center group-hover:text-teal-500 transition-colors"
-                                                data-oid="cq:nz8_"
-                                            >
-                                                詳細を見る
-                                                <svg aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="size-5 ml-1 transform group-hover:translate-x-1 transition-transform"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                    data-oid="settcez"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                        data-oid="kftmwmq"
-                                                    />
-                                                </svg>
-                                            </span>
-                                        </div>
+                                    <div className="flex flex-1 items-baseline justify-between gap-4 border-t border-rule px-5 py-4">
+                                        <h3 className="text-lg font-bold tracking-ja text-gray-900">
+                                            {car.name}
+                                        </h3>
+                                        <span className="u-num whitespace-nowrap text-lg font-bold text-teal-700">
+                                            {car.price}
+                                        </span>
                                     </div>
                                 </Link>
                             </div>
@@ -568,9 +463,6 @@ export default function Page() {
 
                     <div className="container mx-auto px-6 relative z-10" data-oid="46o57.p">
                         <div className="text-center mb-24" data-oid="secret-header">
-                            <div className="u-chip mb-4" data-oid=":lk30bf">
-                                WHY SO AFFORDABLE?
-                            </div>
                             <h2 className="text-[28px] md:text-[36px] font-bold text-gray-900 mb-8 tracking-ja" data-oid="dzihdm7">
                                 なんでそんなに安いの？
                             </h2>
@@ -581,13 +473,8 @@ export default function Page() {
 
                         <div className="grid grid-cols-1 gap-12 max-w-5xl mx-auto" data-oid="hxmpxux">
                             {/* Point 1 */}
-                            <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-ui duration-200 hover:shadow-2xl" data-oid=".pgj:90">
+                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12" data-oid=".pgj:90">
                                 <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt1-layout">
-                                    <div className="flex-shrink-0" data-oid="pc8y:6s">
-                                        <div className="size-24 bg-teal-700 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform duration-200" data-oid="2hs-tai">
-                                            <span className="text-white font-bold text-4xl" data-oid="_33zlyb">01</span>
-                                        </div>
-                                    </div>
                                     <div className="flex-grow" data-oid="y24d2wj">
                                         <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight" data-oid="krp651x">
                                             3年後のリセールだけを考慮した<br className="hidden md:block" />車両・オプション設定
@@ -596,7 +483,7 @@ export default function Page() {
                                             <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="gfdh3zz">
                                                 新車を賢く乗り換える鍵は「車両設定」にあります。単に人気車を選ぶだけでなく、3年後の市場価値を徹底的に分析。プロの視点で「最も価値が落ちにくい」組み合わせをご提案します。
                                             </p>
-                                            <div className="bg-slate-50 rounded-3xl p-8" data-oid="7l16u3f">
+                                            <div className="rounded-2xl border border-rule bg-paper p-6 md:p-8" data-oid="7l16u3f">
                                                 <p className="font-bold text-teal-800 mb-6 flex items-center" data-oid="906.zsh">
                                                     <span className="w-1.5 h-6 bg-teal-700 rounded-full mr-3" data-oid="h-line"></span>
                                                     「ノレタ」が提案する賢い選択
@@ -625,13 +512,8 @@ export default function Page() {
                             </div>
 
                             {/* Point 2 */}
-                            <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-ui duration-200 hover:shadow-2xl" data-oid="si6zjvw">
+                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12" data-oid="si6zjvw">
                                 <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt2-layout">
-                                    <div className="flex-shrink-0" data-oid="wt:8y_e">
-                                        <div className="size-24 bg-teal-700 rounded-3xl flex items-center justify-center shadow-lg transform rotate-6 group-hover:rotate-0 transition-transform duration-200" data-oid="lq-f-k9">
-                                            <span className="text-white font-bold text-4xl" data-oid="sa9bx9-">02</span>
-                                        </div>
-                                    </div>
                                     <div className="flex-grow" data-oid="yjv6tmj">
                                         <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight" data-oid="obvqt1a">
                                             自由返済型ローンと<br className="hidden md:block" />業界トップクラスの低金利 3.9%
@@ -660,13 +542,8 @@ export default function Page() {
                             </div>
 
                             {/* Point 3 */}
-                            <div className="group bg-white rounded-[3rem] p-10 md:p-16 shadow-xl border border-slate-100 transition-ui duration-200 hover:shadow-2xl" data-oid="lw9j4p0">
+                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12" data-oid="lw9j4p0">
                                 <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt3-layout">
-                                    <div className="flex-shrink-0" data-oid="yf.7i3a">
-                                        <div className="size-24 bg-teal-700 rounded-3xl flex items-center justify-center shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform duration-200" data-oid="c_.q:fw">
-                                            <span className="text-white font-bold text-4xl" data-oid="x0m1zb5">03</span>
-                                        </div>
-                                    </div>
                                     <div className="flex-grow" data-oid="1-8t4mx">
                                         <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight" data-oid=".1wi25_">
                                             地域密着70年の基盤があるから<br className="hidden md:block" />実現できる「お客様第一」の利益率
@@ -694,9 +571,6 @@ export default function Page() {
                 <section className="py-24 bg-white">
                     <div className="container mx-auto px-6">
                         <div className="text-center mb-16">
-                            <div className="u-chip mb-4">
-                                FAQ
-                            </div>
                             <h2 className="text-[26px] md:text-[32px] font-bold text-gray-900 mb-6 tracking-ja">
                                 よくある質問
                             </h2>
@@ -725,9 +599,6 @@ export default function Page() {
                 <section className="py-32 relative bg-white" data-oid="._gvodc">
                     <div className="container mx-auto px-6 relative z-10" data-oid="skrri5s">
                         <div className="text-center mb-20" data-oid="contact-header">
-                            <div className="u-chip mb-4" data-oid="g2e7wpr">
-                                GET IN TOUCH
-                            </div>
                             <h2 className="text-[28px] md:text-[36px] font-bold text-gray-900 mb-8 tracking-ja" data-oid="74paijr">
                                 お問い合わせ
                             </h2>
