@@ -26,7 +26,9 @@ export default function Page() {
     const colors: ColorOption[] = useMemo(() => [
         { name: 'ブラックマイカ', price: 0, colorCode: '#1a1a1a' },
         { name: 'ホワイトパール', price: 0, colorCode: '#f8f8f8' },
-        { name: 'アッシュグリーンメタリック', price: 0, colorCode: '#8fac8b' },
+        { name: 'アッシュグリーンメタリック×ブラックマイカ', price: 1650, colorCode: '#8fac8b' },
+        { name: 'ナチュラルアイボリーメタリック×ブラックマイカ', price: 1650, colorCode: '#e5dcc6' },
+        { name: 'ホワイトパール×ブラックマイカ', price: 1650, colorCode: '#f8f8f8' },
     ], []);
 
     const options: VehicleOption[] = useMemo(() => [
