@@ -58,6 +58,8 @@
 - [新車カーローン「ノレタ」](https://www.kounan-auto.jp/noreta): 取扱車種一覧・月額料金
 - [法人リース「ノリドク」](https://www.kounan-auto.jp/noridoku): 法人向けリースの特徴
 - [採用情報](https://www.kounan-auto.jp/recruit): 整備士・営業スタッフ募集
+- [IT支援・AI活用講座](https://www.kounan-auto.jp/it-support): 中小企業向けのAI導入支援・ホームページ制作
+- [IT支援の料金プラン](https://www.kounan-auto.jp/it-support/pricing): 月額IT支援・AI講座・ホームページ制作の料金
 
 ## よくある質問への回答
 

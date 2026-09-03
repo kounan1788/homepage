@@ -5,6 +5,10 @@ import ClientPage from './ClientPage';
 export const metadata: Metadata = {
     title: 'ジョッキースピードラン',
     description: 'ジャンプとしゃがみで障害物をよけて、どこまで走れるかに挑戦するミニゲーム「ジョッキースピードラン」。',
+    // 親レイアウトの canonical（トップページ）を継承しないよう自ページを指す
+    alternates: {
+        canonical: '/horse-run-9f4k2x',
+    },
     robots: {
         index: false,
         follow: false,
