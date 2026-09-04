@@ -32,6 +32,7 @@ const ROUTE_SETTINGS: Record<string, RouteSetting> = {
     '/it-support/pricing': { changeFrequency: 'monthly', priority: 0.7 },
     '/recruit': { changeFrequency: 'monthly', priority: 0.7 },
     '/game': { changeFrequency: 'monthly', priority: 0.5 },
+    '/privacy': { changeFrequency: 'yearly', priority: 0.3 },
 };
 
 const DEFAULT_SETTING: RouteSetting = { changeFrequency: 'monthly', priority: 0.6 };

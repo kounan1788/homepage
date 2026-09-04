@@ -1271,7 +1271,7 @@ export default function ShakenPage() {
                                     { term: '電話', value: '076-268-1788', num: true },
                                     { term: '平日', value: '9:00〜18:00', num: true },
                                     { term: '土曜', value: '9:00〜17:00', num: true },
-                                    { term: '定休', value: '日曜・祝日' },
+                                    { term: '定休', value: '日曜・祝日／土曜は月により異なります' },
                                 ].map((row, index) => (
                                     <div
                                         key={row.term}
@@ -1447,7 +1447,9 @@ export default function ShakenPage() {
                                 </div>
                                 <div className="flex gap-4 border-b border-white/15 py-3">
                                     <dt className="w-16 shrink-0 text-white/50">定休</dt>
-                                    <dd className="text-white/80">日曜・祝日</dd>
+                                    <dd className="text-white/80">
+                                        日曜・祝日／土曜は月により異なります
+                                    </dd>
                                 </div>
                             </dl>
                         </div>

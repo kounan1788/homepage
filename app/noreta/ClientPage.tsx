@@ -660,7 +660,7 @@ export default function Page() {
                                     </a>
                                     <p className="text-slate-500 font-bold leading-relaxed" data-oid="7dop659">
                                         平日 9:00 〜 18:00 / 土曜 9:00 〜 17:00<br />
-                                        <span className="text-sm opacity-75">定休日: 第2・第4土曜日、日曜、祝日</span>
+                                        <span className="text-sm opacity-75">定休日: 日曜・祝日／土曜は月により異なります</span>
                                     </p>
                                 </div>
                             </div>
@@ -799,7 +799,7 @@ export default function Page() {
                                     </li>
                                     <li data-oid="ww8v2:3">
                                         <a
-                                            href="#"
+                                            href="/privacy"
                                             className="hover:text-teal-300 transition-colors"
                                             data-oid="8p99fsu"
                                         >

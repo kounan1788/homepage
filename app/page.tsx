@@ -111,7 +111,7 @@ TIME_SLOTS.push('17:00');
 const topFaqData = [
     {
         question: '営業時間と定休日を教えてください。',
-        answer: '営業時間は平日9:00〜18:00、土曜9:00〜17:00です。日曜・祝日はお休みをいただいております。詳しくはトップページの営業カレンダーをご確認ください。',
+        answer: '営業時間は平日9:00〜18:00、土曜9:00〜17:00です。日曜・祝日は定休日です。土曜日は月によって営業日と定休日が変わりますので、ご来店前にトップページの営業カレンダーをご確認ください。',
     },
     {
         question: '車検はどのくらいの時間で終わりますか？',
@@ -159,6 +159,8 @@ export default function Page() {
         company: '',
         jobTitle: '',
         message: '',
+        // ハニーポット。画面に出ないため、値が入っていたらボットとして弾かれる
+        website: '',
     });
 
     // 他ページ（車検見積り・車種構成・採用）から引き継いだ内容
@@ -266,6 +268,7 @@ export default function Page() {
                     company: '',
                     jobTitle: '',
                     message: '',
+                    website: '',
                 });
                 setHandoff(null);
             } else {
@@ -956,7 +959,11 @@ export default function Page() {
                                         定休日
                                     </dt>
                                     <dd className="text-[15px] text-red-600">
-                                        第1・第2・第4土曜日／日曜・祝日
+                                        日曜・祝日
+                                        <br />
+                                        <span className="text-[13px]">
+                                            土曜は月により異なります（営業カレンダー参照）
+                                        </span>
                                     </dd>
                                 </div>
                                 <div className="flex flex-col gap-1 border-b border-gray-200 py-4 sm:flex-row sm:gap-6">
@@ -1306,7 +1313,9 @@ export default function Page() {
                                 </div>
                                 <div className="flex gap-4 py-2">
                                     <dt className="w-20 shrink-0 text-gray-500">定休日</dt>
-                                    <dd className="text-red-600">第1・第2・第4土曜日／日曜・祝日</dd>
+                                    <dd className="text-red-600">
+                                        日曜・祝日／土曜は月により異なります
+                                    </dd>
                                 </div>
                                 <div className="flex gap-4 py-2">
                                     <dt className="w-20 shrink-0 text-gray-500">返信</dt>
@@ -1547,7 +1556,7 @@ export default function Page() {
                                             ))}
                                         </select>
                                         <p id="preferredTime-help" className="text-xs text-gray-500">
-                                            土曜の営業は17:00まで、日曜・祝日は定休日です。
+                                            土曜の営業は17:00までです。日曜・祝日は定休で、土曜も月により定休日があります。
                                         </p>
                                     </div>
                                 </div>
@@ -1601,11 +1610,20 @@ export default function Page() {
                                     )}
                                 </button>
 
-                                <input
-                                    type="hidden"
-                                    name="recipient"
-                                    value="kounan.lease@gmail.com"
-                                />
+                                {/* ハニーポット。人には見えないので、埋まっていればボットと判断する。
+                                    display:none だと入力可能と見なさないボットがいるため画面外に逃がす */}
+                                <div aria-hidden="true" className="absolute left-[-9999px] top-auto size-px overflow-hidden">
+                                    <label htmlFor="website">ホームページ（入力不要）</label>
+                                    <input
+                                        id="website"
+                                        name="website"
+                                        type="text"
+                                        tabIndex={-1}
+                                        autoComplete="off"
+                                        value={formData.website}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1653,7 +1671,9 @@ export default function Page() {
                                 </div>
                                 <div className="flex gap-4 border-b border-white/15 py-3">
                                     <dt className="w-16 shrink-0 text-white/50">定休</dt>
-                                    <dd className="text-white/80">日曜・祝日</dd>
+                                    <dd className="text-white/80">
+                                        日曜・祝日／土曜は月により異なります
+                                    </dd>
                                 </div>
                             </dl>
                         </div>
@@ -1728,7 +1748,10 @@ export default function Page() {
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" className="transition-colors hover:text-teal-300">
+                                        <a
+                                            href="/privacy"
+                                            className="transition-colors hover:text-teal-300"
+                                        >
                                             プライバシーポリシー
                                         </a>
                                     </li>

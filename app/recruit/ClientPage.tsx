@@ -3,86 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Breadcrumb from '@/components/Breadcrumb';
 import { buildContactUrl } from '@/lib/contactHandoff';
-
-// ============================================
-// 求人ごとの公開フラグ
-// 各求人の published を個別に切り替えて公開を制御する
-//   published: true  → その求人を公開（一覧に表示）
-//   published: false → その求人を非公開（一覧に表示しない）
-// 例）整備士だけ公開したい場合は mechanic を true、office を false にする
-// 両方 false の場合はページ全体が「準備中」表示になる
-// ============================================
-
-// 求人情報のデータ
-const jobListings = [
-    {
-        id: 'mechanic',
-        published: true, // 整備士の公開フラグ
-        title: 'ピットエンジニア-自動車整備士-',
-        subtitle: '未経験スタート多数・資格取得は会社が全力サポート',
-        highlight: '積極採用中',
-        description: '「クルマが好き」──その気持ちさえあれば大丈夫。お客様の大切なお車の車検・点検・整備をお任せします。最初はできることから、経験豊富な先輩が一つひとつ丁寧に教えるので、未経験からでも着実にプロの整備士へ成長できます。国の指定工場としてリフト4基・検査ラインを備え、スキャンツールも完備。HV・EVまで扱えるので、これからの時代に通用する技術が身につきます。そして残業は完全ゼロ。繁忙期であっても、平日は18時・土曜は17時にきちんと帰れます。腰を据えて長く技術を磨ける環境です。',
-        requirements: [
-            '普通自動車運転免許（AT限定可）',
-            '整備士資格不問（入社後の資格取得を支援）',
-            '学歴不問・未経験者歓迎',
-            '10代〜50代まで幅広く採用いたします！',
-        ],
-        salary: {
-            amount: '¥195,000',
-            per: '／月〜',
-            details: '※経験・能力を考慮の上、決定いたします',
-            bonus: '賞与年2回',
-            raise: '昇給年1回',
-        },
-        benefits: [
-            '社会保険完備（雇用・労災・健康・厚生年金）',
-            '資格取得支援制度（費用会社負担）',
-            '資格手当あり（2級：5,000円/月、検査員：5,000円/月）',
-            '通勤手当支給',
-            '制服貸与',
-            'マイカー通勤OK（無料駐車場完備）',
-            '社員割引制度あり',
-        ],
-        workStyle: {
-            holidays: '日曜・祝日、第1・第2・第4土曜日(繁忙期により変動あり)',
-            vacation: '年次有給休暇（確実に取得できます）、夏季・年末年始休暇、慶弔休暇',
-        },
-    },
-    {
-        id: 'office',
-        published: false, // 事務・受付スタッフの公開フラグ
-        title: '事務・受付スタッフ',
-        subtitle: '未経験・ブランクOK／人と接するのが好きな方歓迎',
-        highlight: '募集中',
-        description: 'ご来店されたお客様の受付・電話応対、見積書や請求書の作成、データ入力など、店舗を支える事務業務全般をお任せします。特別なスキルは必要ありません。大切なのは、明るい笑顔と「人と接するのが好き」という気持ち。分からないことはすぐに聞けるアットホームな職場なので、未経験の方もブランクのある方も安心してスタートできます。',
-        requirements: [
-            '高卒以上',
-            '基本的なPC操作ができる方（Word・Excel）',
-            '普通自動車運転免許（あれば尚可）',
-            '未経験者歓迎・ブランクOK',
-        ],
-        salary: {
-            amount: '¥170,000',
-            per: '／月〜',
-            details: '※経験・能力を考慮の上、決定いたします',
-            bonus: '賞与年2回（実績による）',
-            raise: '昇給年1回',
-        },
-        benefits: [
-            '社会保険完備（雇用・労災・健康・厚生年金）',
-            '通勤手当支給',
-            '制服貸与',
-            'マイカー通勤OK（無料駐車場完備）',
-            '社員割引制度あり',
-        ],
-        workStyle: {
-            holidays: '日曜・祝日、第1・第2・第4土曜日',
-            vacation: '有給休暇（確実に取得できます）、夏季・年末年始休暇、慶弔休暇',
-        },
-    },
-];
+import {
+    visibleJobs,
+    isPageReady,
+    formatMonthlySalary,
+} from '@/lib/recruitJobs';
 
 // 役員メッセージの本文を構成するブロック
 //   p     … 通常の段落
@@ -339,11 +266,6 @@ const selectionSteps = [
         description: '合否は5営業日以内に必ずお伝えします。長くお待たせしません。在職中の方の応募も歓迎しており、入社日はご相談の上で決めます。',
     },
 ];
-
-// 公開中（published: true）の求人だけを抽出
-const visibleJobs = jobListings.filter((job) => job.published);
-// 公開中の求人が1件以上あればページを表示、0件なら「準備中」を表示
-const isPageReady = visibleJobs.length > 0;
 
 export default function RecruitPage() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -619,6 +541,15 @@ export default function RecruitPage() {
             </div>
 
             <main className="pt-24 md:pt-32">
+                {/* 構造化データは layout.tsx 側で出力済みなので includeSchema は false */}
+                <Breadcrumb
+                    items={[
+                        { name: 'ホーム', href: '/' },
+                        { name: '採用情報', href: '/recruit' },
+                    ]}
+                    includeSchema={false}
+                />
+
                 {/* Hero Section */}
                 <section className="container mx-auto px-4 mb-16 relative">
                     <div className={`transition-ui duration-1000 transform ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
@@ -851,7 +782,7 @@ export default function RecruitPage() {
                                             <h4 className="text-[11px] tracking-[0.12em] text-slate-500 mb-4 pb-2 border-b border-rule">給与・待遇</h4>
                                             <div className="space-y-3">
                                                 <div className="u-num text-[28px] font-medium text-teal-800 leading-none">
-                                                    {job.salary.amount}
+                                                    {formatMonthlySalary(job)}
                                                     <span className="ml-2 font-sans text-sm text-slate-500">
                                                         {job.salary.per}
                                                     </span>

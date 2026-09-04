@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ogImage } from '@/lib/imageSize';
+import { visibleJobs, type JobListing } from '@/lib/recruitJobs';
 
 export const metadata: Metadata = {
     title: '採用情報｜港南自動車サービス【金沢市】',
@@ -37,20 +38,21 @@ export const metadata: Metadata = {
 const JOB_POSTED_DATE = '2026-09-03';
 const JOB_VALID_THROUGH = '2027-09-03';
 
-export default function RecruitLayout({ children }: { children: React.ReactNode }) {
-    // 求人構造化データ（Google しごと検索向け）。掲載内容はページ本文と一致させている
-    const jobPostingSchema = {
+/**
+ * 求人構造化データ（Google しごと検索向け）。
+ * 掲載内容は lib/recruitJobs.ts から生成するため、ページ本文と必ず一致する。
+ * published: false の求人は visibleJobs に入らないので、構造化データにも出ない。
+ */
+function buildJobPostingSchema(job: JobListing) {
+    return {
         '@context': 'https://schema.org',
         '@type': 'JobPosting',
-        title: 'ピットエンジニア（自動車整備士）',
-        description:
-            '<p>お客様の大切なお車の車検・点検・整備をお任せします。最初はできることから、経験豊富な先輩が一つひとつ丁寧に教えるので、未経験からでも着実にプロの整備士へ成長できます。</p>' +
-            '<p>国の指定工場としてリフト4基・検査ラインを備え、スキャンツールも完備。HV・EVまで扱えるので、これからの時代に通用する技術が身につきます。</p>' +
-            '<p>残業は完全ゼロ。繁忙期であっても、平日は18時・土曜は17時にきちんと帰れます。年間休日110日、有給休暇も取得できます。</p>',
+        title: job.schemaTitle,
+        description: `<p>${job.description}</p>`,
         identifier: {
             '@type': 'PropertyValue',
             name: '株式会社港南自動車サービス',
-            value: 'pit-engineer',
+            value: job.id,
         },
         datePosted: JOB_POSTED_DATE,
         validThrough: JOB_VALID_THROUGH,
@@ -72,40 +74,44 @@ export default function RecruitLayout({ children }: { children: React.ReactNode 
             currency: 'JPY',
             value: {
                 '@type': 'QuantitativeValue',
-                value: 195000,
+                value: job.salary.monthlyMin,
                 unitText: 'MONTH',
             },
         },
-        // 応募資格（普通自動車運転免許・整備士資格不問）
-        qualifications:
-            '普通自動車運転免許（AT限定可）。整備士資格は不問で、入社後の資格取得を会社が全額支援します。',
-        jobBenefits:
-            '社会保険完備（雇用・労災・健康・厚生年金）、賞与年2回、昇給年1回、年間休日110日、残業なし、資格取得費用は会社が全額負担。',
+        qualifications: job.requirements.join('。'),
+        jobBenefits: [...job.benefits, job.workStyle.vacation].join('、'),
         industry: '自動車整備業',
         directApply: true,
     };
+}
 
-    // パンくず構造化データ（ホーム > 採用情報）
-    const breadcrumbSchema = {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'ホーム',
-                item: 'https://www.kounan-auto.jp',
-            },
-            { '@type': 'ListItem', position: 2, name: '採用情報' },
-        ],
-    };
+// パンくず構造化データ（ホーム > 採用情報）
+const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+        {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'ホーム',
+            item: 'https://www.kounan-auto.jp',
+        },
+        { '@type': 'ListItem', position: 2, name: '採用情報' },
+    ],
+};
 
+export default function RecruitLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }}
-            />
+            {visibleJobs.map((job) => (
+                <script
+                    key={job.id}
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(buildJobPostingSchema(job)),
+                    }}
+                />
+            ))}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}

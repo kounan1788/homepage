@@ -306,7 +306,7 @@ export default function Page() {
                             <address className="text-xl font-bold not-italic">石川県金沢市金石本町ハ14</address>
                             <div className="flex flex-col space-y-2">
                                 <Link href="tel:076-268-1788" className="text-3xl font-bold text-teal-400 hover:text-white transition-colors">076-268-1788</Link>
-                                <span className="text-white/60 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00 / 日祝定休</span>
+                                <span className="text-white/60 text-sm">受付：平日 9:00 - 18:00 / 土曜 9:00 - 17:00（日祝定休・土曜は月により定休）</span>
                             </div>
                         </div>
                     </div>

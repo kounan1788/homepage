@@ -28,13 +28,6 @@ const noridokuFaqData = [
     },
 ];
 
-// ============================================
-// ページ公開フラグ
-// true: ノリドクページを表示
-// false: 「ページ準備中」を表示
-// ============================================
-const IS_PAGE_READY = true;
-
 // 車両耐用年数データ
 const VEHICLE_TYPES = [
     { category: '一般用', name: '小型車（総排気量0.66L以下）', years: 4 },
@@ -200,132 +193,6 @@ export default function NoridokuPage() {
     const interestA = calcInterest(interestRateA, leasePeriod);
     const interestB = calcInterest(interestRateB, leasePeriod);
 
-
-    // ============================================
-    // ページ準備中の表示
-    // ============================================
-    if (!IS_PAGE_READY) {
-        return (
-            <div className="min-h-dvh bg-neutral-50 font-sans text-slate-900 flex flex-col">
-                <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200">
-                    <div className="container mx-auto px-4 h-16 md:h-20 flex justify-between items-center">
-                        <Link href="/" className="flex items-center space-x-2 transition-transform">
-                            <Image src="/logo.png" alt="港南自動車サービス" width={180} height={45} className="w-auto h-10 md:h-12 object-contain" priority />
-                        </Link>
-                        <nav className="hidden xl:flex items-center gap-7 whitespace-nowrap text-[15px]">
-                            <Link href="/shaken" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">車検</Link>
-                            <Link href="/#services" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">サービス内容</Link>
-                            <Link href="/#cases" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">取扱車種</Link>
-                            <Link href="/#company" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">会社情報</Link>
-                            <Link href="/recruit" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">採用情報</Link>
-                            <Link href="/#contact" className="text-gray-700 hover:text-teal-700 transition-colors border-b border-transparent hover:border-teal-700 pb-0.5">お問い合わせ</Link>
-                            <Link href="/noreta" className="flex h-11 items-center rounded-full bg-teal-700 px-5 font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97]">
-                                ノレタ詳細
-                            </Link>
-                            <Link href="/noridoku" className="flex h-11 items-center rounded-full border border-blue-600 px-5 font-bold text-blue-600 transition-[background-color,color,transform] duration-200 hover:bg-blue-600 hover:text-white active:scale-[0.97]">
-                                ノリドク詳細
-                            </Link>
-                        </nav>
-                        <button
-                            className="xl:hidden flex size-11 items-center justify-center rounded border border-gray-300 text-gray-900 transition-colors"
-                            id="menu-toggle"
-                            aria-controls="mobile-menu"
-                            onClick={toggleMenu}
-                            aria-expanded={menuOpen}
-                        aria-label="メニューを開く"
-                        >
-                            <svg aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className={`transition-transform duration-200 ${menuOpen ? 'rotate-90' : ''}`}
-                            >
-                                {menuOpen ? (
-                                    <path d="M18 6L6 18M6 6l12 12" />
-                                ) : (
-                                    <path d="M3 12h18M3 6h18M3 18h18" />
-                                )}
-                            </svg>
-                        </button>
-                    </div>
-                </header>
-
-                {/* Mobile menu */}
-                <div
-                    id="mobile-menu"
-                    className={`fixed inset-0 overscroll-contain bg-gray-900 z-50 xl:hidden transition-opacity duration-200 flex flex-col items-center justify-center space-y-7 px-6 ${menuOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
-                >
-                    <button
-                        onClick={() => setMenuOpen(false)}
-                        className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
-                    aria-label="メニューを閉じる"
-                    >
-                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                    </button>
-                    {[
-                        { name: '車検', href: '/shaken' },
-                        { name: 'サービス内容', href: '/#services' },
-                        { name: '取扱車種', href: '/#cases' },
-                        { name: '会社情報', href: '/#company' },
-                        { name: '採用情報', href: '/recruit' },
-                        { name: 'お問い合わせ', href: '/#contact' }
-                    ].map((item, i) => (
-                        <Link
-                            key={i}
-                            href={item.href}
-                            className="text-xl font-bold text-white hover:text-teal-300 transition-colors"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
-                    <Link
-                        href="/noreta"
-                        className="flex h-14 w-full max-w-xs items-center justify-center rounded bg-teal-700 font-bold text-white"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        ノレタ詳細
-                    </Link>
-                    <Link
-                        href="/noridoku"
-                        className="flex h-14 w-full max-w-xs items-center justify-center rounded border border-white/50 font-bold text-white"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        ノリドク詳細
-                    </Link>
-                </div>
-
-                <main id="main" tabIndex={-1} className="flex-1 flex items-center justify-center pt-20">
-                    <div className="text-center px-6">
-                        <div className="size-24 bg-blue-100 rounded flex items-center justify-center mx-auto mb-8">
-                            <svg aria-hidden="true" className="size-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                        </div>
-                        <h1 className="text-[30px] md:text-[40px] font-bold text-gray-900 mb-4 leading-[1.35]">ページ準備中</h1>
-                        <p className="text-lg text-slate-500 mb-8 max-w-md mx-auto">
-                            ノリドクページは現在準備中です。<br />公開までしばらくお待ちください。
-                        </p>
-                        <Link href="/" className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg">
-                            <svg aria-hidden="true" className="size-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                            </svg>
-                            トップページへ戻る
-                        </Link>
-                    </div>
-                </main>
-                <footer className="py-8 text-center text-white/60 text-sm">
-                    <p>© {new Date().getFullYear()} Kounan Jidosha Service. All Rights Reserved.</p>
-                </footer>
-            </div>
-        );
-    }
 
     // FAQPage 構造化データ
     const faqSchema = {
@@ -867,8 +734,8 @@ export default function NoridokuPage() {
                             </div>
 
                             <div className="text-white/60 text-sm space-y-1">
-                                <p>営業時間：平日 9:00〜18:00 / 土曜 9:00〜17:00（日祝定休）</p>
-                                <p>定休日：日曜・祝日、第2・4土曜日</p>
+                                <p>営業時間：平日 9:00〜18:00 / 土曜 9:00〜17:00</p>
+                                <p>定休日：日曜・祝日／土曜は月により異なります</p>
                             </div>
                         </div>
                     </div>
