@@ -37,6 +37,35 @@ interface Car {
     route?: string;
 }
 
+/**
+ * 一覧カードで車体の見え方を揃えるための倍率。
+ * 写真ごとに車が写り込む大きさ（余白の量）も縦横比も違うため、
+ * 実測した車体の幅をもとに、どのカードでも同じ大きさに見えるよう補正する。
+ */
+const carImageScale: Record<string, number> = {
+    '/cars/jimnysierra.jpg': 0.91,
+    '/cars/yariscross.jpg': 1.29,
+    '/cars/xbee.jpg': 0.99,
+    '/cars/vezel.jpg': 0.89,
+    '/cars/corollacross.jpg': 1.06,
+    '/cars/harrier.jpg': 0.97,
+    '/cars/rav4.jpg': 1.18,
+    '/cars/landcruiser.jpg': 1.0,
+    '/cars/crownsport.jpg': 0.96,
+    '/cars/nx.jpg': 0.99,
+    '/cars/noah.jpg': 0.99,
+    '/cars/voxy.jpg': 0.98,
+    '/cars/alphard.jpg': 0.99,
+    '/cars/nbox.jpg': 1.41,
+    '/cars/tantocustom.jpg': 1.04,
+    '/cars/tantofuncross.jpg': 1.03,
+    '/cars/delicamini.jpg': 1.12,
+    '/cars/spacia.jpg': 0.93,
+    '/cars/spaciagear.jpg': 1.0,
+    '/cars/hustler.jpg': 1.03,
+    '/cars/jimny.jpg': 0.96,
+};
+
 export default function Page() {
     const [activeCategory, setActiveCategory] = useState<CarCategory>('SUV');
     const [isScrolled, setIsScrolled] = useState(false);
@@ -438,13 +467,15 @@ export default function Page() {
                                 className="group overflow-hidden rounded-2xl border border-rule bg-white transition-colors duration-200 hover:border-teal-700"
                             >
                                 <Link href={car.route || '#'} className="flex h-full flex-col">
-                                    {/* 写真ごとに縦横比が違う（1:1〜1.9:1）ため、切らずに全体を収める */}
-                                    <div className="relative w-full bg-white pt-[75%]">
+                                    {/* 写真ごとに縦横比が違う（1:1〜1.9:1）ため、切らずに全体を収める。
+                                        車体の見た目の大きさは carImageScale で揃える */}
+                                    <div className="relative w-full overflow-hidden bg-white pt-[75%]">
                                         <Image
                                             src={car.image}
                                             alt={car.name}
                                             fill
                                             className="absolute left-0 top-0 object-contain p-3"
+                                            style={{ transform: `scale(${carImageScale[car.image] ?? 1})` }}
                                         />
                                     </div>
 
