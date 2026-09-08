@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ArrowRight from '@/components/ArrowRight';
 import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
+import SiteFooter from '@/components/SiteFooter';
+import SiteHeader from '@/components/SiteHeader';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 import { buildContactUrl, handoffToShareText } from '@/lib/contactHandoff';
 
@@ -181,16 +183,6 @@ const costBreakdownData: {
     },
 ];
 
-// ヘッダー・モバイルメニュー共通のナビゲーション項目
-const navItems = [
-    { name: '車検', href: '/shaken' },
-    { name: 'サービス内容', href: '/#services' },
-    { name: '取扱車種', href: '/#cases' },
-    { name: '会社情報', href: '/#company' },
-    { name: '採用情報', href: '/recruit' },
-    { name: 'お問い合わせ', href: '/#contact' },
-];
-
 // 車検当日の流れ。ここでの番号は実際の順序を表す
 const flowSteps = [
     { step: '01', title: '電話予約', desc: '完全予約制です。お電話またはLINEでご希望日をご予約ください。平日・夕方・土曜の入庫もOKです。' },
@@ -198,6 +190,65 @@ const flowSteps = [
     { step: '03', title: '立会い車検作業', desc: '整備士がお客様と一緒に愛車の状態を確認しながら、診断・治療・総合検査を行います。' },
     { step: '04', title: '完了・ご精算', desc: '診断結果とアドバイスをご説明後、ご精算。現金・カード・当社ローンがご利用いただけます。' },
     { step: '05', title: 'お帰り', desc: '追加整備がなければ最短90分で完了。車検シール（検査標章）は後日郵送いたします。' },
+];
+
+// 金沢市で選ばれる理由。すべて事実として確認できる項目だけを並べる。
+// 指定工場であることは「なぜ90分で終わるのか」の答えそのものなので、
+// 他と同列に並べず leadReason として別扱いにしている
+const leadReason = {
+    title: '運輸局指定工場（民間車検場）です',
+    body: '自社に検査ラインがあるため、陸運局へ持ち込まずに車検が完結します。これが、お預かりの時間が短く済む理由です。当社でご購入いただいたお車の初回車検なら、追加整備がない場合は最短90分・その日のうちにお乗り帰りいただけます。',
+};
+
+const reasonData = [
+    {
+        title: '金沢市金石本町で創業70年',
+        body: '1956年（昭和31年）から同じ場所で、三世代にわたりお車をお預かりしてきました。前回どんな整備をしたかまで記録が残っているので、状態の変化をふまえた判断ができます。',
+    },
+    {
+        title: '国家資格を持つ整備士が担当',
+        body: '国産車はもちろん、輸入車・フルタイム4WD車・ディーゼル車も承ります。OBD検査（電子制御装置の診断）にも対応しています。',
+    },
+    {
+        title: '代車は無料・全車保険完備',
+        body: '車検の間の足もご用意します。代車が不要な場合は1,100円の割引が付きます。',
+    },
+    {
+        title: '完全予約制・1日3台',
+        body: '受け入れ台数を絞っているため、1台ごとに時間をかけて診られます。お客様の順番待ちも発生しません。',
+    },
+    {
+        title: '車検後1年間の点検保証',
+        body: '車検を受けて終わりにせず、その後1年間の点検保証をお付けします。持込・引取割引や早期予約割引などを組み合わせると、最大で約24,000円お得になります。',
+    },
+];
+
+// 車検の所要時間の目安。断定できない条件は「ご予約時にご案内」に寄せる
+const durationRows = [
+    {
+        label: '90分立会い車検',
+        target: '当社でご購入いただいたお車の初回車検・追加整備がない場合',
+        value: '最短90分',
+        note: '当日お乗り帰りいただけます',
+    },
+    {
+        label: '2回目以降の車検',
+        target: 'お車の状態・必要な整備によって変わります',
+        value: 'ご予約時にご案内',
+        note: 'お預かりの要否もあわせてお伝えします',
+    },
+];
+
+// 対応エリア。金沢市を中心に、ご来店いただいている近隣の市町を挙げる
+const serviceAreas = [
+    '金沢市（全域）',
+    '野々市市',
+    '白山市',
+    '内灘町',
+    '津幡町',
+    'かほく市',
+    '小松市',
+    '能美市',
 ];
 
 // ドクター車検の特長
@@ -219,43 +270,6 @@ const featureData = [
 export default function ShakenPage() {
     const [selectedCarType, setSelectedCarType] = useState<CarType>('light');
     const [selectedDiscounts, setSelectedDiscounts] = useState<number[]>([]);
-    const [menuOpen, setMenuOpen] = useState(false);
-
-    // メニューを開いている間の焦点の扱い。
-    // 背面（ヘッダー・本文・フッター・固定バー）を inert にしてタブ移動が抜け出さないようにし、
-    // 開いたらメニュー内へフォーカスを移す。閉じたら開閉ボタンへ戻す。
-    // inert はブラウザ標準の仕組みなので、タブ順の巡回を自前で実装する必要がない
-    useEffect(() => {
-        if (!menuOpen) return;
-
-        const menu = document.getElementById('mobile-menu');
-        const background = menu?.parentElement
-            ? ([...menu.parentElement.children].filter(
-                  (el) => el !== menu && el.tagName !== 'SCRIPT'
-              ) as HTMLElement[])
-            : [];
-
-        background.forEach((el) => el.setAttribute('inert', ''));
-        document.getElementById('menu-close')?.focus();
-
-        const onKeyDown = (e: KeyboardEvent) => {
-            if (e.key !== 'Escape') return;
-            setMenuOpen(false);
-        };
-        document.addEventListener('keydown', onKeyDown);
-
-        return () => {
-            document.removeEventListener('keydown', onKeyDown);
-            // inert を外してからでないとフォーカスを戻せない
-            background.forEach((el) => el.removeAttribute('inert'));
-            document.getElementById('menu-toggle')?.focus();
-        };
-    }, [menuOpen]);
-
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
-
     // ── 見積り条件をURLに反映する（共有・ブックマーク・再読み込みで復元できるように） ──
     // 例: /shaken?type=regular&discounts=1,3,5
     // マウント後にURLを読んで復元する（静的HTMLは既定値のままなので不一致は起きない）
@@ -456,176 +470,10 @@ export default function ShakenPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
 
-            {/* Header */}
-            <header className="fixed inset-x-0 top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur">
-                <div className="container flex h-16 items-center justify-between gap-6 md:h-20">
-                    <Link href="/" className="flex shrink-0 items-center py-1">
-                        <Image
-                            src="/logo.png"
-                            alt="港南自動車サービス｜石川県金沢市の車検・自動車整備"
-                            width={280}
-                            height={70}
-                            className="h-8 w-auto object-contain md:h-10"
-                            priority
-                        />
-                    </Link>
-
-                    <nav
-                        className="hidden items-center gap-6 whitespace-nowrap text-[15px] text-gray-700 xl:flex"
-                        aria-label="メインメニュー"
-                    >
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                aria-current={item.href === '/shaken' ? 'page' : undefined}
-                                className={`group relative py-3 transition-colors hover:text-teal-700 ${
-                                    item.href === '/shaken' ? 'font-bold text-teal-700' : ''
-                                }`}
-                            >
-                                {item.name}
-                                <span
-                                    className={`absolute inset-x-0 bottom-0 h-px origin-left bg-current transition-transform duration-200 group-hover:scale-x-100 ${
-                                        item.href === '/shaken' ? 'scale-x-100' : 'scale-x-0'
-                                    }`}
-                                    aria-hidden="true"
-                                />
-                            </Link>
-                        ))}
-                    </nav>
-
-                    <div className="hidden items-center gap-5 whitespace-nowrap xl:flex">
-                        <a
-                            href="tel:076-268-1788"
-                            className="flex flex-col justify-center py-1 leading-none text-gray-900 transition-colors hover:text-teal-700"
-                        >
-                            <span className="u-num text-lg font-medium tracking-wide">
-                                076-268-1788
-                            </span>
-                            <span className="mt-1 text-[10px] text-gray-500">
-                                平日 9:00〜18:00 ／ 土曜 9:00〜17:00
-                            </span>
-                        </a>
-                        <div className="flex items-center gap-2">
-                            <Link
-                                href="/noreta"
-                                className="flex h-11 items-center rounded-full bg-teal-700 px-5 text-sm font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97]"
-                            >
-                                ノレタ
-                            </Link>
-                            <Link
-                                href="/noridoku"
-                                className="flex h-11 items-center rounded-full border border-blue-600 px-5 text-sm font-bold text-blue-600 transition-[background-color,color,transform] duration-200 hover:bg-blue-600 hover:text-white active:scale-[0.97]"
-                            >
-                                ノリドク
-                            </Link>
-                        </div>
-                    </div>
-
-                    <button
-                        className="flex size-11 items-center justify-center rounded border border-gray-300 text-gray-900 transition-colors xl:hidden"
-                        id="menu-toggle"
-                        aria-controls="mobile-menu"
-                        onClick={toggleMenu}
-                        aria-expanded={menuOpen}
-                        aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
-                    >
-                        <svg
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.75"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            {menuOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M3 12h18M3 6h18M3 18h18" />}
-                        </svg>
-                    </button>
-                </div>
-            </header>
-
-            {/* Mobile menu */}
-            <div
-                id="mobile-menu"
-                className={`fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-gray-900 pb-16 pt-6 transition-opacity duration-200 xl:hidden ${
-                    menuOpen ? 'visible opacity-100' : 'invisible opacity-0'
-                }`}
-            >
-                <div className="container flex items-center justify-between">
-                    <Image
-                        src="/logo.png"
-                        alt=""
-                        width={280}
-                        height={70}
-                        className="h-8 w-auto object-contain brightness-0 invert"
-                    />
-                    <button
-                        id="menu-close"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex size-11 items-center justify-center rounded border border-white/40 text-white"
-                        aria-label="メニューを閉じる"
-                    >
-                        <svg
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="22"
-                            height="22"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.75"
-                            strokeLinecap="round"
-                        >
-                            <path d="M18 6L6 18M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <nav className="container mt-6" aria-label="メインメニュー（モバイル）">
-                    <ul className="border-t border-white/15">
-                        {navItems.map((item) => (
-                            <li key={item.name}>
-                                <Link
-                                    href={item.href}
-                                    className="flex items-center justify-between border-b border-white/15 py-5 text-lg font-bold text-white"
-                                    onClick={() => setMenuOpen(false)}
-                                >
-                                    {item.name}
-                                    <ArrowRight className="text-white/50" />
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <div className="mt-8 grid grid-cols-2 gap-3">
-                        <Link
-                            href="/noreta"
-                            className="flex h-14 items-center justify-center rounded bg-teal-700 font-bold text-white"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            ノレタ
-                        </Link>
-                        <Link
-                            href="/noridoku"
-                            className="flex h-14 items-center justify-center rounded border border-white/50 font-bold text-white"
-                            onClick={() => setMenuOpen(false)}
-                        >
-                            ノリドク
-                        </Link>
-                    </div>
-
-                    <a href="tel:076-268-1788" className="mt-8 block border-t border-white/15 pt-6">
-                        <span className="text-xs text-white/60">お電話でのご相談</span>
-                        <span className="u-num mt-1 block text-3xl font-medium text-white">
-                            076-268-1788
-                        </span>
-                    </a>
-                </nav>
-            </div>
+            <SiteHeader
+                currentPath="/shaken"
+                logoAlt="港南自動車サービス｜石川県金沢市の車検・自動車整備"
+            />
 
             <main id="main" tabIndex={-1} className="pt-16 md:pt-20">
                 {/* パンくずリスト */}
@@ -729,6 +577,47 @@ export default function ShakenPage() {
                                 </dl>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                {/* Reasons Section（金沢市で選ばれる理由） */}
+                <section id="reasons" className="border-t border-gray-200 bg-white py-20 md:py-28">
+                    <div className="container">
+                        <header>
+                            <hr className="u-road" aria-hidden="true" />
+                            <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+                                <h2 className="text-[26px] font-bold leading-tight text-gray-900 md:text-[32px]">
+                                    金沢市で港南自動車の車検が選ばれる理由
+                                </h2>
+                                <span className="u-chip">Reasons</span>
+                            </div>
+                            <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
+                                金沢市には車検を受けられる工場が数多くあります。そのなかで当社を選んでいただいている理由を、事実として確認できることだけ挙げました。
+                            </p>
+                        </header>
+
+                        {/* 主たる理由を1つだけ大きく置き、残りは定義リストで受ける */}
+                        <article className="mt-12 max-w-4xl rounded-2xl border-l-4 border-mint-400 bg-mint-50 p-8 md:p-10">
+                            <h3 className="text-balance text-[22px] font-bold leading-snug text-gray-900 md:text-[26px]">
+                                {leadReason.title}
+                            </h3>
+                            <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-loose text-gray-700 md:text-base">
+                                {leadReason.body}
+                            </p>
+                        </article>
+
+                        <dl className="mt-10 max-w-4xl border-t border-gray-200 md:grid md:grid-cols-2 md:gap-x-12">
+                            {reasonData.map((item) => (
+                                <div key={item.title} className="border-b border-gray-200 py-6">
+                                    <dt className="text-balance text-[17px] font-bold text-gray-900">
+                                        {item.title}
+                                    </dt>
+                                    <dd className="mt-3 text-pretty text-[15px] leading-loose text-gray-600">
+                                        {item.body}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
                     </div>
                 </section>
 
@@ -1138,9 +1027,11 @@ export default function ShakenPage() {
                             </p>
                         </header>
 
-                        <div className="mt-12 max-w-3xl overflow-x-auto">
-                            <table className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white text-left">
-                                <caption className="sr-only">車種クラス別の車検総額（税込・法定費用込み）</caption>
+                        <div className="mt-12 max-w-4xl overflow-x-auto">
+                            <table className="w-full min-w-[44rem] overflow-hidden rounded-2xl border border-gray-200 bg-white text-left">
+                                <caption className="sr-only">
+                                    車種クラス別の車検料金（法定費用と整備費用の内訳・税込）
+                                </caption>
                                 <thead>
                                     <tr className="border-b border-gray-200 bg-white">
                                         <th scope="col" className="u-label px-5 py-4">
@@ -1148,6 +1039,12 @@ export default function ShakenPage() {
                                         </th>
                                         <th scope="col" className="u-label px-5 py-4">
                                             対象車種の例
+                                        </th>
+                                        <th scope="col" className="u-label px-5 py-4 text-right">
+                                            整備費用
+                                        </th>
+                                        <th scope="col" className="u-label px-5 py-4 text-right">
+                                            法定費用
                                         </th>
                                         <th scope="col" className="u-label px-5 py-4 text-right">
                                             車検総額
@@ -1174,6 +1071,12 @@ export default function ShakenPage() {
                                             <td className="px-5 py-4 align-top text-sm text-gray-600">
                                                 {d.description}
                                             </td>
+                                            <td className="u-num whitespace-nowrap px-5 py-4 text-right align-top text-gray-600">
+                                                {(d.total - d.statutoryFees).toLocaleString()}円
+                                            </td>
+                                            <td className="u-num whitespace-nowrap px-5 py-4 text-right align-top text-gray-600">
+                                                {d.statutoryFees.toLocaleString()}円
+                                            </td>
                                             <td className="u-num whitespace-nowrap px-5 py-4 text-right align-top font-medium text-gray-900">
                                                 {d.total.toLocaleString()}円〜
                                             </td>
@@ -1182,6 +1085,21 @@ export default function ShakenPage() {
                                 </tbody>
                             </table>
                         </div>
+
+                        <dl className="mt-6 grid max-w-3xl gap-4 md:grid-cols-2">
+                            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                                <dt className="font-bold text-gray-900">整備費用（当社の料金）</dt>
+                                <dd className="mt-3 text-pretty text-sm leading-loose text-gray-600">
+                                    基本診断費用・基本治療費用・下廻り洗浄費用・総合検査費用・OSS申請費用の合計です。割引が適用されるのはこの部分で、工場によって差が出るのもここです。
+                                </dd>
+                            </div>
+                            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                                <dt className="font-bold text-gray-900">法定費用（どこで受けても同額）</dt>
+                                <dd className="mt-3 text-pretty text-sm leading-loose text-gray-600">
+                                    重量税・自賠責保険・印紙代です。国に納める費用のため、どの工場で車検を受けても金額は変わりません。次世代自動車や登録後13年経過した車は重量税が異なります。
+                                </dd>
+                            </div>
+                        </dl>
 
                         <p className="mt-5 max-w-xl text-xs leading-loose text-gray-500">
                             ※重量税・自賠責保険・印紙代（法定費用）を含む、割引適用前の総額です。持込・引取割引や早期予約割引など各種割引の組み合わせで最大約24,000円お得になります。交換部品代・追加整備は別途お見積りです。
@@ -1230,6 +1148,38 @@ export default function ShakenPage() {
                                 </li>
                             ))}
                         </ol>
+
+                        {/* 所要時間の目安 */}
+                        <div className="mt-4 max-w-3xl">
+                            <h3 className="u-label">所要時間の目安</h3>
+                            <dl className="mt-4 overflow-hidden rounded-2xl border border-gray-200">
+                                {durationRows.map((row, index) => (
+                                    <div
+                                        key={row.label}
+                                        className={`gap-x-8 gap-y-2 bg-white p-6 md:grid md:grid-cols-12 md:p-7 ${
+                                            index === 0 ? '' : 'border-t border-gray-200'
+                                        }`}
+                                    >
+                                        <dt className="md:col-span-5">
+                                            <span className="block text-[17px] font-bold text-gray-900">
+                                                {row.label}
+                                            </span>
+                                            <span className="mt-2 block text-pretty text-sm leading-relaxed text-gray-600">
+                                                {row.target}
+                                            </span>
+                                        </dt>
+                                        <dd className="mt-4 md:col-span-7 md:mt-0 md:text-right">
+                                            <span className="u-num text-xl font-medium text-teal-700">
+                                                {row.value}
+                                            </span>
+                                            <span className="mt-1 block text-xs text-gray-500">
+                                                {row.note}
+                                            </span>
+                                        </dd>
+                                    </div>
+                                ))}
+                            </dl>
+                        </div>
                     </div>
                 </section>
 
@@ -1256,8 +1206,15 @@ export default function ShakenPage() {
                                     <b className="font-bold text-gray-900">金沢市金石本町ハ14</b>
                                     。金石・大野・寺中など金沢市西部エリアをはじめ、
                                     <b className="font-bold text-gray-900">金沢市全域の車検</b>
-                                    に対応しています。
+                                    に対応しています。金沢市の近隣にお住まいの方にもご利用いただいています。
                                 </p>
+                                <ul className="flex flex-wrap gap-2">
+                                    {serviceAreas.map((area) => (
+                                        <li key={area} className="u-chip">
+                                            {area}
+                                        </li>
+                                    ))}
+                                </ul>
                                 <p>
                                     完全予約制のため待ち時間が少なく、
                                     <b className="font-bold text-gray-900">代車は無料</b>
@@ -1359,6 +1316,55 @@ export default function ShakenPage() {
                     </div>
                 </section>
 
+                {/* 関連ページ（新車の購入・カーローン） */}
+                <section className="border-t border-gray-200 bg-gray-50 py-16 md:py-20">
+                    <div className="container">
+                        <header>
+                            <hr className="u-road" aria-hidden="true" />
+                            <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+                                <h2 className="text-[26px] font-bold leading-tight text-gray-900 md:text-[32px]">
+                                    お乗り換えをお考えの方へ
+                                </h2>
+                                <span className="u-chip">Related</span>
+                            </div>
+                            <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
+                                車検のお見積りをご覧になって「そろそろ買い替えかも」と思われた方へ。当社は整備工場であると同時に、全メーカーの新車を扱う販売店でもあります。
+                            </p>
+                        </header>
+
+                        <div className="mt-10 grid gap-4 md:grid-cols-2">
+                            <Link
+                                href="/shinsha"
+                                className="group flex items-center justify-between gap-6 rounded-2xl border border-gray-200 bg-white p-7 transition-colors duration-200 hover:border-mint-300 hover:bg-mint-50"
+                            >
+                                <span>
+                                    <span className="block text-balance text-lg font-bold text-gray-900">
+                                        金沢市の新車販売
+                                    </span>
+                                    <span className="mt-2 block text-pretty text-sm leading-relaxed text-gray-600">
+                                        取扱メーカーと人気車種、現金・ローン・リースの3つの買い方を比較できます。
+                                    </span>
+                                </span>
+                                <ArrowRight className="shrink-0 text-teal-700 transition-transform duration-200 group-hover:translate-x-1" />
+                            </Link>
+                            <Link
+                                href="/carloan"
+                                className="group flex items-center justify-between gap-6 rounded-2xl border border-gray-200 bg-white p-7 transition-colors duration-200 hover:border-mint-300 hover:bg-mint-50"
+                            >
+                                <span>
+                                    <span className="block text-balance text-lg font-bold text-gray-900">
+                                        カーローン（実質年率3.9%）
+                                    </span>
+                                    <span className="mt-2 block text-pretty text-sm leading-relaxed text-gray-600">
+                                        金利と返済期間の目安、審査から納車までの流れをまとめています。
+                                    </span>
+                                </span>
+                                <ArrowRight className="shrink-0 text-teal-700 transition-transform duration-200 group-hover:translate-x-1" />
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+
                 {/* 予約の締め（ページ内で唯一の濃い面） */}
                 <section className="bg-teal-900 py-16 md:py-20">
                     <div className="container">
@@ -1406,137 +1412,10 @@ export default function ShakenPage() {
                 </section>
             </main>
 
-            {/* Footer */}
-            <footer className="bg-gray-900 text-white">
-                <div className="container py-16">
-                    <div className="grid gap-12 md:grid-cols-12">
-                        <div className="md:col-span-5">
-                            <Image
-                                src="/logo.png"
-                                alt="株式会社港南自動車サービス"
-                                width={280}
-                                height={70}
-                                className="h-9 w-auto object-contain brightness-0 invert"
-                            />
-                            <p className="mt-6 text-sm leading-loose text-white/70">
-                                〒920-0336
-                                <br />
-                                石川県金沢市金石本町ハ14
-                            </p>
-                            <dl className="mt-6 border-t border-white/15 text-sm">
-                                <div className="flex gap-4 border-b border-white/15 py-3">
-                                    <dt className="w-16 shrink-0 text-white/50">TEL</dt>
-                                    <dd>
-                                        <a
-                                            href="tel:076-268-1788"
-                                            className="u-num text-white transition-colors hover:text-teal-300"
-                                        >
-                                            076-268-1788
-                                        </a>
-                                    </dd>
-                                </div>
-                                <div className="flex gap-4 border-b border-white/15 py-3">
-                                    <dt className="w-16 shrink-0 text-white/50">FAX</dt>
-                                    <dd className="u-num text-white/80">076-268-3163</dd>
-                                </div>
-                                <div className="flex gap-4 border-b border-white/15 py-3">
-                                    <dt className="w-16 shrink-0 text-white/50">営業</dt>
-                                    <dd className="text-white/80">
-                                        平日 9:00〜18:00 ／ 土曜 9:00〜17:00
-                                    </dd>
-                                </div>
-                                <div className="flex gap-4 border-b border-white/15 py-3">
-                                    <dt className="w-16 shrink-0 text-white/50">定休</dt>
-                                    <dd className="text-white/80">
-                                        日曜・祝日／土曜は月により異なります
-                                    </dd>
-                                </div>
-                            </dl>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-8 md:col-span-7">
-                            <nav>
-                                <h3 className="u-label border-b border-white/15 pb-3 text-white/60">
-                                    Services
-                                </h3>
-                                <ul className="mt-4 space-y-3 text-sm text-white/80">
-                                    <li>
-                                        <Link href="/shaken" className="transition-colors hover:text-teal-300">
-                                            車検・点検
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/noreta" className="transition-colors hover:text-teal-300">
-                                            ノレタ（個人向けローン）
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/noridoku" className="transition-colors hover:text-teal-300">
-                                            ノリドク（法人向けリース）
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/#services" className="transition-colors hover:text-teal-300">
-                                            新車・中古車販売
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <nav>
-                                <h3 className="u-label border-b border-white/15 pb-3 text-white/60">
-                                    Company
-                                </h3>
-                                <ul className="mt-4 space-y-3 text-sm text-white/80">
-                                    <li>
-                                        <Link href="/#company" className="transition-colors hover:text-teal-300">
-                                            会社概要
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/#contact" className="transition-colors hover:text-teal-300">
-                                            お問い合わせ
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/recruit" className="transition-colors hover:text-teal-300">
-                                            採用情報
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-
-                    <div className="mt-14 flex flex-col gap-2 border-t border-white/15 pt-6 md:flex-row md:items-center md:justify-between">
-                        <p className="text-xs text-white/50">
-                            &copy; {new Date().getFullYear()} 株式会社港南自動車サービス All Rights
-                            Reserved.
-                        </p>
-                        <p className="u-label text-white/60">Kohnan Auto Service ／ Kanazawa</p>
-                    </div>
-                </div>
-            </footer>
+            <SiteFooter />
 
             {/* スマホ用の電話・LINE固定バー */}
             <MobileActionBar />
         </div>
-    );
-}
-
-// リンク・ボタンに共通で使う矢印アイコン
-function ArrowRight({ className = '' }: { className?: string }) {
-    return (
-        <svg
-            className={className}
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            aria-hidden="true"
-        >
-            <path d="M4 12h15m0 0l-6-6m6 6l-6 6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
     );
 }

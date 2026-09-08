@@ -122,7 +122,7 @@ export default function PrivacyPage() {
                             <Row term="連絡先">
                                 電話 076-268-1788 ／ FAX 076-268-3163
                                 <br />
-                                メール info@kounan-auto.jp
+                                メール kounan.lease@gmail.com
                             </Row>
                         </dl>
                     </Section>
@@ -284,7 +284,7 @@ export default function PrivacyPage() {
                                     平日 9:00〜18:00 ／ 土曜 9:00〜17:00
                                 </span>
                             </Row>
-                            <Row term="メール">info@kounan-auto.jp</Row>
+                            <Row term="メール">kounan.lease@gmail.com</Row>
                         </dl>
                     </Section>
 

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
 import { carBasePrices, formatPrice } from '@/lib/carPrices';
+import { carImageScale, sortedCarLineup, type CarCategory } from '@/lib/carLineup';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 
 // ノレタ FAQ データ
@@ -27,44 +28,6 @@ const noretaFaqData = [
         answer: 'はい、ノレタには車検費用、オイル交換、故障修理などがすべて含まれています。急な出費の心配がありません。',
     },
 ];
-
-type CarCategory = 'SUV' | 'MINIVAN' | 'KCAR';
-
-interface Car {
-    name: string;
-    price: string;
-    image: string;
-    route?: string;
-}
-
-/**
- * 一覧カードで車体の見え方を揃えるための倍率。
- * 写真ごとに車が写り込む大きさ（余白の量）も縦横比も違うため、
- * 実測した車体の幅をもとに、どのカードでも同じ大きさに見えるよう補正する。
- */
-const carImageScale: Record<string, number> = {
-    '/cars/jimnysierra.jpg': 0.91,
-    '/cars/yariscross.jpg': 1.29,
-    '/cars/xbee.jpg': 0.99,
-    '/cars/vezel.jpg': 0.89,
-    '/cars/corollacross.jpg': 1.06,
-    '/cars/harrier.jpg': 0.97,
-    '/cars/rav4.jpg': 1.18,
-    '/cars/landcruiser.jpg': 1.0,
-    '/cars/crownsport.jpg': 0.96,
-    '/cars/nx.jpg': 0.99,
-    '/cars/noah.jpg': 0.99,
-    '/cars/voxy.jpg': 0.98,
-    '/cars/alphard.jpg': 0.99,
-    '/cars/nbox.jpg': 1.41,
-    '/cars/tantocustom.jpg': 1.04,
-    '/cars/tantofuncross.jpg': 1.03,
-    '/cars/delicamini.jpg': 1.12,
-    '/cars/spacia.jpg': 0.93,
-    '/cars/spaciagear.jpg': 1.0,
-    '/cars/hustler.jpg': 1.03,
-    '/cars/jimny.jpg': 0.96,
-};
 
 export default function Page() {
     const [activeCategory, setActiveCategory] = useState<CarCategory>('SUV');
@@ -119,120 +82,6 @@ export default function Page() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // 価格文字列から数値を抽出する関数
-    const extractPriceNumber = (priceString: string): number => {
-        return parseInt(priceString.replace(/[,円～]/g, ''), 10);
-    };
-
-    // 価格順にソートする関数
-    const sortByPrice = (cars: Car[]): Car[] => {
-        return [...cars].sort((a, b) => extractPriceNumber(a.price) - extractPriceNumber(b.price));
-    };
-
-    const rawCarData: Record<CarCategory, Car[]> = {
-        SUV: [
-            {
-                name: 'ジムニーシエラ',
-                price: formatPrice(carBasePrices['/suv/jimnysierra']),
-                image: '/cars/jimnysierra.jpg',
-                route: '/suv/jimnysierra',
-            },
-            {
-                name: 'ヤリスクロス',
-                price: formatPrice(carBasePrices['/suv/yariscross']),
-                image: '/cars/yariscross.jpg',
-                route: '/suv/yariscross',
-            },
-            {
-                name: 'クロスビー',
-                price: formatPrice(carBasePrices['/suv/xbee']),
-                image: '/cars/xbee.jpg',
-                route: '/suv/xbee',
-            },
-            { name: 'ヴェゼル', price: formatPrice(carBasePrices['/suv/vezel']), image: '/cars/vezel.jpg', route: '/suv/vezel' },
-            {
-                name: 'カローラクロス',
-                price: formatPrice(carBasePrices['/suv/corollacross']),
-                image: '/cars/corollacross.jpg',
-                route: '/suv/corollacross',
-            },
-            {
-                name: 'ハリアー',
-                price: formatPrice(carBasePrices['/suv/harrier']),
-                image: '/cars/harrier.jpg',
-                route: '/suv/harrier',
-            },
-            { name: 'RAV4', price: formatPrice(carBasePrices['/suv/rav4']), image: '/cars/rav4.jpg', route: '/suv/rav4' },
-            {
-                name: 'ランクル 250',
-                price: formatPrice(carBasePrices['/suv/landcruiser']),
-                image: '/cars/landcruiser.jpg',
-                route: '/suv/landcruiser',
-            },
-            { name: 'クラウンスポーツ', price: formatPrice(carBasePrices['/suv/crown']), image: '/cars/crownsport.jpg', route: '/suv/crown' },
-            { name: 'NX', price: formatPrice(carBasePrices['/suv/nx']), image: '/cars/nx.jpg', route: '/suv/nx' },
-        ],
-
-        MINIVAN: [
-            { name: 'ノア', price: formatPrice(carBasePrices['/minivan/noah']), image: '/cars/noah.jpg', route: '/minivan/noah' },
-            { name: 'ヴォクシー', price: formatPrice(carBasePrices['/minivan/voxy']), image: '/cars/voxy.jpg', route: '/minivan/voxy' },
-            {
-                name: 'アルファード',
-                price: formatPrice(carBasePrices['/minivan/alphard']),
-                image: '/cars/alphard.jpg',
-                route: '/minivan/alphard',
-            },
-        ],
-
-        KCAR: [
-            { name: 'N-BOX カスタム', price: formatPrice(carBasePrices['/kcar/nbox']), image: '/cars/nbox.jpg', route: '/kcar/nbox' },
-            {
-                name: 'タントカスタム',
-                price: formatPrice(carBasePrices['/kcar/tantocustom']),
-                image: '/cars/tantocustom.jpg',
-                route: '/kcar/tantocustom',
-            },
-            {
-                name: 'タントファンクロス',
-                price: formatPrice(carBasePrices['/kcar/tantofuncross']),
-                image: '/cars/tantofuncross.jpg',
-                route: '/kcar/tantofuncross',
-            },
-            {
-                name: 'デリカミニ',
-                price: formatPrice(carBasePrices['/kcar/delicamini']),
-                image: '/cars/delicamini.jpg',
-                route: '/kcar/delicamini',
-            },
-            {
-                name: 'スペーシアカスタム',
-                price: formatPrice(carBasePrices['/kcar/spacia']),
-                image: '/cars/spacia.jpg',
-                route: '/kcar/spacia',
-            },
-            {
-                name: 'スペーシアギア',
-                price: formatPrice(carBasePrices['/kcar/spaciagear']),
-                image: '/cars/spaciagear.jpg',
-                route: '/kcar/spaciagear',
-            },
-            {
-                name: 'ハスラー',
-                price: formatPrice(carBasePrices['/kcar/hustler']),
-                image: '/cars/hustler.jpg',
-                route: '/kcar/hustler',
-            },
-            { name: 'ジムニー', price: formatPrice(carBasePrices['/kcar/jimny']), image: '/cars/jimny.jpg', route: '/kcar/jimny' },
-        ],
-    };
-
-    // 各カテゴリの車種を価格順（安い順）にソート
-    const carData: Record<CarCategory, Car[]> = {
-        SUV: sortByPrice(rawCarData.SUV),
-        MINIVAN: sortByPrice(rawCarData.MINIVAN),
-        KCAR: sortByPrice(rawCarData.KCAR),
-    };
-
     // FAQPage 構造化データ
     const faqSchema = {
         '@context': 'https://schema.org',
@@ -248,7 +97,7 @@ export default function Page() {
     };
 
     return (
-        <div className="min-h-dvh bg-white text-gray-800 font-sans selection:bg-teal-100" data-oid="dn0w-eo">
+        <div className="min-h-dvh bg-white text-gray-800 font-sans selection:bg-teal-100">
             {/* FAQ構造化データ（AIクローラーにも見えるよう静的HTMLに含める） */}
             <script
                 type="application/ld+json"
@@ -260,13 +109,11 @@ export default function Page() {
                     ? 'bg-white/95 backdrop-blur border-b border-gray-200 py-2'
                     : 'bg-gray-950/35 py-5'
                     }`}
-                data-oid="fqghwyr"
             >
                 <div
                     className="container mx-auto px-6 flex justify-between items-center"
-                    data-oid="ogzl6xz"
                 >
-                    <Link href="/" className="flex items-center group" data-oid="0eh.y8p">
+                    <Link href="/" className="flex items-center group">
                         <div className={`relative ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`}>
                             <Image
                                 src="/logo.png"
@@ -278,8 +125,8 @@ export default function Page() {
                             />
                         </div>
                     </Link>
-                    <div className="hidden xl:flex items-center gap-5 whitespace-nowrap" data-oid="jdpcl.f">
-                        <nav className={`flex items-center gap-7 whitespace-nowrap transition-colors duration-200 ${isScrolled ? 'text-slate-700' : 'text-white'}`} data-oid="_c2.5k6">
+                    <div className="hidden xl:flex items-center gap-5 whitespace-nowrap">
+                        <nav className={`flex items-center gap-7 whitespace-nowrap transition-colors duration-200 ${isScrolled ? 'text-slate-700' : 'text-white'}`}>
                             {[
                                 { name: '車検', href: '/shaken' },
                                 { name: 'サービス内容', href: '/#services' },
@@ -304,7 +151,6 @@ export default function Page() {
                                 ? 'bg-teal-700 text-white hover:bg-teal-800'
                                 : 'bg-white text-teal-800 hover:bg-slate-100'
                                 }`}
-                            data-oid="r7m-jfd"
                         >
                             ノレタ詳細
                         </Link>
@@ -326,7 +172,6 @@ export default function Page() {
                         onClick={toggleMenu}
                         aria-expanded={menuOpen}
                         aria-label="メニューを開く"
-                        data-oid="av_bd._"
                     >
                         <svg aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
@@ -422,9 +267,9 @@ export default function Page() {
 
 
             {/* Main Content */}
-            <main id="lineup" className="relative bg-white pt-24 pb-32" data-oid="vgxn62n">
+            <main id="lineup" className="relative bg-white pt-24 pb-32">
                 {/* Vehicle Lineup Section */}
-                <div className="container mx-auto px-6" data-oid="4ni0p50">
+                <div className="container mx-auto px-6">
                     <div className="mb-12 max-w-2xl">
                         <h2 className="text-4xl font-bold tracking-ja text-gray-900 md:text-5xl">
                             ラインナップ
@@ -461,12 +306,12 @@ export default function Page() {
                             key={cat}
                             className={`${activeCategory === cat ? 'grid' : 'hidden'} grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10`}
                         >
-                        {carData[cat].map((car, index) => (
+                        {sortedCarLineup[cat].map((car, index) => (
                             <div
                                 key={index}
                                 className="group overflow-hidden rounded-2xl border border-rule bg-white transition-colors duration-200 hover:border-teal-700"
                             >
-                                <Link href={car.route || '#'} className="flex h-full flex-col">
+                                <Link href={car.route} className="flex h-full flex-col">
                                     {/* 写真ごとに縦横比が違う（1:1〜1.9:1）ため、切らずに全体を収める。
                                         車体の見た目の大きさは carImageScale で揃える */}
                                     <div className="relative w-full overflow-hidden bg-white pt-[75%]">
@@ -484,7 +329,7 @@ export default function Page() {
                                             {car.name}
                                         </h3>
                                         <span className="u-num whitespace-nowrap text-lg font-bold text-teal-700">
-                                            {car.price}
+                                            {formatPrice(carBasePrices[car.route])}
                                         </span>
                                     </div>
                                 </Link>
@@ -494,37 +339,37 @@ export default function Page() {
                     ))}
                 </div>
                 {/* Why Noreta Section (安さの秘密) */}
-                <section className="py-32 bg-slate-50 relative overflow-hidden" data-oid="709fdsg">
-                    <div className="absolute top-0 left-0 w-full h-24 bg-transparent z-10" data-oid="grad-top"></div>
+                <section className="py-32 bg-slate-50 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-24 bg-transparent z-10"></div>
 
-                    <div className="container mx-auto px-6 relative z-10" data-oid="46o57.p">
-                        <div className="text-center mb-24" data-oid="secret-header">
-                            <h2 className="text-[28px] md:text-[36px] font-bold text-gray-900 mb-8 tracking-ja" data-oid="dzihdm7">
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="text-center mb-24">
+                            <h2 className="text-[28px] md:text-[36px] font-bold text-gray-900 mb-8 tracking-ja">
                                 なんでそんなに安いの？
                             </h2>
-                            <p className="text-xl text-slate-500 font-bold" data-oid="2.9o5tl">
+                            <p className="text-xl text-slate-500 font-bold">
                                 港南自動車サービスが実現する、3つの理由
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-12 max-w-5xl mx-auto" data-oid="hxmpxux">
+                        <div className="grid grid-cols-1 gap-12 max-w-5xl mx-auto">
                             {/* Point 1 */}
-                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12" data-oid=".pgj:90">
-                                <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt1-layout">
-                                    <div className="flex-grow" data-oid="y24d2wj">
-                                        <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight" data-oid="krp651x">
+                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12">
+                                <div className="flex flex-col md:flex-row gap-10 items-start">
+                                    <div className="flex-grow">
+                                        <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight">
                                             3年後のリセールだけを考慮した<br className="hidden md:block" />車両・オプション設定
                                         </h3>
-                                        <div className="space-y-6" data-oid="y-g00bw">
-                                            <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="gfdh3zz">
+                                        <div className="space-y-6">
+                                            <p className="text-slate-600 text-lg font-medium leading-relaxed">
                                                 新車を賢く乗り換える鍵は「車両設定」にあります。単に人気車を選ぶだけでなく、3年後の市場価値を徹底的に分析。プロの視点で「最も価値が落ちにくい」組み合わせをご提案します。
                                             </p>
-                                            <div className="rounded-2xl border border-rule bg-paper p-6 md:p-8" data-oid="7l16u3f">
-                                                <p className="font-bold text-teal-800 mb-6 flex items-center" data-oid="906.zsh">
-                                                    <span className="w-1.5 h-6 bg-teal-700 rounded-full mr-3" data-oid="h-line"></span>
+                                            <div className="rounded-2xl border border-rule bg-paper p-6 md:p-8">
+                                                <p className="font-bold text-teal-800 mb-6 flex items-center">
+                                                    <span className="w-1.5 h-6 bg-teal-700 rounded-full mr-3"></span>
                                                     「ノレタ」が提案する賢い選択
                                                 </p>
-                                                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700 font-bold" data-oid="xaachj6">
+                                                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700 font-bold">
                                                     {[
                                                         '市場価値の高い人気車種',
                                                         '値崩れしにくい上位グレード',
@@ -533,7 +378,7 @@ export default function Page() {
                                                         '精密な残価（下取り）予測',
                                                         '最大限の車両値引き'
                                                     ].map((item, i) => (
-                                                        <li key={i} className="flex items-center" data-oid={`li-${i}`}>
+                                                        <li key={i} className="flex items-center">
                                                             <svg aria-hidden="true" className="size-6 text-teal-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                                             </svg>
@@ -548,26 +393,26 @@ export default function Page() {
                             </div>
 
                             {/* Point 2 */}
-                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12" data-oid="si6zjvw">
-                                <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt2-layout">
-                                    <div className="flex-grow" data-oid="yjv6tmj">
-                                        <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight" data-oid="obvqt1a">
+                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12">
+                                <div className="flex flex-col md:flex-row gap-10 items-start">
+                                    <div className="flex-grow">
+                                        <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight">
                                             自由返済型ローンと<br className="hidden md:block" />業界トップクラスの低金利 3.9%
                                         </h3>
-                                        <div className="space-y-6" data-oid="k3fl9l4">
-                                            <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="ac9ko9u">
+                                        <div className="space-y-6">
+                                            <p className="text-slate-600 text-lg font-medium leading-relaxed">
                                                 一般的な残価設定型ローンではなく、柔軟な「自由返済型」を採用。さらに、実質年率3.9%という圧倒的な低金利により、金利負担を最小限に抑えています。
                                             </p>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-oid="pt:2ivh">
-                                                <div className="bg-teal-50 rounded-3xl p-8 border border-teal-100" data-oid="nmhqa3g">
-                                                    <p className="font-bold text-teal-900 mb-4" data-oid="i8z0h70">金利 3.9% のメリット</p>
-                                                    <p className="text-slate-600 font-medium text-sm leading-relaxed" data-oid="li-m1">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="bg-teal-50 rounded-3xl p-8 border border-teal-100">
+                                                    <p className="font-bold text-teal-900 mb-4">金利 3.9% のメリット</p>
+                                                    <p className="text-slate-600 font-medium text-sm leading-relaxed">
                                                         一般的なディーラー（4.9%〜）と比較しても、支払総額で大きな差が出ます。もちろん、メンテナンス代も含めた設定が可能です。
                                                     </p>
                                                 </div>
-                                                <div className="bg-teal-50 rounded p-8 border border-teal-200" data-oid="6zbpo6s">
-                                                    <p className="font-bold text-teal-900 mb-4" data-oid="mm8:goj">自由返済型の安心</p>
-                                                    <p className="text-slate-600 font-medium text-sm leading-relaxed" data-oid="li-m2">
+                                                <div className="bg-teal-50 rounded p-8 border border-teal-200">
+                                                    <p className="font-bold text-teal-900 mb-4">自由返済型の安心</p>
+                                                    <p className="text-slate-600 font-medium text-sm leading-relaxed">
                                                         3年後に乗り続ける場合も、高金利な「再ローン」手続きは不要。3.9%のまま柔軟に期間を調整できます。
                                                     </p>
                                                 </div>
@@ -578,19 +423,19 @@ export default function Page() {
                             </div>
 
                             {/* Point 3 */}
-                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12" data-oid="lw9j4p0">
-                                <div className="flex flex-col md:flex-row gap-10 items-start" data-oid="pt3-layout">
-                                    <div className="flex-grow" data-oid="1-8t4mx">
-                                        <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight" data-oid=".1wi25_">
+                            <div className="rounded-2xl border border-rule bg-white p-8 md:p-12">
+                                <div className="flex flex-col md:flex-row gap-10 items-start">
+                                    <div className="flex-grow">
+                                        <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-6 tracking-ja leading-tight">
                                             地域密着70年の基盤があるから<br className="hidden md:block" />実現できる「お客様第一」の利益率
                                         </h3>
-                                        <div className="space-y-6" data-oid=":cp2yeq">
-                                            <p className="text-slate-600 text-lg font-medium leading-relaxed" data-oid="1-jo5:g">
+                                        <div className="space-y-6">
+                                            <p className="text-slate-600 text-lg font-medium leading-relaxed">
                                                 「ノレタ」単体での利益は決して多くありません。しかし、車検、点検、保険、販売とトータルカーライフをサポートし続ける港南自動車だからこそ、この驚きの価格設定が可能になりました。
                                             </p>
-                                            <div className="bg-slate-900 text-white rounded p-8 relative overflow-hidden" data-oid="szywr8a">
-                                                <div className="absolute top-0 right-0 size-32 bg-teal-700 opacity-20 hidden" data-oid="blur"></div>
-                                                <p className="text-white/90 font-medium leading-relaxed italic relative z-10" data-oid=":9m.:r2">
+                                            <div className="bg-slate-900 text-white rounded p-8 relative overflow-hidden">
+                                                <div className="absolute top-0 right-0 size-32 bg-teal-700 opacity-20 hidden"></div>
+                                                <p className="text-white/90 font-medium leading-relaxed italic relative z-10">
                                                     「一度きりの利益より、一生のお付き合いを。」<br />
                                                     創業70年の歩みが、お客様への還元という形で実を結んでいます。
                                                 </p>
@@ -632,33 +477,33 @@ export default function Page() {
                 </section>
 
                 {/* Contact Section */}
-                <section className="py-32 relative bg-white" data-oid="._gvodc">
-                    <div className="container mx-auto px-6 relative z-10" data-oid="skrri5s">
-                        <div className="text-center mb-20" data-oid="contact-header">
-                            <h2 className="text-[28px] md:text-[36px] font-bold text-gray-900 mb-8 tracking-ja" data-oid="74paijr">
+                <section className="py-32 relative bg-white">
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="text-center mb-20">
+                            <h2 className="text-[28px] md:text-[36px] font-bold text-gray-900 mb-8 tracking-ja">
                                 お問い合わせ
                             </h2>
-                            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-bold leading-relaxed" data-oid="zm9jvpt">
+                            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-bold leading-relaxed">
                                 「ノレタ」をご覧いただきありがとうございます。<br />
                                 お客様にぴったりのプランをご提案します。
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto" data-oid="kp6ch1_">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                             {/* Phone Contact */}
-                            <div className="relative group p-1 w-full" data-oid="phone-wrap">
+                            <div className="relative group p-1 w-full">
                                 <div className="hidden"></div>
-                                <div className="relative bg-white p-10 md:p-12 rounded shadow-xl flex flex-col items-center text-center h-full" data-oid="_sis:yn">
-                                    <div className="size-20 bg-teal-50 rounded-2xl flex items-center justify-center mb-8" data-oid="bvidzx7">
+                                <div className="relative bg-white p-10 md:p-12 rounded shadow-xl flex flex-col items-center text-center h-full">
+                                    <div className="size-20 bg-teal-50 rounded-2xl flex items-center justify-center mb-8">
                                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-10 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                         </svg>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-slate-800 mb-4" data-oid="sda_vfv">お電話でのお問い合わせ</h3>
-                                    <a href="tel:076-268-1788" className="text-4xl md:text-5xl font-bold text-teal-700 mb-8 transition-transform" data-oid="l96a_oc">
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-4">お電話でのお問い合わせ</h3>
+                                    <a href="tel:076-268-1788" className="text-4xl md:text-5xl font-bold text-teal-700 mb-8 transition-transform">
                                         076-268-1788
                                     </a>
-                                    <p className="text-slate-500 font-bold leading-relaxed" data-oid="7dop659">
+                                    <p className="text-slate-500 font-bold leading-relaxed">
                                         平日 9:00 〜 18:00 / 土曜 9:00 〜 17:00<br />
                                         <span className="text-sm opacity-75">定休日: 日曜・祝日／土曜は月により異なります</span>
                                     </p>
@@ -666,16 +511,16 @@ export default function Page() {
                             </div>
 
                             {/* Email/Form Contact */}
-                            <div className="relative group p-1 w-full" data-oid="email-wrap">
+                            <div className="relative group p-1 w-full">
                                 <div className="hidden"></div>
-                                <div className="relative bg-white p-10 md:p-12 rounded shadow-xl flex flex-col items-center text-center h-full" data-oid="_4c975e">
-                                    <div className="size-20 bg-slate-50 rounded-2xl flex items-center justify-center mb-8" data-oid="g8-z-w-">
+                                <div className="relative bg-white p-10 md:p-12 rounded shadow-xl flex flex-col items-center text-center h-full">
+                                    <div className="size-20 bg-slate-50 rounded-2xl flex items-center justify-center mb-8">
                                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-10 text-slate-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-slate-800 mb-10" data-oid="wt-29wd">メールでのお問い合わせ</h3>
-                                    <Link href="/#contact" className="group relative w-full inline-flex items-center justify-center px-10 py-6 bg-slate-900 text-white rounded-2xl font-bold text-xl shadow-2xl hover:bg-slate-800 transition-ui duration-200 overflow-hidden mb-8" data-oid="0yewdpl">
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-10">メールでのお問い合わせ</h3>
+                                    <Link href="/#contact" className="group relative w-full inline-flex items-center justify-center px-10 py-6 bg-slate-900 text-white rounded-2xl font-bold text-xl shadow-2xl hover:bg-slate-800 transition-ui duration-200 overflow-hidden mb-8">
                                         <span className="relative z-10 flex items-center">
                                             フォームに移動
                                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="size-6 ml-3 transform group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -683,7 +528,7 @@ export default function Page() {
                                             </svg>
                                         </span>
                                     </Link>
-                                    <p className="text-slate-500 font-bold" data-oid="o8ffu9e">
+                                    <p className="text-slate-500 font-bold">
                                         24時間受付中。順次対応させていただきます。
                                     </p>
                                 </div>
@@ -694,114 +539,103 @@ export default function Page() {
             </main>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-white py-14 mt-20" data-oid="dc3dad9">
-                <div className="container mx-auto px-4" data-oid="9vfs393">
-                    <div className="flex flex-col md:flex-row justify-between" data-oid="7e9u957">
-                        <div className="mb-8 md:mb-0" data-oid="t.00_gu">
-                            <div className="flex items-center mb-4" data-oid="8oy3-zf">
+            <footer className="bg-gray-900 text-white py-14 mt-20">
+                <div className="container mx-auto px-4">
+                    <div className="flex flex-col md:flex-row justify-between">
+                        <div className="mb-8 md:mb-0">
+                            <div className="flex items-center mb-4">
                                 <div
                                     className="size-11 bg-teal-700 rounded flex items-center justify-center mr-3"
-                                    data-oid="8p9ado."
                                 >
                                     <span
                                         className="text-white font-bold text-sm"
-                                        data-oid="gialhj-"
                                     >
                                         港南
                                     </span>
                                 </div>
-                                <div data-oid="jur2_2h">
-                                    <h3 className="text-lg font-bold" data-oid=".:1enyw">
+                                <div>
+                                    <h3 className="text-lg font-bold">
                                         株式会社港南自動車サービス
                                     </h3>
                                 </div>
                             </div>
-                            <p className="text-gray-300 text-sm" data-oid="deecrz4">
+                            <p className="text-gray-300 text-sm">
                                 〒920-0336
-                                <br data-oid="z..qx2:" />
+                                <br />
                                 石川県金沢市金石本町ハ14
-                                <br data-oid="o7v-d6g" />
+                                <br />
                                 TEL:{' '}
                                 <a
                                     href="tel:076-268-1788"
                                     className="hover:text-teal-300 transition-colors"
-                                    data-oid="kebaq19"
                                 >
                                     076-268-1788
                                 </a>
-                                <br data-oid="k416jag" />
+                                <br />
                                 FAX: 076-268-3163
                             </p>
                         </div>
-                        <div className="grid grid-cols-2 gap-8" data-oid="txvkr8t">
-                            <div data-oid="u4-b:a.">
+                        <div className="grid grid-cols-2 gap-8">
+                            <div>
                                 <h4
                                     className="text-lg font-bold mb-4 text-teal-300"
-                                    data-oid="yi75k6."
                                 >
                                     サービス
                                 </h4>
-                                <ul className="space-y-2 text-gray-300" data-oid="d5o5yl3">
-                                    <li data-oid="3705fgy">
+                                <ul className="space-y-2 text-gray-300">
+                                    <li>
                                         <Link
                                             href="/#services"
                                             className="hover:text-teal-300 transition-colors"
-                                            data-oid="fu702e5"
                                         >
                                             車検・点検
                                         </Link>
                                     </li>
-                                    <li data-oid="b_y1dj.">
+                                    <li>
                                         <Link
                                             href="/"
                                             className="hover:text-teal-300 transition-colors"
-                                            data-oid="1ff4fj2"
                                         >
                                             ノレタ
                                         </Link>
                                     </li>
-                                    <li data-oid="m65ex74">
+                                    <li>
                                         <Link
                                             href="/#services"
                                             className="hover:text-teal-300 transition-colors"
-                                            data-oid="-qi2ptm"
                                         >
                                             新車・中古車販売
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
-                            <div data-oid=".mdonh.">
+                            <div>
                                 <h4
                                     className="text-lg font-bold mb-4 text-teal-300"
-                                    data-oid="4pk-6q2"
                                 >
                                     会社情報
                                 </h4>
-                                <ul className="space-y-2 text-gray-300" data-oid="is75czj">
-                                    <li data-oid="kv6o7gi">
+                                <ul className="space-y-2 text-gray-300">
+                                    <li>
                                         <Link
                                             href="/#company"
                                             className="hover:text-teal-300 transition-colors"
-                                            data-oid=":bj83_r"
                                         >
                                             会社概要
                                         </Link>
                                     </li>
-                                    <li data-oid="w4dr:r.">
+                                    <li>
                                         <Link
                                             href="/#contact"
                                             className="hover:text-teal-300 transition-colors"
-                                            data-oid="3z.l_jt"
                                         >
                                             お問い合わせ
                                         </Link>
                                     </li>
-                                    <li data-oid="ww8v2:3">
+                                    <li>
                                         <a
                                             href="/privacy"
                                             className="hover:text-teal-300 transition-colors"
-                                            data-oid="8p99fsu"
                                         >
                                             プライバシーポリシー
                                         </a>
@@ -812,7 +646,6 @@ export default function Page() {
                     </div>
                     <div
                         className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-500 text-sm"
-                        data-oid="7vpp84k"
                     >
                         &copy; {new Date().getFullYear()} 株式会社港南自動車サービス All Rights
                         Reserved.

@@ -28,6 +28,9 @@ export const metadata: Metadata = {
         '金沢市 中古車',
         '新車販売 金沢',
         'カーリース 金沢',
+        'カーローン 金沢',
+        '自動車ローン 金沢',
+        '金沢 新車 買うなら',
         'ノレタ',
         'ノリドク',
         '法人リース 石川',
@@ -97,7 +100,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         url: 'https://www.kounan-auto.jp',
         telephone: '076-268-1788',
         faxNumber: '076-268-3163',
-        email: 'info@kounan-auto.jp',
+        email: 'kounan.lease@gmail.com',
         priceRange: '¥¥',
         address: {
             '@type': 'PostalAddress',
@@ -177,7 +180,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     };
 
     return (
-        <html lang="ja" className="scroll-smooth" data-oid="fn6nn3g">
+        <html lang="ja" className="scroll-smooth">
             <head>
                 {/* 本文・見出し: Zen Kaku Gothic New / 数値・ラベル: IBM Plex Mono
                     取得できない環境では tailwind.config.ts のフォールバック（ヒラギノ角ゴ等）で表示される */}
@@ -192,7 +195,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                     rel="stylesheet"
                 />
             </head>
-            <body className="bg-white font-sans text-gray-900 antialiased" data-oid="wjvghu5">
+            <body className="bg-white font-sans text-gray-900 antialiased">
                 {/* Tabキーの最初の到達先。ヘッダーを読み飛ばして本文へ移動できる */}
                 <a
                     href="#main"

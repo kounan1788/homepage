@@ -540,7 +540,7 @@ export default function RecruitPage() {
                 </Link>
             </div>
 
-            <main className="pt-24 md:pt-32">
+            <main id="main" tabIndex={-1} className="pt-24 md:pt-32">
                 {/* 構造化データは layout.tsx 側で出力済みなので includeSchema は false */}
                 <Breadcrumb
                     items={[

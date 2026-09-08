@@ -25,6 +25,8 @@ type RouteSetting = {
 /** ルートごとの優先度・更新頻度。未指定のルートは DEFAULT_SETTING（車種ページ想定）になる */
 const ROUTE_SETTINGS: Record<string, RouteSetting> = {
     '/': { changeFrequency: 'weekly', priority: 1 },
+    '/shinsha': { changeFrequency: 'weekly', priority: 0.9 },
+    '/carloan': { changeFrequency: 'weekly', priority: 0.9 },
     '/noreta': { changeFrequency: 'weekly', priority: 0.9 },
     '/noridoku': { changeFrequency: 'weekly', priority: 0.9 },
     '/shaken': { changeFrequency: 'monthly', priority: 0.8 },

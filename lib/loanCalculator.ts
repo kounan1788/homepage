@@ -36,7 +36,7 @@ function totalPaid(principal: number, monthlyPayment: number, bonusPerTime: numb
 }
 
 /** ボーナス払いなしで36回完済するための月額を二分探索で求めます。 */
-function solveMonthlyPayment(principal: number): number {
+export function solveMonthlyPayment(principal: number): number {
     const monthlyRate = ANNUAL_INTEREST_RATE / 12;
     let low = 0;
     let high = principal;

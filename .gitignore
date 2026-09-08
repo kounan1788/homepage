@@ -41,3 +41,7 @@ next-env.d.ts
 # ゲーム開発用ファイル（公開不要・public配下に置かれた仕様書や開発設定）
 public/game/**/.claude
 public/game/**/*-spec.md
+# デザイン原稿（.ai/.psd）。配信もGit管理もしない。
+# public/ に置くと本番サイトから誰でもダウンロードできてしまうため、ここへ退避している。
+# バックアップは各自で確保すること。
+design-source/

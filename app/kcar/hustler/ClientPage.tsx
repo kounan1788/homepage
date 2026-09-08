@@ -150,7 +150,7 @@ export default function Page() {
                 </div>
             </header>
 
-            <div className="mx-auto max-w-5xl px-4 pb-32 pt-8 md:px-8">
+            <main id="main" tabIndex={-1} className="mx-auto max-w-5xl px-4 pb-32 pt-8 md:px-8">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* ── 左：車両・ボディカラー・ボーナス払い ── */}
                     <div className="space-y-6">
@@ -331,7 +331,7 @@ export default function Page() {
                     <p>〒920-0336 石川県金沢市金石本町ハ14番地</p>
                     <p className="u-num">TEL 076-268-1788 ／ FAX 076-268-3163</p>
                 </div>
-            </div>
+            </main>
 
             {/* 画面下に留まる合計 */}
             <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-rule bg-white/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Script from 'next/script';
 import { sendEmail } from '@/app/actions/sendEmail';
 import MobileActionBar from '@/components/MobileActionBar';
+import { navItems } from '@/lib/siteNav';
 import {
     readContactHandoff,
     handoffToMessage,
@@ -386,16 +387,6 @@ export default function Page() {
         return cells;
     };
 
-    // ヘッダー・モバイルメニュー共通のナビゲーション項目
-    const navItems = [
-        { name: '車検', href: '/shaken' },
-        { name: 'サービス内容', href: '#services' },
-        { name: '取扱車種', href: '#cases' },
-        { name: '会社情報', href: '#company' },
-        { name: '採用情報', href: '/recruit' },
-        { name: 'お問い合わせ', href: '#contact' },
-    ];
-
     return (
         <div className="min-h-dvh bg-white text-gray-900">
             {/* Header */}
@@ -714,6 +705,14 @@ export default function Page() {
                                 ノレタの料金と車種を見る
                                 <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
                             </Link>
+
+                            <Link
+                                href="/carloan"
+                                className="group u-tap mt-6 inline-flex items-center gap-2 self-start border-b border-white/50 pb-1 text-sm font-bold text-white transition-colors hover:border-teal-300 hover:text-teal-300"
+                            >
+                                金利・審査の流れ（カーローン）
+                                <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
+                            </Link>
                         </div>
 
                         {/* その他のサービス */}
@@ -728,12 +727,12 @@ export default function Page() {
                                     internal: true,
                                 },
                                 {
-                                    title: '車両販売',
+                                    title: '新車・中古車販売',
                                     fact: '全メーカー',
                                     body: '全メーカーの新車から、状態を確認した中古車まで。ご予算とお使いになる場面をうかがったうえで、無理のない一台をご提案します。',
-                                    href: '#contact',
-                                    cta: '車種を相談する',
-                                    internal: false,
+                                    href: '/shinsha',
+                                    cta: '取扱車種と買い方を見る',
+                                    internal: true,
                                 },
                                 {
                                     title: '整備・一般修理',
@@ -784,12 +783,19 @@ export default function Page() {
                         </p>
                         <p className="mt-4 text-[15px] leading-loose text-gray-600">
                             <Link
-                                href="/noreta"
+                                href="/shinsha"
                                 className="font-bold text-teal-700 underline underline-offset-4 hover:text-teal-500"
                             >
-                                金沢市の新車カーローン「ノレタ」の料金・取扱車種はこちら
+                                金沢市の新車販売（取扱メーカー・人気車種・3つの買い方）はこちら
                             </Link>
-                            。ご予算に合わせた一台のご提案は
+                            。月々の支払いと金利は
+                            <Link
+                                href="/carloan"
+                                className="font-bold text-teal-700 underline underline-offset-4 hover:text-teal-500"
+                            >
+                                カーローンのページ
+                            </Link>
+                            にまとめています。ご予算に合わせた一台のご提案は
                             <a
                                 href="#contact"
                                 className="font-bold text-teal-700 underline underline-offset-4 hover:text-teal-500"
@@ -879,13 +885,13 @@ export default function Page() {
                     </div>
 
                     <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                        <a
-                            href="#contact"
+                        <Link
+                            href="/shinsha#lineup"
                             className="group flex h-14 items-center justify-between gap-8 rounded-xl bg-teal-700 px-7 text-[15px] font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.98]"
                         >
-                            車種について問い合わせる
+                            取扱車種の一覧と月々の目安を見る
                             <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
-                        </a>
+                        </Link>
                         <p className="text-sm text-gray-500">
                             ご希望の車種が一覧にない場合もお取り寄せできます。
                         </p>
@@ -1421,6 +1427,7 @@ export default function Page() {
                                         <option value="ノリドク（法人向けリース）">
                                             ノリドク（法人向けリース）
                                         </option>
+                                        <option value="ローン仮審査">ローン仮審査</option>
                                         <option value="ローン・リース全般">ローン・リース全般</option>
                                         <option value="自動車保険">自動車保険</option>
                                         <option value="採用・応募">採用・応募</option>
@@ -1694,6 +1701,22 @@ export default function Page() {
                                     </li>
                                     <li>
                                         <a
+                                            href="/shinsha"
+                                            className="transition-colors hover:text-teal-300"
+                                        >
+                                            新車販売
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="/carloan"
+                                            className="transition-colors hover:text-teal-300"
+                                        >
+                                            カーローン
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
                                             href="/noreta"
                                             className="transition-colors hover:text-teal-300"
                                         >
@@ -1706,14 +1729,6 @@ export default function Page() {
                                             className="transition-colors hover:text-teal-300"
                                         >
                                             ノリドク（法人向けリース）
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="#services"
-                                            className="transition-colors hover:text-teal-300"
-                                        >
-                                            新車・中古車販売
                                         </a>
                                     </li>
                                     <li>

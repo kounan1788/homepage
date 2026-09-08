@@ -310,7 +310,7 @@ export default function NoridokuPage() {
                 </Link>
             </div>
 
-            <main className="pt-20 md:pt-24">
+            <main id="main" tabIndex={-1} className="pt-20 md:pt-24">
                 {/* パンくずリスト */}
                 <Breadcrumb
                     items={[
