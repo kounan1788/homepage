@@ -57,7 +57,16 @@ function buildJobPostingSchema(job: JobListing) {
         datePosted: JOB_POSTED_DATE,
         validThrough: JOB_VALID_THROUGH,
         employmentType: 'FULL_TIME',
-        hiringOrganization: { '@id': 'https://www.kounan-auto.jp/#organization' },
+        // @id による参照だけにすると「hiringOrganization のオブジェクトタイプが無効」と判定される。
+        // Google の JobPosting 検証は JSON-LD ブロックをまたいだ @id の解決をしないため、
+        // Organization をこの中に直接書く。@id はルートの組織ノードと同一実体を示すために残す
+        hiringOrganization: {
+            '@type': 'Organization',
+            '@id': 'https://www.kounan-auto.jp/#organization',
+            name: '株式会社港南自動車サービス',
+            sameAs: 'https://www.kounan-auto.jp',
+            logo: 'https://www.kounan-auto.jp/logo.png',
+        },
         jobLocation: {
             '@type': 'Place',
             address: {
