@@ -1151,30 +1151,32 @@ export default function Page() {
                         )}
                     </div>
 
-                    {/* 口コミの数と評価はGoogleマップの地図枠の順位に直結するため、
-                        読んだ人がそのまま投稿・一覧に進めるようにしている */}
-                    <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-8">
-                        <a
-                            href="https://g.page/r/CTnb2S2S2dEJEAE/review"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex h-14 items-center justify-between gap-8 rounded-xl bg-teal-700 px-7 text-[15px] font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.98]"
-                        >
-                            Googleマップで口コミを書く
-                            <span className="sr-only">（新しいタブで開きます）</span>
-                            <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
-                        </a>
+                    {/* この欄を読みに来るのは主に比較中の見込み客で、目的は「読む」こと。
+                        口コミの投稿（地図枠の順位に効く）は利用者に宛てた一文のリンクにとどめ、
+                        塗りのボタンにして見積り・問い合わせのボタンと主役を取り合わないようにしている */}
+                    <p className="mt-8 max-w-2xl text-pretty text-[15px] leading-loose text-gray-600">
+                        ここに載っていない口コミも、
                         <a
                             href="https://www.google.com/maps?cid=707585838331583289"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group u-tap inline-flex items-center gap-2 border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
+                            className="font-bold text-teal-700 underline underline-offset-4 hover:text-teal-500"
                         >
-                            すべての口コミをGoogleマップで見る
+                            Googleマップですべて読めます
                             <span className="sr-only">（新しいタブで開きます）</span>
-                            <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
                         </a>
-                    </div>
+                        。当社をご利用いただいた方は、
+                        <a
+                            href="https://g.page/r/CTnb2S2S2dEJEAE/review"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-bold text-teal-700 underline underline-offset-4 hover:text-teal-500"
+                        >
+                            Googleマップから口コミを投稿
+                            <span className="sr-only">（新しいタブで開きます）</span>
+                        </a>
+                        いただけます。
+                    </p>
                 </div>
             </section>
 
