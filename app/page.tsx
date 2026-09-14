@@ -775,12 +775,10 @@ export default function Page() {
                         </div>
                     </div>
 
-                    {/* 金沢市で新車をお探しの方向けの説明（「新車 金沢」検索対策） */}
+                    {/* 新車をお探しの方への案内。「金沢 新車」の受け皿は /shinsha に分けたので、
+                        トップでは説明を重ねず、専用ページへの道しるべだけを置く（検索語の取り合いを避けるため） */}
                     <div className="mt-12 max-w-3xl rounded-2xl border-l-4 border-mint-400 bg-mint-50 p-7 md:p-9">
-                        <h3 className="text-lg font-bold text-gray-900">金沢市で新車をお探しの方へ</h3>
-                        <p className="mt-4 text-[15px] leading-loose text-gray-600">
-                            港南自動車サービスは、石川県金沢市で創業70年、トヨタ・ホンダ・スズキ・ダイハツなど全メーカーの新車を取り扱う自動車販売店です。ご購入のほか、頭金なし・ボーナス払いなしの月々定額で新車に乗れる新車カーローン「ノレタ」もご用意。車検やオイル交換などの維持費もコミコミなので、初めて新車に乗る方にも安心です。
-                        </p>
+                        <h3 className="text-lg font-bold text-gray-900">新車をお探しの方へ</h3>
                         <p className="mt-4 text-[15px] leading-loose text-gray-600">
                             <Link
                                 href="/shinsha"
@@ -1151,6 +1149,31 @@ export default function Page() {
                                 お客様の声を読み込み中…
                             </div>
                         )}
+                    </div>
+
+                    {/* 口コミの数と評価はGoogleマップの地図枠の順位に直結するため、
+                        読んだ人がそのまま投稿・一覧に進めるようにしている */}
+                    <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-8">
+                        <a
+                            href="https://g.page/r/CTnb2S2S2dEJEAE/review"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex h-14 items-center justify-between gap-8 rounded-xl bg-teal-700 px-7 text-[15px] font-bold text-white transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.98]"
+                        >
+                            Googleマップで口コミを書く
+                            <span className="sr-only">（新しいタブで開きます）</span>
+                            <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
+                        </a>
+                        <a
+                            href="https://www.google.com/maps?cid=707585838331583289"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group u-tap inline-flex items-center gap-2 border-b border-teal-700 pb-1 text-sm font-bold text-teal-700 transition-colors hover:border-teal-500 hover:text-teal-500"
+                        >
+                            すべての口コミをGoogleマップで見る
+                            <span className="sr-only">（新しいタブで開きます）</span>
+                            <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
+                        </a>
                     </div>
                 </div>
             </section>

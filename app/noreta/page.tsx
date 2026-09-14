@@ -1,11 +1,8 @@
-import { Metadata } from 'next';
 import ClientPage from './ClientPage';
 
-export const metadata: Metadata = {
-    title: 'ノレタ - 月々定額カーローン｜港南自動車',
-    description: '港南自動車の個人向けカーローン「ノレタ」。頭金なし・ボーナス払いなし・車検費用込みで月々定額！金沢市で新車に乗るならノレタにお任せください。',
-};
-
+// metadata は layout.tsx に一本化している。
+// page.tsx 側にも title を書くと layout の title を上書きし、さらに共通テンプレートが付いて
+// 「…｜港南自動車 | 港南自動車サービス - 金沢市」と社名が二重になっていたため
 export default function Page() {
     return <ClientPage />;
 }

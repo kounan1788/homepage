@@ -3,7 +3,9 @@ import { ogImage } from '@/lib/imageSize';
 import { visibleJobs, type JobListing } from '@/lib/recruitJobs';
 
 export const metadata: Metadata = {
-    title: '採用情報｜港南自動車サービス【金沢市】',
+    // 求人を探す人の検索語（職種・地域・条件）を前に置く。
+    // 共通テンプレートを付けると社名が二重になるので absolute で指定する
+    title: { absolute: '自動車整備士の求人（金沢市）｜残業ゼロ・未経験歓迎｜港南自動車サービス' },
     description:
         '石川県金沢市の港南自動車サービスで自動車整備士を募集中。繁忙期も残業完全ゼロ、年間休日110日、有給取得可。創業70年の指定工場で、資格取得費用は会社が全額負担。未経験者歓迎、面接1回・5営業日以内に結果をご連絡します。',
     keywords: [
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
         canonical: '/recruit',
     },
     openGraph: {
-        title: '採用情報｜港南自動車サービス【金沢市】',
+        title: '自動車整備士の求人（金沢市）｜残業ゼロ・未経験歓迎｜港南自動車サービス',
         description:
             '繁忙期も残業完全ゼロ・年間休日110日。創業70年の指定工場で自動車整備士を募集中。未経験歓迎、資格取得費用は会社が全額負担します。',
         url: 'https://www.kounan-auto.jp/recruit',

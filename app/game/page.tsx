@@ -3,7 +3,8 @@ import { ogImage } from '@/lib/imageSize';
 import ClientPage from './ClientPage';
 
 export const metadata: Metadata = {
-    title: '港南ドライブチャレンジ｜遊んで割引GET【港南自動車サービス】',
+    // 社名を含むため共通テンプレートは付けない（付けると社名が二重になる）
+    title: { absolute: '港南ドライブチャレンジ｜遊んで割引GET【港南自動車サービス】' },
     description:
         '港南自動車サービスのミニゲーム「港南ドライブチャレンジ」。3車線の道路でガードレールをよけて走り、走破距離に応じて割引コードをGET！PC・スマホ対応、無料で今すぐ遊べます。',
     alternates: {

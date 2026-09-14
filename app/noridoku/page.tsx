@@ -1,11 +1,8 @@
-import { Metadata } from 'next';
 import ClientPage from './ClientPage';
 
-export const metadata: Metadata = {
-    title: 'ノリドク - 法人向けカーリース｜港南自動車',
-    description: '港南自動車の法人・個人事業主向けカーリース「ノリドク」。金利2.5%〜、違約金ゼロで経営をサポート。金沢市で法人リースをお探しならノリドクへ。',
-};
-
+// metadata は layout.tsx に一本化している。
+// page.tsx 側にも title を書くと layout の title を上書きし、さらに共通テンプレートが付いて
+// 「…｜港南自動車 | 港南自動車サービス - 金沢市」と社名が二重になっていたため
 export default function Page() {
     return <ClientPage />;
 }

@@ -12,11 +12,13 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
     metadataBase: new URL('https://www.kounan-auto.jp'),
     title: {
-        default: '金沢の新車販売・車検・月々定額カーローン｜港南自動車サービス',
+        // トップページの title。「金沢 新車」は /shinsha、ノレタは /noreta が受け持つため、
+        // トップは社名と、整備工場としての総合（車検・整備・販売）で立てて検索語の取り合いを避ける
+        default: '港南自動車サービス｜金沢市の車検・整備・自動車販売（1956年創業）',
         template: '%s | 港南自動車サービス - 金沢市',
     },
     description:
-        '金沢で新車をお探しなら港南自動車サービス。頭金0円・月々27,000円〜の定額カーローン「ノレタ」で新車に乗れます。車検・整備、新車・中古車販売まで創業70年の実績。',
+        '石川県金沢市金石本町で1956年創業の港南自動車サービス。運輸局指定工場の車検（軽自動車65,040円〜）、整備・修理、新車・中古車の販売、カーローン「ノレタ」と法人リース「ノリドク」まで、お車のことを一か所で承ります。',
     keywords: [
         '港南自動車',
         '港南自動車サービス',
@@ -61,9 +63,9 @@ export const metadata: Metadata = {
         },
     },
     openGraph: {
-        title: '金沢の新車販売・車検・月々定額カーローン｜港南自動車サービス',
+        title: '港南自動車サービス｜金沢市の車検・整備・自動車販売（1956年創業）',
         description:
-            '金沢で新車をお探しなら港南自動車サービス。頭金0円・月々27,000円〜の定額カーローン「ノレタ」。車検・整備から新車・中古車販売まで創業70年の実績。',
+            '石川県金沢市金石本町で1956年創業。運輸局指定工場の車検、整備・修理、新車・中古車の販売、カーローンまでお車のことを一か所で承ります。',
         url: 'https://www.kounan-auto.jp',
         type: 'website',
         locale: 'ja_JP',
@@ -72,9 +74,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: '金沢の新車販売・車検・カーローン｜港南自動車サービス',
+        title: '港南自動車サービス｜金沢市の車検・整備・自動車販売',
         description:
-            '頭金0円・月々27,000円〜で新車に乗れる「ノレタ」。車検・整備から新車販売まで創業70年。',
+            '金沢市金石本町で1956年創業。運輸局指定工場の車検から整備、新車・中古車販売、カーローンまで。',
         images: ['/og-image.jpg'],
     },
     verification: {
@@ -163,7 +165,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 },
             ],
         },
-        sameAs: ['https://www.instagram.com/kounanj_kanazawa/'],
+        // Googleビジネスプロフィールを含めて、サイトと地図上の店舗が同一であることを示す。
+        // cid はサイト内の地図埋め込み（ftid 0x...9d1d9922dd9db39）と同じ場所を指す10進表記
+        hasMap: 'https://www.google.com/maps?cid=707585838331583289',
+        sameAs: [
+            'https://www.google.com/maps?cid=707585838331583289',
+            'https://www.instagram.com/kounanj_kanazawa/',
+        ],
     };
 
     // WebSite 構造化データ

@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import CarGuide from '@/components/CarGuide';
 import { carBasePrices, carLoanPrincipals } from '@/lib/carPrices';
 import BonusPaymentSimulator from '@/components/BonusPaymentSimulator';
 import { buildContactUrl } from '@/lib/contactHandoff';
@@ -318,6 +319,9 @@ export default function Page() {
                         ))}
                     </dl>
                 </section>
+
+                {/* 車種ごとの固有の説明（lib/carGuides.ts） */}
+                <CarGuide route="/kcar/tantocustom" />
 
                 <hr className="u-road my-10 border-0" />
 
