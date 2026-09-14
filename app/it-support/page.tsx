@@ -629,7 +629,7 @@ export default function ITSupportPage() {
                         </Link>
                     </div>
                     <div className="text-white/60 text-sm mb-6 flex flex-col md:flex-row justify-center items-center gap-4">
-                        <span>〒920-0336 石川県金沢市金石本町ハ14番地</span>
+                        <span>〒920-0336 石川県金沢市金石本町ハ14</span>
                         <span className="hidden md:inline">|</span>
                         <span>TEL: 076-268-1788</span>
                         <span className="hidden md:inline">|</span>

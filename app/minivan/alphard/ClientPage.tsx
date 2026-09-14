@@ -331,7 +331,7 @@ export default function Page() {
 
                 <div className="text-center text-sm leading-relaxed text-gray-500">
                     <p className="font-bold text-gray-700">株式会社港南自動車サービス</p>
-                    <p>〒920-0336 石川県金沢市金石本町ハ14番地</p>
+                    <p>〒920-0336 石川県金沢市金石本町ハ14</p>
                     <p className="u-num">TEL 076-268-1788 ／ FAX 076-268-3163</p>
                 </div>
             </main>

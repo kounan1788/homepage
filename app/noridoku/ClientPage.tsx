@@ -751,7 +751,7 @@ export default function NoridokuPage() {
                                 </div>
                                 <div>
                                     <p className="text-lg font-bold">（株）港南自動車サービス</p>
-                                    <p className="text-sm text-slate-500">石川県金沢市金石本町ハ14番地</p>
+                                    <p className="text-sm text-slate-500">石川県金沢市金石本町ハ14</p>
                                 </div>
                             </div>
                             <div className="text-center md:text-right">

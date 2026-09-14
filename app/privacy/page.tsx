@@ -118,7 +118,7 @@ export default function PrivacyPage() {
                     <Section title="1. 事業者情報">
                         <dl className="border-t border-gray-200 text-[15px]">
                             <Row term="事業者名">株式会社港南自動車サービス</Row>
-                            <Row term="所在地">〒920-0336 石川県金沢市金石本町ハ14番地</Row>
+                            <Row term="所在地">〒920-0336 石川県金沢市金石本町ハ14</Row>
                             <Row term="連絡先">
                                 電話 076-268-1788 ／ FAX 076-268-3163
                                 <br />

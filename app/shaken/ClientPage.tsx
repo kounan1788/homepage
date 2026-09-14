@@ -386,7 +386,7 @@ export default function ShakenPage() {
         priceRange: '¥65,040〜',
         address: {
             '@type': 'PostalAddress',
-            streetAddress: '金石本町ハ14番地',
+            streetAddress: '金石本町ハ14',
             addressLocality: '金沢市',
             addressRegion: '石川県',
             postalCode: '920-0336',

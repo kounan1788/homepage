@@ -9,6 +9,13 @@ import { carBasePrices, formatPrice } from '@/lib/carPrices';
 import { carImageScale, sortedCarLineup, type CarCategory } from '@/lib/carLineup';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 
+/**
+ * カテゴリで最も安い月額（例: '41,000'）。
+ * FAQ の金額を手書きにすると料金改定のたびに食い違うため、料金データから出す
+ */
+const lowestMonthly = (category: CarCategory): string =>
+    carBasePrices[sortedCarLineup[category][0].route].toLocaleString();
+
 // ノレタ FAQ データ
 const noretaFaqData = [
     {
@@ -17,7 +24,7 @@ const noretaFaqData = [
     },
     {
         question: 'ノレタの月々の支払いはいくらからですか？',
-        answer: '軽自動車で月々27,000円から、SUVで35,000円からご利用いただけます。頭金・ボーナス払いは不要です。',
+        answer: `軽自動車で月々${lowestMonthly('KCAR')}円から、SUVで${lowestMonthly('SUV')}円からご利用いただけます。頭金・ボーナス払いは不要です。`,
     },
     {
         question: '3年後はどうなりますか？',
