@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 /** 最終改定日。内容を変更したらここも必ず更新すること */
-const LAST_UPDATED = '2026年9月4日';
+const LAST_UPDATED = '2026年9月19日';
 
 /**
  * 外部送信規律（電気通信事業法 第27条の12）に基づく公表事項。
@@ -55,7 +55,7 @@ const EXTERNAL_TRANSMISSIONS = [
         name: 'Resend',
         provider: 'Resend, Inc.',
         purpose: 'お問い合わせフォーム送信内容の当社へのメール送信',
-        data: 'フォームに入力された氏名・メールアドレス・電話番号・お問い合わせ内容',
+        data: 'フォームに入力された氏名・メールアドレス・電話番号・ナンバープレートの番号・お問い合わせ内容',
         optOut: null,
         policy: 'https://resend.com/legal/privacy-policy',
     },
@@ -138,6 +138,9 @@ export default function PrivacyPage() {
                             <Item>電話番号</Item>
                             <Item>会社名・屋号（法人リースのお問い合わせの場合）</Item>
                             <Item>希望職種（採用へのご応募の場合）</Item>
+                            <Item>
+                                ナンバープレートの番号（一連指定番号。車検・整備のお問い合わせで、ご記入いただいた場合）
+                            </Item>
                             <Item>お問い合わせ内容、ご希望のご来店日時</Item>
                             <Item>
                                 サイトの閲覧履歴等（Cookie等を通じて自動的に取得される情報。第5項をご覧ください）

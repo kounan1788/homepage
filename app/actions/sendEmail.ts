@@ -2,6 +2,7 @@
 
 import { headers } from 'next/headers';
 import { Resend } from 'resend';
+import { formatPlateNumber, isVehicleServiceCategory, PLATE_INPUT_MAX_LENGTH } from '@/lib/plateNumber';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -43,6 +44,7 @@ const MAX_LENGTH = {
     preferredTime: 10,
     company: 120,
     jobTitle: 120,
+    plateNumber: PLATE_INPUT_MAX_LENGTH,
     message: 2000,
 } as const;
 
@@ -69,6 +71,8 @@ export interface ContactFormData {
     company?: string;
     /** 採用・応募のときだけ入る希望職種 */
     jobTitle?: string;
+    /** 車検・整備系のジャンルのときだけ入る、ナンバープレートの一連指定番号（任意） */
+    plateNumber?: string;
     message: string;
     /**
      * ハニーポット。画面には出ない項目なので、人が入力することはない。
@@ -130,6 +134,7 @@ function validate(
     const preferredTime = clean(formData.preferredTime);
     const company = clean(formData.company);
     const jobTitle = clean(formData.jobTitle);
+    const plateInput = clean(formData.plateNumber);
 
     if (!name || !email || !category || !message) {
         return { ok: false, error: '必須項目が入力されていません。' };
@@ -164,9 +169,25 @@ function validate(
         return { ok: false, error: 'お名前・メールアドレスに改行は使用できません。' };
     }
 
+    // ナンバーは車検・整備系のジャンルのときだけ受け取る。
+    // 別のジャンルに選び直した場合、画面から消えた欄の値はここで捨てる（長さも含めて問わない）
+    let plateNumber = '';
+    if (isVehicleServiceCategory(category)) {
+        // 長すぎる入力も「番号として読めない」のと同じ案内にする（地名まで書かれた場合など）
+        const formatted =
+            plateInput.length > MAX_LENGTH.plateNumber ? null : formatPlateNumber(plateInput);
+        if (formatted === null) {
+            return {
+                ok: false,
+                error: 'ナンバーは、ナンバープレートの4桁以内の数字だけをご記入ください（例：12-34）。',
+            };
+        }
+        plateNumber = formatted;
+    }
+
     return {
         ok: true,
-        value: { name, email, category, phone, preferredDate, preferredTime, company, jobTitle, message },
+        value: { name, email, category, phone, preferredDate, preferredTime, company, jobTitle, plateNumber, message },
     };
 }
 
@@ -197,6 +218,7 @@ export async function sendEmail(formData: ContactFormData) {
         preferredTime,
         company,
         jobTitle,
+        plateNumber,
         message,
     } = validation.value;
 
@@ -208,6 +230,7 @@ export async function sendEmail(formData: ContactFormData) {
 
     // 任意項目は入力されたときだけ行を足す
     const optionalLines = [
+        plateNumber ? `ナンバー（一連指定番号）: ${plateNumber}` : '',
         phone ? `電話番号: ${phone}` : '',
         company ? `会社名・屋号: ${company}` : '',
         jobTitle ? `希望職種: ${jobTitle}` : '',
@@ -223,7 +246,8 @@ export async function sendEmail(formData: ContactFormData) {
         const data = await resend.emails.send({
             from: FROM_ADDRESS,
             to: [TO_ADDRESS],
-            subject: `${subjectTag}${name}様より（${category}）`,
+            // ナンバーがあれば件名にも入れ、受信箱の検索だけで車両を引けるようにする
+            subject: `${subjectTag}${name}様より（${category}${plateNumber ? `／ナンバー ${plateNumber}` : ''}）`,
             replyTo: email,
             text: `
 お名前: ${name}

@@ -9,6 +9,7 @@ import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 import { buildContactUrl, handoffToShareText } from '@/lib/contactHandoff';
+import { PLATE_LINE_TEMPLATE } from '@/lib/plateNumber';
 
 // 車種タイプの定義
 type CarType = 'light' | 'small' | 'medium' | 'regular';
@@ -356,9 +357,14 @@ export default function ShakenPage() {
         [estimateLines]
     );
 
-    // LINEは本文を渡せないため、条件をコピーしてからトーク画面を開く
+    // LINEは本文を渡せないため、条件をコピーしてからトーク画面を開く。
+    // 先頭にナンバーの記入欄を置き、ご利用中のお客様が貼り付けたあと番号を書き足せるようにする
+    // （フォームではナンバーを専用の欄で受けるため、メール側の引き継ぎ内容には入れない）
     const handleLineHandoff = async () => {
-        const text = handoffToShareText({ category: '車検', lines: estimateLines });
+        const text = handoffToShareText({
+            category: '車検',
+            lines: [PLATE_LINE_TEMPLATE, ...estimateLines],
+        });
         try {
             await navigator.clipboard.writeText(text);
             setCopiedCondition(conditionKey);
@@ -848,7 +854,7 @@ export default function ShakenPage() {
                                                 className="mt-4 text-xs font-bold text-teal-700"
                                             >
                                                 {lineCopied
-                                                    ? '条件をコピーしました。LINEのトーク画面に貼り付けてお送りください。'
+                                                    ? '条件をコピーしました。LINEのトーク画面に貼り付けてお送りください。当社をご利用中の方は、「ナンバーの4桁」の行に番号を書き足してください。'
                                                     : ''}
                                             </p>
                                             <p className="mt-2 text-xs leading-relaxed text-gray-600">

@@ -7,6 +7,12 @@ import Script from 'next/script';
 import { sendEmail } from '@/app/actions/sendEmail';
 import MobileActionBar from '@/components/MobileActionBar';
 import { navItems } from '@/lib/siteNav';
+import { cn } from '@/lib/utils';
+import {
+    formatPlateNumber,
+    isVehicleServiceCategory,
+    PLATE_INPUT_MAX_LENGTH,
+} from '@/lib/plateNumber';
 import {
     readContactHandoff,
     handoffToMessage,
@@ -159,6 +165,8 @@ export default function Page() {
         preferredTime: '',
         company: '',
         jobTitle: '',
+        // 車検・整備系のジャンルのときだけ使う、ナンバープレートの一連指定番号
+        plateNumber: '',
         message: '',
         // ハニーポット。画面に出ないため、値が入っていたらボットとして弾かれる
         website: '',
@@ -246,8 +254,22 @@ export default function Page() {
         });
     };
 
+    // ナンバー欄が表示されていて、番号として読めない値が入っているか（描画時に判定する）
+    const showPlateField = isVehicleServiceCategory(formData.category);
+    const plateInvalid = showPlateField && formatPlateNumber(formData.plateNumber) === null;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (plateInvalid) {
+            setSubmitStatus({
+                type: 'error',
+                message: 'ナンバーの欄をご確認ください。ナンバープレートの4桁以内の数字だけをご記入ください（例：12-34）。',
+            });
+            document.getElementById('plateNumber')?.focus();
+            return;
+        }
+
         setIsSubmitting(true);
         setSubmitStatus(null);
 
@@ -268,6 +290,7 @@ export default function Page() {
                     preferredTime: '',
                     company: '',
                     jobTitle: '',
+                    plateNumber: '',
                     message: '',
                     website: '',
                 });
@@ -1486,6 +1509,50 @@ export default function Page() {
                                         ご記入いただくとお電話で折り返せます。メールのみをご希望の場合は空欄で構いません。
                                     </p>
                                 </div>
+
+                                {/* 車検・整備系を選んだときだけ、ご利用中のお客様の車両を特定するための番号を尋ねる。
+                                    正式名は「一連指定番号」だが、お客様に伝わる呼び方で表示する */}
+                                {showPlateField && (
+                                    <div className="space-y-2">
+                                        <label
+                                            className="flex items-center gap-2 text-sm font-bold text-gray-900"
+                                            htmlFor="plateNumber"
+                                        >
+                                            ナンバープレートの4桁の数字
+                                            <span className="u-chip bg-gray-100 py-1 text-gray-600">任意</span>
+                                        </label>
+                                        <input
+                                            className={cn(
+                                                'w-full max-w-[12rem] rounded-xl border bg-white px-4 py-3.5 text-[15px] tabular-nums text-gray-900 transition-colors placeholder:text-gray-400 focus:outline-none focus:ring-1',
+                                                plateInvalid
+                                                    ? 'border-red-600 focus:border-red-600 focus:ring-red-600'
+                                                    : 'border-gray-300 focus:border-teal-700 focus:ring-teal-700'
+                                            )}
+                                            id="plateNumber"
+                                            name="plateNumber"
+                                            type="text"
+                                            inputMode="numeric"
+                                            autoComplete="off"
+                                            spellCheck={false}
+                                            maxLength={PLATE_INPUT_MAX_LENGTH}
+                                            value={formData.plateNumber}
+                                            onChange={handleInputChange}
+                                            aria-invalid={plateInvalid}
+                                            aria-describedby={
+                                                plateInvalid ? 'plateNumber-error plateNumber-help' : 'plateNumber-help'
+                                            }
+                                            placeholder="1234…"
+                                        />
+                                        {plateInvalid && (
+                                            <p id="plateNumber-error" className="text-xs font-bold text-red-700">
+                                                4桁以内の数字だけをご記入ください（地名やひらがなは不要です）。
+                                            </p>
+                                        )}
+                                        <p id="plateNumber-help" className="text-xs leading-relaxed text-gray-500">
+                                            当社をご利用中のお客様は、ご記入いただくとお車をすぐにお調べできます。ナンバープレートに大きく書かれた数字です（例：「12-34」なら 1234）。初めての方は空欄で構いません。
+                                        </p>
+                                    </div>
+                                )}
 
                                 {/* ノリドク（法人リース）を選んだときだけ会社情報を尋ねる */}
                                 {formData.category === 'ノリドク（法人向けリース）' && (
