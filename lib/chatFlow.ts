@@ -10,6 +10,9 @@
  */
 
 import { carloanFaq, noretaFaq, noridokuFaq, shakenFaq, shinshaFaq, topFaq } from './serviceFaq';
+import { carBasePrices } from './carPrices';
+import { sortedCarLineup } from './carLineup';
+import { pricingData } from './shakenPrices';
 
 /** 電話番号。ヘッダー・MobileActionBar と同じ番号 */
 export const TEL = '076-268-1788';
@@ -21,8 +24,8 @@ export const LINE_URL = 'https://lin.ee/CKQM0mE';
 export const MAP_URL = 'https://www.google.com/maps?cid=707585838331583289';
 
 export type ChatAction =
-    /** 次のノードへ進む */
-    | { kind: 'next'; label: string; to: string }
+    /** 次のノードへ進む。fact は選択肢の右端に等幅で添える事実（料金・対応範囲） */
+    | { kind: 'next'; label: string; to: string; fact?: string }
     /** サイト内のページ、または外部ページへ移動する */
     | { kind: 'link'; label: string; href: string }
     /** トップページの問い合わせフォームへ、ジャンルと相談内容を入れた状態で移動する */
@@ -33,7 +36,12 @@ export type ChatAction =
     | { kind: 'line'; label: string };
 
 export interface ChatNode {
-    /** ボットの発言。1要素が1つの吹き出しになる */
+    /**
+     * 受付票の欄名。この質問に答えると「欄名｜選んだ答え」の1行として控えに残る。
+     * 答えを返すだけのノードでは省略してよい（既定の欄名を使う）
+     */
+    field?: string;
+    /** ボットの発言。1要素が1つの段落になる */
     says: string[];
     /** 選択肢。上から順に並ぶ */
     actions: ChatAction[];
@@ -51,21 +59,28 @@ const toForm = (category: string, context: string, label = 'フォームで相�
     lines: [`チャットでのご相談: ${context}`],
 });
 
+/** 軽自動車の車検総額。車検ページの見積りと同じ数字を出す */
+const SHAKEN_FROM = `${pricingData.light.total.toLocaleString()}円〜`;
+
+/** ノレタの最安月額（軽自動車）。車種データから出すので改定しても食い違わない */
+const NORETA_FROM = `月々${carBasePrices[sortedCarLineup.KCAR[0].route].toLocaleString()}円〜`;
+
 const CALL: ChatAction = { kind: 'tel', label: '電話で聞く' };
 const LINE: ChatAction = { kind: 'line', label: 'LINEで送る' };
 
 export const chatNodes: Record<string, ChatNode> = {
     root: {
-        says: ['金沢市の港南自動車サービスです。', 'どのご用件ですか？'],
+        field: 'ご用件',
+        says: ['金沢市の港南自動車サービスです。承るご用件をお選びください。'],
         actions: [
-            { kind: 'next', label: '車検・点検', to: 'shaken' },
-            { kind: 'next', label: '整備・修理・板金', to: 'seibi' },
-            { kind: 'next', label: '新車・中古車を買いたい', to: 'kuruma' },
-            { kind: 'next', label: 'ノレタ（カーローン）', to: 'noreta' },
-            { kind: 'next', label: 'ノリドク（法人リース）', to: 'noridoku' },
+            { kind: 'next', label: '車検・点検', to: 'shaken', fact: SHAKEN_FROM },
+            { kind: 'next', label: '整備・修理・板金', to: 'seibi', fact: '全車種対応' },
+            { kind: 'next', label: '新車・中古車を買いたい', to: 'kuruma', fact: '全メーカー' },
+            { kind: 'next', label: 'ノレタ（カーローン）', to: 'noreta', fact: NORETA_FROM },
+            { kind: 'next', label: 'ノリドク（法人リース）', to: 'noridoku', fact: '法人・個人事業主' },
             { kind: 'next', label: '自動車保険', to: 'hoken' },
             { kind: 'next', label: '採用・求人', to: 'recruit' },
-            { kind: 'next', label: '場所・営業時間', to: 'access' },
+            { kind: 'next', label: '場所・営業時間', to: 'access', fact: '金石本町' },
             // 当てはまるものが無い方の逃げ道。選択肢をたどらずフォームへ直行させる
             toForm('その他', 'そのほかのご相談', 'そのほかのご相談'),
         ],
@@ -73,6 +88,7 @@ export const chatNodes: Record<string, ChatNode> = {
 
     // ── 車検・点検 ──
     shaken: {
+        field: 'お聞きになりたいこと',
         says: ['車検・点検についてお答えします。', '知りたいことをお選びください。'],
         actions: [
             { kind: 'next', label: '費用の目安', to: 'shaken-cost' },
@@ -140,6 +156,7 @@ export const chatNodes: Record<string, ChatNode> = {
         ],
     },
     'shaken-other': {
+        field: '確認したいこと',
         says: ['どちらについてお答えしましょうか。'],
         actions: [
             { kind: 'next', label: '輸入車・4WD・ディーゼル', to: 'shaken-imported' },
@@ -170,6 +187,7 @@ export const chatNodes: Record<string, ChatNode> = {
 
     // ── 整備・修理・板金 ──
     seibi: {
+        field: 'お車の状態',
         says: ['お車の状態を教えてください。'],
         actions: [
             { kind: 'next', label: '動かない・事故にあった', to: 'seibi-breakdown' },
@@ -206,6 +224,7 @@ export const chatNodes: Record<string, ChatNode> = {
 
     // ── 新車・中古車 ──
     kuruma: {
+        field: 'ご検討の内容',
         says: ['お車のご購入についてお答えします。'],
         actions: [
             { kind: 'next', label: '新車を買いたい', to: 'kuruma-new' },
@@ -253,6 +272,7 @@ export const chatNodes: Record<string, ChatNode> = {
 
     // ── ノレタ（カーローン） ──
     noreta: {
+        field: 'お聞きになりたいこと',
         says: [topFaq.noreta.answer, '知りたいことをお選びください。'],
         actions: [
             { kind: 'next', label: '月々いくらから？', to: 'noreta-monthly' },
@@ -313,6 +333,7 @@ export const chatNodes: Record<string, ChatNode> = {
 
     // ── ノリドク（法人リース） ──
     noridoku: {
+        field: 'お聞きになりたいこと',
         says: ['法人・個人事業主向けカーリース「ノリドク」についてお答えします。'],
         actions: [
             { kind: 'next', label: '法人リースの利点', to: 'noridoku-merit' },

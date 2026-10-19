@@ -3,12 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { getTodayStatus } from '@/lib/businessDays';
 import { buildContactUrl } from '@/lib/contactHandoff';
 import { chatNodes, LINE_URL, TEL, type ChatAction } from '@/lib/chatFlow';
 import { cn } from '@/lib/utils';
 
 /**
  * サービス案内のチャットボット。
+ *
+ * 見た目は会話の吹き出しではなく「受付票」。
+ * サイト全体が点検票・見積書の体裁（u-label の欄名、u-num の数字、u-road の罫）で
+ * 組まれているため、それに合わせている。答え終えた質問は控えの1行として残る。
  *
  * 自由入力は受け付けず、lib/chatFlow.ts のシナリオを選択肢でたどる。
  * 最後は必ず「ページを見る・フォーム・電話・LINE」のいずれかに着地させる。
@@ -32,6 +37,9 @@ const HIDDEN_PATH_PREFIXES = [
  */
 const AUTO_OPEN_DONE_KEY = 'kounan-service-chat-opened';
 
+/** 欄名が決まっていないノード（答えを返すだけのノード）で使う既定の欄名 */
+const DEFAULT_FIELD = '次のご案内';
+
 /** 会話の1手。chose は、このノードでお客様が選んだ選択肢のラベル */
 interface ChatStep {
     nodeId: string;
@@ -42,6 +50,9 @@ export default function ServiceChat() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [steps, setSteps] = useState<ChatStep[]>([{ nodeId: 'root' }]);
+
+    /** 本日の営業状態。日付はブラウザで決まるため、マウント後に入れる */
+    const [today, setToday] = useState<{ open: boolean; label: string } | null>(null);
 
     const panelRef = useRef<HTMLDivElement>(null);
     const logRef = useRef<HTMLDivElement>(null);
@@ -70,6 +81,8 @@ export default function ServiceChat() {
         setOpen(true);
     }, []);
 
+    useEffect(() => setToday(getTodayStatus()), []);
+
     // Escapeで閉じ、開閉ボタンへフォーカスを戻す
     useEffect(() => {
         if (!open) return;
@@ -83,11 +96,15 @@ export default function ServiceChat() {
         return () => document.removeEventListener('keydown', onKeyDown);
     }, [open]);
 
-    // やり取りが進んだら最新の発言まで送る。
+    // やり取りが進んだら最新の行まで送る。
     // 開いた直後（最初の質問だけ）は、あいさつが隠れないよう先頭のままにする
     useEffect(() => {
         if (!open || steps.length === 1) return;
-        logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: 'smooth' });
+        const log = logRef.current;
+        if (!log) return;
+        // 依頼されていない演出は置かない方針なので、滑らせずに瞬時に移す。
+        // 動きを減らす設定との衝突も起きない
+        log.scrollTo({ top: log.scrollHeight, behavior: 'auto' });
     }, [open, steps]);
 
     // 自分で開いたときだけパネルへフォーカスを移す（キーボードで選択肢まで辿れるように）
@@ -100,6 +117,9 @@ export default function ServiceChat() {
 
     const current = steps[steps.length - 1];
     const currentNode = chatNodes[current.nodeId] ?? chatNodes.root;
+
+    /** 答え終えた質問（控えに残す行） */
+    const filledLines = steps.filter((step) => step.chose);
 
     /** 選択肢を選んで次のノードへ進む */
     const goNext = (label: string, to: string) => {
@@ -125,9 +145,12 @@ export default function ServiceChat() {
         stopAutoOpen();
     };
 
-    // 選択肢の見た目は共通。種類ごとに中身（button / Link / a）だけ変える
-    const optionClass =
-        'u-tap flex w-full items-center gap-2 rounded-md border border-gray-300 bg-white px-3.5 py-2.5 text-left text-[13px] leading-snug text-gray-900 transition-colors hover:border-teal-600 hover:bg-teal-50 active:bg-teal-100';
+    // 記入欄の1行。車検ページの見積書の行と同じ組み方にする
+    const rowClass =
+        'u-tap flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 text-left text-[13px] leading-snug text-gray-900 transition-colors hover:border-mint-300 hover:bg-mint-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700';
+
+    /** 行の右端に等幅で添える事実（料金・対応範囲・電話番号） */
+    const factClass = 'u-num ml-auto shrink-0 text-[11px] font-normal text-gray-500';
 
     const renderAction = (action: ChatAction, index: number) => {
         switch (action.kind) {
@@ -137,9 +160,10 @@ export default function ServiceChat() {
                         key={index}
                         type="button"
                         onClick={() => goNext(action.label, action.to)}
-                        className={optionClass}
+                        className={rowClass}
                     >
-                        {action.label}
+                        <span className="font-bold">{action.label}</span>
+                        {action.fact && <span className={factClass}>{action.fact}</span>}
                     </button>
                 );
 
@@ -152,7 +176,7 @@ export default function ServiceChat() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={stopAutoOpen}
-                        className={cn(optionClass, 'font-bold text-teal-700')}
+                        className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
                     </a>
@@ -161,7 +185,7 @@ export default function ServiceChat() {
                         key={index}
                         href={action.href}
                         onClick={leaveChat}
-                        className={cn(optionClass, 'font-bold text-teal-700')}
+                        className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
                     </Link>
@@ -177,7 +201,7 @@ export default function ServiceChat() {
                         key={index}
                         href={href}
                         onClick={stopAutoOpen}
-                        className={cn(optionClass, 'font-bold text-teal-700')}
+                        className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
                     </a>
@@ -186,7 +210,7 @@ export default function ServiceChat() {
                         key={index}
                         href={href}
                         onClick={leaveChat}
-                        className={cn(optionClass, 'font-bold text-teal-700')}
+                        className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
                     </Link>
@@ -199,10 +223,10 @@ export default function ServiceChat() {
                         key={index}
                         href={`tel:${TEL}`}
                         onClick={stopAutoOpen}
-                        className={cn(optionClass, 'font-bold text-teal-700')}
+                        className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
-                        <span className="u-num ml-auto text-[11px] font-normal text-gray-500">{TEL}</span>
+                        <span className={factClass}>{TEL}</span>
                     </a>
                 );
 
@@ -214,10 +238,12 @@ export default function ServiceChat() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={stopAutoOpen}
-                        className={cn(optionClass, 'font-bold text-[#06C755]')}
+                        className={cn(rowClass, 'font-bold text-line')}
                     >
                         {action.label}
-                        <span className="ml-auto text-[11px] font-normal text-gray-500">24時間受付</span>
+                        <span className="ml-auto shrink-0 text-[11px] font-normal text-gray-500">
+                            24時間受付
+                        </span>
                     </a>
                 );
         }
@@ -225,7 +251,7 @@ export default function ServiceChat() {
 
     return (
         <>
-            {/* 起動ボタン。スマホでは下部の固定バー（68px）に重ならない高さに置く */}
+            {/* 起動ボタン。車種ページ・トップページには高さ70px前後の固定バーが下にあるため、その上に置く */}
             <button
                 id="service-chat-toggle"
                 type="button"
@@ -237,13 +263,13 @@ export default function ServiceChat() {
                 aria-controls="service-chat-panel"
                 className={cn(
                     'u-tap fixed right-4 z-50 flex h-12 items-center gap-2 rounded-full bg-teal-700 px-4 text-sm font-bold text-white shadow-lg transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97] md:right-6 md:h-14 md:px-5',
-                    // 車種ページ・トップページには高さ70px前後の固定バーが下にあるため、その上に置く
                     'bottom-[calc(84px_+_env(safe-area-inset-bottom))]',
                     open && 'hidden'
                 )}
             >
+                {/* 受付票のアイコン（けい紙に記入する） */}
                 <svg aria-hidden="true" className="size-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 3C6.5 3 2 6.58 2 11c0 2.5 1.44 4.73 3.7 6.2-.14.9-.6 2.3-1.45 3.4-.2.26.05.63.37.54 2.1-.57 3.6-1.5 4.4-2.1.95.2 1.95.3 2.98.3 5.5 0 10-3.58 10-8S17.5 3 12 3Z" />
+                    <path d="M9 2a1 1 0 0 0-1 1v1H6.5A1.5 1.5 0 0 0 5 5.5v15A1.5 1.5 0 0 0 6.5 22h11a1.5 1.5 0 0 0 1.5-1.5v-15A1.5 1.5 0 0 0 17.5 4H16V3a1 1 0 0 0-1-1H9Zm0 2h6v1H9V4ZM8 9h8v1.5H8V9Zm0 4h8v1.5H8V13Zm0 4h5v1.5H8V17Z" />
                 </svg>
                 ご相談
             </button>
@@ -254,91 +280,121 @@ export default function ServiceChat() {
                     ref={panelRef}
                     tabIndex={-1}
                     role="dialog"
-                    aria-label="港南自動車サービスへのご相談"
-                    className="fixed inset-x-4 z-50 flex max-h-[min(70dvh,560px)] flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg outline-none bottom-[calc(84px_+_env(safe-area-inset-bottom))] md:inset-x-auto md:right-6 md:w-[380px]"
+                    aria-label="港南自動車サービス ご相談受付票"
+                    className="fixed inset-x-4 bottom-[calc(84px_+_env(safe-area-inset-bottom))] z-50 flex max-h-[min(70dvh,560px)] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg outline-none md:inset-x-auto md:right-6 md:w-[380px]"
                 >
-                    {/* ヘッダー：戻る／社名／閉じる */}
-                    <div className="flex items-center gap-2 bg-teal-700 px-3 py-2.5 text-white">
-                        {steps.length > 1 ? (
+                    {/* 受付票の見出し。本日の営業状態をここに出す */}
+                    <div className="shrink-0 px-5 pt-4">
+                        <div className="flex items-start justify-between gap-3">
+                            <div>
+                                <p className="text-balance text-[15px] font-bold leading-tight text-gray-900">
+                                    ご相談受付票
+                                </p>
+                                {today && (
+                                    <p
+                                        className={cn(
+                                            'mt-1 text-[11px]',
+                                            today.open ? 'text-teal-700' : 'text-red-700'
+                                        )}
+                                    >
+                                        <span className={today.open ? 'u-num' : undefined}>
+                                            {today.label}
+                                        </span>
+                                    </p>
+                                )}
+                            </div>
                             <button
                                 type="button"
-                                onClick={goBack}
-                                aria-label="ひとつ前に戻る"
-                                className="u-tap -ml-1 flex size-8 items-center justify-center rounded-full transition-colors hover:bg-white/15"
+                                onClick={() => {
+                                    setOpen(false);
+                                    stopAutoOpen();
+                                    document.getElementById('service-chat-toggle')?.focus();
+                                }}
+                                aria-label="受付票を閉じる"
+                                className="u-tap -mr-2 -mt-1 flex size-9 shrink-0 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
                             >
-                                <svg aria-hidden="true" className="size-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4-4.6-4.6z" />
+                                <svg
+                                    aria-hidden="true"
+                                    className="size-5"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 5.7 18.3 4.3 16.9 10.6 12 4.3 5.7 5.7 4.3 12 10.6l4.9-4.9z" />
                                 </svg>
                             </button>
-                        ) : (
-                            <span className="flex size-8 items-center justify-center rounded-full bg-white/15">
-                                <svg aria-hidden="true" className="size-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 3C6.5 3 2 6.58 2 11c0 2.5 1.44 4.73 3.7 6.2-.14.9-.6 2.3-1.45 3.4-.2.26.05.63.37.54 2.1-.57 3.6-1.5 4.4-2.1.95.2 1.95.3 2.98.3 5.5 0 10-3.58 10-8S17.5 3 12 3Z" />
-                                </svg>
-                            </span>
-                        )}
-                        <div className="flex-1 leading-tight">
-                            <p className="text-sm font-bold">港南自動車サービス</p>
-                            <p className="text-[11px] text-teal-100">ご相談の受付</p>
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setOpen(false);
-                                stopAutoOpen();
-                                document.getElementById('service-chat-toggle')?.focus();
-                            }}
-                            aria-label="チャットを閉じる"
-                            className="u-tap -mr-1 flex size-8 items-center justify-center rounded-full transition-colors hover:bg-white/15"
-                        >
-                            <svg aria-hidden="true" className="size-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 5.7 18.3 4.3 16.9 10.6 12 4.3 5.7 5.7 4.3 12 10.6l4.9-4.9z" />
-                            </svg>
-                        </button>
+                        <hr className="u-road mt-3" aria-hidden="true" />
                     </div>
 
-                    {/* やり取り。読み上げは追加分だけ伝わるよう polite にする */}
-                    <div ref={logRef} aria-live="polite" className="flex-1 overflow-y-auto px-3 py-4">
-                        {steps.map((step, stepIndex) => {
-                            const node = chatNodes[step.nodeId] ?? chatNodes.root;
-                            return (
-                                <div key={`${step.nodeId}-${stepIndex}`} className="flex flex-col gap-2.5">
-                                    {node.says.map((line, lineIndex) => (
-                                        <p
-                                            key={lineIndex}
-                                            className="max-w-[88%] rounded-lg rounded-tl-sm bg-gray-100 px-3 py-2 text-[13px] leading-relaxed text-gray-900"
-                                        >
-                                            {line}
-                                        </p>
-                                    ))}
-                                    {step.chose && (
-                                        <p className="mb-1 ml-auto max-w-[80%] rounded-lg rounded-tr-sm bg-teal-700 px-3 py-2 text-[13px] font-bold leading-relaxed text-white">
+                    {/* 記入内容。読み上げは追加分だけ伝わるよう polite にする */}
+                    <div ref={logRef} aria-live="polite" className="flex-1 overflow-y-auto px-5 py-4">
+                        {/* 答え終えた質問は、欄名と答えの1行として控えに残る */}
+                        {filledLines.length > 0 && (
+                            <dl className="mb-4">
+                                {filledLines.map((step, index) => (
+                                    <div
+                                        key={`${step.nodeId}-${index}`}
+                                        className="flex items-baseline justify-between gap-4 border-b border-gray-200 py-2"
+                                    >
+                                        <dt className="u-label shrink-0">
+                                            {chatNodes[step.nodeId]?.field ?? DEFAULT_FIELD}
+                                        </dt>
+                                        <dd className="text-right text-[13px] font-bold text-gray-900">
                                             {step.chose}
-                                        </p>
-                                    )}
-                                </div>
-                            );
-                        })}
+                                        </dd>
+                                    </div>
+                                ))}
+                            </dl>
+                        )}
 
-                        <div className="mt-3 flex flex-col gap-2">
-                            {currentNode.actions.map(renderAction)}
-                            {steps.length > 1 && (
+                        {/* いまの案内文 */}
+                        <div className="space-y-2">
+                            {currentNode.says.map((line, index) => (
+                                <p
+                                    key={index}
+                                    className="text-pretty text-[13px] leading-relaxed text-gray-700"
+                                >
+                                    {line}
+                                </p>
+                            ))}
+                        </div>
+
+                        {/* 次に記入する欄 */}
+                        <div
+                            role="group"
+                            aria-label={currentNode.field ?? DEFAULT_FIELD}
+                            className="mt-4"
+                        >
+                            <p className="u-label mb-2">{currentNode.field ?? DEFAULT_FIELD}</p>
+                            <div className="space-y-1.5">{currentNode.actions.map(renderAction)}</div>
+                        </div>
+
+                        {steps.length > 1 && (
+                            <div className="mt-3 flex gap-4 text-[12px] text-gray-500">
+                                <button
+                                    type="button"
+                                    onClick={goBack}
+                                    className="u-tap underline transition-colors hover:text-teal-700"
+                                >
+                                    ひとつ前に戻る
+                                </button>
                                 <button
                                     type="button"
                                     onClick={restart}
-                                    className="u-tap mt-1 self-start text-[12px] text-gray-500 underline transition-colors hover:text-teal-700"
+                                    className="u-tap underline transition-colors hover:text-teal-700"
                                 >
-                                    最初に戻る
+                                    最初から
                                 </button>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
 
-                    {/* いつでも人に繋がる導線。迷ったときの出口を常に出しておく */}
-                    <div className="grid grid-cols-2 border-t border-gray-200">
+                    {/* 人に繋がる導線。スマホではページ下部の固定バーと重なるので出さない */}
+                    <div className="hidden shrink-0 grid-cols-2 border-t border-gray-200 md:grid">
                         <a
                             href={`tel:${TEL}`}
-                            className="u-tap flex items-center justify-center gap-1.5 border-r border-gray-200 py-2.5 text-[12px] font-bold text-teal-700 transition-colors hover:bg-teal-50"
+                            onClick={stopAutoOpen}
+                            className="u-tap flex items-center justify-center gap-1.5 border-r border-gray-200 py-2.5 text-[12px] font-bold text-teal-700 transition-colors hover:bg-mint-50"
                         >
                             <svg aria-hidden="true" className="size-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
@@ -349,7 +405,8 @@ export default function ServiceChat() {
                             href={LINE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="u-tap flex items-center justify-center gap-1.5 py-2.5 text-[12px] font-bold text-[#06C755] transition-colors hover:bg-green-50"
+                            onClick={stopAutoOpen}
+                            className="u-tap flex items-center justify-center gap-1.5 py-2.5 text-[12px] font-bold text-line transition-colors hover:bg-mint-50"
                         >
                             <svg aria-hidden="true" className="size-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" />

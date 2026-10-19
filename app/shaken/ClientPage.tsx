@@ -11,65 +11,8 @@ import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 import { buildContactUrl, handoffToShareText } from '@/lib/contactHandoff';
 import { PLATE_LINE_TEMPLATE } from '@/lib/plateNumber';
 import { shakenFaq } from '@/lib/serviceFaq';
+import { pricingData, type CarType } from '@/lib/shakenPrices';
 
-// 車種タイプの定義
-type CarType = 'light' | 'small' | 'medium' | 'regular';
-
-// 料金データの定義
-const pricingData = {
-    light: {
-        name: '軽自動車',
-        weight: '全般',
-        basePrice: 15290,
-        treatment: 3630,
-        cleaning: 3300,
-        agency: 8580,
-        inspection: 8250,
-        statutoryFees: 25990,
-        total: 65040,
-        image: '/cars/delicamini.jpg',
-        description: 'ハスラー、タント、N-BOXなど'
-    },
-    small: {
-        name: '小型乗用車',
-        weight: '1.0t以下',
-        basePrice: 17490,
-        treatment: 4290,
-        cleaning: 4180,
-        agency: 8580,
-        inspection: 8800,
-        statutoryFees: 35900,
-        total: 79240,
-        image: '/cars/xbee.jpg',
-        description: 'ヴィッツ、フィット、パッソなど'
-    },
-    medium: {
-        name: '中型乗用車',
-        weight: '1.5t以下',
-        basePrice: 18590,
-        treatment: 4290,
-        cleaning: 4180,
-        agency: 8580,
-        inspection: 8800,
-        statutoryFees: 44100,
-        total: 88540,
-        image: '/cars/harrier.jpg',
-        description: 'カローラ、プリウス、アクセラなど'
-    },
-    regular: {
-        name: '普通乗用車',
-        weight: '2.0t以下',
-        basePrice: 21890,
-        treatment: 4290,
-        cleaning: 4180,
-        agency: 8580,
-        inspection: 8800,
-        statutoryFees: 52300,
-        total: 100040,
-        image: '/cars/alphard.jpg',
-        description: 'クラウン、アルファード、エルグランドなど'
-    }
-};
 
 // 割引オプションの定義。
 // amount は一律の割引額。車種クラスで金額が変わる割引は車種ごとの額を持たせる
