@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getTodayStatus } from '@/lib/businessDays';
@@ -54,21 +54,35 @@ export default function ServiceChat() {
     /** 本日の営業状態。日付はブラウザで決まるため、マウント後に入れる */
     const [today, setToday] = useState<{ open: boolean; label: string } | null>(null);
 
-    const panelRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLElement>(null);
     const logRef = useRef<HTMLDivElement>(null);
 
     // 自分で開いたときだけパネルへフォーカスを移すための印。
     // 自動で開いたときに移すと、ページを読み始めた方の操作位置を奪ってしまう
     const openedByUser = useRef(false);
 
+    /** 閉じたあとに起動ボタンへフォーカスを戻すかどうかの印 */
+    const restoreFocus = useRef(false);
+
     /** 次のページから自動で開かないようにする */
-    const stopAutoOpen = () => {
+    const stopAutoOpen = useCallback(() => {
         try {
             sessionStorage.setItem(AUTO_OPEN_DONE_KEY, '1');
         } catch {
             // プライベートモードなどで保存できないときは、そのまま（また開く）でよい
         }
-    };
+    }, []);
+
+    /**
+     * 受付票を閉じる。
+     * フォーカスが中にあったときだけ起動ボタンへ戻す。
+     * 自動で開いただけで触れていない場合に動かすと、読んでいる位置を奪ってしまう。
+     */
+    const closePanel = useCallback(() => {
+        restoreFocus.current = panelRef.current?.contains(document.activeElement) ?? false;
+        setOpen(false);
+        stopAutoOpen();
+    }, [stopAutoOpen]);
 
     // ページを開いたら自動で開く。
     // ただし一度閉じた方・すでに選択肢を使った方には、同じ訪問の間は出さない
@@ -83,17 +97,23 @@ export default function ServiceChat() {
 
     useEffect(() => setToday(getTodayStatus()), []);
 
-    // Escapeで閉じ、開閉ボタンへフォーカスを戻す
+    // Escapeで閉じる
     useEffect(() => {
         if (!open) return;
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key !== 'Escape') return;
-            setOpen(false);
-            stopAutoOpen();
-            document.getElementById('service-chat-toggle')?.focus();
+            closePanel();
         };
         document.addEventListener('keydown', onKeyDown);
         return () => document.removeEventListener('keydown', onKeyDown);
+    }, [open, closePanel]);
+
+    // 閉じたあとに起動ボタンへフォーカスを戻す。
+    // 閉じる処理の直後はボタンがまだ非表示で focus() が効かないため、描画後に行う
+    useEffect(() => {
+        if (open || !restoreFocus.current) return;
+        restoreFocus.current = false;
+        document.getElementById('service-chat-toggle')?.focus();
     }, [open]);
 
     // やり取りが進んだら最新の行まで送る。
@@ -152,12 +172,11 @@ export default function ServiceChat() {
     /** 行の右端に等幅で添える事実（料金・対応範囲・電話番号） */
     const factClass = 'u-num ml-auto shrink-0 text-[11px] font-normal text-gray-500';
 
-    const renderAction = (action: ChatAction, index: number) => {
+    const renderAction = (action: ChatAction) => {
         switch (action.kind) {
             case 'next':
                 return (
                     <button
-                        key={index}
                         type="button"
                         onClick={() => goNext(action.label, action.to)}
                         className={rowClass}
@@ -171,7 +190,6 @@ export default function ServiceChat() {
                 // 外部リンク（Googleマップ）は新しいタブ、サイト内はそのまま遷移する
                 return action.href.startsWith('http') ? (
                     <a
-                        key={index}
                         href={action.href}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -182,7 +200,6 @@ export default function ServiceChat() {
                     </a>
                 ) : (
                     <Link
-                        key={index}
                         href={action.href}
                         onClick={leaveChat}
                         className={cn(rowClass, 'font-bold text-teal-700')}
@@ -198,7 +215,6 @@ export default function ServiceChat() {
                 // そのときだけ a でフルリロードさせる（他ページからは Link のまま速く移る）
                 return pathname === '/' ? (
                     <a
-                        key={index}
                         href={href}
                         onClick={stopAutoOpen}
                         className={cn(rowClass, 'font-bold text-teal-700')}
@@ -207,7 +223,6 @@ export default function ServiceChat() {
                     </a>
                 ) : (
                     <Link
-                        key={index}
                         href={href}
                         onClick={leaveChat}
                         className={cn(rowClass, 'font-bold text-teal-700')}
@@ -220,7 +235,6 @@ export default function ServiceChat() {
             case 'tel':
                 return (
                     <a
-                        key={index}
                         href={`tel:${TEL}`}
                         onClick={stopAutoOpen}
                         className={cn(rowClass, 'font-bold text-teal-700')}
@@ -233,7 +247,6 @@ export default function ServiceChat() {
             case 'line':
                 return (
                     <a
-                        key={index}
                         href={LINE_URL}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -260,7 +273,6 @@ export default function ServiceChat() {
                     setOpen((prev) => !prev);
                 }}
                 aria-expanded={open}
-                aria-controls="service-chat-panel"
                 className={cn(
                     'u-tap fixed right-4 z-50 flex h-12 items-center gap-2 rounded-full bg-teal-700 px-4 text-sm font-bold text-white shadow-lg transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97] md:right-6 md:h-14 md:px-5',
                     'bottom-[calc(84px_+_env(safe-area-inset-bottom))]',
@@ -275,21 +287,25 @@ export default function ServiceChat() {
             </button>
 
             {open && (
-                <div
+                /* ダイアログではなく、起動ボタンで開閉する領域。
+                   フォーカスを閉じ込めずページも操作できるため、dialog とは名乗らない */
+                <section
                     id="service-chat-panel"
                     ref={panelRef}
                     tabIndex={-1}
-                    role="dialog"
-                    aria-label="港南自動車サービス ご相談受付票"
+                    aria-labelledby="service-chat-title"
                     className="fixed inset-x-4 bottom-[calc(84px_+_env(safe-area-inset-bottom))] z-50 flex max-h-[min(70dvh,560px)] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg outline-none md:inset-x-auto md:right-6 md:w-[380px]"
                 >
                     {/* 受付票の見出し。本日の営業状態をここに出す */}
                     <div className="shrink-0 px-5 pt-4">
                         <div className="flex items-start justify-between gap-3">
                             <div>
-                                <p className="text-balance text-[15px] font-bold leading-tight text-gray-900">
+                                <h2
+                                    id="service-chat-title"
+                                    className="text-balance text-[15px] font-bold leading-tight text-gray-900"
+                                >
                                     ご相談受付票
-                                </p>
+                                </h2>
                                 {today && (
                                     <p
                                         className={cn(
@@ -305,11 +321,7 @@ export default function ServiceChat() {
                             </div>
                             <button
                                 type="button"
-                                onClick={() => {
-                                    setOpen(false);
-                                    stopAutoOpen();
-                                    document.getElementById('service-chat-toggle')?.focus();
-                                }}
+                                onClick={closePanel}
                                 aria-label="受付票を閉じる"
                                 className="u-tap -mr-2 -mt-1 flex size-9 shrink-0 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
                             >
@@ -326,8 +338,8 @@ export default function ServiceChat() {
                         <hr className="u-road mt-3" aria-hidden="true" />
                     </div>
 
-                    {/* 記入内容。読み上げは追加分だけ伝わるよう polite にする */}
-                    <div ref={logRef} aria-live="polite" className="flex-1 overflow-y-auto px-5 py-4">
+                    {/* 記入内容 */}
+                    <div ref={logRef} className="flex-1 overflow-y-auto px-5 py-4">
                         {/* 答え終えた質問は、欄名と答えの1行として控えに残る */}
                         {filledLines.length > 0 && (
                             <dl className="mb-4">
@@ -347,8 +359,10 @@ export default function ServiceChat() {
                             </dl>
                         )}
 
-                        {/* いまの案内文 */}
-                        <div className="space-y-2">
+                        {/* いまの案内文。
+                            選択のたびに増えるのはここだけなので、読み上げ対象もここに限る。
+                            選択肢まで含めると受付票全体が毎回読み直されてしまう */}
+                        <div aria-live="polite" className="space-y-2">
                             {currentNode.says.map((line, index) => (
                                 <p
                                     key={index}
@@ -360,13 +374,16 @@ export default function ServiceChat() {
                         </div>
 
                         {/* 次に記入する欄 */}
-                        <div
-                            role="group"
-                            aria-label={currentNode.field ?? DEFAULT_FIELD}
-                            className="mt-4"
-                        >
-                            <p className="u-label mb-2">{currentNode.field ?? DEFAULT_FIELD}</p>
-                            <div className="space-y-1.5">{currentNode.actions.map(renderAction)}</div>
+                        <div role="group" aria-labelledby="service-chat-field" className="mt-4">
+                            <p id="service-chat-field" className="u-label mb-2">
+                                {currentNode.field ?? DEFAULT_FIELD}
+                            </p>
+                            {/* 「9項目中の3番目」が伝わるようリストにする */}
+                            <ul className="space-y-1.5">
+                                {currentNode.actions.map((action, index) => (
+                                    <li key={index}>{renderAction(action)}</li>
+                                ))}
+                            </ul>
                         </div>
 
                         {steps.length > 1 && (
@@ -414,7 +431,7 @@ export default function ServiceChat() {
                             LINEで送る
                         </a>
                     </div>
-                </div>
+                </section>
             )}
         </>
     );
