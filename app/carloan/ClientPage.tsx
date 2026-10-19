@@ -12,6 +12,7 @@ import { buildContactUrl } from '@/lib/contactHandoff';
 import { ANNUAL_INTEREST_RATE, LOAN_PAYMENTS, carBasePrices, formatPrice } from '@/lib/carPrices';
 import { solveMonthlyPayment } from '@/lib/loanCalculator';
 import { categoryLabels, sortedCarLineup, type CarCategory } from '@/lib/carLineup';
+import { carloanFaq } from '@/lib/serviceFaq';
 
 /** 実質年率の表示用（3.9%） */
 const RATE_LABEL = `${(ANNUAL_INTEREST_RATE * 100).toFixed(1)}%`;
@@ -53,34 +54,6 @@ const flowSteps = [
         step: '06',
         title: 'ご納車・お支払い開始',
         desc: 'お引き渡し時に、お支払いの開始時期と引き落とし日をご説明します。ご納車後の車検・点検・修理も当社で承ります。',
-    },
-];
-
-// カーローンに関する FAQ（構造化データにも使う）
-const faqData = [
-    {
-        question: '金沢市でカーローンを組むなら金利はどれくらいですか？',
-        answer: `港南自動車サービスのカーローン「ノレタ」は実質年率${RATE_LABEL}です。一般的なディーラーローン（4.9%〜）と比べても金利負担を抑えられます。支払回数は36回が基本です。`,
-    },
-    {
-        question: '頭金やボーナス払いは必要ですか？',
-        answer: '必要ありません。頭金0円・ボーナス払いなしで月々定額のお支払いにできます。ボーナス月に余裕があるときだけ追加で返済していただくことも可能です。',
-    },
-    {
-        question: '審査にはどんな書類が必要ですか？',
-        answer: '運転免許証などの本人確認書類のほか、お勤め先やご収入に関する情報をうかがいます。お車やご契約の内容によって必要書類が変わるため、仮審査のお申し込み時に当社からご案内します。',
-    },
-    {
-        question: '途中で繰上返済はできますか？',
-        answer: 'できます。「ノレタ」は残価設定型ではなく自由返済型のカーローンのため、繰上返済をすると返済期間が短くなり、そのぶん分割手数料が軽くなります。',
-    },
-    {
-        question: '車検やメンテナンス費用もローンに含められますか？',
-        answer: 'はい。車検費用、オイル交換、故障修理などを月々の定額に含める形にできます。急な出費に備えなくてよいので、家計の見通しが立てやすくなります。',
-    },
-    {
-        question: 'ローンとリースはどちらを選べばよいですか？',
-        answer: '個人のお客様は、完済後にお車がご自身のものになるカーローン「ノレタ」が基本です。リース料を経費として処理したい法人・個人事業主のお客様には、法人向けリース「ノリドク」をご案内しています。',
     },
 ];
 
@@ -128,7 +101,7 @@ export default function CarloanPage() {
     const faqSchema = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: faqData.map((item) => ({
+        mainEntity: Object.values(carloanFaq).map((item) => ({
             '@type': 'Question',
             name: item.question,
             acceptedAnswer: { '@type': 'Answer', text: item.answer },
@@ -565,7 +538,7 @@ export default function CarloanPage() {
                         </header>
 
                         <div className="mt-12 max-w-3xl">
-                            {faqData.map((item) => (
+                            {Object.values(carloanFaq).map((item) => (
                                 <details
                                     key={item.question}
                                     className="group mb-2 overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors duration-200 hover:border-mint-300"

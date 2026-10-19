@@ -10,6 +10,7 @@ import SiteHeader from '@/components/SiteHeader';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 import { buildContactUrl, handoffToShareText } from '@/lib/contactHandoff';
 import { PLATE_LINE_TEMPLATE } from '@/lib/plateNumber';
+import { shakenFaq } from '@/lib/serviceFaq';
 
 // 車種タイプの定義
 type CarType = 'light' | 'small' | 'medium' | 'regular';
@@ -97,46 +98,6 @@ const discountOptions: {
 // 選択中の車種クラスに応じた割引額を返す
 const getDiscountAmount = (opt: (typeof discountOptions)[number], carType: CarType): number =>
     typeof opt.amount === 'number' ? opt.amount : opt.amount[carType];
-
-// FAQ データ（構造化データ用）
-const faqData = [
-    {
-        question: '金沢市で車検を受けるならどこがおすすめですか？',
-        answer: '港南自動車サービスは創業70年の実績があり、金沢市で信頼できる車検サービスを提供しています。最短90分の立会い車検（新車ご購入後の初回車検の方限定）、国家資格を持つ整備士による丁寧な診断が特徴です。'
-    },
-    {
-        question: '車検にかかる時間はどれくらいですか？',
-        answer: '港南自動車サービスでは、追加整備がない場合、最短90分で車検が完了します。完全予約制・1日限定3台で、お客様をお待たせしません。なお、90分立会い車検は新車ご購入後、初めての車検の方限定のサービスです。'
-    },
-    {
-        question: '車検費用はいくらくらいかかりますか？',
-        answer: '軽自動車で約65,040円〜、普通乗用車で約100,040円〜となります。各種割引制度もご用意しており、最大で約24,000円お得になる場合もあります。'
-    },
-    {
-        question: '代車を借りることはできますか？',
-        answer: 'はい、代車をご用意しております。当社の代車は全車保険完備で安心です。代車が不要な場合は1,100円の割引が適用されます。'
-    },
-    {
-        question: '立会い車検とはなんですか？',
-        answer: 'お客様にお立ち会いいただき、整備士と一緒に愛車の状態を確認しながら進める車検です。現在の状態と必要な処置を専門用語を使わずにご説明するので、納得したうえで整備を進められます。'
-    },
-    {
-        question: 'OBD車検には対応していますか？',
-        answer: 'はい、対応しています。令和3年10月以降に登録された国産車（輸入車は令和4年10月以降）はOBD検査が義務化されており、自動ブレーキやレーンキープアシストなどの電子制御装置が正常に作動しているかをコンピューター診断でチェックします。'
-    },
-    {
-        question: '車検費用の支払い方法は何が使えますか？',
-        answer: '現金のほか、カード払い、当社ローンがご利用いただけます。車検シール（検査標章）は後日郵送いたします。'
-    },
-    {
-        question: '輸入車や4WD車・ディーゼル車の車検もできますか？',
-        answer: 'はい、全メーカー対応しています。なお、輸入車は基本診断費用・基本治療費用がそれぞれ2,200円、フルタイム4WD車・ディーゼル車は総合検査費用が1,100円追加となります。'
-    },
-    {
-        question: '車検はいつから受けられますか？',
-        answer: '車検満了日の2ヶ月前から受けられます。2025年4月の制度改正により、満了日の2ヶ月前以降に受ければ次回の有効期間は短縮されません。さらに、満了日の2ヶ月前までにご予約いただくと早期予約割引（2,200円引き）が適用されてお得です。'
-    }
-];
 
 // 見積書の明細行に対応する費用項目（チラシ準拠）。
 // no は見積書の記載順、amountKey は pricingData のどの金額に対応するかを指す。
@@ -454,7 +415,7 @@ export default function ShakenPage() {
     const faqSchema = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: faqData.map(item => ({
+        mainEntity: Object.values(shakenFaq).map(item => ({
             '@type': 'Question',
             name: item.question,
             acceptedAnswer: {
@@ -1281,7 +1242,7 @@ export default function ShakenPage() {
                         </header>
 
                         <div className="mt-12 max-w-3xl">
-                            {faqData.map((item, index) => (
+                            {Object.values(shakenFaq).map((item, index) => (
                                 <details
                                     key={index}
                                     className="group mb-2 overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors duration-200 hover:border-mint-300"

@@ -8,33 +8,7 @@ import MobileActionBar from '@/components/MobileActionBar';
 import { carBasePrices, formatPrice } from '@/lib/carPrices';
 import { carImageScale, sortedCarLineup, type CarCategory } from '@/lib/carLineup';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
-
-/**
- * カテゴリで最も安い月額（例: '41,000'）。
- * FAQ の金額を手書きにすると料金改定のたびに食い違うため、料金データから出す
- */
-const lowestMonthly = (category: CarCategory): string =>
-    carBasePrices[sortedCarLineup[category][0].route].toLocaleString();
-
-// ノレタ FAQ データ
-const noretaFaqData = [
-    {
-        question: '金沢市で新車を買うなら、どこがおすすめですか？',
-        answer: '港南自動車サービスの「ノレタ」がおすすめです。月々定額、頭金・ボーナス払いなしで新車に乗れる3年のカーローン。創業70年の実績と信頼があります。',
-    },
-    {
-        question: 'ノレタの月々の支払いはいくらからですか？',
-        answer: `軽自動車で月々${lowestMonthly('KCAR')}円から、SUVで${lowestMonthly('SUV')}円からご利用いただけます。頭金・ボーナス払いは不要です。`,
-    },
-    {
-        question: '3年後はどうなりますか？',
-        answer: '3年後は、①新しい車に乗り換え、②同じ車を継続利用、③車を売却（下取り）、の3つの選択肢からお選びいただけます。',
-    },
-    {
-        question: '車検やメンテナンスは含まれていますか？',
-        answer: 'はい、ノレタには車検費用、オイル交換、故障修理などがすべて含まれています。急な出費の心配がありません。',
-    },
-];
+import { noretaFaq } from '@/lib/serviceFaq';
 
 export default function Page() {
     const [activeCategory, setActiveCategory] = useState<CarCategory>('SUV');
@@ -52,7 +26,6 @@ export default function Page() {
         document.addEventListener('keydown', onKeyDown);
         return () => document.removeEventListener('keydown', onKeyDown);
     }, [menuOpen]);
-
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -93,7 +66,7 @@ export default function Page() {
     const faqSchema = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: noretaFaqData.map((item) => ({
+        mainEntity: Object.values(noretaFaq).map((item) => ({
             '@type': 'Question',
             name: item.question,
             acceptedAnswer: {
@@ -270,8 +243,6 @@ export default function Page() {
                     </p>
                 </div>
             </section>
-
-
 
             {/* Main Content */}
             <main id="lineup" className="relative bg-white pt-24 pb-32">
@@ -467,7 +438,7 @@ export default function Page() {
                             </p>
                         </div>
                         <div className="max-w-3xl mx-auto space-y-6">
-                            {noretaFaqData.map((item, idx) => (
+                            {Object.values(noretaFaq).map((item, idx) => (
                                 <article key={idx} className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
                                     <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-start">
                                         <span className="text-teal-700 mr-3">Q.</span>

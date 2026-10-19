@@ -7,26 +7,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
 import { buildContactUrl } from '@/lib/contactHandoff';
-
-// ノリドク FAQ データ
-const noridokuFaqData = [
-    {
-        question: '法人向けカーリースのメリットは何ですか？',
-        answer: 'リース料は全額経費として計上でき、固定資産税や保険の管理が不要になります。また、キャッシュフローが安定し、銀行融資枠を温存できます。',
-    },
-    {
-        question: 'ノリドクの金利はどれくらいですか？',
-        answer: '業界最安水準の2.5%〜でご提供しています。一般的なディーラーローン（4〜8%）と比較して大幅にコストを削減できます。',
-    },
-    {
-        question: '途中解約はできますか？',
-        answer: 'はい、ノリドクは中途解約時の違約金をいただきません。ビジネスの変化に柔軟に対応できます。',
-    },
-    {
-        question: 'どのような車種が利用できますか？',
-        answer: '軽自動車から商用バン、高級セダンまで、全メーカー・全車種に対応しています。御社のニーズに合わせた車両をご提案します。',
-    },
-];
+import { noridokuFaq } from '@/lib/serviceFaq';
 
 // 車両耐用年数データ
 const VEHICLE_TYPES = [
@@ -68,7 +49,6 @@ export default function NoridokuPage() {
         document.addEventListener('keydown', onKeyDown);
         return () => document.removeEventListener('keydown', onKeyDown);
     }, [menuOpen]);
-
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -193,12 +173,11 @@ export default function NoridokuPage() {
     const interestA = calcInterest(interestRateA, leasePeriod);
     const interestB = calcInterest(interestRateB, leasePeriod);
 
-
     // FAQPage 構造化データ
     const faqSchema = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: noridokuFaqData.map((item) => ({
+        mainEntity: Object.values(noridokuFaq).map((item) => ({
             '@type': 'Question',
             name: item.question,
             acceptedAnswer: {
@@ -685,7 +664,7 @@ export default function NoridokuPage() {
                             </p>
                         </div>
                         <div className="max-w-3xl mx-auto space-y-6">
-                            {noridokuFaqData.map((item, idx) => (
+                            {Object.values(noridokuFaq).map((item, idx) => (
                                 <article key={idx} className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
                                     <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-start">
                                         <span className="text-blue-600 mr-3">Q.</span>

@@ -18,6 +18,7 @@ import {
     handoffToMessage,
     type ContactHandoff,
 } from '@/lib/contactHandoff';
+import { topFaq } from '@/lib/serviceFaq';
 
 // 祝日・特別休業日の名称（カレンダーに表示する）
 const JAPANESE_HOLIDAYS: Record<string, string> = {
@@ -114,38 +115,6 @@ for (let hour = 9; hour < 17; hour++) {
 }
 TIME_SLOTS.push('17:00');
 
-// トップページ FAQ データ（表示と FAQPage 構造化データの両方で使用）
-const topFaqData = [
-    {
-        question: '営業時間と定休日を教えてください。',
-        answer: '営業時間は平日9:00〜18:00、土曜9:00〜17:00です。日曜・祝日は定休日です。土曜日は月によって営業日と定休日が変わりますので、ご来店前にトップページの営業カレンダーをご確認ください。',
-    },
-    {
-        question: '車検はどのくらいの時間で終わりますか？',
-        answer: '追加整備がない場合、最短90分で完了します。完全予約制・1日限定3台で対応しているため、お待たせしません。なお、90分立会い車検は新車ご購入後、初めての車検の方限定のサービスです。',
-    },
-    {
-        question: '車検の費用はいくらかかりますか？',
-        answer: '法定費用込みの総額で、軽自動車65,040円〜、普通乗用車100,040円〜です。持込・引取割引や早期予約割引など各種割引制度の組み合わせで、最大約24,000円お得になります。',
-    },
-    {
-        question: 'カーローン「ノレタ」とはどんなサービスですか？',
-        answer: '月々定額・頭金なし・ボーナス払いなしで新車に乗れる3年のカーローンです。車検費用・オイル交換・故障修理もすべてコミコミ。3年後は「乗り換え」「継続利用」「売却（下取り）」から選べます。',
-    },
-    {
-        question: '法人向けのカーリースはありますか？',
-        answer: 'はい、法人・個人事業主向けカーリース「ノリドク」をご用意しています。月々定額で経費処理が簡単になり、車両管理の手間も削減できます。全メーカー対応・メンテナンスパック付きです。',
-    },
-    {
-        question: 'どのメーカーの車でも対応できますか？',
-        answer: 'はい、全メーカーに対応しています。車検・整備はもちろん、新車・中古車販売もメーカーを問わずご相談いただけます。',
-    },
-    {
-        question: '故障や事故のときはどうすればいいですか？',
-        answer: 'まずはお電話（076-268-1788）でご連絡ください。状況をお伺いし、修理・点検のご案内をいたします。自走できない場合は、ご加入の自動車保険のロードサービスをご利用のうえ、搬入先として当社をご指定いただけます。',
-    },
-];
-
 export default function Page() {
     const [visibleSections, setVisibleSections] = useState({
         hero: true,
@@ -214,6 +183,19 @@ export default function Page() {
             category: received.category,
             message: handoffToMessage(received),
         }));
+        // フルリロードで来たときは #contact へのアンカー移動が効かない。
+        // 上の画像が読み込まれる前に位置が決まるうえ、ブラウザが元のスクロール位置を
+        // 戻してしまうため。読み込みが終わってから自分でフォームまで送る。
+        // scroll-smooth が効くと長距離の移動が目で追えないので instant で飛ばす
+        const scrollToForm = () =>
+            document.getElementById('contact')?.scrollIntoView({ behavior: 'instant' });
+
+        if (document.readyState === 'complete') {
+            scrollToForm();
+            return;
+        }
+        window.addEventListener('load', scrollToForm, { once: true });
+        return () => window.removeEventListener('load', scrollToForm);
     }, []);
 
     useEffect(() => {
@@ -1238,7 +1220,7 @@ export default function Page() {
                         __html: JSON.stringify({
                             '@context': 'https://schema.org',
                             '@type': 'FAQPage',
-                            mainEntity: topFaqData.map((item) => ({
+                            mainEntity: Object.values(topFaq).map((item) => ({
                                 '@type': 'Question',
                                 name: item.question,
                                 acceptedAnswer: {
@@ -1265,7 +1247,7 @@ export default function Page() {
                     </header>
 
                     <div className="mt-12">
-                        {topFaqData.map((item, index) => (
+                        {Object.values(topFaq).map((item, index) => (
                             <details key={index} className="group mb-2 overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors duration-200 hover:border-mint-300">
                                 <summary className="flex cursor-pointer items-start gap-4 p-5 md:p-6">
                                     <span className="u-num mt-0.5 shrink-0 text-sm font-medium text-teal-700">
@@ -1892,30 +1874,6 @@ export default function Page() {
                     </div>
                 </div>
             </footer>
-
-            {/* Floating Contact Button（スマホでは下部固定バーがあるため非表示） */}
-            <div className="fixed bottom-6 right-6 z-30 hidden md:block">
-                <a
-                    href="#contact"
-                    className="group flex h-12 items-center gap-3 rounded-full bg-teal-700 px-5 text-sm font-bold text-white shadow-lg transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97]"
-                >
-                    <svg aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="size-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.75}
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                        />
-                    </svg>
-                    お問い合わせ
-                </a>
-            </div>
 
             {/* スマホ用の電話・LINE固定バー */}
             <MobileActionBar />

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import ServiceChat from '@/components/ServiceChat';
 import { ogImage } from '@/lib/imageSize';
 import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
@@ -220,6 +221,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
                 />
                 {children}
+                {/* サービス案内のチャットボット。全ページ共通で右下に常駐する
+                    （自動車以外のページでは components/ServiceChat.tsx 側で出さない） */}
+                <ServiceChat />
             </body>
             <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ''} />
         </html>

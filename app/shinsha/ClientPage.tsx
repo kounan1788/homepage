@@ -18,6 +18,7 @@ import {
     sortedCarLineup,
     type CarCategory,
 } from '@/lib/carLineup';
+import { shinshaFaq } from '@/lib/serviceFaq';
 
 // 新車購入の流れ。納期は車種で大きく変わるため、日数は書かずに手順だけを示す
 const flowSteps = [
@@ -48,34 +49,6 @@ const flowSteps = [
     },
 ];
 
-// 新車購入に関する FAQ（構造化データにも使う）
-const faqData = [
-    {
-        question: '金沢市で新車を買うなら、どこがおすすめですか？',
-        answer: '港南自動車サービスは石川県金沢市で創業70年の自動車整備工場兼販売店です。全メーカーの新車を取り扱い、購入後の車検・点検・修理まで同じ工場で対応します。頭金なし・月々27,000円からのカーローン「ノレタ」もご用意しています。',
-    },
-    {
-        question: '頭金なしで新車を買えますか？',
-        answer: 'はい。カーローン「ノレタ」なら頭金0円・ボーナス払いなしで新車にお乗りいただけます。実質年率3.9%、支払回数36回が基本で、車検やオイル交換などの維持費も月々の定額に含まれます。',
-    },
-    {
-        question: '取り扱っているメーカーを教えてください。',
-        answer: 'トヨタ・レクサス・ホンダ・スズキ・ダイハツ・三菱などをはじめ、全メーカーの新車をお取り扱いしています。サイトの一覧にない車種もお取り寄せできますので、ご希望の車種をお聞かせください。',
-    },
-    {
-        question: '今乗っている車の下取りはできますか？',
-        answer: 'はい、下取りも承ります。年式・走行距離・状態を確認したうえで査定額をお出しし、新車のお見積りに反映します。',
-    },
-    {
-        question: '納車までどれくらいかかりますか？',
-        answer: '車種・グレード・オプションによって大きく異なります。ご相談いただいた時点での最新の納期をメーカーに確認し、お見積りとあわせてご案内します。',
-    },
-    {
-        question: '新車を買ったあとの車検や点検もお願いできますか？',
-        answer: 'はい。当社は金沢市金石本町の運輸局指定工場（民間車検場）です。ご購入後の法定点検・車検・修理まで一貫して承ります。当社でご購入いただいたお車の初回車検は、最短90分の立会い車検をご利用いただけます。',
-    },
-];
-
 // カテゴリの表示順。台数が多く問い合わせも多い軽自動車から見せる
 const categoryOrder: CarCategory[] = ['KCAR', 'SUV', 'MINIVAN'];
 
@@ -90,7 +63,7 @@ export default function ShinshaPage() {
     const faqSchema = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: faqData.map((item) => ({
+        mainEntity: Object.values(shinshaFaq).map((item) => ({
             '@type': 'Question',
             name: item.question,
             acceptedAnswer: { '@type': 'Answer', text: item.answer },
@@ -563,7 +536,7 @@ export default function ShinshaPage() {
                         </header>
 
                         <div className="mt-12 max-w-3xl">
-                            {faqData.map((item) => (
+                            {Object.values(shinshaFaq).map((item) => (
                                 <details
                                     key={item.question}
                                     className="group mb-2 overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors duration-200 hover:border-mint-300"
