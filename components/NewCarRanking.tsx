@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import Link from 'next/link';
 import ArrowRight from '@/components/ArrowRight';
 import { buildContactUrl } from '@/lib/contactHandoff';
@@ -14,11 +14,14 @@ import {
 } from '@/lib/carRanking';
 
 /**
- * 全国の新車販売ランキング（軽自動車・乗用車の各1〜5位）。
+ * 全国の新車販売ランキング（軽自動車・乗用車の各1〜15位）。
  *
  * 毎月の更新は lib/carRanking.ts の集計月と台数を書き替えるだけで済むようにしており、
  * このファイルは並べ方（見た目）と、各行から次に進む先の出し分けだけを持ちます。
  */
+
+/** 最初に見せる件数。残りは「もっと見る」で開く */
+const INITIAL_COUNT = 5;
 
 // 空の配列はカードごと出さない（見出しだけが残るのを避ける）
 const groups: { title: string; items: RankingItem[] }[] = [
@@ -35,6 +38,97 @@ function rowHref(car: RankingItem): string {
         category: '新車販売',
         lines: [`車種: ${car.maker} ${car.name}`],
     });
+}
+
+/**
+ * カテゴリ1つぶんのカード。
+ * 6位以降は閉じている間も DOM に残して CSS で隠す。
+ * 条件レンダリングにすると下位の車種ページへのリンクが静的HTMLから消え、
+ * クローラーから到達できなくなるため（取扱車種の一覧と同じ考え方）。
+ */
+function RankingCard({ title, items }: { title: string; items: RankingItem[] }) {
+    const [expanded, setExpanded] = useState(false);
+    const listId = useId();
+    const hasMore = items.length > INITIAL_COUNT;
+    const shownCount = expanded || !hasMore ? items.length : INITIAL_COUNT;
+
+    return (
+        <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+            <header className="flex items-baseline justify-between gap-4 border-b border-gray-200 px-5 py-4">
+                <h4 className="text-lg font-bold tracking-ja text-gray-900">{title}</h4>
+                <span className="u-label">Top {shownCount}</span>
+            </header>
+
+            <ol id={listId}>
+                {items.map((car, index) => (
+                    <li
+                        key={car.name}
+                        className={cn(
+                            'border-t border-gray-100 first:border-t-0',
+                            index >= INITIAL_COUNT && !expanded && 'hidden'
+                        )}
+                    >
+                        <Link
+                            href={rowHref(car)}
+                            className="group flex items-center gap-4 px-5 py-3.5 transition-colors duration-200 hover:bg-mint-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-teal-700"
+                        >
+                            <span
+                                className={cn(
+                                    'u-num flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] font-bold',
+                                    index === 0
+                                        ? 'bg-teal-700 text-white'
+                                        : 'bg-mint-100 text-teal-800'
+                                )}
+                                aria-hidden="true"
+                            >
+                                {index + 1}
+                            </span>
+                            <span className="min-w-0 flex-1">
+                                <span className="block text-[15px] font-bold text-gray-900">
+                                    <span className="sr-only">{index + 1}位 </span>
+                                    {car.name}
+                                    <span className="sr-only">
+                                        {car.route
+                                            ? 'の車種ページを見る'
+                                            : 'のお取り寄せを相談する'}
+                                    </span>
+                                </span>
+                                <span className="mt-0.5 block text-xs text-gray-500">
+                                    {car.maker}
+                                </span>
+                            </span>
+                            <span className="flex shrink-0 items-center gap-2">
+                                <span className="u-num whitespace-nowrap text-[15px] text-gray-700">
+                                    {car.units.toLocaleString()}
+                                    <span className="ml-0.5 text-xs text-gray-500">台</span>
+                                </span>
+                                <ArrowRight className="shrink-0 text-gray-400 transition-[color,transform] duration-200 group-hover:translate-x-0.5 group-hover:text-teal-700" />
+                            </span>
+                        </Link>
+                    </li>
+                ))}
+            </ol>
+
+            {hasMore && (
+                <button
+                    type="button"
+                    onClick={() => setExpanded(!expanded)}
+                    aria-expanded={expanded}
+                    aria-controls={listId}
+                    aria-label={`${title}の${INITIAL_COUNT + 1}〜${items.length}位を${expanded ? '閉じる' : 'もっと見る'}`}
+                    className="flex w-full items-center justify-center gap-2 border-t border-gray-100 px-5 py-3.5 text-[13px] font-bold text-teal-700 transition-colors duration-200 hover:bg-mint-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-teal-700"
+                >
+                    {expanded ? '閉じる' : 'もっと見る'}
+                    <ArrowRight
+                        className={cn(
+                            'shrink-0 transition-transform duration-200',
+                            expanded && 'rotate-180'
+                        )}
+                    />
+                </button>
+            )}
+        </section>
+    );
 }
 
 export default function NewCarRanking() {
@@ -67,66 +161,7 @@ export default function NewCarRanking() {
 
             <div className="mt-6 grid gap-5 md:grid-cols-2">
                 {groups.map((group) => (
-                    <section
-                        key={group.title}
-                        className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
-                    >
-                        <header className="flex items-baseline justify-between gap-4 border-b border-gray-200 px-5 py-4">
-                            <h4 className="text-lg font-bold tracking-ja text-gray-900">
-                                {group.title}
-                            </h4>
-                            <span className="u-label">Top 5</span>
-                        </header>
-
-                        <ol>
-                            {group.items.map((car, index) => (
-                                <li
-                                    key={car.name}
-                                    className="border-b border-gray-100 last:border-b-0"
-                                >
-                                    <Link
-                                        href={rowHref(car)}
-                                        className="group flex items-center gap-4 px-5 py-3.5 transition-colors duration-200 hover:bg-mint-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-teal-700"
-                                    >
-                                        <span
-                                            className={cn(
-                                                'u-num flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] font-bold',
-                                                index === 0
-                                                    ? 'bg-teal-700 text-white'
-                                                    : 'bg-mint-100 text-teal-800'
-                                            )}
-                                            aria-hidden="true"
-                                        >
-                                            {index + 1}
-                                        </span>
-                                        <span className="min-w-0 flex-1">
-                                            <span className="block text-[15px] font-bold text-gray-900">
-                                                <span className="sr-only">{index + 1}位 </span>
-                                                {car.name}
-                                                <span className="sr-only">
-                                                    {car.route
-                                                        ? 'の車種ページを見る'
-                                                        : 'のお取り寄せを相談する'}
-                                                </span>
-                                            </span>
-                                            <span className="mt-0.5 block text-xs text-gray-500">
-                                                {car.maker}
-                                            </span>
-                                        </span>
-                                        <span className="flex shrink-0 items-center gap-2">
-                                            <span className="u-num whitespace-nowrap text-[15px] text-gray-700">
-                                                {car.units.toLocaleString()}
-                                                <span className="ml-0.5 text-xs text-gray-500">
-                                                    台
-                                                </span>
-                                            </span>
-                                            <ArrowRight className="shrink-0 text-gray-400 transition-[color,transform] duration-200 group-hover:translate-x-0.5 group-hover:text-teal-700" />
-                                        </span>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ol>
-                    </section>
+                    <RankingCard key={group.title} title={group.title} items={group.items} />
                 ))}
             </div>
 
