@@ -247,7 +247,7 @@ export default function ShinshaPage() {
                             <div
                                 key={cat}
                                 className={cn(
-                                    'mt-10 grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3',
+                                    'mt-10 grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3',
                                     activeCategory === cat ? 'grid' : 'hidden'
                                 )}
                             >
@@ -264,20 +264,20 @@ export default function ShinshaPage() {
                                                     src={car.image}
                                                     alt={`${car.maker} ${car.name}｜金沢市の新車販売・港南自動車サービス`}
                                                     fill
-                                                    sizes="(max-width: 768px) 100vw, 33vw"
+                                                    sizes="(max-width: 1024px) 50vw, 33vw"
                                                     className="absolute left-0 top-0 object-contain p-3"
                                                     style={{
                                                         transform: `scale(${carImageScale[car.image] ?? 1})`,
                                                     }}
                                                 />
                                             </div>
-                                            <div className="flex flex-1 flex-col border-t border-gray-200 px-5 py-4">
+                                            <div className="flex flex-1 flex-col border-t border-gray-200 px-3 py-3 sm:px-5 sm:py-4">
                                                 <span className="u-label">{car.maker}</span>
-                                                <div className="mt-2 flex items-baseline justify-between gap-4">
-                                                    <h3 className="text-lg font-bold tracking-ja text-gray-900 text-balance">
+                                                <div className="mt-1.5 flex flex-col gap-0.5 sm:mt-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                                                    <h3 className="text-[15px] font-bold tracking-ja text-gray-900 text-balance sm:text-lg">
                                                         {car.name}
                                                     </h3>
-                                                    <span className="u-num whitespace-nowrap text-lg font-medium text-teal-700">
+                                                    <span className="u-num whitespace-nowrap text-[15px] font-medium text-teal-700 sm:text-lg">
                                                         {formatPrice(carBasePrices[car.route])}
                                                     </span>
                                                 </div>
