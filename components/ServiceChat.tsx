@@ -37,6 +37,12 @@ const HIDDEN_PATH_PREFIXES = [
  */
 const AUTO_OPEN_DONE_KEY = 'kounan-service-chat-opened';
 
+/**
+ * 自動で開くまでの待ち時間（ミリ秒）。
+ * 開いたページを見てもらう時間を取ってから出す。短すぎると何のページか分からなくなる。
+ */
+const AUTO_OPEN_DELAY_MS = 5000;
+
 /** 欄名が決まっていないノード（答えを返すだけのノード）で使う既定の欄名 */
 const DEFAULT_FIELD = '次のご案内';
 
@@ -84,15 +90,21 @@ export default function ServiceChat() {
         stopAutoOpen();
     }, [stopAutoOpen]);
 
-    // ページを開いたら自動で開く。
+    // ページを開いてしばらくしてから自動で開く。
+    // 読み込みと同時に出すと、どのページを開いたのか分からなくなるため間を置く。
     // ただし一度閉じた方・すでに選択肢を使った方には、同じ訪問の間は出さない
     useEffect(() => {
-        try {
-            if (sessionStorage.getItem(AUTO_OPEN_DONE_KEY)) return;
-        } catch {
-            // 読めないときは開く側に倒す
-        }
-        setOpen(true);
+        const timer = setTimeout(() => {
+            try {
+                // 待っている間に閉じられたかどうかを、開く直前に見る
+                if (sessionStorage.getItem(AUTO_OPEN_DONE_KEY)) return;
+            } catch {
+                // 読めないときは開く側に倒す
+            }
+            setOpen(true);
+        }, AUTO_OPEN_DELAY_MS);
+
+        return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => setToday(getTodayStatus()), []);
