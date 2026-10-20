@@ -6,6 +6,7 @@ import Image from 'next/image';
 import ArrowRight from '@/components/ArrowRight';
 import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
+import NewCarRanking from '@/components/NewCarRanking';
 import PurchaseMethodTable from '@/components/PurchaseMethodTable';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
@@ -286,6 +287,10 @@ export default function ShinshaPage() {
                                 ))}
                             </div>
                         ))}
+
+                        {/* 全国の新車販売ランキング（毎月更新。数値は lib/carRanking.ts）。
+                            データが空のときは区切り線ごと消えるよう、上の余白と罫線は component 側に持たせています */}
+                        <NewCarRanking />
 
                         <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                             <a
