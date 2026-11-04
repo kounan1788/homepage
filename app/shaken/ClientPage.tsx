@@ -1287,6 +1287,14 @@ export default function ShakenPage() {
                                 <p className="mt-4 max-w-lg text-[15px] leading-loose text-white/80">
                                     完全予約制・1日限定3台です。お電話かLINEでご希望日をお知らせください。車検満了日の2ヶ月前までのご予約で早期予約割引が適用されます。
                                 </p>
+                                <p className="mt-6 text-[15px] leading-loose text-white/80">
+                                    <Link
+                                        href="/shaken-reminder"
+                                        className="font-bold text-white underline decoration-white/40 underline-offset-4 transition-colors hover:decoration-white"
+                                    >
+                                        まだ車検時期が先の方へ：満了日をLINEでお知らせします
+                                    </Link>
+                                </p>
                             </div>
                             <div className="grid gap-3 md:col-span-5">
                                 <a

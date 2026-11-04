@@ -30,6 +30,7 @@ const ROUTE_SETTINGS: Record<string, RouteSetting> = {
     '/noreta': { changeFrequency: 'weekly', priority: 0.9 },
     '/noridoku': { changeFrequency: 'weekly', priority: 0.9 },
     '/shaken': { changeFrequency: 'monthly', priority: 0.8 },
+    '/shaken-reminder': { changeFrequency: 'monthly', priority: 0.7 },
     '/it-support': { changeFrequency: 'monthly', priority: 0.8 },
     '/it-support/pricing': { changeFrequency: 'monthly', priority: 0.7 },
     '/recruit': { changeFrequency: 'monthly', priority: 0.7 },
