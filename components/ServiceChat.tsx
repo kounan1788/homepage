@@ -30,19 +30,6 @@ const HIDDEN_PATH_PREFIXES = [
     '/horse-run',
 ];
 
-/**
- * 自動で開くのをやめる印。
- * 一度閉じた方や、すでに選択肢を使った方に、同じ訪問の間ずっと出し続けないため。
- * sessionStorage なのでタブを閉じると消え、次のご来訪ではまた開く。
- */
-const AUTO_OPEN_DONE_KEY = 'kounan-service-chat-opened';
-
-/**
- * 自動で開くまでの待ち時間（ミリ秒）。
- * 開いたページを見てもらう時間を取ってから出す。短すぎると何のページか分からなくなる。
- */
-const AUTO_OPEN_DELAY_MS = 5000;
-
 /** 欄名が決まっていないノード（答えを返すだけのノード）で使う既定の欄名 */
 const DEFAULT_FIELD = '次のご案内';
 
@@ -63,21 +50,8 @@ export default function ServiceChat() {
     const panelRef = useRef<HTMLElement>(null);
     const logRef = useRef<HTMLDivElement>(null);
 
-    // 自分で開いたときだけパネルへフォーカスを移すための印。
-    // 自動で開いたときに移すと、ページを読み始めた方の操作位置を奪ってしまう
-    const openedByUser = useRef(false);
-
     /** 閉じたあとに起動ボタンへフォーカスを戻すかどうかの印 */
     const restoreFocus = useRef(false);
-
-    /** 次のページから自動で開かないようにする */
-    const stopAutoOpen = useCallback(() => {
-        try {
-            sessionStorage.setItem(AUTO_OPEN_DONE_KEY, '1');
-        } catch {
-            // プライベートモードなどで保存できないときは、そのまま（また開く）でよい
-        }
-    }, []);
 
     /**
      * 受付票を閉じる。
@@ -87,24 +61,6 @@ export default function ServiceChat() {
     const closePanel = useCallback(() => {
         restoreFocus.current = panelRef.current?.contains(document.activeElement) ?? false;
         setOpen(false);
-        stopAutoOpen();
-    }, [stopAutoOpen]);
-
-    // ページを開いてしばらくしてから自動で開く。
-    // 読み込みと同時に出すと、どのページを開いたのか分からなくなるため間を置く。
-    // ただし一度閉じた方・すでに選択肢を使った方には、同じ訪問の間は出さない
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            try {
-                // 待っている間に閉じられたかどうかを、開く直前に見る
-                if (sessionStorage.getItem(AUTO_OPEN_DONE_KEY)) return;
-            } catch {
-                // 読めないときは開く側に倒す
-            }
-            setOpen(true);
-        }, AUTO_OPEN_DELAY_MS);
-
-        return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => setToday(getTodayStatus()), []);
@@ -139,9 +95,9 @@ export default function ServiceChat() {
         log.scrollTo({ top: log.scrollHeight, behavior: 'auto' });
     }, [open, steps]);
 
-    // 自分で開いたときだけパネルへフォーカスを移す（キーボードで選択肢まで辿れるように）
+    // 開いたらパネルへフォーカスを移す（キーボードで選択肢まで辿れるように）
     useEffect(() => {
-        if (!open || !openedByUser.current) return;
+        if (!open) return;
         panelRef.current?.focus();
     }, [open]);
 
@@ -171,11 +127,8 @@ export default function ServiceChat() {
 
     const restart = () => setSteps([{ nodeId: 'root' }]);
 
-    /** 選択肢からチャットの外へ出るとき。閉じたうえで、次のページから自動で開かないようにする */
-    const leaveChat = () => {
-        setOpen(false);
-        stopAutoOpen();
-    };
+    /** 選択肢からサイト内の別ページへ移るとき。受付票は閉じておく */
+    const leaveChat = () => setOpen(false);
 
     // 記入欄の1行。車検ページの見積書の行と同じ組み方にする
     const rowClass =
@@ -205,7 +158,6 @@ export default function ServiceChat() {
                         href={action.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={stopAutoOpen}
                         className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
@@ -228,7 +180,6 @@ export default function ServiceChat() {
                 return pathname === '/' ? (
                     <a
                         href={href}
-                        onClick={stopAutoOpen}
                         className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
@@ -248,7 +199,6 @@ export default function ServiceChat() {
                 return (
                     <a
                         href={`tel:${TEL}`}
-                        onClick={stopAutoOpen}
                         className={cn(rowClass, 'font-bold text-teal-700')}
                     >
                         {action.label}
@@ -262,7 +212,6 @@ export default function ServiceChat() {
                         href={LINE_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={stopAutoOpen}
                         className={cn(rowClass, 'font-bold text-line')}
                     >
                         {action.label}
@@ -276,26 +225,23 @@ export default function ServiceChat() {
 
     return (
         <>
-            {/* 起動ボタン。車種ページ・トップページには高さ70px前後の固定バーが下にあるため、その上に置く */}
+            {/* 起動ボタン。
+                車種ページ・トップページには高さ70px前後の固定バーが下にあるため、その上に置く。
+                色はロゴの朱。すぐ下に並ぶ電話（ティール）・LINE（緑）と見分けがつき、
+                ページ本文のティールのボタン群にも埋もれない。白い輪郭は写真の上での視認用。 */}
             <button
                 id="service-chat-toggle"
                 type="button"
-                onClick={() => {
-                    openedByUser.current = true;
-                    setOpen((prev) => !prev);
-                }}
+                onClick={() => setOpen((prev) => !prev)}
                 aria-expanded={open}
                 className={cn(
-                    'u-tap fixed right-4 z-50 flex h-12 items-center gap-2 rounded-full bg-teal-700 px-4 text-sm font-bold text-white shadow-lg transition-[background-color,transform] duration-200 hover:bg-teal-600 active:scale-[0.97] md:right-6 md:h-14 md:px-5',
+                    'u-tap fixed right-4 z-50 flex h-12 items-center rounded-full bg-red-600 px-4 text-sm font-bold text-white shadow-lg ring-2 ring-white transition-[background-color,transform] duration-200 hover:bg-red-700 active:scale-[0.97] md:right-6 md:h-14 md:px-5',
                     'bottom-[calc(84px_+_env(safe-area-inset-bottom))]',
                     open && 'hidden'
                 )}
             >
-                {/* 受付票のアイコン（けい紙に記入する） */}
-                <svg aria-hidden="true" className="size-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 2a1 1 0 0 0-1 1v1H6.5A1.5 1.5 0 0 0 5 5.5v15A1.5 1.5 0 0 0 6.5 22h11a1.5 1.5 0 0 0 1.5-1.5v-15A1.5 1.5 0 0 0 17.5 4H16V3a1 1 0 0 0-1-1H9Zm0 2h6v1H9V4ZM8 9h8v1.5H8V9Zm0 4h8v1.5H8V13Zm0 4h5v1.5H8V17Z" />
-                </svg>
-                ご相談
+                {/* 文言で用件が分かるので、アイコンは置かない（その分だけ本文を隠さずに済む） */}
+                チャットで相談
             </button>
 
             {open && (
@@ -422,7 +368,6 @@ export default function ServiceChat() {
                     <div className="hidden shrink-0 grid-cols-2 border-t border-gray-200 md:grid">
                         <a
                             href={`tel:${TEL}`}
-                            onClick={stopAutoOpen}
                             className="u-tap flex items-center justify-center gap-1.5 border-r border-gray-200 py-2.5 text-[12px] font-bold text-teal-700 transition-colors hover:bg-mint-50"
                         >
                             <svg aria-hidden="true" className="size-4" fill="currentColor" viewBox="0 0 24 24">
@@ -434,7 +379,6 @@ export default function ServiceChat() {
                             href={LINE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={stopAutoOpen}
                             className="u-tap flex items-center justify-center gap-1.5 py-2.5 text-[12px] font-bold text-line transition-colors hover:bg-mint-50"
                         >
                             <svg aria-hidden="true" className="size-4" fill="currentColor" viewBox="0 0 24 24">
