@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ArrowRight from '@/components/ArrowRight';
 import Breadcrumb from '@/components/Breadcrumb';
 import MobileActionBar from '@/components/MobileActionBar';
+import ShakenAvailabilityCalendar from '@/components/ShakenAvailabilityCalendar';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { readUrlParam, writeUrlParams } from '@/lib/urlState';
@@ -490,46 +491,8 @@ export default function ShakenPage() {
                     </div>
                 </section>
 
-                {/* Reasons Section（金沢市で選ばれる理由） */}
-                <section id="reasons" className="border-t border-gray-200 bg-white py-20 md:py-28">
-                    <div className="container">
-                        <header>
-                            <hr className="u-road" aria-hidden="true" />
-                            <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-                                <h2 className="text-[26px] font-bold leading-tight text-gray-900 md:text-[32px]">
-                                    金沢市で港南自動車の車検が選ばれる理由
-                                </h2>
-                                <span className="u-chip">Reasons</span>
-                            </div>
-                            <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
-                                金沢市には車検を受けられる工場が数多くあります。そのなかで当社を選んでいただいている理由を、事実として確認できることだけ挙げました。
-                            </p>
-                        </header>
-
-                        {/* 主たる理由を1つだけ大きく置き、残りは定義リストで受ける */}
-                        <article className="mt-12 max-w-4xl rounded-2xl border-l-4 border-mint-400 bg-mint-50 p-8 md:p-10">
-                            <h3 className="text-balance text-[22px] font-bold leading-snug text-gray-900 md:text-[26px]">
-                                {leadReason.title}
-                            </h3>
-                            <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-loose text-gray-700 md:text-base">
-                                {leadReason.body}
-                            </p>
-                        </article>
-
-                        <dl className="mt-10 max-w-4xl border-t border-gray-200 md:grid md:grid-cols-2 md:gap-x-12">
-                            {reasonData.map((item) => (
-                                <div key={item.title} className="border-b border-gray-200 py-6">
-                                    <dt className="text-balance text-[17px] font-bold text-gray-900">
-                                        {item.title}
-                                    </dt>
-                                    <dd className="mt-3 text-pretty text-[15px] leading-loose text-gray-600">
-                                        {item.body}
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </div>
-                </section>
+                {/* 車検の受け入れ状況カレンダー（Googleスプレッドシート連動） */}
+                <ShakenAvailabilityCalendar />
 
                 {/* 見積りセクション（車種と割引を選び、見積書として読む） */}
                 <section id="estimate" className="border-t border-gray-200 bg-gray-50 py-20 md:py-28">
@@ -769,6 +732,47 @@ export default function ShakenPage() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                {/* Reasons Section（金沢市で選ばれる理由） */}
+                <section id="reasons" className="border-t border-gray-200 bg-white py-20 md:py-28">
+                    <div className="container">
+                        <header>
+                            <hr className="u-road" aria-hidden="true" />
+                            <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+                                <h2 className="text-[26px] font-bold leading-tight text-gray-900 md:text-[32px]">
+                                    金沢市で港南自動車の車検が選ばれる理由
+                                </h2>
+                                <span className="u-chip">Reasons</span>
+                            </div>
+                            <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
+                                金沢市には車検を受けられる工場が数多くあります。そのなかで当社を選んでいただいている理由を、事実として確認できることだけ挙げました。
+                            </p>
+                        </header>
+
+                        {/* 主たる理由を1つだけ大きく置き、残りは定義リストで受ける */}
+                        <article className="mt-12 max-w-4xl rounded-2xl border-l-4 border-mint-400 bg-mint-50 p-8 md:p-10">
+                            <h3 className="text-balance text-[22px] font-bold leading-snug text-gray-900 md:text-[26px]">
+                                {leadReason.title}
+                            </h3>
+                            <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-loose text-gray-700 md:text-base">
+                                {leadReason.body}
+                            </p>
+                        </article>
+
+                        <dl className="mt-10 max-w-4xl border-t border-gray-200 md:grid md:grid-cols-2 md:gap-x-12">
+                            {reasonData.map((item) => (
+                                <div key={item.title} className="border-b border-gray-200 py-6">
+                                    <dt className="text-balance text-[17px] font-bold text-gray-900">
+                                        {item.title}
+                                    </dt>
+                                    <dd className="mt-3 text-pretty text-[15px] leading-loose text-gray-600">
+                                        {item.body}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
                     </div>
                 </section>
 
