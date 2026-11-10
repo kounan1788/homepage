@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import ArrowRight from '@/components/ArrowRight';
 import { LINE_URL, TEL } from '@/lib/chatFlow';
 import { OPENING_HOURS } from '@/lib/businessDays';
-import { SHAKEN_CALENDAR_CONFIG } from '@/lib/shakenCalendar/config';
+import { SHAKEN_CALENDAR_CONFIG, SHAKEN_CALENDAR_PUBLISHED } from '@/lib/shakenCalendar/config';
 import {
     buildAvailability,
     getCalendarRange,
@@ -176,6 +176,9 @@ export default function ShakenAvailabilityCalendar() {
         setView((v) => (v ? addMonths(v.year, v.month, delta) : v));
 
     const selectedDay = selected ? dayMap.get(selected) : undefined;
+
+    // 公開前は準備中の案内だけを出す（API も呼ばない）
+    if (!SHAKEN_CALENDAR_PUBLISHED) return <PreparingSection />;
 
     return (
         <section id="availability" className="border-t border-gray-200 bg-white py-12 md:py-16">
@@ -393,6 +396,34 @@ export default function ShakenAvailabilityCalendar() {
                         </div>
                     </div>
                 )}
+            </div>
+        </section>
+    );
+}
+
+/** 公開前に表示する「準備中」の案内 */
+function PreparingSection() {
+    return (
+        <section id="availability" className="border-t border-gray-200 bg-white py-12 md:py-16">
+            <div className="container">
+                <header>
+                    <hr className="u-road" aria-hidden="true" />
+                    <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+                        <h2 className="text-[26px] font-bold leading-tight text-gray-900 md:text-[32px]">
+                            車検の受け入れ状況
+                        </h2>
+                        <span className="u-chip">Availability</span>
+                    </div>
+                </header>
+                <div className="mt-6 max-w-2xl rounded-2xl border border-gray-300 bg-gray-50 p-6 md:p-8">
+                    <p className="text-lg font-bold text-gray-900">
+                        受け入れ状況カレンダーは現在準備中です。
+                    </p>
+                    <p className="mt-2 text-base leading-relaxed text-gray-700">
+                        車検の空き状況・ご予約は、お電話でお問い合わせください。
+                    </p>
+                    <ContactButtons telLabel="電話で問い合わせる" />
+                </div>
             </div>
         </section>
     );

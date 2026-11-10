@@ -14,6 +14,13 @@ export const SHAKEN_CALENDAR_CONFIG = {
     cacheSeconds: { default: 180, min: 60, max: 300 },
 } as const;
 
+/**
+ * カレンダーを公開するかどうか。false の間は「準備中」の案内だけを表示する。
+ * 公開するときは Vercel の環境変数 NEXT_PUBLIC_SHAKEN_CALENDAR_ENABLED に true を設定して再デプロイする。
+ * （NEXT_PUBLIC_ の値はビルド時に画面側へ埋め込まれるため、変更後は再デプロイが必要）
+ */
+export const SHAKEN_CALENDAR_PUBLISHED = process.env.NEXT_PUBLIC_SHAKEN_CALENDAR_ENABLED === 'true';
+
 /** 環境変数からキャッシュ秒数を読む。不正な値なら既定値、範囲外なら範囲内に丸める */
 export function resolveCacheSeconds(raw: string | undefined): number {
     const { default: def, min, max } = SHAKEN_CALENDAR_CONFIG.cacheSeconds;
