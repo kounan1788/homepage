@@ -6,6 +6,8 @@
  *   1. スプレッドシートに明示された〇・△・×
  *   2. 休業日なら ×
  *   3. それ以外は安全のため △（未設定の日を〇にしない）
+ * 年間休日表の定休日にシートで × が入っている場合も「定休日」として扱う（reason: 'closed'）。
+ * 定休日に 〇・△ が入っている場合は臨時営業としてシートの記号を表示する。
  */
 import { SHAKEN_CALENDAR_CONFIG } from './config';
 import { addMonths, daysInMonth, isValidYmd, parseDateStr, toDateStr } from './dateUtils';
@@ -14,7 +16,7 @@ import { isShakenClosedDay } from './closedDays';
 /** available=〇 受付可能 / call=△ 電話で確認 / unavailable=× 受付不可 */
 export type AvailabilityStatus = 'available' | 'call' | 'unavailable';
 
-/** なぜそのステータスになったか。sheet=シートの明示値 / closed=休業日 / default=未設定 */
+/** なぜそのステータスになったか。sheet=シートの明示値 / closed=定休日（×のときのみ） / default=未設定 */
 export type AvailabilityReason = 'sheet' | 'closed' | 'default';
 
 /** 1日分の公開データ。社内メモは含めない */
@@ -103,7 +105,11 @@ export function parseSheetRows(rows: unknown[][]): {
         if (!Array.isArray(row)) continue;
         const [rawDate, rawStatus] = row;
         // 空行は数えない
-        if ((rawDate === undefined || rawDate === '') && (rawStatus === undefined || rawStatus === '')) continue;
+        if (
+            (rawDate === undefined || rawDate === '') &&
+            (rawStatus === undefined || rawStatus === '')
+        )
+            continue;
 
         const date = normalizeDate(rawDate);
         // 日付だけあってステータス空欄は「未設定」なので不正扱いしない
@@ -126,10 +132,21 @@ export function parseSheetRows(rows: unknown[][]): {
 }
 
 /** 1日分のステータスを決める */
-export function resolveDay(date: string, entries: ReadonlyMap<string, AvailabilityStatus>): AvailabilityDay {
+export function resolveDay(
+    date: string,
+    entries: ReadonlyMap<string, AvailabilityStatus>,
+): AvailabilityDay {
     const explicit = entries.get(date);
-    if (explicit) return { date, status: explicit, reason: 'sheet' };
-    if (isShakenClosedDay(date)) return { date, status: 'unavailable', reason: 'closed' };
+    const closed = isShakenClosedDay(date);
+    if (explicit) {
+        // 定休日に×が入っていても「定休日」と表示する（〇・△なら臨時営業として記号を出す）
+        return {
+            date,
+            status: explicit,
+            reason: explicit === 'unavailable' && closed ? 'closed' : 'sheet',
+        };
+    }
+    if (closed) return { date, status: 'unavailable', reason: 'closed' };
     return { date, status: 'call', reason: 'default' };
 }
 

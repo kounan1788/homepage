@@ -27,7 +27,11 @@ describe('休業日の判定', () => {
     });
 
     it('表に無い期間の未設定日は△（〇にも×にもならない）', () => {
-        expect(resolveDay('2027-05-02', new Map())).toEqual({ date: '2027-05-02', status: 'call', reason: 'default' });
+        expect(resolveDay('2027-05-02', new Map())).toEqual({
+            date: '2027-05-02',
+            status: 'call',
+            reason: 'default',
+        });
     });
 });
 
@@ -88,14 +92,37 @@ describe('シート行の解析', () => {
     });
 
     it('配列でない行や想定外の型が混ざっても例外を出さない', () => {
-        expect(() => parseSheetRows([null as unknown as unknown[], [{}, []], [true, false]])).not.toThrow();
+        expect(() =>
+            parseSheetRows([null as unknown as unknown[], [{}, []], [true, false]]),
+        ).not.toThrow();
     });
 });
 
 describe('ステータスの決定', () => {
     it('シートの明示値が休業日より優先される（日曜でも〇にできる）', () => {
         const entries = new Map([['2026-11-08', 'available' as const]]);
-        expect(resolveDay('2026-11-08', entries)).toEqual({ date: '2026-11-08', status: 'available', reason: 'sheet' });
+        expect(resolveDay('2026-11-08', entries)).toEqual({
+            date: '2026-11-08',
+            status: 'available',
+            reason: 'sheet',
+        });
+    });
+
+    it('定休日にシートで×が入っていれば「定休日」扱い、△なら臨時営業として△', () => {
+        const entries = new Map([
+            ['2026-11-15', 'unavailable' as const], // 日曜（定休日）に×
+            ['2026-11-23', 'call' as const], // 勤労感謝の日（定休日）に△
+        ]);
+        expect(resolveDay('2026-11-15', entries)).toEqual({
+            date: '2026-11-15',
+            status: 'unavailable',
+            reason: 'closed',
+        });
+        expect(resolveDay('2026-11-23', entries)).toEqual({
+            date: '2026-11-23',
+            status: 'call',
+            reason: 'sheet',
+        });
     });
 
     it('臨時休業（平日に×）も反映される', () => {
@@ -104,8 +131,16 @@ describe('ステータスの決定', () => {
     });
 
     it('未設定の休業日は×、未設定の営業日は△（〇にならない）', () => {
-        expect(resolveDay('2026-11-08', new Map())).toEqual({ date: '2026-11-08', status: 'unavailable', reason: 'closed' });
-        expect(resolveDay('2026-11-10', new Map())).toEqual({ date: '2026-11-10', status: 'call', reason: 'default' });
+        expect(resolveDay('2026-11-08', new Map())).toEqual({
+            date: '2026-11-08',
+            status: 'unavailable',
+            reason: 'closed',
+        });
+        expect(resolveDay('2026-11-10', new Map())).toEqual({
+            date: '2026-11-10',
+            status: 'call',
+            reason: 'default',
+        });
     });
 
     it('シートが空なら期間内に〇が1日も無い', () => {
