@@ -53,10 +53,11 @@ const COL = {
     carModel: 5, // 車種
     plate: 6, // ナンバー下4桁
     source: 7, // 流入元
-    noticeDate: 8, // 通知予定日（満了日の60日前）
-    sentAt: 9, // 送信済み
+    noticeDate: 8, // 通知予定日（満了日の60日前）。送信に成功したら次回の日付へ進める
+    lastSentAt: 9, // 最終通知日時
     result: 10, // 送信結果
     note: 11, // 備考
+    intervalYears: 12, // 次回間隔（年）
 };
 
 const HEADERS = [
@@ -68,13 +69,21 @@ const HEADERS = [
     'ナンバー下4桁',
     '流入元',
     '通知予定日',
-    '送信済み',
+    '最終通知日時',
     '送信結果',
     '備考',
+    '次回間隔（年）',
 ];
 
-/** 送信に失敗した行の「送信済み」列に入れる印。空にすると毎日再送してしまう */
-const SENT_FAILED = '失敗';
+/**
+ * 「次回間隔（年）」が空欄のときに使う年数。
+ * 自家用乗用車の2回目以降の車検が2年ごとのため
+ */
+const DEFAULT_INTERVAL_YEARS = 2;
+
+/** 「次回間隔（年）」に入力してよい範囲。打ち間違いで遠い未来へ飛ばさないための歯止め */
+const MIN_INTERVAL_YEARS = 1;
+const MAX_INTERVAL_YEARS = 3;
 
 /**
  * LINEのユーザーIDの形式。
@@ -152,9 +161,10 @@ function doPost(e) {
                 sheet.getRange(existingRow, COL.source).setValue(source);
                 sheet.getRange(existingRow, COL.noticeDate).setValue(noticeDate);
                 // 満了日が変わったので、前回の送信状態は引き継がない
-                sheet.getRange(existingRow, COL.sentAt).setValue('');
+                sheet.getRange(existingRow, COL.lastSentAt).setValue('');
                 sheet.getRange(existingRow, COL.result).setValue('');
                 sheet.getRange(existingRow, COL.note).setValue(note);
+                // 「次回間隔（年）」は店舗が手で入れる値なので、再登録でも消さない
 
                 return jsonOutput_({ ok: true, updated: true });
             }
@@ -168,6 +178,7 @@ function doPost(e) {
                 plate,
                 source,
                 noticeDate,
+                '',
                 '',
                 '',
                 '',
@@ -187,8 +198,13 @@ function doPost(e) {
 // ───────────────────────────────────────────────
 
 /**
- * 通知予定日が今日で、まだ送っていない行にLINEを送る。
+ * 通知予定日が今日の行にLINEを送る。
  * 時間主導型トリガー（日付ベースのタイマー・午前9時〜10時）で実行する。
+ *
+ * 送信に成功したら、その場で満了日と通知予定日を次回の車検ぶんだけ進める。
+ * こうすることで、1回登録していただければ毎回の車検で通知が届く。
+ * 「同じ日に二度送らない」は、最終通知日時が今日かどうかで判定している
+ * （手動で再実行しても二重送信にならない）。
  */
 function dailyCheck() {
     const sheet = getSheet_();
@@ -206,9 +222,11 @@ function dailyCheck() {
     const targets = [];
     values.forEach(function (row, index) {
         const noticeDate = toYmd_(row[COL.noticeDate - 1]);
-        const sentAt = String(row[COL.sentAt - 1] || '').trim();
-        // 通知予定日が今日と一致し、まだ送信していない（失敗の記録もない）行だけを拾う
-        if (noticeDate === today && sentAt === '') {
+        const lastSentAt = row[COL.lastSentAt - 1];
+        // 今日すでに送っている行は飛ばす（手動で再実行したときの二重送信を防ぐ）
+        const sentToday = lastSentAt instanceof Date && formatDate_(lastSentAt) === today;
+
+        if (noticeDate === today && !sentToday) {
             targets.push({
                 row: index + 2,
                 userId: String(row[COL.userId - 1] || '').trim(),
@@ -216,6 +234,7 @@ function dailyCheck() {
                 expiryDate: toYmd_(row[COL.expiryDate - 1]),
                 carModel: String(row[COL.carModel - 1] || '').trim(),
                 plate: String(row[COL.plate - 1] || '').trim(),
+                intervalYears: parseIntervalYears_(row[COL.intervalYears - 1]),
             });
         }
     });
@@ -237,8 +256,7 @@ function dailyCheck() {
 
     targets.forEach(function (target) {
         if (!LINE_USER_ID_PATTERN.test(target.userId)) {
-            sheet.getRange(target.row, COL.sentAt).setValue(SENT_FAILED);
-            sheet.getRange(target.row, COL.result).setValue('userIdの形式が不正');
+            stopNotifying_(sheet, target, 'userIdの形式が不正');
             failures.push({ target: target, reason: 'userIdの形式が不正' });
             return;
         }
@@ -246,17 +264,15 @@ function dailyCheck() {
         const result = pushLineMessage_(target);
 
         if (result.ok) {
-            sheet.getRange(target.row, COL.sentAt).setValue(new Date());
-            sheet.getRange(target.row, COL.result).setValue('成功');
+            scheduleNextNotice_(sheet, target, today);
             successCount++;
             return;
         }
 
         // ブロック・友だち解除などで送れなかった場合。
-        // 「送信済み」を空のままにすると毎日やり直してしまうため「失敗」と記録する
+        // 通知予定日を空にして、翌日以降に同じ行を拾わないようにする
         const reason = 'HTTP ' + result.status + ' ' + result.body;
-        sheet.getRange(target.row, COL.sentAt).setValue(SENT_FAILED);
-        sheet.getRange(target.row, COL.result).setValue(reason);
+        stopNotifying_(sheet, target, reason);
         failures.push({ target: target, reason: reason });
     });
 
@@ -269,6 +285,46 @@ function dailyCheck() {
     if (failures.length > 0) {
         sendFailureReport_(today, failures);
     }
+}
+
+/**
+ * 送信できた行を、次回の車検ぶんだけ先へ進める。
+ *
+ * 次の満了日は「今の満了日＋次回間隔」で置く。
+ * 車検は満了日の1ヶ月前（指定工場は45日前）から受ければ満了日が据え置きで延びるため、
+ * この計算で実際の満了日と一致することがほとんど。
+ * ずれた場合は、お客様が登録し直すか、店舗が満了日と通知予定日を手で直せばよい。
+ */
+function scheduleNextNotice_(sheet, target, today) {
+    const nextExpiry = addYears_(target.expiryDate, target.intervalYears);
+    const nextNotice = addDays_(nextExpiry, -NOTICE_DAYS_BEFORE);
+
+    sheet.getRange(target.row, COL.expiryDate).setValue(nextExpiry);
+    sheet.getRange(target.row, COL.noticeDate).setValue(nextNotice);
+    sheet.getRange(target.row, COL.lastSentAt).setValue(new Date());
+    sheet.getRange(target.row, COL.result).setValue('成功');
+    sheet.getRange(target.row, COL.note).setValue(
+        today +
+            ' 通知しました（満了日 ' +
+            target.expiryDate +
+            '）。次回の満了日を ' +
+            nextExpiry +
+            ' と仮置きしています。実際の満了日が違う場合はB列を直してください'
+    );
+}
+
+/**
+ * 送れなかった行の通知を止める。
+ * 通知予定日を空にするので、翌日以降に拾われることはない。
+ * 店舗にはこの後まとめてメールで知らせ、電話でフォローしていただく。
+ * 再開したい場合は、通知予定日に日付を入れ直せばよい。
+ */
+function stopNotifying_(sheet, target, reason) {
+    sheet.getRange(target.row, COL.noticeDate).setValue('');
+    sheet.getRange(target.row, COL.result).setValue(reason);
+    sheet.getRange(target.row, COL.note).setValue(
+        formatDate_(new Date()) + ' 送信できなかったため通知を停止しました。電話でのフォローが必要です'
+    );
 }
 
 /** LINEへ1通送る。送れたかどうかは必ずステータスコードで判断する */
@@ -385,18 +441,20 @@ function monthlyUsageReport() {
     const label = Utilities.formatDate(start, TIME_ZONE, 'yyyy年M月');
 
     let sentCount = 0;
-    let failedCount = 0;
+    let stoppedCount = 0;
 
     const lastRow = sheet.getLastRow();
     if (lastRow >= 2) {
         const values = sheet.getRange(2, 1, lastRow - 1, HEADERS.length).getValues();
         values.forEach(function (row) {
-            const sentAt = row[COL.sentAt - 1];
-            // 成功した行は日時が入る。失敗した行は「失敗」の文字が入るので日時の比較から外れる
-            if (sentAt instanceof Date && sentAt >= start && sentAt < end) {
+            const lastSentAt = row[COL.lastSentAt - 1];
+            // 通知は1人あたり1〜3年に1回なので、最終通知日時だけで前月分を正しく数えられる
+            if (lastSentAt instanceof Date && lastSentAt >= start && lastSentAt < end) {
                 sentCount++;
-            } else if (String(sentAt || '').trim() === SENT_FAILED) {
-                failedCount++;
+            }
+            // 送信できずに止まったままの行（通知予定日が空）は、電話フォローの積み残し
+            if (toYmd_(row[COL.noticeDate - 1]) === '' && String(row[COL.result - 1] || '').trim() !== '') {
+                stoppedCount++;
             }
         });
     }
@@ -409,8 +467,8 @@ function monthlyUsageReport() {
             '■ 送信できた件数：' +
             sentCount +
             '件\n' +
-            '■ 送信できなかった件数（累計）：' +
-            failedCount +
+            '■ 送信できずに止まっている行（累計）：' +
+            stoppedCount +
             '件\n\n' +
             'LINE公式アカウントのプランには月間の無料通数の上限があります。\n' +
             '上限に近づいている場合は、LINE Official Account Managerの「利用状況」で残数をご確認ください。\n' +
@@ -422,7 +480,11 @@ function monthlyUsageReport() {
 // 共通の処理
 // ───────────────────────────────────────────────
 
-/** 書き込み先のシート。無ければ見出し付きで作る */
+/**
+ * 書き込み先のシート。無ければ見出し付きで作る。
+ * 既にあるシートの見出しが古い場合は、1行目だけを今の HEADERS に合わせる
+ * （列を増やしたときに、手で直さなくても済むように）。
+ */
 function getSheet_() {
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
     let sheet = spreadsheet.getSheetByName(SHEET_NAME);
@@ -431,8 +493,27 @@ function getSheet_() {
         sheet = spreadsheet.insertSheet(SHEET_NAME);
         sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
         sheet.setFrozenRows(1);
+        return sheet;
+    }
+
+    const current = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
+    if (current.join('\t') !== HEADERS.join('\t')) {
+        sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
     }
     return sheet;
+}
+
+/**
+ * 「次回間隔（年）」の値を読む。
+ * 空欄や読めない値は既定の2年にし、打ち間違いは許容範囲に丸める
+ * （0年にすると同じ日に無限に通知してしまうため、必ず1年以上にする）。
+ */
+function parseIntervalYears_(value) {
+    const years = Math.round(Number(value));
+    if (!isFinite(years) || years <= 0) return DEFAULT_INTERVAL_YEARS;
+    if (years < MIN_INTERVAL_YEARS) return MIN_INTERVAL_YEARS;
+    if (years > MAX_INTERVAL_YEARS) return MAX_INTERVAL_YEARS;
+    return years;
 }
 
 /** userId が一致する行番号。見つからなければ 0 */
@@ -484,6 +565,16 @@ function addDays_(ymd, days) {
     const parts = ymd.split('-');
     const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
     date.setDate(date.getDate() + days);
+    return formatDate_(date);
+}
+
+/**
+ * yyyy-MM-dd に年を足した yyyy-MM-dd を返す。
+ * 2月29日に2年足すと3月1日になるが、車検の満了日としては許容範囲
+ */
+function addYears_(ymd, years) {
+    const parts = ymd.split('-');
+    const date = new Date(Number(parts[0]) + years, Number(parts[1]) - 1, Number(parts[2]));
     return formatDate_(date);
 }
 

@@ -27,7 +27,7 @@ export interface RankingItem {
 }
 
 /** 集計月。見出しのラベルと注記に使う */
-export const rankingMonth = '2026年9月';
+export const rankingMonth = '2026年10月';
 
 /**
  * 集計月が基準日から2か月以上古いかを返す。
@@ -44,38 +44,38 @@ export function isRankingStale(now: Date = new Date()): boolean {
 
 /** 軽自動車 1〜15位（出典：全国軽自動車協会連合会） */
 export const keiRanking: RankingItem[] = [
-    { name: 'N-BOX', maker: 'ホンダ', units: 19105, route: '/kcar/nbox' },
-    { name: 'スペーシア', maker: 'スズキ', units: 16088, route: '/kcar/spacia' },
-    { name: 'タント', maker: 'ダイハツ', units: 12158, route: '/kcar/tantocustom' },
-    { name: 'ムーヴ', maker: 'ダイハツ', units: 12119 },
-    { name: 'ルークス', maker: '日産', units: 10332 },
-    { name: 'ハスラー', maker: 'スズキ', units: 8158, route: '/kcar/hustler' },
-    { name: 'デリカミニ／eK', maker: '三菱', units: 7505, route: '/kcar/delicamini' },
-    { name: 'ワゴンR', maker: 'スズキ', units: 5308 },
-    { name: 'ミラ', maker: 'ダイハツ', units: 4647 },
-    { name: 'タフト', maker: 'ダイハツ', units: 4491 },
-    { name: 'アルト', maker: 'スズキ', units: 4441 },
-    { name: 'デイズ', maker: '日産', units: 4260 },
-    { name: 'ジムニー', maker: 'スズキ', units: 2497, route: '/kcar/jimny' },
-    { name: 'N-WGN', maker: 'ホンダ', units: 2146 },
-    { name: 'N-ONE', maker: 'ホンダ', units: 2018 },
+    { name: 'N-BOX', maker: 'ホンダ', units: 14832, route: '/kcar/nbox' },
+    { name: 'スペーシア', maker: 'スズキ', units: 13474, route: '/kcar/spacia' },
+    { name: 'タント', maker: 'ダイハツ', units: 12361, route: '/kcar/tantocustom' },
+    { name: 'ムーヴ', maker: 'ダイハツ', units: 11713 },
+    { name: 'ハスラー', maker: 'スズキ', units: 7201, route: '/kcar/hustler' },
+    { name: 'ルークス', maker: '日産', units: 5663 },
+    { name: 'ミラ', maker: 'ダイハツ', units: 5160 },
+    { name: 'タフト', maker: 'ダイハツ', units: 4322 },
+    { name: 'ワゴンR', maker: 'スズキ', units: 4227 },
+    { name: 'デリカミニ／eK', maker: '三菱', units: 3877, route: '/kcar/delicamini' },
+    { name: 'アルト', maker: 'スズキ', units: 3700 },
+    { name: 'ジムニー', maker: 'スズキ', units: 2824, route: '/kcar/jimny' },
+    { name: 'デイズ', maker: '日産', units: 2370 },
+    { name: 'エブリイワゴン', maker: 'スズキ', units: 2018 },
+    { name: 'N-ONE', maker: 'ホンダ', units: 1435 },
 ];
 
 /** 乗用車 1〜15位（出典：日本自動車販売協会連合会／軽自動車・海外ブランド車を除く） */
 export const registeredRanking: RankingItem[] = [
-    { name: 'ヤリス', maker: 'トヨタ', units: 14230 },
-    { name: 'カローラ', maker: 'トヨタ', units: 11321 },
-    { name: 'シエンタ', maker: 'トヨタ', units: 10468 },
-    { name: 'フリード', maker: 'ホンダ', units: 7566 },
-    { name: 'ランドクルーザー', maker: 'トヨタ', units: 7362, route: '/suv/landcruiser' },
-    { name: 'ルーミー', maker: 'トヨタ', units: 7202 },
-    { name: 'ヴォクシー', maker: 'トヨタ', units: 6939, route: '/minivan/voxy' },
-    { name: 'ヴェゼル', maker: 'ホンダ', units: 6918, route: '/suv/vezel' },
-    { name: 'ジムニー', maker: 'スズキ', units: 6887, route: '/suv/jimnysierra' },
-    { name: 'アルファード', maker: 'トヨタ', units: 6879, route: '/minivan/alphard' },
-    { name: 'セレナ', maker: '日産', units: 6559 },
-    { name: 'ノート', maker: '日産', units: 6432 },
-    { name: 'ノア', maker: 'トヨタ', units: 6293, route: '/minivan/noah' },
-    { name: 'アクア', maker: 'トヨタ', units: 5324 },
-    { name: 'ステップワゴン', maker: 'ホンダ', units: 5287 },
+    { name: 'ヤリス', maker: 'トヨタ', units: 15157 },
+    { name: 'シエンタ', maker: 'トヨタ', units: 10730 },
+    { name: 'カローラ', maker: 'トヨタ', units: 10551 },
+    { name: 'フリード', maker: 'ホンダ', units: 8634 },
+    { name: 'ヴォクシー', maker: 'トヨタ', units: 7914, route: '/minivan/voxy' },
+    { name: 'ルーミー', maker: 'トヨタ', units: 7755 },
+    { name: 'ジムニー', maker: 'スズキ', units: 7231, route: '/suv/jimnysierra' },
+    { name: 'アルファード', maker: 'トヨタ', units: 7224, route: '/minivan/alphard' },
+    { name: 'ランドクルーザー', maker: 'トヨタ', units: 7154, route: '/suv/landcruiser' },
+    { name: 'ヴェゼル', maker: 'ホンダ', units: 6530, route: '/suv/vezel' },
+    { name: 'ノア', maker: 'トヨタ', units: 6304, route: '/minivan/noah' },
+    { name: 'ステップワゴン', maker: 'ホンダ', units: 5708 },
+    { name: 'アクア', maker: 'トヨタ', units: 5651 },
+    { name: 'フォレスター', maker: 'SUBARU', units: 5315 },
+    { name: 'RAV4', maker: 'トヨタ', units: 5296, route: '/suv/rav4' },
 ];
