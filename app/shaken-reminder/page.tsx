@@ -168,7 +168,7 @@ export default function Page() {
                             >
                                 <span>
                                     <span className="block text-balance text-lg font-bold text-gray-900">
-                                        金沢市の車検 65,040円〜
+                                        金沢市の車検 66,160円〜
                                     </span>
                                     <span className="mt-2 block text-pretty text-sm leading-relaxed text-gray-600">
                                         料金表・車検の流れ・割引の組み合わせをご案内しています。

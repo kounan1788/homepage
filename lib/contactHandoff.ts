@@ -21,7 +21,7 @@ const PARAM_LINES = 'd';
 
 /**
  * 引き継ぎ先のURLを組み立てる。
- * 例: /?c=車検&d=車種%3A普通乗用車%7C総額%3A100,040円#contact
+ * 例: /?c=車検&d=車種%3A普通乗用車%7C総額%3A100,950円#contact
  */
 export function buildContactUrl(handoff: ContactHandoff, hash = '#contact'): string {
     const params = new URLSearchParams();

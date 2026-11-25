@@ -294,7 +294,7 @@ export default function ShakenPage() {
         '@id': 'https://www.kounan-auto.jp',
         url: 'https://www.kounan-auto.jp/shaken',
         telephone: '076-268-1788',
-        priceRange: '¥65,040〜',
+        priceRange: '¥66,160〜',
         address: {
             '@type': 'PostalAddress',
             streetAddress: '金石本町ハ14',
@@ -338,7 +338,7 @@ export default function ShakenPage() {
                         name: '軽自動車車検',
                         description: '軽自動車（ハスラー、タント、N-BOX等）の車検'
                     },
-                    price: '65040',
+                    price: '66160',
                     priceCurrency: 'JPY'
                 },
                 {
@@ -348,7 +348,7 @@ export default function ShakenPage() {
                         name: '普通乗用車車検',
                         description: '普通乗用車（クラウン、アルファード等）の車検'
                     },
-                    price: '100040',
+                    price: '100950',
                     priceCurrency: 'JPY'
                 }
             ]
@@ -465,7 +465,7 @@ export default function ShakenPage() {
                                     {[
                                         { term: '最短所要時間', value: '90分', note: '追加整備がない場合' },
                                         { term: '1日の受付台数', value: '3台', note: '完全予約制' },
-                                        { term: '車検総額', value: '65,040円〜', note: '軽自動車・法定費用込み' },
+                                        { term: '車検総額', value: '66,160円〜', note: '軽自動車・法定費用込み' },
                                         { term: '創業', value: '1956年', note: '金沢市金石本町' },
                                     ].map((row, index) => (
                                         <div
@@ -611,7 +611,7 @@ export default function ShakenPage() {
                                         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-gray-200 px-6 py-4 md:px-8">
                                             <span className="u-label">Estimate</span>
                                             <span className="text-[11px] text-gray-500">
-                                                {carData.name}（{carData.weight}）／ 2026年4月現在の料金
+                                                {carData.name}（{carData.weight}）／ 2026年11月現在の料金
                                             </span>
                                         </div>
 
@@ -937,7 +937,7 @@ export default function ShakenPage() {
                                 <span className="u-chip">Price</span>
                             </div>
                             <p className="mt-5 max-w-2xl text-[15px] leading-loose text-gray-600">
-                                法定費用込みの総額表示です（2026年4月現在）。
+                                法定費用込みの総額表示です（2026年11月現在）。
                             </p>
                         </header>
 

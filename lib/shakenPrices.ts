@@ -18,8 +18,8 @@ export const pricingData = {
         cleaning: 3300,
         agency: 8580,
         inspection: 8250,
-        statutoryFees: 25990,
-        total: 65040,
+        statutoryFees: 27110,
+        total: 66160,
         image: '/cars/delicamini.jpg',
         description: 'ハスラー、タント、N-BOXなど'
     },
@@ -31,8 +31,8 @@ export const pricingData = {
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        statutoryFees: 35900,
-        total: 79240,
+        statutoryFees: 36810,
+        total: 80150,
         image: '/cars/xbee.jpg',
         description: 'ヴィッツ、フィット、パッソなど'
     },
@@ -44,8 +44,8 @@ export const pricingData = {
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        statutoryFees: 44100,
-        total: 88540,
+        statutoryFees: 45010,
+        total: 89450,
         image: '/cars/harrier.jpg',
         description: 'カローラ、プリウス、アクセラなど'
     },
@@ -57,8 +57,8 @@ export const pricingData = {
         cleaning: 4180,
         agency: 8580,
         inspection: 8800,
-        statutoryFees: 52300,
-        total: 100040,
+        statutoryFees: 53210,
+        total: 100950,
         image: '/cars/alphard.jpg',
         description: 'クラウン、アルファード、エルグランドなど'
     }

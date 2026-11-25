@@ -280,7 +280,7 @@ function dailyCheck() {
         const noticeDate = toYmd_(row[COL.noticeDate - 1]);
         const lastSentAt = row[COL.lastSentAt - 1];
         // 今日すでに送っている行は飛ばす（手動で再実行したときの二重送信を防ぐ）
-        const sentToday = lastSentAt instanceof Date && formatDate_(lastSentAt) === today;
+        const sentToday = isDate_(lastSentAt) && formatDate_(lastSentAt) === today;
 
         if (noticeDate === today && !sentToday) {
             targets.push({
@@ -505,7 +505,7 @@ function monthlyUsageReport() {
         values.forEach(function (row) {
             const lastSentAt = row[COL.lastSentAt - 1];
             // 通知は1人あたり1〜3年に1回なので、最終通知日時だけで前月分を正しく数えられる
-            if (lastSentAt instanceof Date && lastSentAt >= start && lastSentAt < end) {
+            if (isDate_(lastSentAt) && lastSentAt >= start && lastSentAt < end) {
                 sentCount++;
             }
             // 送信できずに止まったままの行（通知予定日が空）は、電話フォローの積み残し
@@ -689,7 +689,7 @@ function bookingDailyCheck() {
         const rawConfirmed = row[BOOKING_COL.confirmedDate - 1];
         const confirmedDate = toYmd_(rawConfirmed);
         const receivedAt = row[BOOKING_COL.receivedAt - 1];
-        const receivedDate = receivedAt instanceof Date ? formatDate_(receivedAt) : '';
+        const receivedDate = isDate_(receivedAt) ? formatDate_(receivedAt) : '';
 
         // 年なしで「1/8」と入れると今年の日付（過去日）になり、黙って送られなくなるため、ここで拾う
         const unreadable = String(rawConfirmed || '').trim() !== '' && !confirmedDate;
@@ -798,6 +798,9 @@ function buildBookingReminderMessage_(target) {
         '・車検証\n' +
         '・自賠責保険証明書\n' +
         '・自動車税（種別割）納税証明書（お持ちの場合）\n' +
+        '・法定費用(料金はHPを確認して下さい。)\n' +
+        // URLは括弧や文字と続けるとLINEでリンクにならないことがあるため、行を分ける
+        '　https://www.kounan-auto.jp/shaken\n' +
         '\n' +
         'ご都合が悪くなった場合は、このLINEへのご返信またはお電話でご連絡ください。\n' +
         '■ お電話 076-268-1788（平日 9:00〜18:00 ／ 土曜 9:00〜17:00）'
@@ -893,7 +896,7 @@ function countBookingRemindersBetween_(start, end) {
 
     const values = sheet.getRange(2, BOOKING_COL.remindedAt, sheet.getLastRow() - 1, 1).getValues();
     return values.filter(function (row) {
-        return row[0] instanceof Date && row[0] >= start && row[0] < end;
+        return isDate_(row[0]) && row[0] >= start && row[0] < end;
     }).length;
 }
 
@@ -902,7 +905,7 @@ function countBookingRemindersBetween_(start, end) {
  * シートが時刻として解釈した場合（Date）と、文字列のまま入っている場合の両方に備える。
  */
 function formatVisitTime_(value) {
-    if (value instanceof Date) return Utilities.formatDate(value, TIME_ZONE, 'H:mm');
+    if (isDate_(value)) return Utilities.formatDate(value, TIME_ZONE, 'H:mm');
     return String(value || '').trim();
 }
 
@@ -990,6 +993,16 @@ function findRowByUserId_(sheet, userId) {
 }
 
 /**
+ * セルの値が日付（Date）かどうか。
+ * スプレッドシートから読んだ日付は、実行環境によって `instanceof Date` が false になることがある
+ * （日付が入っているのに「読めない」と判定されてしまう）。
+ * そのため、型の名前で判定する。無効な日付（Invalid Date）は日付として扱わない。
+ */
+function isDate_(value) {
+    return Object.prototype.toString.call(value) === '[object Date]' && !isNaN(value.getTime());
+}
+
+/**
  * 日付を yyyy-MM-dd（JST）にする。
  * タイムゾーンのずれで通知日を取りこぼさないよう、日付の比較は必ずこの形式で行う
  */
@@ -1003,7 +1016,7 @@ function formatDate_(date) {
  * 日付として読めなければ '' を返す
  */
 function toYmd_(value) {
-    if (value instanceof Date) return formatDate_(value);
+    if (isDate_(value)) return formatDate_(value);
 
     const text = String(value || '').trim();
     const matched = text.match(/^(\d{4})-(\d{2})-(\d{2})/);
