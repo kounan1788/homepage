@@ -143,6 +143,10 @@ export default function PrivacyPage() {
                             </Item>
                             <Item>お問い合わせ内容、ご希望のご来店日時</Item>
                             <Item>
+                                LINEの利用者識別子・表示名（LINEでの車検予約・車検満了日のお知らせをご利用の場合）
+                            </Item>
+                            <Item>車種、車検のご希望日（LINEでの車検予約の場合）</Item>
+                            <Item>
                                 サイトの閲覧履歴等（Cookie等を通じて自動的に取得される情報。第5項をご覧ください）
                             </Item>
                         </ul>
@@ -156,6 +160,7 @@ export default function PrivacyPage() {
                                 車検・整備・車両販売・カーローン・カーリースのご案内および契約手続き
                             </Item>
                             <Item>アフターサービス、法定点検・車検時期のご案内</Item>
+                            <Item>車検のご予約の受付・確定のご連絡・前日のご案内</Item>
                             <Item>採用選考および採用に関するご連絡</Item>
                             <Item>サイトの利用状況の分析によるサービス改善</Item>
                         </ul>

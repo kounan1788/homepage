@@ -10,6 +10,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import ArrowRight from '@/components/ArrowRight';
 import { LINE_URL, TEL } from '@/lib/chatFlow';
 import { OPENING_HOURS } from '@/lib/businessDays';
+import { buildBookingFormHref } from '@/lib/shakenBooking/booking';
+import { SHAKEN_BOOKING_PUBLISHED } from '@/lib/shakenBooking/config';
 import { SHAKEN_CALENDAR_CONFIG, SHAKEN_CALENDAR_PUBLISHED } from '@/lib/shakenCalendar/config';
 import {
     buildAvailability,
@@ -588,7 +590,15 @@ function DayDetail({ day }: { day: AvailabilityDay }) {
                     <p className="mt-2 text-base leading-relaxed text-gray-700">
                         ご予約はお電話またはLINEで承ります。
                     </p>
-                    <ContactButtons line />
+                    {/* 予約フォームの公開中は、押した日付つきの予約フォームへ。それ以外は友だち追加リンク */}
+                    <ContactButtons
+                        line
+                        lineHref={buildBookingFormHref(
+                            day.date,
+                            process.env.NEXT_PUBLIC_BOOKING_LIFF_ID,
+                            SHAKEN_BOOKING_PUBLISHED
+                        )}
+                    />
                 </>
             )}
 
@@ -627,9 +637,12 @@ function DayDetail({ day }: { day: AvailabilityDay }) {
 function ContactButtons({
     line = false,
     telLabel = '電話で予約する',
+    lineHref = LINE_URL,
 }: {
     line?: boolean;
     telLabel?: string;
+    /** LINEボタンの行き先。既定は友だち追加リンク */
+    lineHref?: string;
 }) {
     if (!TEL && !(line && LINE_URL)) return null;
     return (
@@ -648,7 +661,7 @@ function ContactButtons({
             )}
             {line && LINE_URL && (
                 <a
-                    href={LINE_URL}
+                    href={lineHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex min-h-14 items-center justify-between gap-6 rounded-xl bg-[#06C755] px-6 py-3 text-base font-bold text-white transition-[background-color,transform] duration-200 hover:bg-[#05b04c] active:scale-[0.98]"

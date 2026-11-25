@@ -12,6 +12,7 @@ const APP_DIR = join(process.cwd(), 'app');
  */
 const EXCLUDED_ROUTES = new Set([
     '/horse-run-9f4k2x', // 限定公開のミニゲーム
+    '/shaken-booking', // LINEログイン付きの予約フォーム（入口は車検ページのカレンダー）
     '/coffee-site-template', // IT支援の制作サンプル（架空店舗）
     '/gallery-site-template',
     '/housemaker-site-template',

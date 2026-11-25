@@ -1,6 +1,7 @@
 'use server';
 
 import { headers } from 'next/headers';
+import { verifyLineUserId } from '@/lib/line/verifyLineUserId';
 import { formatPlateNumber } from '@/lib/plateNumber';
 
 /**
@@ -10,19 +11,6 @@ import { formatPlateNumber } from '@/lib/plateNumber';
  * 共有シークレットを付けてGASへ渡すだけ。
  * GASのURLとシークレットはこのファイル（サーバー側）の外へは一切出さない。
  */
-
-/**
- * LINEのユーザーID。
- * クライアントが名乗った値は使わず、IDトークンを検証して得た sub だけを使う。
- * 形式の確認は、LINEの応答が想定外だった場合に備えた二重の歯止め。
- */
-const LINE_USER_ID = /^U[0-9a-f]{32}$/;
-
-/** IDトークンの検証先。aud（＝client_id）が自社のチャネルかどうかもここで確かめられる */
-const LINE_VERIFY_ENDPOINT = 'https://api.line.me/oauth2/v2.1/verify';
-
-/** IDトークンの検証を待つ上限 */
-const LINE_TIMEOUT_MS = 10 * 1000;
 
 /** 項目ごとの最大文字数。長文を貼り付けるスパムでシートが破綻しないようにする */
 const MAX_LENGTH = {
@@ -189,58 +177,6 @@ function validate(formData: ShakenReminderFormData):
     };
 }
 
-/**
- * IDトークンをLINEに検証してもらい、本人の userId（sub）を得る。
- *
- * この処理は誰でも呼べるので、クライアントが名乗った userId は使わない。
- * LINEの verify はトークンの署名・有効期限に加え、client_id と aud が
- * 一致するか（＝当社のチャネルで発行されたトークンか）も確かめてくれる。
- */
-async function verifyLineUserId(
-    idToken: string
-): Promise<{ ok: true; userId: string } | { ok: false; error: string }> {
-    const channelId = process.env.LINE_LOGIN_CHANNEL_ID;
-    if (!channelId) {
-        console.error('registerShakenReminder: LINE_LOGIN_CHANNEL_ID が未設定です');
-        return { ok: false, error: '登録先の設定が未完了です。' };
-    }
-    if (!idToken) {
-        return { ok: false, error: 'LINEの情報を取得できませんでした。LINEアプリから開き直してください。' };
-    }
-
-    let response: Response;
-    try {
-        response = await fetch(LINE_VERIFY_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ id_token: idToken, client_id: channelId }),
-            cache: 'no-store',
-            signal: AbortSignal.timeout(LINE_TIMEOUT_MS),
-        });
-    } catch (error) {
-        console.error('registerShakenReminder: LINE verify fetch error', error);
-        return { ok: false, error: '通信エラーが発生しました。' };
-    }
-
-    // トークンの期限切れ・別チャネルのトークンなどはここで400が返る
-    if (!response.ok) {
-        console.error('registerShakenReminder: LINE verify error', response.status, await response.text());
-        return {
-            ok: false,
-            error: 'LINEの認証を確認できませんでした。LINEアプリから開き直してください。',
-        };
-    }
-
-    const payload = (await response.json()) as { sub?: unknown };
-    const userId = typeof payload.sub === 'string' ? payload.sub : '';
-    if (!LINE_USER_ID.test(userId)) {
-        console.error('registerShakenReminder: LINE verify returned unexpected sub');
-        return { ok: false, error: 'LINEの情報を取得できませんでした。' };
-    }
-
-    return { ok: true, userId };
-}
-
 /** GASの応答本文（JSON）が成功を示しているか */
 function isGasSuccess(body: string): boolean {
     try {
@@ -276,7 +212,7 @@ export async function registerShakenReminder(formData: ShakenReminderFormData) {
     }
 
     // 誰の登録かは、クライアントの申告ではなくLINEに確認した結果だけで決める
-    const verified = await verifyLineUserId(clean(formData.idToken));
+    const verified = await verifyLineUserId(clean(formData.idToken), 'registerShakenReminder');
     if (!verified.ok) {
         return { success: false as const, error: verified.error };
     }
