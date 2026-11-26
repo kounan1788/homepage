@@ -1,3 +1,7 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+
 /**
  * 申込直後の画面。
  *
@@ -72,8 +76,23 @@ export default function BookingDone({
     /** トーク画面に入力済みになる申込文（見本に表示する） */
     message: string;
 }) {
+    const topRef = useRef<HTMLDivElement>(null);
+
+    /**
+     * 申込ボタンはフォームの一番下にあるため、そのままだと完了画面の途中（下の方）が表示される。
+     * 表示されたら完了画面の先頭（手順の表示）まで戻し、最初から読めるようにする。
+     * 読み上げソフトでも続きから読めるよう、先頭にフォーカスを移す。
+     */
+    useEffect(() => {
+        const top = topRef.current;
+        if (!top) return;
+        top.scrollIntoView({ block: 'start' });
+        top.focus({ preventScroll: true });
+    }, []);
+
     return (
-        <div className="grid gap-6">
+        // scroll-mt-24：固定ヘッダー（高さ64〜80px）の下に隠れないよう余白を取って止める
+        <div ref={topRef} tabIndex={-1} className="grid scroll-mt-24 gap-6 outline-none">
             {/* 今どこにいるか。2つ目が未完了であることを見せる */}
             <ol className="grid grid-cols-3 gap-2 text-center text-[11px] font-bold leading-tight" aria-label="申込の手順">
                 <li className="rounded-lg bg-teal-50 px-2 py-2 text-teal-700">
