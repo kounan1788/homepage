@@ -17,10 +17,12 @@ import {
     validateBookingInput,
     type ValidBooking,
 } from '@/lib/shakenBooking/booking';
+import { formatPlateNumber } from '@/lib/plateNumber';
 import { BOOKING_LIMITS } from '@/lib/shakenBooking/config';
 import type { AvailabilityResponse } from '@/lib/shakenCalendar/availability';
 import { todayInJapan } from '@/lib/shakenCalendar/dateUtils';
 import { cn } from '@/lib/utils';
+import BookingDone from './BookingDone';
 
 /**
  * 車検のLINE予約フォーム（LIFF）。
@@ -304,33 +306,11 @@ export default function BookingForm() {
     if (stage === 'done' && result) {
         const message = buildBookingMessage({ ...result.value, bookingNumber: result.bookingNumber });
         return (
-            <div className="grid gap-6">
-                <div
-                    role="status"
-                    aria-live="polite"
-                    className="rounded-2xl border border-teal-700 bg-teal-50 p-6 md:p-8"
-                >
-                    <p className="text-[17px] font-bold text-teal-900">
-                        お申し込みを受け付けました（まだ確定していません）
-                    </p>
-                    <p className="mt-2 text-sm text-teal-900">
-                        受付番号 <span className="u-num font-bold">{result.bookingNumber}</span>
-                    </p>
-                    <p className="mt-3 text-sm leading-loose text-teal-900">
-                        続けて下のボタンからLINEで申込内容を送信してください。当店から確定のご連絡をします。
-                    </p>
-                </div>
-                <a
-                    href={buildOaMessageUrl(basicId ?? '', message)}
-                    className="group flex h-14 items-center justify-between gap-6 rounded-xl bg-[#06C755] px-6 text-[15px] font-bold text-white transition-[background-color,transform] duration-200 hover:bg-[#05b04c] active:scale-[0.98]"
-                >
-                    LINEで申込内容を送信する
-                    <ArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
-                </a>
-                <p className="text-xs leading-relaxed text-gray-500">
-                    トーク画面に申込内容が入力されていますので、そのまま送信してください。
-                </p>
-            </div>
+            <BookingDone
+                bookingNumber={result.bookingNumber}
+                sendHref={buildOaMessageUrl(basicId ?? '', message)}
+                message={message}
+            />
         );
     }
 
@@ -465,6 +445,27 @@ export default function BookingForm() {
                     placeholder="例）代車を希望します／午前中に伺いたいです"
                 />
             </div>
+
+            {/* LINEで送っていただく内容のプレビュー。完了画面で初めて見る内容をなくすため、入力に合わせて更新する */}
+            {firstChoice && (
+                <div className="space-y-2">
+                    <p className="text-sm font-bold text-gray-900">LINEで送る内容</p>
+                    <p className="whitespace-pre-wrap break-words rounded-xl border border-gray-300 bg-white px-4 py-3 text-[13px] leading-[1.6] text-gray-800">
+                        {buildBookingMessage({
+                            firstChoice,
+                            secondChoice,
+                            displayName: name.trim() || '（お名前）',
+                            carModel: carModel.trim() || '（車種）',
+                            plateLast4: formatPlateNumber(plateLast4.trim()) ?? '',
+                            note: note.trim(),
+                            bookingNumber: '（申込後に決まります）',
+                        })}
+                    </p>
+                    <p className="text-xs leading-relaxed text-gray-500">
+                        申し込んだあと、この内容をLINEで当店へ送信していただきます。
+                    </p>
+                </div>
+            )}
 
             <label className="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm leading-loose text-gray-700">
                 <input

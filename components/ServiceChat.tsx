@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
  *
  * 自動車以外のページ（IT支援とそのテンプレート、ゲーム）では出さない。
  * 扱うサービスが違うため、同じ案内を出すとかえって迷わせる。
+ * 車検のLINE予約フォームでも出さない。申込後の「LINEで申込内容を送信する」から気をそらさないため。
  */
 const HIDDEN_PATH_PREFIXES = [
     '/it-support',
@@ -28,6 +29,7 @@ const HIDDEN_PATH_PREFIXES = [
     '/housemaker-site-template',
     '/game',
     '/horse-run',
+    '/shaken-booking',
 ];
 
 /** 欄名が決まっていないノード（答えを返すだけのノード）で使う既定の欄名 */
